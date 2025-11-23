@@ -1,0 +1,10 @@
+/*
+  InfoPlist.strings
+  Runner
+
+  Created for localization.
+*/
+
+"CFBundleDisplayName" = "فلك";
+"CFBundleName" = "فلك";
+

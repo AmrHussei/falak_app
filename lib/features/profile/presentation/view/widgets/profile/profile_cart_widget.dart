@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
@@ -10,46 +11,67 @@ class ProfileCartWidget extends StatelessWidget {
     required this.text,
     required this.image,
     required this.onTap,
+    this.isRed = false,
   });
+
   final String text, image;
   final Function() onTap;
+  final bool isRed;
 
   @override
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      child: Container(
-        padding: const EdgeInsets.all(16),
+      child: Card(
         clipBehavior: Clip.antiAlias,
-        decoration: BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.circular(16),
+        color: Colors.white,
+        shape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.circular(12.r),
         ),
-        child: Row(
-          children: [
-            SizedBox(
-              height: 24,
-              width: 24,
-              child: SvgPicture.asset(
+        child: Padding(
+          padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
+          child: Row(
+            children: [
+              SvgPicture.asset(
                 image,
                 fit: BoxFit.contain,
+                height: 32.h,
+                width: 32.w,
               ),
-            ),
-            SizedBox(
-              width: 12,
-            ),
-            Text(
-              text,
-              style: AppStyles.styleMedium16(context).copyWith(
-                height: 2,
-                color: AppColors.typographyHeading(context),
+              12.horizontalSpace,
+              Text(
+                text,
+                style: AppStyles.styleRegular16(context).copyWith(
+                  color: isRed
+                      ? AppColors.error(context)
+                      : AppColors.typographyHeading(context),
+                ),
               ),
-            ),
-            Spacer(),
-            SvgPicture.asset(
-              AppAssets.app_imagesProfileArrow,
-            ),
-          ],
+              Spacer(),
+              if(!isRed)Container(
+                padding: const EdgeInsets.all(6),
+                decoration: ShapeDecoration(
+                  color: const Color(0xFFFAFAFA) /* Surface-primary */,
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1,
+                      color: const Color(0xFFE1E1E2) /* Borders-primary */,
+                    ),
+                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                ),
+                child: Transform.flip(
+                  flipX: true,
+                  child: SvgPicture.asset(
+                    AppAssets.app_imagesArrow,
+                    fit: BoxFit.contain,
+                    height: 12.h,
+                    width: 12.w,
+                  ),
+                ),
+              ),
+            ],
+          ),
         ),
       ),
     );

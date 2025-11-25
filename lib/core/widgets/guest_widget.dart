@@ -1,3 +1,4 @@
+import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/config/routes/app_routes.dart';
@@ -31,16 +32,11 @@ class GuestWidget extends StatelessWidget {
               ),
             ),
             SizedBox(height: 24),
-            ElevatedButton(
+            AppPrimaryButton(
               onPressed: () {
                 context.navigateTo(Routes.login);
               },
-              child: Text(
-                'تسجيل الدخول',
-                style: AppStyles.styleMedium18(context).copyWith(
-                  color: AppColors.white(context),
-                ),
-              ),
+             text: 'تسجيل الدخول',
             )
           ],
         ),

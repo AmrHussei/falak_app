@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
@@ -15,6 +16,7 @@ class CoustomAppBarWidget extends StatelessWidget
     this.bottom,
     this.hight,
   });
+
   final String? title;
   List<Widget>? actions;
   Widget? leading;
@@ -44,48 +46,57 @@ class CoustomAppBarWidget extends StatelessWidget
               title ?? "",
               overflow: TextOverflow.ellipsis,
               maxLines: 1,
-              style: AppStyles.styleBold16(context).copyWith(
-                color: AppColors.typographyHeading(context),
-              ),
+              style: AppStyles.styleBold16(
+                context,
+              ).copyWith(color: AppColors.typographyHeading(context)),
             ),
           ),
         ],
       ),
       actions: actions,
-      leadingWidth: canPop ? 68 : 0,
+      leadingWidth: canPop
+          ? 68
+          : leading != null
+          ? 8.w
+          : 0,
       leading: leading != null
-          ? SizedBox.shrink()
+          ? leading!
           : canPop
-              ? InkWell(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.all(8),
-                    margin: EdgeInsetsDirectional.only(
-                        start: 24, top: 6, bottom: 6),
-                    decoration: ShapeDecoration(
-                      color: const Color(0xFFFAFAFA) /* Surface-primary */,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          width: 1,
-                          color: const Color(0xFFE1E1E2) /* Borders-primary */,
-                        ),
-                        borderRadius: BorderRadius.circular(10),
-                      ),
-                    ),
-                    child: FittedBox(
-                      child: SvgPicture.asset(
-                        AppAssets.app_imagesArrow,
-                        fit: BoxFit.contain,
-                      ),
-                    ),
-                  ),
-                )
-              : SizedBox.shrink(),
+          ? InkWell(
+              onTap: () {
+                context.pop();
+              },
+              child: PopWidget(),
+            )
+          : SizedBox.shrink(),
     );
   }
 
   @override
   Size get preferredSize => Size.fromHeight(hight ?? 56);
+}
+
+class PopWidget extends StatelessWidget {
+  const PopWidget({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Container(
+      padding: const EdgeInsets.all(8),
+      margin: EdgeInsetsDirectional.only(start: 24, top: 6, bottom: 6),
+      decoration: ShapeDecoration(
+        color: const Color(0xFFFAFAFA) /* Surface-primary */,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            width: 1,
+            color: const Color(0xFFE1E1E2) /* Borders-primary */,
+          ),
+          borderRadius: BorderRadius.circular(10),
+        ),
+      ),
+      child: FittedBox(
+        child: SvgPicture.asset(AppAssets.app_imagesArrow, fit: BoxFit.contain),
+      ),
+    );
+  }
 }

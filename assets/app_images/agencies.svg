@@ -1,10 +1,7 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="vuesax/linear/document-text">
-<g id="document-text">
-<path id="Vector" d="M22 10V15C22 20 20 22 15 22H9C4 22 2 20 2 15V9C2 4 4 2 9 2H14" stroke="#2E353F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_2" d="M22 10H18C15 10 14 9 14 6V2L22 10Z" stroke="#2E353F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_3" d="M7 13H13" stroke="#2E353F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-<path id="Vector_4" d="M7 17H11" stroke="#2E353F" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
-</g>
-</g>
+<svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+<path d="M5.83203 14.1683H9.16675" stroke="#14201F" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M14.585 12.9698L13.0214 14.5335L12.084 13.5953" stroke="#14201F" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="2.49707" y="2.49707" width="15.0062" height="15.0062" rx="2.5" stroke="#14201F" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+<path d="M12.5015 11.2505H5.83203" stroke="#14201F" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
+<rect x="5.83203" y="5.83154" width="8.33681" height="2.50104" rx="0.416667" stroke="#14201F" stroke-width="1.25" stroke-linecap="round" stroke-linejoin="round"/>
 </svg>

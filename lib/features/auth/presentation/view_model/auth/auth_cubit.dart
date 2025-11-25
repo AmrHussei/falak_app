@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/features/auth/data/models/auth_model.dart';
 import 'package:falak/features/auth/data/models/sign_up_model.dart';
@@ -40,8 +41,10 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Controllers
   final identityNumberController = TextEditingController();
+
   //
   final loginPasswordController = TextEditingController();
+
   //
   final verifyController = TextEditingController();
 
@@ -64,6 +67,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Login Function
   void login() async {
+    if (kDebugMode) {
+      emit(state.copyWith(loginRequestState: RequestState.loaded));
+
+      return;
+    }
     if (!loginFormKey.currentState!.validate()) return;
 
     emit(state.copyWith(loginRequestState: RequestState.loading));
@@ -77,18 +85,22 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          loginRequestState: RequestState.error,
-          loginError: failure,
-        ));
+        emit(
+          state.copyWith(
+            loginRequestState: RequestState.error,
+            loginError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (code) {
         otpCode = code;
-        emit(state.copyWith(
-          loginRequestState: RequestState.loaded,
-          loginMsg: code,
-        ));
+        emit(
+          state.copyWith(
+            loginRequestState: RequestState.loaded,
+            loginMsg: code,
+          ),
+        );
       },
     );
   }
@@ -104,19 +116,23 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          signUpRequestState: RequestState.error,
-          signUpError: failure,
-        ));
+        emit(
+          state.copyWith(
+            signUpRequestState: RequestState.error,
+            signUpError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (signUpModel) {
         assginCompleteSignUPControllers(signUpModel);
         //clear the controllers
-        emit(state.copyWith(
-          signUpRequestState: RequestState.loaded,
-          signUpModel: signUpModel,
-        ));
+        emit(
+          state.copyWith(
+            signUpRequestState: RequestState.loaded,
+            signUpModel: signUpModel,
+          ),
+        );
       },
     );
   }
@@ -128,17 +144,21 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getCountriesRequestState: RequestState.error,
-          getCountriesError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getCountriesRequestState: RequestState.error,
+            getCountriesError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (getCountriesModel) {
-        emit(state.copyWith(
-          getCountriesRequestState: RequestState.loaded,
-          getCountriesModel: getCountriesModel,
-        ));
+        emit(
+          state.copyWith(
+            getCountriesRequestState: RequestState.loaded,
+            getCountriesModel: getCountriesModel,
+          ),
+        );
       },
     );
   }
@@ -165,17 +185,22 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          completeSignUpRequestState: RequestState.error,
-          completeSignUpError: failure,
-        ));
+        emit(
+          state.copyWith(
+            completeSignUpRequestState: RequestState.error,
+            completeSignUpError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (code) {
         otpCode = code;
-        emit(state.copyWith(
+        emit(
+          state.copyWith(
             completeSignUpRequestState: RequestState.loaded,
-            completeSignUpMsg: code));
+            completeSignUpMsg: code,
+          ),
+        );
       },
     );
   }
@@ -185,8 +210,10 @@ class AuthCubit extends Cubit<AuthState> {
     // if (!verifyFormKey.currentState!.validate()) return;
 
     emit(state.copyWith(verifyRequestState: RequestState.loading));
-    final identityNumber = serviceLocator<IAppLocalStorage>()
-            .getValue(AppStrings.userIdentityNumber) ??
+    final identityNumber =
+        serviceLocator<IAppLocalStorage>().getValue(
+          AppStrings.userIdentityNumber,
+        ) ??
         identityNumberController.text.trim();
     log('identityNumber: $identityNumber');
 
@@ -199,19 +226,19 @@ class AuthCubit extends Cubit<AuthState> {
     print('verifyed with this code $otpCode');
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          verifyRequestState: RequestState.error,
-          verifyError: failure,
-        ));
+        emit(
+          state.copyWith(
+            verifyRequestState: RequestState.error,
+            verifyError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (message) {
         //clear the controllers
         _cleareControllers();
 
-        emit(state.copyWith(
-          verifyRequestState: RequestState.loaded,
-        ));
+        emit(state.copyWith(verifyRequestState: RequestState.loaded));
         log(message);
         KisGuest = false;
       },
@@ -242,17 +269,22 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          forgetPassWordRequestState: RequestState.error,
-          forgetPassWordError: failure,
-        ));
+        emit(
+          state.copyWith(
+            forgetPassWordRequestState: RequestState.error,
+            forgetPassWordError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (code) {
         otpCode = code;
-        emit(state.copyWith(
+        emit(
+          state.copyWith(
             forgetPassWordRequestState: RequestState.loaded,
-            forgetPassWordMsg: code));
+            forgetPassWordMsg: code,
+          ),
+        );
         log(code);
       },
     );
@@ -273,16 +305,16 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          resetPasswordRequestState: RequestState.error,
-          resetPasswordError: failure,
-        ));
+        emit(
+          state.copyWith(
+            resetPasswordRequestState: RequestState.error,
+            resetPasswordError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (message) {
-        emit(state.copyWith(
-          resetPasswordRequestState: RequestState.loaded,
-        ));
+        emit(state.copyWith(resetPasswordRequestState: RequestState.loaded));
         log(message);
         KisGuest = false;
       },
@@ -298,18 +330,22 @@ class AuthCubit extends Cubit<AuthState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          resendCodeRequestState: RequestState.error,
-          resendCodeError: failure,
-        ));
+        emit(
+          state.copyWith(
+            resendCodeRequestState: RequestState.error,
+            resendCodeError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (code) {
         otpCode = code;
-        emit(state.copyWith(
-          resendCodeRequestState: RequestState.loaded,
-          resendCodeMsg: code,
-        ));
+        emit(
+          state.copyWith(
+            resendCodeRequestState: RequestState.loaded,
+            resendCodeMsg: code,
+          ),
+        );
         log(code);
       },
     );

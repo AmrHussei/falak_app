@@ -1,5 +1,6 @@
 import 'dart:async';
 
+import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -102,27 +103,11 @@ class HaveAnAccountWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        InkWell(
-          onTap: onTap,
-          child: Text(
-            text,
-            style: AppStyles.styleMedium16(context)
-                .copyWith(color: AppColors.primary(context)),
-          ),
-        ),
-        4.horizontalSpace,
-        screenNameText != null
-            ? Text(
-                screenNameText!,
-                style: AppStyles.styleMedium16(context).copyWith(
-                  color: AppColors.secondColor(context),
-                ),
-              )
-            : const SizedBox.shrink(),
-      ],
+    return AppOutlinedButton(
+      onPressed: () {
+        onTap();
+      },
+      text: text + ' ${screenNameText ?? ''}',
     );
   }
 }

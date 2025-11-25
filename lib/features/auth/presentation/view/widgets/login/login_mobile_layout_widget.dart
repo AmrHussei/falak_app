@@ -1,3 +1,4 @@
+import 'package:falak/core/extensions/string_sxtensions.dart';
 import 'package:falak/features/auth/presentation/view/widgets/login/contact_us_button_widget.dart';
 import 'package:falak/features/auth/presentation/view/widgets/steps_widget.dart';
 import 'package:flutter/material.dart';
@@ -44,7 +45,7 @@ class LoginMobileLayoutWidget extends StatelessWidget {
               ).copyWith(color: AppColors.typographyHeading(context)),
             ),
             12.verticalSpace,
-            StepsWidget(currentStep: currentStep, totalSteps: 2),
+            StepsWidget(currentStep: currentStep.value, totalSteps: 2),
             24.verticalSpace,
             TextFormFieldWithTitleWidget(
               controller: cubit.identityNumberController,
@@ -184,6 +185,8 @@ class LoginButtonWidget extends StatelessWidget {
             'totalSteps': 2,
             'currentStep': 2,
             'width': 123.0,
+            'title':
+                'لقد تم إرسال رمز OTP إلى رقم الهاتف المنتهي بـ ${cubit.identityNumberController.text.getLast(3)}. يرجى إدخاله أدناه.',
           });
           mySnackBar(
             state.loginMsg ?? 'هناك شئ ما خطأ حاول مجددا',

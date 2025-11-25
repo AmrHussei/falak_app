@@ -33,7 +33,8 @@ class _NewPasswordWidgetState extends State<NewPasswordWidget> {
     return TextFormFieldWithTitleWidget(
       controller: profileCubit.newPasswordController,
       obscureText: obscureText,
-      label: 'كلمة المرور الجديدة',
+      title: 'كلمة المرور الجديدة',
+      hint: 'كلمة المرور الجديدة',
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'يرجى ادخال كلمة المرور';
@@ -107,7 +108,8 @@ class _ConfirmNewPasswordWidgetState extends State<ConfirmNewPasswordWidget> {
     return TextFormFieldWithTitleWidget(
       controller: profileCubit.ConfirmNewPasswordController,
       obscureText: obscureText,
-      label: 'تأكيد كلمة المرور الجديدة',
+      title: 'تاكيد كلمة المرور',
+      hint: 'تاكيد كلمة المرور',
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'يرجى ادخال تأكيد كلمة المرور الجديدة';

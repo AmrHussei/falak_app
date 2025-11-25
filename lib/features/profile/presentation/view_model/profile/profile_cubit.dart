@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/functions/pick_images_and_files.dart';
 import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
@@ -269,6 +270,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void changePassword() async {
+    if(kDebugMode){
+      emit(state.copyWith(
+        changePasswordRequestState: RequestState.loaded,
+        changePasswordMsg: 'msg',
+      ));
+      return;
+    }
     if (!changePasswordeKey.currentState!.validate())
       emit(state.copyWith(changePasswordRequestState: RequestState.loading));
     ChangePasswordParams changePasswordParams = ChangePasswordParams(

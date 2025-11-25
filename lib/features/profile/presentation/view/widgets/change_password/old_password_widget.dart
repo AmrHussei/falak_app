@@ -30,12 +30,11 @@ class _OldPasswordWidgetState extends State<OldPasswordWidget> {
   @override
   Widget build(BuildContext context) {
     ProfileCubit profileCubit = context.read<ProfileCubit>();
-
-    // var cubit = context.read<AuthCubit>();
     return TextFormFieldWithTitleWidget(
       controller: profileCubit.oldPasswordController,
       obscureText: obscureText,
-      label: 'كلمة المرور القديمة',
+      title: 'كلمة المرور القديمة',
+      hint: 'كلمة المرور القديمة',
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'يرجى ادخال كلمة المرور';

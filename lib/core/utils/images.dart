@@ -20,6 +20,7 @@ class AppAssets {
   static const String app_imagesAgencies = "assets/app_images/agencies.svg";
 
   static const String app_imagesAlarm = "assets/app_images/Alarm.svg";
+  static const String imagesLock = "assets/images/Lock.svg";
 
   static const String app_imagesAppLogo = "assets/app_images/appLogo.png";
 

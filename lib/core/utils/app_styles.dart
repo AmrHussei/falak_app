@@ -6,7 +6,7 @@ abstract class AppStyles {
   static TextStyle styleBold18(BuildContext context) {
     return TextStyle(
       height: 1.33,
-      color: AppColors.inputLabel(context),
+      color: AppColors.typographyHeading(context),
       fontSize: getResponsiveFontSize(context, fontSize: 18),
       fontFamily: 'Lama Sans',
       fontWeight: FontWeight.w700,

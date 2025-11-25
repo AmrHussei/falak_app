@@ -6,7 +6,7 @@ extension MediaQueryValues on BuildContext {
   double get height => MediaQuery.of(this).size.height;
   double get width => MediaQuery.of(this).size.width;
   double get topPadding => MediaQuery.of(this).viewPadding.top;
-  double get bottomPadding => MediaQuery.of(this).viewPadding.bottom;
+  double get bottomPadding => MediaQuery.viewPaddingOf(this).bottom;
   bool get isDarkTheme =>
       MediaQuery.of(this).platformBrightness == Brightness.dark;
   bool get isPortrait =>

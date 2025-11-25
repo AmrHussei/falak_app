@@ -3,11 +3,9 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
-import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
 
 import '../../../../../app/app.dart';
-import '../../../../../config/routes/app_routes.dart';
 import '../../../../../core/widgets/adaptive_layout_widget.dart';
 import '../../../../../core/widgets/coustom_app_bar_widget.dart';
 import '../../../../../core/widgets/guest_widget.dart';
@@ -25,11 +23,7 @@ class ChangePasswordScreen extends StatelessWidget {
         backgroundColor: AppColors.primarySurface(context),
         bottomSheet: KisGuest == true
             ? SizedBox.shrink()
-            : Container(
-                padding: EdgeInsets.all(16),
-                color: AppColors.white(context),
-                child: ChangePasswordButtonWidget(),
-              ),
+            : ChangePasswordButtonWidget(),
         appBar: CoustomAppBarWidget(
           title: 'تغيير كلمه المرور',
         ),
@@ -62,51 +56,22 @@ class ChangePasswordScreenMobileLayoutWidget extends StatelessWidget {
     return Form(
       key: profileCubit.changePasswordeKey,
       child: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 16, vertical: 32),
-            child: Container(
-              padding: const EdgeInsets.all(16),
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(16),
-                ),
-              ),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    ' يرجي إدخال كلمة المرور القديمة',
-                    style: AppStyles.styleBold16(context)
-                        .copyWith(color: AppColors.typographyHeading(context)),
-                  ),
-                  20.verticalSpace,
-                  OldPasswordWidget(),
-                  20.verticalSpace,
-                  NewPasswordWidget(),
-                  20.verticalSpace,
-                  ConfirmNewPasswordWidget(),
-                  20.verticalSpace,
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      InkWell(
-                        onTap: () {
-                          context.navigateTo(Routes.forgetPasswordScreen);
-                        },
-                        child: Text(
-                          'نسيت كلمة المرور',
-                          style: AppStyles.styleMedium16(context)
-                              .copyWith(color: AppColors.primary(context)),
-                        ),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
+        padding: EdgeInsets.symmetric(horizontal: 31.5.w, vertical: 32.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Text(
+              ' يرجي إدخال كلمة المرور القديمة',
+              style: AppStyles.styleBold16(context)
+                  .copyWith(color: AppColors.typographyHeading(context)),
             ),
-          ),
+            24.verticalSpace,
+            OldPasswordWidget(),
+            24.verticalSpace,
+            NewPasswordWidget(),
+            24.verticalSpace,
+            ConfirmNewPasswordWidget(),
+          ],
         ),
       ),
     );

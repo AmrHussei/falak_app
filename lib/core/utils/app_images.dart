@@ -21,6 +21,8 @@ class Assets {
   static const String imagesAppSplashlogo = "assets/images/appSplashlogo.svg";
 
   static const String imagesAppauthlogo = "assets/images/appauthlogo.svg";
+  static const String imagesLock = "assets/images/Lock.svg";
+  static const String imagesCloseSquare = "assets/images/close-square.svg";
 
   static const String imagesArrowDown = "assets/images/arrow-down.svg";
 

@@ -94,13 +94,6 @@ dev_dependencies:
     sdk: flutter
   flutter_launcher_icons: "^0.14.2"
 
-flutter_launcher_icons:
-  android: true
-  ios: true
-  image_path: "assets/app_images/appLogo.png"
-  adaptive_icon_background: "#FFFFFF"
-  adaptive_icon_foreground: "assets/app_images/appLogo.png"
-
 dependency_overrides:
   intl: 0.19.0
 

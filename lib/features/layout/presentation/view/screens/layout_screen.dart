@@ -47,8 +47,6 @@ class _LayoutScreenState extends State<LayoutScreen> {
     });
   }
 
-  final GlobalKey<ScaffoldState> _scaffoldKey = GlobalKey<ScaffoldState>();
-
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(
@@ -145,7 +143,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                   : AppColors.typographyHeading(context), // Unselected color
             ),
           ),
-          SizedBox(height: 6),
+          SizedBox(height: 4),
           Text(
             label,
             style: AppStyles.styleRegular14(context).copyWith(

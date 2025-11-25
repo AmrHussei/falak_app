@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
@@ -16,7 +15,7 @@ import '../../../../../../core/utils/app_animations.dart';
 import '../../../../../../core/utils/enums.dart';
 import '../../../../../../core/widgets/my_snackbar.dart';
 import '../../../../../../core/widgets/text_form_field_with_title_widget.dart';
-import '../../../../../paegs/presentation/view/widgets/sales_agent/stepper_widget.dart';
+import '../../../../../../core/widgets/app_buttons.dart';
 import '../../../view_model/auth/auth_cubit.dart';
 import '../auth_app_logo_widget.dart';
 import '../contact_us_auth_widget.dart';
@@ -34,7 +33,7 @@ class LoginMobileLayoutWidget extends StatelessWidget {
     return Form(
       key: cubit.loginFormKey,
       child: SingleChildScrollView(
-        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+        padding: EdgeInsets.symmetric(horizontal: 31.5.w, vertical: 8.h),
 
         child: Column(
           children: [
@@ -51,7 +50,8 @@ class LoginMobileLayoutWidget extends StatelessWidget {
             24.verticalSpace,
             TextFormFieldWithTitleWidget(
               controller: cubit.identityNumberController,
-              label: 'رقم الهوية الوطنة / الاقامة',
+              title: 'رقم الهوية/الاقامة',
+              hint: 'أدخل رقم الهوية / الاقامة',
               validator: (value) {
                 if (value == null) {
                   return 'يرجى إدخال رقم الهوية الوطنية / الاقامة';
@@ -69,14 +69,10 @@ class LoginMobileLayoutWidget extends StatelessWidget {
               },
               inputFormatters: [LengthLimitingTextInputFormatter(10)],
               keyboardType: TextInputType.number,
-              prefix: Padding(
-                padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16),
-                child: SvgPicture.asset(AppAssets.app_imagesNationalId),
-              ),
             ),
-            20.verticalSpace,
+            12.verticalSpace,
             LoginPasswordWidget(),
-            24.verticalSpace,
+            12.verticalSpace,
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -86,15 +82,13 @@ class LoginMobileLayoutWidget extends StatelessWidget {
                     context.navigateTo(Routes.forgetPasswordScreen);
                   },
                   child: Text(
-                    'نسيت كلمة المرور',
-                    style: AppStyles.styleBold16(
-                      context,
-                    ).copyWith(color: AppColors.primary(context)),
+                    'نسيت كلمة المرور ؟',
+                    style: AppStyles.styleMedium15(context),
                   ),
                 ),
               ],
             ),
-            30.verticalSpace,
+            12.verticalSpace,
             LoginButtonWidget(),
             30.verticalSpace,
             Row(
@@ -116,31 +110,10 @@ class LoginMobileLayoutWidget extends StatelessWidget {
               ],
             ),
             24.verticalSpace,
-            OutlinedButton(
+            AppOutlinedButton(
               onPressed: () {},
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Image.asset(AppAssets.app_imagesNafathLogo),
-                  SizedBox(width: 12),
-                  Text(
-                    'تسجيل الدخول عبر نفاذ',
-                    style: AppStyles.styleBold14(context).copyWith(
-                      color: AppColors.typographyBody(context),
-                      height: 1.77,
-                    ),
-                  ),
-                ],
-              ),
-              style: OutlinedButton.styleFrom(
-                minimumSize: const Size(double.infinity, 55),
-                side: BorderSide(color: AppColors.backgroundTertiary(context)),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                foregroundColor: AppColors.white(context),
-                backgroundColor: AppColors.white(context),
-              ),
+              text: 'تسجيل الدخول عبر نفاذ',
+              icon: AppAssets.app_imagesNafathLogo,
             ),
             48.verticalSpace,
             NavToAnotherScreenRow(
@@ -193,9 +166,9 @@ class _RememberUserWidgetState extends State<RememberUserWidget> {
           ),
           Text(
             'تذكرني',
-            style: AppStyles.styleBold16(
+            style: AppStyles.styleRegular13(
               context,
-            ).copyWith(color: AppColors.typographyBody(context)),
+            ).copyWith(color: AppColors.titleColor(context)),
           ),
         ],
       ),
@@ -210,47 +183,44 @@ class LoginButtonWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     AuthCubit cubit = context.read<AuthCubit>();
 
-    return ElevatedButton(
-      onPressed: () {
-        cubit.login();
+    return BlocConsumer<AuthCubit, AuthState>(
+      listenWhen: (previous, current) =>
+          previous.loginRequestState != current.loginRequestState,
+      listener: (context, state) {
+        if (state.loginRequestState == RequestState.loaded) {
+          context.navigateToWithArguments(Routes.oTPScreen, {
+            'nextRoute': Routes.layoutScreen,
+            'totalSteps': 2,
+            'currentStep': 2,
+            'width': 123.0,
+          });
+          mySnackBar(
+            state.loginMsg ?? 'هناك شئ ما خطأ حاول مجددا',
+            context,
+            isError: false,
+          );
+        } else if (state.loginRequestState == RequestState.error) {
+          FloatingSnackBar.show(
+            context,
+            state.loginError?.message ?? 'هناك شئ ما خطأ حاول مجددا',
+            isError: true,
+          );
+        }
       },
-      child: BlocConsumer<AuthCubit, AuthState>(
-        listenWhen: (previous, current) =>
-            previous.loginRequestState != current.loginRequestState,
-        listener: (context, state) {
-          if (state.loginRequestState == RequestState.loaded) {
-            context.navigateToWithArguments(Routes.oTPScreen, {
-              'nextRoute': Routes.layoutScreen,
-              'totalSteps': 2,
-              'currentStep': 2,
-              'width': 123.0,
-            });
-            mySnackBar(
-              state.loginMsg ?? 'هناك شئ ما خطأ حاول مجددا',
-              context,
-              isError: false,
-            );
-          } else if (state.loginRequestState == RequestState.error) {
-            FloatingSnackBar.show(
-              context,
-              state.loginError?.message ?? 'هناك شئ ما خطأ حاول مجددا',
-              isError: true,
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state.loginRequestState == RequestState.loading) {
-            return Lottie.asset(AppAnimationAssets.loading);
-          } else {
-            return Text(
-              'تسجيل الدخول',
-              style: AppStyles.styleBold18(
-                context,
-              ).copyWith(color: AppColors.white(context)),
-            );
-          }
-        },
-      ),
+      builder: (context, state) {
+        return AppPrimaryButton(
+          onPressed: () {
+            cubit.login();
+          },
+          text: 'تسجيل الدخول',
+          isLoading: state.loginRequestState == RequestState.loading,
+          loadingWidget: Lottie.asset(
+            AppAnimationAssets.loading,
+            width: 32.w,
+            height: 32.h,
+          ),
+        );
+      },
     );
   }
 }

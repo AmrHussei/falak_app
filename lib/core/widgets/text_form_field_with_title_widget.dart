@@ -71,19 +71,21 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
   final TextStyle? hintStyle;
   @override
   Widget build(BuildContext context) {
-    return Column(
+    final _border = OutlineInputBorder(
+      borderRadius: BorderRadius.circular(12.r),
+      borderSide: BorderSide(
+          color: AppColors.textFieldBorder(context), width: 1),
+    );return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         title != null
             ? Text(
                 title ?? '',
-                style: AppStyles.styleSemiBold18(context),
+                style: AppStyles.styleSemiBold14(context),
               )
             : SizedBox.shrink(),
         title != null
-            ? SizedBox(
-                height: 4,
-              )
+            ? 6.verticalSpace
             : SizedBox.shrink(),
         SizedBox(
           child: TextFormField(
@@ -96,6 +98,7 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
             obscureText: obscureText ?? false,
             autofocus: autofocus ?? false,
             enabled: enabled ?? true,
+            cursorColor: AppColors.primary(context),
             // autovalidateMode: AutovalidateMode.onUserInteraction,
             onFieldSubmitted: onFieldSubmitted,
             textCapitalization: textCapitalization ?? TextCapitalization.none,
@@ -108,6 +111,7 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
                 vertical: 16,
                 horizontal: 16,
               ),
+              
               prefixIconConstraints: prefixIconSize == null
                   ? null
                   : BoxConstraints(
@@ -130,7 +134,7 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
               suffixIcon: suffix,
               // suffix: suffix,
               hintText: hint,
-              hintStyle: hintStyle ?? AppStyles.styleRegular16(context),
+              hintStyle: hintStyle ?? AppStyles.styleRegular14(context),
               label: Text(
                 label ?? '',
               ),
@@ -142,24 +146,12 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
               floatingLabelStyle: AppStyles.styleRegular14(context).copyWith(
                 color: AppColors.primary(context),
               ),
-              // floatingLabelBehavior: FloatingLabelBehavior.auto,
+              floatingLabelBehavior: FloatingLabelBehavior.always,
               //OutlineInputBorder
 
-              border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide(
-                    color: AppColors.backgroundTertiary(context), width: 1),
-              ),
-              enabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide(
-                    color: AppColors.backgroundTertiary(context), width: 1),
-              ),
-              disabledBorder: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(12.r),
-                borderSide: BorderSide(
-                    color: AppColors.backgroundTertiary(context), width: 1),
-              ),
+              border: _border,
+              enabledBorder: _border,
+              disabledBorder: _border,
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
                 borderSide:
@@ -182,5 +174,8 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
         errorWidget ?? const SizedBox.shrink(),
       ],
     );
-  }
+    }
+
+
+
 }

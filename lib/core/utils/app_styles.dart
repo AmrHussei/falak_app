@@ -143,6 +143,16 @@ abstract class AppStyles {
     );
   }
 
+  static TextStyle styleMedium15(BuildContext context) {
+    return TextStyle(
+      height: 1.33,
+      color: AppColors.primary600(context),
+      fontSize: getResponsiveFontSize(context, fontSize: 15),
+      fontFamily: 'Lama Sans',
+      fontWeight: FontWeight.w500,
+    );
+  }
+
   static TextStyle styleMedium12(BuildContext context) {
     return TextStyle(
       height: 1.33,
@@ -226,7 +236,7 @@ abstract class AppStyles {
   static TextStyle styleSemiBold14(BuildContext context) {
     return TextStyle(
       height: 1.33,
-      color: AppColors.typographyHeading(context),
+      color: AppColors.titleColor(context),
       fontSize: getResponsiveFontSize(context, fontSize: 14),
       fontFamily: 'Lama Sans',
       fontWeight: FontWeight.w600,
@@ -236,8 +246,18 @@ abstract class AppStyles {
   static TextStyle styleRegular14(BuildContext context) {
     return TextStyle(
       height: 1.33,
-      color: AppColors.inputsPlaceholder(context),
+      color: AppColors.hintColor(context),
       fontSize: getResponsiveFontSize(context, fontSize: 14),
+      fontFamily: 'Lama Sans',
+      fontWeight: FontWeight.w400,
+    );
+  }
+
+  static TextStyle styleRegular13(BuildContext context) {
+    return TextStyle(
+      height: 1.33,
+      color: AppColors.hintColor(context),
+      fontSize: getResponsiveFontSize(context, fontSize: 13),
       fontFamily: 'Lama Sans',
       fontWeight: FontWeight.w400,
     );

@@ -119,7 +119,6 @@ class AppAssets {
 
   static const String app_imagesLocationDot = "assets/app_images/location-dot.svg";
 
-  static const String app_imagesLock = "assets/app_images/lock.svg";
 
   static const String app_imagesLoginLogo = "assets/app_images/login_logo.png";
 

@@ -2,9 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_images.dart';
-import 'package:falak/core/utils/images.dart';
 
 import '../../../../../../core/utils/app_strings.dart';
 import '../../../../../../core/widgets/text_form_field_with_title_widget.dart';
@@ -34,7 +32,8 @@ class _LoginPasswordWidgetState extends State<LoginPasswordWidget> {
     return TextFormFieldWithTitleWidget(
       controller: cubit.loginPasswordController,
       obscureText: obscureText,
-      label: 'كلمة المرور',
+      title: 'كلمة المرور',
+      hint: 'ادخل كلمة المرور',
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'يرجى ادخال كلمة المرور';
@@ -72,22 +71,7 @@ class _LoginPasswordWidgetState extends State<LoginPasswordWidget> {
             child: SvgPicture.asset(
               Assets.imagesIcon,
               fit: BoxFit.contain,
-              color: obscureText
-                  ? AppColors.iconsPrimary(context)
-                  : AppColors.primary(context),
             ),
-          ),
-        ),
-      ),
-      prefix: Padding(
-        padding: EdgeInsetsDirectional.only(end: 14, start: 12.w),
-        child: SizedBox(
-          width: 20,
-          height: 20,
-          child: InkWell(
-            onTap: _changePasswordVisibility,
-            child: SvgPicture.asset(AppAssets.app_imagesLock,
-                fit: BoxFit.contain, color: AppColors.iconsGrey(context)),
           ),
         ),
       ),

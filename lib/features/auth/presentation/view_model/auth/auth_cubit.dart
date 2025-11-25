@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/features/auth/data/models/auth_model.dart';
 import 'package:falak/features/auth/data/models/sign_up_model.dart';
@@ -67,11 +66,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Login Function
   void login() async {
-    if (kDebugMode) {
-      emit(state.copyWith(loginRequestState: RequestState.loaded));
-
-      return;
-    }
     if (!loginFormKey.currentState!.validate()) return;
 
     emit(state.copyWith(loginRequestState: RequestState.loading));
@@ -107,11 +101,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Sign Up Function
   void signUp() async {
-    if (kDebugMode) {
-      emit(state.copyWith(signUpRequestState: RequestState.loaded));
-
-      return;
-    }
     if (!signUpFormKey.currentState!.validate()) return;
 
     emit(state.copyWith(signUpRequestState: RequestState.loading));
@@ -176,15 +165,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Complete Sign Up Function
   void completeSignUp() async {
-    if (kDebugMode) {
-      emit(
-        state.copyWith(
-          completeSignUpRequestState: RequestState.loaded,
-          completeSignUpMsg: '123456',
-        ),
-      );
-      return;
-    }
     if (!completeSignUpFormKey.currentState!.validate()) return;
 
     emit(state.copyWith(completeSignUpRequestState: RequestState.loading));
@@ -221,12 +201,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Verify OTP Function
   void verifyOtp() async {
-    // if (!verifyFormKey.currentState!.validate()) return;
-    if (kDebugMode) {
-      emit(state.copyWith(verifyRequestState: RequestState.loaded));
-
-      return;
-    }
     emit(state.copyWith(verifyRequestState: RequestState.loading));
     final identityNumber =
         serviceLocator<IAppLocalStorage>().getValue(
@@ -276,15 +250,6 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Forget Password Function
   void forgetPassword() async {
-    if (kDebugMode) {
-      emit(
-        state.copyWith(
-          forgetPassWordRequestState: RequestState.loaded,
-          forgetPassWordMsg: '123456',
-        ),
-      );
-      return;
-    }
     if (!forgetPasswordFormKey.currentState!.validate()) return;
 
     emit(state.copyWith(forgetPassWordRequestState: RequestState.loading));

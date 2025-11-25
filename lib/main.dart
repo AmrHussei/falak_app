@@ -1,10 +1,10 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:falak/core/storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
 import 'package:falak/app/app.dart';
 import 'package:falak/app/injector.dart';
 import 'package:falak/config/splash_manager.dart';
-import 'package:falak/core/functions/cache_app_data.dart';
 import 'package:falak/core/utils/app_logger.dart';
 
 import 'core/network/socket/socket_service.dart';
@@ -23,10 +23,6 @@ void main() async {
     await setupServiceLocator();
     AppLogger.success('Service locator initialized');
 
-    AppLogger.info('Caching app data...');
-    await cacheAppData();
-    AppLogger.success('App data cached');
-
     /// NOTIFICATIONS
     // await FirebaseNotifications.initialize();
     AppLogger.info('Initializing local notifications...');
@@ -37,7 +33,7 @@ void main() async {
     AppLogger.info('Initializing socket service...');
     await SocketService().initialize();
     AppLogger.success('Socket service initialized');
-
+    await SecureStorageServices().init();
     // Load app settings
     AppLogger.info('Loading app settings...');
     SplashManager.loadAppSettings();
@@ -51,14 +47,14 @@ void main() async {
     AppLogger.success('App initialization completed successfully');
     AppLogger.divider();
   } catch (e, stackTrace) {
-    AppLogger.error('Error in initialization', error: e, stackTrace: stackTrace);
+    AppLogger.error(
+      'Error in initialization',
+      error: e,
+      stackTrace: stackTrace,
+    );
     // Remove splash even on error
     SplashManager.removeSplash();
   }
 
-  runApp(DevicePreview(
-    enabled: false,
-    builder: (context) => MyApp(),
-  ));
+  runApp(DevicePreview(enabled: false, builder: (context) => MyApp()));
 }
-

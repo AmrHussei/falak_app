@@ -1,39 +1,53 @@
-import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:falak/core/utils/app_logger.dart';
+import 'package:hive_flutter/hive_flutter.dart';
 
-class SecureStorageServices extends FlutterSecureStorage {
+class SecureStorageServices {
+  static SecureStorageServices? _instance;
+
+  static const String _boxName = "secure_storage";
   static const String cookieToken = "cookie";
-  final FlutterSecureStorage storage = const FlutterSecureStorage();
+
+  Box? _box;
   String? _cookie;
+
+  Future<void> init() async {
+    await Hive.initFlutter();
+    _box = await Hive.openBox(_boxName);
+  }
+
+  SecureStorageServices._();
+
+  factory SecureStorageServices() {
+    return _instance ??= SecureStorageServices._();
+  }
 
   Future<void> setCookie({required String? cookie}) async {
     try {
-      await storage.write(key: cookieToken, value: cookie);
+      await _box?.put(cookieToken, cookie);
       _cookie = cookie;
     } catch (e) {
-      print('Error writing cookie: $e');
-      // محاولة إعادة تعيين التخزين
+      AppLogger.error('Error writing cookie: $e');
       await _resetStorage();
     }
   }
 
   Future<void> deleteCookie() async {
     try {
-      await storage.delete(key: cookieToken);
+      await _box?.delete(cookieToken);
       _cookie = null;
     } catch (e) {
-      print('Error deleting cookie: $e');
+      AppLogger.error('Error deleting cookie: $e');
       await _resetStorage();
     }
   }
 
   Future<String?> getCookie() async {
     try {
-      _cookie = await storage.read(key: cookieToken);
-      print('getCookie: $_cookie');
+      _cookie = _box?.get(cookieToken);
+      AppLogger.debug('getCookie: $_cookie');
       return _cookie;
     } catch (e) {
-      print('Error reading cookie: $e');
-      // محاولة إعادة تعيين التخزين
+      AppLogger.error('Error reading cookie: $e');
       await _resetStorage();
       return null;
     }
@@ -41,12 +55,11 @@ class SecureStorageServices extends FlutterSecureStorage {
 
   Future<void> _resetStorage() async {
     try {
-      // حذف جميع البيانات المخزنة
-      await storage.deleteAll();
+      await _box?.clear();
       _cookie = null;
-      print('Storage has been reset');
+      AppLogger.warning('Storage has been reset');
     } catch (e) {
-      print('Error resetting storage: $e');
+      AppLogger.error('Error resetting storage: $e');
     }
   }
 

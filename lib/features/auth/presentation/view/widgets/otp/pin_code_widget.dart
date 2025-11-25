@@ -19,19 +19,7 @@ class PinCodeWidget extends StatefulWidget {
 }
 
 class _PinCodeWidgetState extends State<PinCodeWidget> {
-  late TextEditingController _controller;
-
-  @override
-  void initState() {
-    super.initState();
-    _controller = TextEditingController();
-  }
-
-  @override
-  void dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
+   TextEditingController _controller= TextEditingController();
 
   @override
   Widget build(BuildContext context) {

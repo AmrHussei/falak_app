@@ -1,4 +1,3 @@
-import 'dart:convert'; // Import for JSON decoding
 import 'dart:developer';
 
 import 'package:dio/dio.dart';
@@ -7,10 +6,8 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/api/end_point.dart';
 
-import '../../app/injector.dart';
 import '../network/socket/socket_service.dart';
 import '../storage/flutter_secure_storage.dart';
-import '../storage/i_app_local_storage.dart';
 import '../utils/app_strings.dart';
 import '../utils/utils.dart';
 import '../widgets/guest_dialog.dart';
@@ -21,38 +18,6 @@ class AppInterceptor extends Interceptor {
   void onRequest(
       RequestOptions options, RequestInterceptorHandler handler) async {
     debugPrint('REQUEST[${options.method}] => PATH: ${options.path}');
-
-    // Fetch data from local storage
-    // var cashedCookie =
-    //     serviceLocator<IAppLocalStorage>().getValue(AppStrings.cookie) ?? '';
-    // print('cashedCookie cookie $cashedCookie');
-    var packageInfoJson =
-        serviceLocator<IAppLocalStorage>().getValue('packageInfo');
-    var deviceInfoJson =
-        serviceLocator<IAppLocalStorage>().getValue('deviceInfo');
-    var lang = serviceLocator<IAppLocalStorage>().getValue('lang') ??
-        'en'; // Default to 'en' if not found
-
-    Map<String, dynamic>? packageInfo;
-    Map<String, dynamic>? deviceInfo;
-
-    // Parse packageInfo JSON if it exists
-    if (packageInfoJson != null) {
-      try {
-        packageInfo = jsonDecode(packageInfoJson) as Map<String, dynamic>;
-      } catch (e) {
-        debugPrint('Error parsing packageInfo: $e');
-      }
-    }
-
-    // Parse deviceInfo JSON if it exists
-    if (deviceInfoJson != null) {
-      try {
-        deviceInfo = jsonDecode(deviceInfoJson) as Map<String, dynamic>;
-      } catch (e) {
-        debugPrint('Error parsing deviceInfo: $e');
-      }
-    }
 
     // If this is a POST request and KisAnonymous is true, show a guest dialog
     if (options.method.toUpperCase() == 'POST' &&
@@ -82,24 +47,9 @@ class AppInterceptor extends Interceptor {
         await SecureStorageServices().getCookie();
     if (cookie != null) {
     options.headers["Cookie"] =
-        'broker_sa_session=$cookie'; //cookie;
+        '$cookie'; //cookie;
     print('cashed coocke $cookie');
     }
-
-    /// 191353 / Aa@1235678
-    options.headers.addAll({
-      // 'lang': lang,
-      /// Add Cookie here if needed
-      // if (packageInfo != null && packageInfo.containsKey('version'))
-      //   'x-app-version': packageInfo['version'].toString(),
-      // if (deviceInfo != null) ...{
-      //   'x-platform': deviceInfo['platform'],
-      //   'x-device-manufacturer': deviceInfo['manufacturer'],
-      //   'x-device-model': deviceInfo['model'],
-      //   'x-os-version': deviceInfo['osVersion'],
-      //   'x-device-id': deviceInfo['deviceId'],
-      // },
-    });
 
     debugPrint('options.headers: ${options.headers}');
     super.onRequest(options, handler);

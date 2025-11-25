@@ -1,24 +1,15 @@
-import 'dart:io';
 
 import 'package:falak/core/widgets/coustom_app_bar_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/config/routes/app_routes.dart';
 import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
-import 'package:falak/features/profile/presentation/view/widgets/change_date_sheet.dart';
 
 import '../../../../../app/app.dart';
-import '../../../../../app/injector.dart';
-import '../../../../../core/functions/local_auth.dart';
-import '../../../../../core/storage/i_app_local_storage.dart';
-import '../../../../../core/utils/app_strings.dart';
 import '../../../../../core/widgets/guest_widget.dart';
-import '../../../../../core/widgets/my_snackbar.dart';
 import '../widgets/profile/profile_cart_widget.dart';
 import '../widgets/profile/show_log_out_bottom_sheet.dart';
 
@@ -53,9 +44,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     _updateStatusBar();
-    bool isAppLocked =
-        serviceLocator<IAppLocalStorage>().getValue(AppStrings.isAppLocked) ??
-        false;
     return Scaffold(
       appBar:  CoustomAppBarWidget(
         leading: const SizedBox.shrink(),

@@ -1,3 +1,4 @@
+import 'package:falak/core/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:hijri/hijri_calendar.dart';
@@ -10,7 +11,6 @@ import 'package:falak/features/home/presentation/view/widgets/mazad_details/on_g
 
 import '../../../../../../config/routes/app_routes.dart';
 import '../../../../../../core/utils/app_styles.dart';
-import '../../../../../auth/presentation/view/screens/splash_screen.dart';
 import '../../../view_model/home/home_cubit.dart';
 import '../home/mazad_card_time_widgets.dart';
 
@@ -109,7 +109,7 @@ class AssetDepositScreen extends StatelessWidget {
 String formatDateFunction(String isoDate) {
   DateTime dateTime = DateTime.parse(isoDate);
 
-  if (KisHijri) {
+  if (AppConstant.KisHijri) {
     HijriCalendar hijriDate = HijriCalendar.fromDate(dateTime);
     return '${hijriDate.hYear}/${hijriDate.hMonth.toString().padLeft(2, '0')}/${hijriDate.hDay.toString().padLeft(2, '0')}';
   } else {

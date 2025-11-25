@@ -1,9 +1,9 @@
+import 'package:falak/core/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/utils/media_query_values.dart';
-import 'package:falak/features/auth/presentation/view/screens/splash_screen.dart';
 
 import '../../../../../app/injector.dart';
 import '../../../../../core/storage/i_app_local_storage.dart';
@@ -46,7 +46,7 @@ class _ChangeAppDateSheetBodyWidgetState
   void toggleDateFormat(bool hijriSelected) {
     setState(() {
       isHijri = hijriSelected;
-      KisHijri = hijriSelected;
+      AppConstant.KisHijri = hijriSelected;
     });
     serviceLocator<IAppLocalStorage>().setValue(AppStrings.KisHijri, isHijri);
   }

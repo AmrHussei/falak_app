@@ -1,7 +1,7 @@
+import 'package:falak/config/splash_manager.dart';
 import 'package:flutter/material.dart';
 
 import '../../app/app.dart';
-import '../../config/routes/app_routes.dart';
 import '../utils/app_colors.dart';
 import '../utils/app_styles.dart';
 
@@ -9,7 +9,6 @@ OverlayEntry? _guestDialogOverlayEntry;
 
 void showGuestDialog() {
   if (_guestDialogOverlayEntry != null) {
-    // Prevent showing multiple dialogs
     return;
   }
 
@@ -28,7 +27,7 @@ void showGuestDialog() {
               onPressed: () {
                 Navigator.of(context).pop(); // Close the dialog
                 _removeGuestDialog();
-                navigatorKey.currentState?.pushNamed(Routes.splash);
+                SplashManager.instance.handleSplashLogic();
               },
               style: ElevatedButton.styleFrom(
                 backgroundColor: AppColors.disabled(context),

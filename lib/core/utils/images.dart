@@ -18,7 +18,7 @@ class AppAssets {
 
   static const String app_imagesAlarm = "assets/app_images/Alarm.svg";
 
-  static const String app_imagesAppLogo = "assets/app_images/appLogoWithBg.png";
+  static const String app_imagesAppLogo = "assets/app_images/appLogo.png";
 
   static const String app_imagesAppLogoWathiq = "assets/app_images/appLogoWathiq.png";
 
@@ -230,7 +230,6 @@ class AppAssets {
 
   static const String app_imagesUserPlusRounded = "assets/app_images/UserPlusRounded.svg";
 
-  static const String app_imagesVerticalLogo = "assets/app_images/verticalLogo.svg";
 
   static const String app_imagesWadOfMoney = "assets/app_images/WadOfMoney.svg";
 

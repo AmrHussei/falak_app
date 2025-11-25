@@ -7,7 +7,6 @@ import '../../features/auth/presentation/view/screens/forget_password_screen.dar
 import '../../features/auth/presentation/view/screens/otp_screen.dart';
 import '../../features/auth/presentation/view/screens/reset_password_screen.dart.dart';
 import '../../features/auth/presentation/view/screens/sign_up_screen.dart';
-import '../../features/auth/presentation/view/screens/splash_screen.dart';
 import '../../features/home/presentation/view/screens/assets_details_screen.dart';
 import '../../features/home/presentation/view/screens/home_screen.dart';
 import '../../features/home/presentation/view/screens/mazad_details_screen.dart';
@@ -37,7 +36,6 @@ import '../../features/wallet/presentation/view/screens/withdraw_screen.dart';
 
 class Routes {
   //auth
-  static const String splash = '/splash';
   static const String login = '/login';
   static const String signUpScreen = '/signUpScreen';
   static const String completeSignUpScreen = '/completeSignUpScreen';
@@ -88,10 +86,6 @@ class AppRoutes {
   ];
   static Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
-      case Routes.splash:
-        return MaterialPageRoute(
-          builder: (_) => const SplashScreen(),
-        );
       case Routes.login:
         return MaterialPageRoute(
           builder: (_) => LoginScreen(),

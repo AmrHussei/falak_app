@@ -20,4 +20,6 @@ class AppConstant {
   static String isFromFormsScreen = 'isFromFormsScreen';
 
   static String authState = 'authState';
+  static bool KisHijri = false;
+
 }

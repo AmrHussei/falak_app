@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+</plist>
+</dict>
+    </dict>
+        <string>YOUR_PROVISIONING_PROFILE_NAME</string>
+        <key>com.app.falak</key>
+    <dict>
+    <key>provisioningProfiles</key>
+    <false/>
+    <key>compileBitcode</key>
+    <true/>
+    <key>uploadSymbols</key>
+    <false/>
+    <key>uploadBitcode</key>
+    <string>YOUR_TEAM_ID</string>
+    <key>teamID</key>
+    <string>app-store</string>
+    <key>method</key>
+<dict>
+<plist version="1.0">
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+

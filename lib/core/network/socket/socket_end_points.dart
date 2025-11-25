@@ -1,7 +1,7 @@
 // ignore_for_file: non_constant_identifier_names
 
 class SocketEndPoints {
-  static String BASE_URL = 'https://api.falak.sa.com';
+  static String BASE_URL = 'https://srv1066914.hstgr.cloud';
 
   static String NOTIFICATION = 'notification';
 

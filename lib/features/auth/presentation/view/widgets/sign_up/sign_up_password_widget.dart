@@ -43,7 +43,8 @@ class _SignUpPasswordWidgetState extends State<SignUpPasswordWidget> {
         TextFormFieldWithTitleWidget(
           controller: cubit.completeSignUpPasswordController,
           obscureText: obscureText,
-          label: 'كلمة المرور',
+          title: 'كلمة المرور',
+          hint: 'ادخل كلمة المرور',
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
               return 'يرجى ادخال كلمة المرور';
@@ -71,22 +72,6 @@ class _SignUpPasswordWidgetState extends State<SignUpPasswordWidget> {
 
             return null; // كلمة المرور صالحة
           },
-          prefix: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 12,
-              horizontal: 14,
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: 24,
-                maxHeight: 24,
-              ),
-              child: SvgPicture.asset(
-                AppAssets.app_imagesIcon,
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
           suffix: Padding(
             padding: EdgeInsetsDirectional.only(end: 18, start: 6.w),
             child: SizedBox(
@@ -105,11 +90,12 @@ class _SignUpPasswordWidgetState extends State<SignUpPasswordWidget> {
             ),
           ),
         ),
-        20.verticalSpace,
+        16.verticalSpace,
         TextFormFieldWithTitleWidget(
           controller: cubit.completeSignUpConfirmPasswordController,
           obscureText: obscureTextConfirm,
-          label: 'تاكيد كلمة المرور',
+          title: 'تاكيد كلمة المرور',
+          hint: 'تاكيد كلمة المرور',
           validator: (value) {
             if (value == null || value.trim().isEmpty) {
               return 'يرجى ادخال كلمة المرور';
@@ -141,22 +127,6 @@ class _SignUpPasswordWidgetState extends State<SignUpPasswordWidget> {
 
             return null; // كلمة المرور صالحة
           },
-          prefix: Padding(
-            padding: EdgeInsets.symmetric(
-              vertical: 12,
-              horizontal: 14,
-            ),
-            child: ConstrainedBox(
-              constraints: BoxConstraints(
-                maxWidth: 20,
-                maxHeight: 20,
-              ),
-              child: SvgPicture.asset(
-                AppAssets.app_imagesIcon,
-                fit: BoxFit.fill,
-              ),
-            ),
-          ),
           suffix: Padding(
             padding: EdgeInsetsDirectional.only(end: 18, start: 6.w),
             child: SizedBox(

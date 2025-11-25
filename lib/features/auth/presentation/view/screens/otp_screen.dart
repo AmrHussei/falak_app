@@ -37,38 +37,36 @@ class OTPScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: 'أدخل رمز التحقق',
-          actions: [
-            StepsWidget(
-              currentStep: currentStep,
-              totalSteps: totalSteps,
-              width: 17.w,
-            ),
-            8.horizontalSpace,
-          ],
-        ),
-        body: AdaptiveLayout(
-          mobileLayout: (context) => OTPScreenMobileLayoutWidget(
-            nextRoute: nextRoute,
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'أدخل رمز التحقق',
+        actions: [
+          StepsWidget(
             currentStep: currentStep,
             totalSteps: totalSteps,
-            width: width,
-            title: title,
+            width: 17.w,
           ),
-          tabletLayout: (context) => Center(
-            child: SizedBox(
-              height: 1.sw,
-              width: 600,
-              child: OTPScreenMobileLayoutWidget(
-                nextRoute: nextRoute,
-                currentStep: currentStep,
-                totalSteps: totalSteps,
-                width: width,
-                title: title,
-              ),
+          8.horizontalSpace,
+        ],
+      ),
+      body: AdaptiveLayout(
+        mobileLayout: (context) => OTPScreenMobileLayoutWidget(
+          nextRoute: nextRoute,
+          currentStep: currentStep,
+          totalSteps: totalSteps,
+          width: width,
+          title: title,
+        ),
+        tabletLayout: (context) => Center(
+          child: SizedBox(
+            height: 1.sw,
+            width: 600,
+            child: OTPScreenMobileLayoutWidget(
+              nextRoute: nextRoute,
+              currentStep: currentStep,
+              totalSteps: totalSteps,
+              width: width,
+              title: title,
             ),
           ),
         ),

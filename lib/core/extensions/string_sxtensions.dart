@@ -1,7 +1,6 @@
 import 'package:falak/core/utils/app_logger.dart';
 
-extension StringExtensions on String?{
-
+extension StringExtensions on String? {
   String getLast(int count) {
     AppLogger.debug('Getting last $count characters from: $this');
 
@@ -24,4 +23,10 @@ extension StringExtensions on String?{
     return this!.substring(this!.length - count);
   }
 
+  bool get validateNationalId {
+    return !(this == null ||
+        this!.isEmpty ||
+        this!.length < 10 ||
+        (this![0] != '1' && this![0] != '2'));
+  }
 }

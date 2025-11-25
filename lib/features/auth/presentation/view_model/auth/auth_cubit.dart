@@ -107,6 +107,11 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Sign Up Function
   void signUp() async {
+    if (kDebugMode) {
+      emit(state.copyWith(signUpRequestState: RequestState.loaded));
+
+      return;
+    }
     if (!signUpFormKey.currentState!.validate()) return;
 
     emit(state.copyWith(signUpRequestState: RequestState.loading));
@@ -171,6 +176,15 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Complete Sign Up Function
   void completeSignUp() async {
+    if (kDebugMode) {
+      emit(
+        state.copyWith(
+          completeSignUpRequestState: RequestState.loaded,
+          completeSignUpMsg: '123456',
+        ),
+      );
+      return;
+    }
     if (!completeSignUpFormKey.currentState!.validate()) return;
 
     emit(state.copyWith(completeSignUpRequestState: RequestState.loading));
@@ -208,7 +222,11 @@ class AuthCubit extends Cubit<AuthState> {
   // Verify OTP Function
   void verifyOtp() async {
     // if (!verifyFormKey.currentState!.validate()) return;
+    if (kDebugMode) {
+      emit(state.copyWith(verifyRequestState: RequestState.loaded));
 
+      return;
+    }
     emit(state.copyWith(verifyRequestState: RequestState.loading));
     final identityNumber =
         serviceLocator<IAppLocalStorage>().getValue(
@@ -223,7 +241,6 @@ class AuthCubit extends Cubit<AuthState> {
       fcmToken: 'kjubhbhjbubhbu5',
     );
     final result = await _authRepository.verify(params);
-    print('verifyed with this code $otpCode');
     result.fold(
       (failure) {
         emit(
@@ -239,7 +256,6 @@ class AuthCubit extends Cubit<AuthState> {
         _cleareControllers();
 
         emit(state.copyWith(verifyRequestState: RequestState.loaded));
-        log(message);
         KisGuest = false;
       },
     );
@@ -260,6 +276,15 @@ class AuthCubit extends Cubit<AuthState> {
 
   // Forget Password Function
   void forgetPassword() async {
+    if (kDebugMode) {
+      emit(
+        state.copyWith(
+          forgetPassWordRequestState: RequestState.loaded,
+          forgetPassWordMsg: '123456',
+        ),
+      );
+      return;
+    }
     if (!forgetPasswordFormKey.currentState!.validate()) return;
 
     emit(state.copyWith(forgetPassWordRequestState: RequestState.loading));

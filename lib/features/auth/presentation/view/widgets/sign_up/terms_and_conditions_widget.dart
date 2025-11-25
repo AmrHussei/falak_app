@@ -39,20 +39,10 @@ class _TermsAndConditionsWidgetState extends State<TermsAndConditionsWidget> {
           onTap: () {
             context.navigateTo(Routes.policyScreen);
           },
-          child: DecoratedBox(
-            decoration: BoxDecoration(
-              border: Border(
-                bottom: BorderSide(
-                  color: AppColors.typographySubTitle(context),
-                  width: 1,
-                ),
-              ),
-            ),
-            child: Text(
-              'الشروط والأحكام',
-              style: AppStyles.styleRegular16(context)
-                  .copyWith(color: AppColors.typographyBody(context)),
-            ),
+          child: Text(
+            'الشروط والأحكام',
+            style: AppStyles.styleMedium15(context)
+                .copyWith(color: AppColors.typographyBody(context)),
           ),
         ),
       ],

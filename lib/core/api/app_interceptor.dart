@@ -3,6 +3,7 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart';
 import 'package:dio_cache_interceptor/dio_cache_interceptor.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/api/end_point.dart';
 
@@ -78,12 +79,12 @@ class AppInterceptor extends Interceptor {
         'Accept': 'application/json',
       };
     final String? cookie =
-        await SecureStorageServices().getCookie().then((value) => value);
-    // if (cookie != null) {
+        await SecureStorageServices().getCookie();
+    if (cookie != null) {
     options.headers["Cookie"] =
-        'broker_sa_session=s%3Ae_z_Ls6ATqfqLzXaPRWCCkJMTQppZ_kZ.1dREktv%2BQoygPQbMDP4jhKeG39fr%2FyOI0e%2Fk0MU6V9M'; //cookie;
+        'broker_sa_session=$cookie'; //cookie;
     print('cashed coocke $cookie');
-    // }
+    }
 
     /// 191353 / Aa@1235678
     options.headers.addAll({

@@ -33,7 +33,8 @@ class _ResetPasswordWidgetState extends State<ResetPasswordWidget> {
     return TextFormFieldWithTitleWidget(
       controller: cubit.resetPasswordNewController,
       obscureText: obscureText,
-      label: 'كلمة المرور',
+      title: 'كلمة المرور',
+      hint: 'ادخل كلمة المرور',
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'يرجى ادخال كلمة المرور';
@@ -108,7 +109,8 @@ class _ResetConfirmPasswordWidgetState
     return TextFormFieldWithTitleWidget(
       controller: cubit.resetPasswordConfirmController,
       obscureText: obscureText,
-      label: 'تاكيد كلمة المرور',
+      title: 'تاكيد كلمة المرور',
+      hint: 'تاكيد كلمة المرور',
       validator: (value) {
         if (value == null || value.trim().isEmpty) {
           return 'يرجى تاكيد كلمة المرور';

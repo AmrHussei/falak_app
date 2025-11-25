@@ -53,7 +53,7 @@ class AppColors {
   static Color typographySubTitle(BuildContext context) =>
       const Color(0xFF6F6F6F);
 
-  static Color typographyBody(BuildContext context) => const Color(0xFF2E353F);
+  static Color typographyBody(BuildContext context) => titleColor(context);
 
   static Color typographyBodyWhite(BuildContext context) =>
       const Color(0xFF7A7B7A);
@@ -135,4 +135,7 @@ class AppColors {
 
   static Color darkBlue(BuildContext context) => const Color(0xFF102E56);
   static Color textFieldBorder(BuildContext context) => const Color(0xFFDCDEDE);
+  static Color grayText(BuildContext context) => const Color(0xFF444444);
+  static Color containerGrayColor(BuildContext context) => const Color(0xFFF3F4F4);
+  static Color veryGrayColor(BuildContext context) => const Color(0xFFADB1B1);
 }

@@ -3,7 +3,7 @@ import 'package:falak/features/auth/presentation/view/screens/login_screen.dart'
 import 'package:falak/features/paegs/presentation/view/screens/contact_us_screen.dart';
 
 import '../../features/auth/presentation/view/screens/complete_signup_screen.dart';
-import '../../features/auth/presentation/view/screens/forget_password_screen.dart.dart';
+import '../../features/auth/presentation/view/screens/forget_password_screen.dart';
 import '../../features/auth/presentation/view/screens/otp_screen.dart';
 import '../../features/auth/presentation/view/screens/reset_password_screen.dart.dart';
 import '../../features/auth/presentation/view/screens/sign_up_screen.dart';

@@ -81,18 +81,18 @@ class AppPrimaryButton extends StatelessWidget {
         ),
         child: isLoading
             ? (loadingWidget ??
-                SizedBox(
-                  width: 24.w,
-                  height: 24.h,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      isDisabled
-                          ? AppColors.typographySubTitle(context)
-                          : AppColors.white(context),
+                  SizedBox(
+                    width: 24.w,
+                    height: 24.h,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        isDisabled
+                            ? AppColors.typographySubTitle(context)
+                            : AppColors.white(context),
+                      ),
                     ),
-                  ),
-                ))
+                  ))
             : Text(
                 text,
                 style: AppStyles.styleMedium16(context).copyWith(
@@ -153,32 +153,28 @@ class AppSecondaryButton extends StatelessWidget {
         ),
         child: isLoading
             ? (loadingWidget ??
-                SizedBox(
-                  width: 24.w,
-                  height: 24.h,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.typographyHeading(context),
+                  SizedBox(
+                    width: 24.w,
+                    height: 24.h,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.typographyHeading(context),
+                      ),
                     ),
-                  ),
-                ))
+                  ))
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
-                    SvgPicture.asset(
-                      icon!,
-                      width: 20.w,
-                      height: 20.h,
-                    ),
+                    SvgPicture.asset(icon!, width: 20.w, height: 20.h),
                     8.horizontalSpace,
                   ],
                   Text(
                     text,
-                    style: AppStyles.styleMedium14(context).copyWith(
-                      color: AppColors.typographyHeading(context),
-                    ),
+                    style: AppStyles.styleMedium14(
+                      context,
+                    ).copyWith(color: AppColors.typographyHeading(context)),
                   ),
                 ],
               ),
@@ -200,6 +196,7 @@ class AppSecondaryButton extends StatelessWidget {
 class AppOutlinedButton extends StatelessWidget {
   final VoidCallback? onPressed;
   final String text;
+  final String? firstText;
   final String? icon;
   final double? width;
   final double? height;
@@ -210,6 +207,7 @@ class AppOutlinedButton extends StatelessWidget {
     Key? key,
     required this.onPressed,
     required this.text,
+    this.firstText,
     this.icon,
     this.width,
     this.height,
@@ -226,10 +224,7 @@ class AppOutlinedButton extends StatelessWidget {
         onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
           backgroundColor: Colors.transparent,
-          side: BorderSide(
-            color: AppColors.borderPrimary(context),
-            width: 1.w,
-          ),
+          side: BorderSide(color: AppColors.borderPrimary(context), width: 1.w),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(14.r),
           ),
@@ -237,32 +232,37 @@ class AppOutlinedButton extends StatelessWidget {
         ),
         child: isLoading
             ? (loadingWidget ??
-                SizedBox(
-                  width: 24.w,
-                  height: 24.h,
-                  child: CircularProgressIndicator(
-                    strokeWidth: 2,
-                    valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.secondColor(context),
+                  SizedBox(
+                    width: 24.w,
+                    height: 24.h,
+                    child: CircularProgressIndicator(
+                      strokeWidth: 2,
+                      valueColor: AlwaysStoppedAnimation<Color>(
+                        AppColors.secondColor(context),
+                      ),
                     ),
-                  ),
-                ))
+                  ))
             : Row(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
-                    SvgPicture.asset(
-                      icon!,
-                      width: 20.w,
-                      height: 20.h,
+                    SvgPicture.asset(icon!, width: 20.w, height: 20.h),
+                    8.horizontalSpace,
+                  ],
+                  if (firstText != null) ...[
+                    Text(
+                      firstText!,
+                      style: AppStyles.styleRegular14(
+                        context,
+                      ).copyWith(color: AppColors.grayText(context)),
                     ),
                     8.horizontalSpace,
                   ],
                   Text(
                     text,
-                    style: AppStyles.styleSemiBold14(context).copyWith(
-                      color: AppColors.secondColor(context),
-                    ),
+                    style: AppStyles.styleSemiBold14(
+                      context,
+                    ).copyWith(color: AppColors.secondColor(context)),
                   ),
                 ],
               ),
@@ -270,4 +270,3 @@ class AppOutlinedButton extends StatelessWidget {
     );
   }
 }
-

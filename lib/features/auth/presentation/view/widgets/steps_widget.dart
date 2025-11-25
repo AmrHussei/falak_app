@@ -23,7 +23,7 @@ class StepsWidget extends StatelessWidget {
     return Row(
       mainAxisAlignment: MainAxisAlignment.center,
       children: List.generate(totalSteps, (index) {
-        final isActive = index == currentStep;
+        final isActive = index <= currentStep;
 
         return AnimatedContainer(
           margin: EdgeInsets.symmetric(horizontal: 3.w),

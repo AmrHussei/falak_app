@@ -6,6 +6,7 @@ import 'package:falak/core/storage/flutter_secure_storage.dart';
 import 'package:falak/core/storage/i_app_local_storage.dart';
 import 'package:falak/core/utils/app_strings.dart';
 import 'package:falak/core/utils/constant.dart';
+import 'package:falak/core/utils/app_logger.dart';
 
 class SplashManager {
   SplashManager._();
@@ -15,61 +16,70 @@ class SplashManager {
   Future<void> handleSplashLogic() async {
     try {
       final isAppLocked = _isAppLocked();
+      AppLogger.splash('App lock status: ${isAppLocked ? "Locked 🔒" : "Unlocked 🔓"}');
 
       if (isAppLocked) {
         await _handleLockedApp();
       } else {
         await _handleUnlockedApp();
       }
-    } catch (e) {
-      print('Error in splash logic: $e');
+    } catch (e, stackTrace) {
+      AppLogger.error('Error in splash logic', error: e, stackTrace: stackTrace);
       FlutterNativeSplash.remove();
     }
   }
 
   Future<void> _handleLockedApp() async {
+    AppLogger.splash('Removing splash for authentication...');
     FlutterNativeSplash.remove();
 
     final authenticated = await _authenticateUser();
 
     if (authenticated) {
+      AppLogger.auth('Authentication successful ✅');
       await _determineInitialRoute();
     } else {
-      print('Authentication failed - staying on lock screen');
+      AppLogger.auth('Authentication failed - staying on lock screen ❌');
     }
   }
 
   Future<void> _handleUnlockedApp() async {
+    AppLogger.splash('Showing splash screen for 3 seconds...');
     await Future.delayed(const Duration(seconds: 3));
 
     await _determineInitialRoute();
 
+    AppLogger.splash('Removing splash screen...');
     FlutterNativeSplash.remove();
   }
 
   Future<bool> _authenticateUser() async {
     try {
-      return await authenticateUser('الرجاء المصادقة للوصول إلى التطبيق');
-    } catch (e) {
-      print('Authentication error: $e');
+      AppLogger.auth('Requesting biometric authentication...');
+      final result = await authenticateUser('الرجاء المصادقة للوصول إلى التطبيق');
+      return result;
+    } catch (e, stackTrace) {
+      AppLogger.error('Authentication error', error: e, stackTrace: stackTrace);
       return false;
     }
   }
 
   Future<void> _determineInitialRoute() async {
     try {
+      AppLogger.splash('Checking user login status...');
       final cookie = await SecureStorageServices().getCookie();
 
       if (cookie != null) {
         KisGuest = false;
-        print('User is logged in');
+        AppLogger.success('User is logged in 👤');
       } else {
         KisGuest = true;
-        print('User is in guest mode');
+        AppLogger.info('User is in guest mode 👥');
       }
-    } catch (e) {
-      print('Error determining route: $e');
+    } catch (e, stackTrace) {
+      AppLogger.error('Error determining route', error: e, stackTrace: stackTrace);
       KisGuest = true;
+      AppLogger.warning('Defaulting to guest mode due to error');
     }
   }
 
@@ -78,8 +88,8 @@ class SplashManager {
       return serviceLocator<IAppLocalStorage>()
               .getValue(AppStrings.isAppLocked) ??
           false;
-    } catch (e) {
-      print('Error checking app lock status: $e');
+    } catch (e, stackTrace) {
+      AppLogger.error('Error checking app lock status', error: e, stackTrace: stackTrace);
       return false;
     }
   }
@@ -89,9 +99,9 @@ class SplashManager {
       AppConstant.KisHijri = serviceLocator<IAppLocalStorage>()
               .getValue(AppStrings.KisHijri) ??
           false;
-      print('App settings loaded - KisHijri: ${AppConstant.KisHijri}');
-    } catch (e) {
-      print('Error loading app settings: $e');
+      AppLogger.info('App settings loaded - KisHijri: ${AppConstant.KisHijri}');
+    } catch (e, stackTrace) {
+      AppLogger.error('Error loading app settings', error: e, stackTrace: stackTrace);
       AppConstant.KisHijri = false;
     }
   }
@@ -99,8 +109,9 @@ class SplashManager {
   static void removeSplash() {
     try {
       FlutterNativeSplash.remove();
-    } catch (e) {
-      print('Error removing splash: $e');
+      AppLogger.splash('Native splash removed');
+    } catch (e, stackTrace) {
+      AppLogger.error('Error removing splash', error: e, stackTrace: stackTrace);
     }
   }
 }

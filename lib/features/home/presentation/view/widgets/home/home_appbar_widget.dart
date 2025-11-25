@@ -76,7 +76,7 @@ class _HomeAppBarWidgetState extends State<HomeAppBarWidget> {
       title: ConstrainedBox(
         constraints: BoxConstraints(maxHeight: 34.h, maxWidth: 122.w),
         child: SvgPicture.asset(
-          AppAssets.app_imagesHorizintalLogo,
+          AppAssets.app_imagesAppLogo,
           height: 60,
         ),
       ),

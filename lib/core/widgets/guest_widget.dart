@@ -19,8 +19,8 @@ class GuestWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            SvgPicture.asset(
-              AppAssets.app_imagesHorizintalLogo,
+            Image.asset(
+              AppAssets.app_imagesAppLogo,
               height: 60,
             ),
             SizedBox(height: 60),

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_images.dart';
@@ -12,14 +13,11 @@ class AuthAppLogoWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ConstrainedBox(
-      constraints: BoxConstraints(
-        maxHeight: 34,
-      ),
-      child: SvgPicture.asset(
-        AppAssets.app_imagesHorizintalLogo,
-        fit: BoxFit.contain,
-      ),
+    return Image.asset(
+      AppAssets.app_imagesAppLogo,
+      fit: BoxFit.contain,
+      width: 105.w,
+      height: 56.87.h,
     );
   }
 }

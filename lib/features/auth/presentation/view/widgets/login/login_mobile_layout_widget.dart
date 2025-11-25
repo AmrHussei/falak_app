@@ -1,3 +1,4 @@
+import 'package:falak/features/auth/presentation/view/widgets/steps_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -22,9 +23,9 @@ import '../contact_us_auth_widget.dart';
 import '../nav_to_another_screen_row.dart';
 
 class LoginMobileLayoutWidget extends StatelessWidget {
-  const LoginMobileLayoutWidget({
-    super.key,
-  });
+  const LoginMobileLayoutWidget({super.key, required this.currentStep});
+
+  final ValueNotifier<int> currentStep;
 
   @override
   Widget build(BuildContext context) {
@@ -33,172 +34,125 @@ class LoginMobileLayoutWidget extends StatelessWidget {
     return Form(
       key: cubit.loginFormKey,
       child: SingleChildScrollView(
-        child: Center(
-          child: Column(
-            children: [
-              Padding(
-                padding: EdgeInsets.symmetric(horizontal: 24),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    20.verticalSpace,
-                    Row(
-                      children: [
-                        AuthAppLogoWidget(),
-                      ],
-                    ),
-                    48.verticalSpace,
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 24),
-                      child: StepperWidget(
-                        stepperList: [
-                          BuildStep(
-                            title: '',
-                            isActive: true,
-                            isCompleted: true,
-                            stepNum: '1',
-                          ),
-                          SteperLineWidegt(
-                            isActive: false,
-                          ),
-                          BuildStep(
-                            title: '',
-                            isActive: false,
-                            isCompleted: false,
-                            stepNum: '2',
-                          ),
-                        ],
-                      ),
-                    ),
-                    16.verticalSpace,
-                    Row(
-                      children: [
-                        Text(
-                          'تسجيل الدخول',
-                          style: AppStyles.styleBold24(context).copyWith(
-                            color: AppColors.typographyHeading(context),
-                          ),
-                        ),
-                      ],
-                    ),
-                    24.verticalSpace,
-                    TextFormFieldWithTitleWidget(
-                      controller: cubit.identityNumberController,
-                      label: 'رقم الهوية الوطنة / الاقامة',
-                      validator: (value) {
-                        if (value == null) {
-                          return 'يرجى إدخال رقم الهوية الوطنية / الاقامة';
-                        }
-                        if (value.isEmpty) {
-                          return 'يرجى إدخال رقم الهوية الوطنية / الاقامة';
-                        }
-                        if (value.length != 10) {
-                          return 'رقم الهوية الوطنية يجب ان يتكون من 10 ارقام';
-                        }
-                        if (!value.startsWith('1') && !value.startsWith('2')) {
-                          return 'رقم الهوية الوطنية / الاقامة خطأ';
-                        }
-                        return null;
-                      },
-                      inputFormatters: [
-                        LengthLimitingTextInputFormatter(10),
-                      ],
-                      keyboardType: TextInputType.number,
-                      prefix: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 12.h,
-                          horizontal: 16,
-                        ),
-                        child: SvgPicture.asset(AppAssets.app_imagesNationalId),
-                      ),
-                    ),
-                    20.verticalSpace,
-                    LoginPasswordWidget(),
-                    24.verticalSpace,
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        RememberUserWidget(),
-                        InkWell(
-                          onTap: () {
-                            context.navigateTo(Routes.forgetPasswordScreen);
-                          },
-                          child: Text(
-                            'نسيت كلمة المرور',
-                            style: AppStyles.styleBold16(context)
-                                .copyWith(color: AppColors.primary(context)),
-                          ),
-                        ),
-                      ],
-                    ),
-                    30.verticalSpace,
-                    LoginButtonWidget(),
-                    30.verticalSpace,
-                    Row(
-                      children: [
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.separatingBorder1(context),
-                          ),
-                        ),
-                        6.horizontalSpace,
-                        Text(
-                          'او',
-                          style: AppStyles.styleBold14(context).copyWith(
-                              color: AppColors.typographyBody(context)),
-                        ),
-                        6.horizontalSpace,
-                        Expanded(
-                          child: Divider(
-                            color: AppColors.separatingBorder1(context),
-                          ),
-                        )
-                      ],
-                    ),
-                    24.verticalSpace,
-                    OutlinedButton(
-                      onPressed: () {},
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Image.asset(AppAssets.app_imagesNafathLogo),
-                          SizedBox(width: 12),
-                          Text(
-                            'تسجيل الدخول عبر نفاذ',
-                            style: AppStyles.styleBold14(context).copyWith(
-                              color: AppColors.typographyBody(context),
-                              height: 1.77,
-                            ),
-                          ),
-                        ],
-                      ),
-                      style: OutlinedButton.styleFrom(
-                        minimumSize: const Size(double.infinity, 55),
-                        side: BorderSide(
-                          color: AppColors.backgroundTertiary(context),
-                        ),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(12),
-                        ),
-                        foregroundColor: AppColors.white(context),
-                        backgroundColor: AppColors.white(context),
-                      ),
-                    ),
-                    48.verticalSpace,
-                    NavToAnotherScreenRow(
-                      onTap: () {
-                        context.navigateTo(Routes.signUpScreen);
-                      },
-                      text1: 'لا يوجد لديك حساب ؟',
-                      text2: 'إنشاء حساب جديد',
-                    ),
-                    20.verticalSpace,
-                  ],
-                ),
+        padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 8.h),
+
+        child: Column(
+          children: [
+            AuthAppLogoWidget(),
+            32.verticalSpace,
+            Text(
+              'تسجيل الدخول',
+              style: AppStyles.styleBold24(
+                context,
+              ).copyWith(color: AppColors.typographyHeading(context)),
+            ),
+            12.verticalSpace,
+            StepsWidget(currentStep: currentStep, totalSteps: 2),
+            24.verticalSpace,
+            TextFormFieldWithTitleWidget(
+              controller: cubit.identityNumberController,
+              label: 'رقم الهوية الوطنة / الاقامة',
+              validator: (value) {
+                if (value == null) {
+                  return 'يرجى إدخال رقم الهوية الوطنية / الاقامة';
+                }
+                if (value.isEmpty) {
+                  return 'يرجى إدخال رقم الهوية الوطنية / الاقامة';
+                }
+                if (value.length != 10) {
+                  return 'رقم الهوية الوطنية يجب ان يتكون من 10 ارقام';
+                }
+                if (!value.startsWith('1') && !value.startsWith('2')) {
+                  return 'رقم الهوية الوطنية / الاقامة خطأ';
+                }
+                return null;
+              },
+              inputFormatters: [LengthLimitingTextInputFormatter(10)],
+              keyboardType: TextInputType.number,
+              prefix: Padding(
+                padding: EdgeInsets.symmetric(vertical: 12.h, horizontal: 16),
+                child: SvgPicture.asset(AppAssets.app_imagesNationalId),
               ),
-              ContactUsAuthWidget()
-            ],
-          ),
+            ),
+            20.verticalSpace,
+            LoginPasswordWidget(),
+            24.verticalSpace,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                RememberUserWidget(),
+                InkWell(
+                  onTap: () {
+                    context.navigateTo(Routes.forgetPasswordScreen);
+                  },
+                  child: Text(
+                    'نسيت كلمة المرور',
+                    style: AppStyles.styleBold16(
+                      context,
+                    ).copyWith(color: AppColors.primary(context)),
+                  ),
+                ),
+              ],
+            ),
+            30.verticalSpace,
+            LoginButtonWidget(),
+            30.verticalSpace,
+            Row(
+              children: [
+                Expanded(
+                  child: Divider(color: AppColors.separatingBorder1(context)),
+                ),
+                6.horizontalSpace,
+                Text(
+                  'او',
+                  style: AppStyles.styleBold14(
+                    context,
+                  ).copyWith(color: AppColors.typographyBody(context)),
+                ),
+                6.horizontalSpace,
+                Expanded(
+                  child: Divider(color: AppColors.separatingBorder1(context)),
+                ),
+              ],
+            ),
+            24.verticalSpace,
+            OutlinedButton(
+              onPressed: () {},
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Image.asset(AppAssets.app_imagesNafathLogo),
+                  SizedBox(width: 12),
+                  Text(
+                    'تسجيل الدخول عبر نفاذ',
+                    style: AppStyles.styleBold14(context).copyWith(
+                      color: AppColors.typographyBody(context),
+                      height: 1.77,
+                    ),
+                  ),
+                ],
+              ),
+              style: OutlinedButton.styleFrom(
+                minimumSize: const Size(double.infinity, 55),
+                side: BorderSide(color: AppColors.backgroundTertiary(context)),
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(12),
+                ),
+                foregroundColor: AppColors.white(context),
+                backgroundColor: AppColors.white(context),
+              ),
+            ),
+            48.verticalSpace,
+            NavToAnotherScreenRow(
+              onTap: () {
+                context.navigateTo(Routes.signUpScreen);
+              },
+              text1: 'لا يوجد لديك حساب ؟',
+              text2: 'إنشاء حساب جديد',
+            ),
+            20.verticalSpace,
+            ContactUsAuthWidget(),
+          ],
         ),
       ),
     );
@@ -206,9 +160,7 @@ class LoginMobileLayoutWidget extends StatelessWidget {
 }
 
 class RememberUserWidget extends StatefulWidget {
-  const RememberUserWidget({
-    super.key,
-  });
+  const RememberUserWidget({super.key});
 
   @override
   State<RememberUserWidget> createState() => _RememberUserWidgetState();
@@ -241,8 +193,9 @@ class _RememberUserWidgetState extends State<RememberUserWidget> {
           ),
           Text(
             'تذكرني',
-            style: AppStyles.styleBold16(context)
-                .copyWith(color: AppColors.typographyBody(context)),
+            style: AppStyles.styleBold16(
+              context,
+            ).copyWith(color: AppColors.typographyBody(context)),
           ),
         ],
       ),
@@ -251,9 +204,7 @@ class _RememberUserWidgetState extends State<RememberUserWidget> {
 }
 
 class LoginButtonWidget extends StatelessWidget {
-  const LoginButtonWidget({
-    super.key,
-  });
+  const LoginButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -289,14 +240,13 @@ class LoginButtonWidget extends StatelessWidget {
         },
         builder: (context, state) {
           if (state.loginRequestState == RequestState.loading) {
-            return Lottie.asset(
-              AppAnimationAssets.loading,
-            );
+            return Lottie.asset(AppAnimationAssets.loading);
           } else {
             return Text(
               'تسجيل الدخول',
-              style: AppStyles.styleBold18(context)
-                  .copyWith(color: AppColors.white(context)),
+              style: AppStyles.styleBold18(
+                context,
+              ).copyWith(color: AppColors.white(context)),
             );
           }
         },

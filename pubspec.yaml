@@ -82,6 +82,7 @@ dependencies:
   pdf: ^3.11.3
   google_maps_flutter: ^2.12.3
   flutter_native_splash: ^2.4.7
+  flutter_hooks: ^0.21.3+1
 
 
 

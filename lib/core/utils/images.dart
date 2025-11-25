@@ -98,7 +98,6 @@ class AppAssets {
 
   static const String app_imagesHome2 = "assets/app_images/home-2.svg";
 
-  static const String app_imagesHorizintalLogo = "assets/app_images/horizintalLogo.svg";
 
   static const String app_imagesHourglassLine = "assets/app_images/HourglassLine.svg";
 

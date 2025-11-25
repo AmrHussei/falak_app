@@ -116,7 +116,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 SvgPicture.asset(
-                  AppAssets.app_imagesHorizintalLogo,
+                  AppAssets.app_imagesAppLogo,
                   height: 36,
                   width: 150,
                   fit: BoxFit.contain,

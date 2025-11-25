@@ -10,7 +10,7 @@ class AppColors {
   }
 
   // Primary Colors
-  static Color primary(BuildContext context) => const Color(0xFF1C4F92);
+  static Color primary(BuildContext context) => const Color(0xFF163A26);
   static Color primaryHover(BuildContext context) => const Color(0xFF1B5F5A);
   static Color notificationCard(BuildContext context) =>
       const Color(0x0D39360D);
@@ -25,7 +25,7 @@ class AppColors {
 
   // Typography
   static Color typographyHeading(BuildContext context) =>
-      const Color(0xFF1A1A1A);
+      const Color(0xFF1E1E1E);
   static Color typographyHeadingWhite(BuildContext context) =>
       const Color(0xFFFAFAFA);
   static Color typographySubTitle(BuildContext context) =>

@@ -7,7 +7,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class ChangePasswordBottomSheet extends StatelessWidget {
-  const ChangePasswordBottomSheet({super.key});
+  const ChangePasswordBottomSheet({
+    super.key,
+    this.title,
+    this.action,
+    this.subText,
+  });
+
+  final String? title;
+  final Function? action;
+  final String? subText;
 
   @override
   Widget build(BuildContext context) {
@@ -39,11 +48,18 @@ class ChangePasswordBottomSheet extends StatelessWidget {
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Text('تغير كلمة المرور', style: AppStyles.styleBold18(context)),
+                Text(
+                  title ?? 'تغير كلمة المرور',
+                  style: AppStyles.styleBold18(context),
+                ),
                 InkWell(
                   onTap: () {
-                    context.pop();
-                    context.pop();
+                    if (action != null) {
+                      action!();
+                    } else {
+                      context.pop();
+                      context.pop();
+                    }
                   },
                   child: SvgPicture.asset(
                     AppAssets.app_imagesCloseSquare,
@@ -56,14 +72,18 @@ class ChangePasswordBottomSheet extends StatelessWidget {
             SvgPicture.asset(AppAssets.imagesLock, height: 125.h, width: 181.w),
             12.verticalSpace,
             Text(
-              'تم تغير كلمة المرور بنجاح',
+              subText ?? 'تم تغير كلمة المرور بنجاح',
               style: AppStyles.styleBold18(context),
             ),
             const Spacer(),
             AppPrimaryButton(
               onPressed: () {
-                context.pop();
-                context.pop();
+                if (action != null) {
+                  action!();
+                } else {
+                  context.pop();
+                  context.pop();
+                }
               },
               text: 'الرئيسية',
             ),

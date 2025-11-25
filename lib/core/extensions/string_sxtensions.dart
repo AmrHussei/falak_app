@@ -29,4 +29,16 @@ extension StringExtensions on String? {
         this!.length < 10 ||
         (this![0] != '1' && this![0] != '2'));
   }
+  bool get isEmailValid {
+    if (this == null || this!.isEmpty) {
+      return false;
+    }
+
+    final emailRegex = RegExp(
+      r'^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$',
+    );
+
+    return emailRegex.hasMatch(this!);
+  }
+
 }

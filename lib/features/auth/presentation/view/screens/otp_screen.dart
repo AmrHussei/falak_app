@@ -1,7 +1,7 @@
 import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:falak/features/auth/presentation/view/widgets/steps_widget.dart';
+import 'package:falak/features/profile/presentation/view/widgets/change_password/change_password_bottom_sheet.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -15,7 +15,6 @@ import '../../../../../core/utils/enums.dart';
 import '../../../../../core/widgets/adaptive_layout_widget.dart';
 import '../../../../../core/widgets/coustom_app_bar_widget.dart';
 import '../../../../../core/widgets/my_snackbar.dart';
-import '../../../../paegs/presentation/view/widgets/sales_agent/stepper_widget.dart';
 import '../../view_model/auth/auth_cubit.dart';
 import '../widgets/otp/pin_code_widget.dart';
 
@@ -27,6 +26,7 @@ class OTPScreen extends StatelessWidget {
     required this.totalSteps,
     required this.width,
     this.title,
+    this.isEmail = false,
   });
 
   final String nextRoute;
@@ -34,6 +34,7 @@ class OTPScreen extends StatelessWidget {
   final int currentStep;
   final int totalSteps;
   final double width;
+  final bool isEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -56,6 +57,7 @@ class OTPScreen extends StatelessWidget {
           totalSteps: totalSteps,
           width: width,
           title: title,
+          isEmail: isEmail,
         ),
         tabletLayout: (context) => Center(
           child: SizedBox(
@@ -67,6 +69,7 @@ class OTPScreen extends StatelessWidget {
               totalSteps: totalSteps,
               width: width,
               title: title,
+              isEmail: isEmail,
             ),
           ),
         ),
@@ -83,6 +86,7 @@ class OTPScreenMobileLayoutWidget extends HookWidget {
     required this.totalSteps,
     required this.width,
     this.title,
+    required this.isEmail,
   });
 
   final String nextRoute;
@@ -90,6 +94,7 @@ class OTPScreenMobileLayoutWidget extends HookWidget {
   final int totalSteps;
   final double width;
   final String? title;
+  final bool isEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -125,6 +130,7 @@ class OTPScreenMobileLayoutWidget extends HookWidget {
                 VerifyButtonWidget(
                   nextRoute: nextRoute,
                   isCodeComplete: otpLength.value >= 6,
+                  isEmail: isEmail,
                 ),
                 24.verticalSpace,
                 TimerWidget(),
@@ -137,50 +143,17 @@ class OTPScreenMobileLayoutWidget extends HookWidget {
   }
 }
 
-class OTPStepperWidget extends StatelessWidget {
-  const OTPStepperWidget({
-    super.key,
-    required this.currentStep,
-    required this.totalSteps,
-  });
-
-  final int currentStep;
-  final int totalSteps;
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 24),
-      child: StepperWidget(
-        stepperList: List.generate(totalSteps * 2 - 1, (index) {
-          if (index.isEven) {
-            // BuildStep
-            final stepNum = (index ~/ 2) + 1;
-            return BuildStep(
-              title: '',
-              isActive: stepNum <= currentStep,
-              isCompleted: stepNum < currentStep,
-              stepNum: stepNum.toString(),
-            );
-          } else {
-            // SteperLineWidegt
-            return SteperLineWidegt(isActive: (index ~/ 2) + 1 < currentStep);
-          }
-        }),
-      ),
-    );
-  }
-}
-
 class VerifyButtonWidget extends StatelessWidget {
   const VerifyButtonWidget({
     super.key,
     required this.nextRoute,
     required this.isCodeComplete,
+    required this.isEmail,
   });
 
   final String nextRoute;
   final bool isCodeComplete;
+  final bool isEmail;
 
   @override
   Widget build(BuildContext context) {
@@ -189,9 +162,21 @@ class VerifyButtonWidget extends StatelessWidget {
     return BlocConsumer<AuthCubit, AuthState>(
       listenWhen: (previous, current) =>
           previous.verifyRequestState != current.verifyRequestState,
-      listener: (context, state) {
+      listener: (context, state) async {
         if (state.verifyRequestState == RequestState.loaded) {
-          if (nextRoute == Routes.userInfoScreen) {
+          if (isEmail) {
+            await showModalBottomSheet(
+              isDismissible: false,
+              isScrollControlled: true,
+              enableDrag: false,
+              context: context,
+              backgroundColor: Colors.transparent,
+              builder: (_) => ChangePasswordBottomSheet(
+                title: '',
+                subText: 'تم تغير البريد الالكتروني بنجاح',
+              ),
+            );
+          } else if (nextRoute == Routes.userInfoScreen) {
             context.navigateToWithReplacementNamed(nextRoute);
           } else if (nextRoute == Routes.layoutScreen) {
             FloatingSnackBar.show(
@@ -200,8 +185,9 @@ class VerifyButtonWidget extends StatelessWidget {
               isError: false,
             );
             context.navigateToWithReplacementAndClearStack(nextRoute);
+          } else if (nextRoute == Routes.changeEmailScreen) {
+            context.navigateToWithReplacementNamed(nextRoute);
           } else if (nextRoute == Routes.resetPasswordScreen ||
-              nextRoute == Routes.changeEmailScreen ||
               nextRoute == Routes.changePhoneNumberScreen) {
             context.navigateTo(nextRoute);
           } else {

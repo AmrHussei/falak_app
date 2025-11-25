@@ -1,16 +1,14 @@
+import 'package:falak/core/extensions/string_sxtensions.dart';
+import 'package:falak/features/auth/presentation/view/widgets/steps_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/app_images.dart';
-import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
 
 import '../../../../../core/widgets/adaptive_layout_widget.dart';
 import '../../../../../core/widgets/coustom_app_bar_widget.dart';
 import '../../../../../core/widgets/text_form_field_with_title_widget.dart';
-import '../../../../paegs/presentation/view/widgets/sales_agent/stepper_widget.dart';
 import '../widgets/change_email/change_email_button_widget.dart';
 
 class ChangeEmailScreen extends StatefulWidget {
@@ -32,20 +30,21 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<ProfileCubit>();
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: '',
-        ),
-        body: AdaptiveLayout(
-          mobileLayout: (context) => ChangeEmailScreenMobileLayoutWidget(),
-          tabletLayout: (context) => Center(
-            child: SizedBox(
-              height: 1.sw,
-              width: 600,
-              child: ChangeEmailScreenMobileLayoutWidget(),
-            ),
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'البريد الالكتروني',
+        actions: [
+          StepsWidget(currentStep: 1, totalSteps: 3, width: 17.w),
+          8.horizontalSpace,
+        ],
+      ),
+      body: AdaptiveLayout(
+        mobileLayout: (context) => ChangeEmailScreenMobileLayoutWidget(),
+        tabletLayout: (context) => Center(
+          child: SizedBox(
+            height: 1.sw,
+            width: 600,
+            child: ChangeEmailScreenMobileLayoutWidget(),
           ),
         ),
       ),
@@ -53,108 +52,51 @@ class _ChangeEmailScreenState extends State<ChangeEmailScreen> {
   }
 }
 
-class ChangeEmailScreenMobileLayoutWidget extends StatelessWidget {
-  const ChangeEmailScreenMobileLayoutWidget({
-    super.key,
-  });
+class ChangeEmailScreenMobileLayoutWidget extends HookWidget {
+  const ChangeEmailScreenMobileLayoutWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
+    final isEmailValid = useState(false);
     ProfileCubit cubit = context.read<ProfileCubit>();
     return Form(
       key: cubit.editEmaileKey,
       child: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                48.verticalSpace,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: StepperWidget(
-                    stepperList: [
-                      BuildStep(
-                        title: '',
-                        isActive: true,
-                        isCompleted: true,
-                        stepNum: '1',
-                      ),
-                      SteperLineWidegt(
-                        isActive: true,
-                      ),
-                      BuildStep(
-                        title: '',
-                        isActive: true,
-                        isCompleted: false,
-                        stepNum: '2',
-                      ),
-                      SteperLineWidegt(
-                        isActive: false,
-                      ),
-                      BuildStep(
-                        title: '',
-                        isActive: false,
-                        isCompleted: false,
-                        stepNum: '3',
-                      ),
-                    ],
-                  ),
-                ),
-                40.verticalSpace,
-                Row(
-                  children: [
-                    Text(
-                      'ادخل البريد الالكتروني',
-                      style: AppStyles.styleBold24(context).copyWith(
-                        color: AppColors.typographyHeading(context),
-                      ),
-                    ),
-                  ],
-                ),
-                40.verticalSpace,
-                TextFormFieldWithTitleWidget(
-                  controller: cubit.emailController,
-                  label: 'البريد الاليكتروني ',
-                  validator: (value) {
-                    if (value == null) {
-                      return 'يرجى ادخال البريد الاليكتروني  ';
-                    }
-                    if (value.isEmpty) {
-                      return 'يرجى ادخال البريد الاليكتروني  ';
-                    }
-                    if (!value.contains('@')) {
-                      return 'يرجى ادخال  بريد الكتروني صحيح ';
-                    }
+        padding: EdgeInsets.symmetric(horizontal: 31.5.w, vertical: 32.h),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextFormFieldWithTitleWidget(
+              controller: cubit.emailController,
+              onChanged: (value) {
+                if (value.isEmailValid) {
+                  isEmailValid.value = true;
+                } else {
+                  isEmailValid.value = false;
+                }
+              },
+              title: 'البريد الالكتروني الجديد',
+              hint: 'البريد الالكتروني الجديد',
+              validator: (value) {
+                if (value == null) {
+                  return 'يرجى ادخال البريد الاليكتروني  ';
+                }
+                if (value.isEmpty) {
+                  return 'يرجى ادخال البريد الاليكتروني  ';
+                }
+                if (!value.contains('@')) {
+                  return 'يرجى ادخال  بريد الكتروني صحيح ';
+                }
 
-                    return null;
-                  },
-                  autofocus: true,
-                  keyboardType: TextInputType.emailAddress,
-                  prefix: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 16,
-                    ),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: 24,
-                        maxHeight: 24,
-                      ),
-                      child: SvgPicture.asset(
-                        Assets.imagesLetter,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-                31.verticalSpace,
-                ChangeEmailButtonWidget(),
-                31.verticalSpace,
-              ],
+                return null;
+              },
+              autofocus: true,
+              keyboardType: TextInputType.emailAddress,
             ),
-          ),
+            16.verticalSpace,
+            ChangeEmailButtonWidget(isEmailValid:isEmailValid.value),
+            31.verticalSpace,
+          ],
         ),
       ),
     );

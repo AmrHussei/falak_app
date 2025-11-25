@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/functions/pick_images_and_files.dart';
 import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
@@ -188,7 +187,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         log(failure.toString());
       },
       (msg) {
-        otpCode = msg ?? '011101';
+        otpCode = msg ;
         emit(state.copyWith(
           askAddEmailRequestState: RequestState.loaded,
           askAddEmailMsg: msg,
@@ -212,7 +211,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         log(failure.toString());
       },
       (msg) {
-        otpCode = msg ?? '011101';
+        otpCode = msg ;
 
         emit(state.copyWith(
           addEmailRequestState: RequestState.loaded,
@@ -236,7 +235,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         log(failure.toString());
       },
       (msg) {
-        otpCode = msg ?? '011101';
+        otpCode = msg ;
         emit(state.copyWith(
           askEditPhoneRequestState: RequestState.loaded,
           askEditPhoneMsg: msg,
@@ -260,7 +259,7 @@ class ProfileCubit extends Cubit<ProfileState> {
         log(failure.toString());
       },
       (msg) {
-        otpCode = msg ?? '011101';
+        otpCode = msg ;
         emit(state.copyWith(
           addPhoneRequestState: RequestState.loaded,
           addPhoneModelMsg: msg,
@@ -270,13 +269,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void changePassword() async {
-    if(kDebugMode){
-      emit(state.copyWith(
-        changePasswordRequestState: RequestState.loaded,
-        changePasswordMsg: 'msg',
-      ));
-      return;
-    }
     if (!changePasswordeKey.currentState!.validate())
       emit(state.copyWith(changePasswordRequestState: RequestState.loading));
     ChangePasswordParams changePasswordParams = ChangePasswordParams(

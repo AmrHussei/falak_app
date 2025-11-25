@@ -1,3 +1,4 @@
+import 'package:falak/features/auth/presentation/view/widgets/login/contact_us_button_widget.dart';
 import 'package:falak/features/auth/presentation/view/widgets/steps_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -6,7 +7,6 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:lottie/lottie.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
-import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/auth/presentation/view/widgets/login/login_password_widget.dart';
 
@@ -18,8 +18,6 @@ import '../../../../../../core/widgets/text_form_field_with_title_widget.dart';
 import '../../../../../../core/widgets/app_buttons.dart';
 import '../../../view_model/auth/auth_cubit.dart';
 import '../auth_app_logo_widget.dart';
-import '../contact_us_auth_widget.dart';
-import '../nav_to_another_screen_row.dart';
 
 class LoginMobileLayoutWidget extends StatelessWidget {
   const LoginMobileLayoutWidget({super.key, required this.currentStep});
@@ -111,20 +109,14 @@ class LoginMobileLayoutWidget extends StatelessWidget {
             ),
             24.verticalSpace,
             AppOutlinedButton(
-              onPressed: () {},
-              text: 'تسجيل الدخول عبر نفاذ',
-              icon: AppAssets.app_imagesNafathLogo,
-            ),
-            48.verticalSpace,
-            NavToAnotherScreenRow(
-              onTap: () {
+              onPressed: () {
                 context.navigateTo(Routes.signUpScreen);
               },
-              text1: 'لا يوجد لديك حساب ؟',
-              text2: 'إنشاء حساب جديد',
+              text: 'إنشاء حساب جديد',
             ),
             20.verticalSpace,
-            ContactUsAuthWidget(),
+            const ContactUsButtonWidget(),
+            20.verticalSpace,
           ],
         ),
       ),

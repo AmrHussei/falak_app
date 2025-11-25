@@ -159,7 +159,7 @@ class AppSecondaryButton extends StatelessWidget {
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.black(context),
+                      AppColors.typographyHeading(context),
                     ),
                   ),
                 ))
@@ -177,7 +177,7 @@ class AppSecondaryButton extends StatelessWidget {
                   Text(
                     text,
                     style: AppStyles.styleMedium14(context).copyWith(
-                      color: AppColors.black(context),
+                      color: AppColors.typographyHeading(context),
                     ),
                   ),
                 ],
@@ -243,7 +243,7 @@ class AppOutlinedButton extends StatelessWidget {
                   child: CircularProgressIndicator(
                     strokeWidth: 2,
                     valueColor: AlwaysStoppedAnimation<Color>(
-                      AppColors.primary(context),
+                      AppColors.secondColor(context),
                     ),
                   ),
                 ))
@@ -261,7 +261,7 @@ class AppOutlinedButton extends StatelessWidget {
                   Text(
                     text,
                     style: AppStyles.styleSemiBold14(context).copyWith(
-                      color: AppColors.primary(context),
+                      color: AppColors.secondColor(context),
                     ),
                   ),
                 ],

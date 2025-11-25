@@ -68,7 +68,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         },
       {
         'text': 'تواصل معنا',
-        'image': AppAssets.app_imagesContactUsIcon,
+        'image': AppAssets.app_imagesContactUs,
         'onTap': () {
           context.navigateTo(Routes.contactUsScreen);
         },

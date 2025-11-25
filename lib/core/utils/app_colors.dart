@@ -26,7 +26,7 @@ class AppColors {
 
   static Color primaryOP5(BuildContext context) => const Color(0x0D135C58);
 
-  static Color secondColor(BuildContext context) => const Color(0xff2D9C95);
+  static Color secondColor(BuildContext context) => const Color(0xff0E4C2B);
 
   static Color secondActionColor(BuildContext context) =>
       const Color(0xff0C3F82);

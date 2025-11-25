@@ -1,3 +1,4 @@
+import 'package:falak/features/auth/presentation/view/widgets/login/contact_us_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -18,7 +19,6 @@ import '../../../../../core/widgets/my_snackbar.dart';
 import '../../../../../core/widgets/text_form_field_with_title_widget.dart';
 import '../../../../paegs/presentation/view/widgets/sales_agent/stepper_widget.dart';
 import '../../view_model/auth/auth_cubit.dart';
-import '../widgets/contact_us_auth_widget.dart';
 import '../widgets/nav_to_another_screen_row.dart';
 import '../widgets/sign_up/terms_and_conditions_widget.dart';
 
@@ -27,10 +27,10 @@ class SignUpScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<AuthCubit>();
     return SafeArea(
       child: Scaffold(
-        bottomSheet: ContactUsAuthWidget(),
+        bottomSheet:             const ContactUsButtonWidget(),
+
         backgroundColor: AppColors.white(context),
         appBar: CoustomAppBarWidget(),
         body: AdaptiveLayout(

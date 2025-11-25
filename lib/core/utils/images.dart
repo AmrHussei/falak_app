@@ -56,7 +56,7 @@ class AppAssets {
 
   static const String app_imagesCloseSquare = "assets/app_images/close-square.svg";
 
-  static const String app_imagesContactUsIcon = "assets/app_images/contactUsIcon.svg";
+  static const String app_imagesContactUs = "assets/app_images/contactUs.svg";
 
   static const String app_imagesCopy = "assets/app_images/copy.svg";
 

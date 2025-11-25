@@ -32,13 +32,23 @@ class ProfileCartWidget extends StatelessWidget {
           padding: EdgeInsets.symmetric(vertical: 10.h, horizontal: 8.w),
           child: Row(
             children: [
-              SvgPicture.asset(
-                image,
-                fit: BoxFit.contain,
-                height: 32.h,
+              SizedBox(
                 width: 32.w,
+                height: 32.h,
+
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(
+                      image,
+                      fit: BoxFit.contain,
+                      height: 20.h,
+                      width: 20.w,
+                    ),
+                  ],
+                ),
               ),
-              12.horizontalSpace,
+              8.horizontalSpace,
               Text(
                 text,
                 style: AppStyles.styleRegular16(context).copyWith(
@@ -48,28 +58,29 @@ class ProfileCartWidget extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              if(!isRed)Container(
-                padding: const EdgeInsets.all(6),
-                decoration: ShapeDecoration(
-                  color: const Color(0xFFFAFAFA) /* Surface-primary */,
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1,
-                      color: const Color(0xFFE1E1E2) /* Borders-primary */,
+              if (!isRed)
+                Container(
+                  padding: const EdgeInsets.all(6),
+                  decoration: ShapeDecoration(
+                    color: const Color(0xFFFAFAFA) /* Surface-primary */,
+                    shape: RoundedRectangleBorder(
+                      side: BorderSide(
+                        width: 1,
+                        color: const Color(0xFFE1E1E2) /* Borders-primary */,
+                      ),
+                      borderRadius: BorderRadius.circular(6.r),
                     ),
-                    borderRadius: BorderRadius.circular(6.r),
+                  ),
+                  child: Transform.flip(
+                    flipX: true,
+                    child: SvgPicture.asset(
+                      AppAssets.app_imagesArrow,
+                      fit: BoxFit.contain,
+                      height: 12.h,
+                      width: 12.w,
+                    ),
                   ),
                 ),
-                child: Transform.flip(
-                  flipX: true,
-                  child: SvgPicture.asset(
-                    AppAssets.app_imagesArrow,
-                    fit: BoxFit.contain,
-                    height: 12.h,
-                    width: 12.w,
-                  ),
-                ),
-              ),
             ],
           ),
         ),

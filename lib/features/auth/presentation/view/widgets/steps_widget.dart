@@ -29,7 +29,7 @@ class StepsWidget extends StatelessWidget {
             final isActive = index == step;
 
             return AnimatedContainer(
-              margin: EdgeInsets.symmetric(horizontal: 2.w),
+              margin: EdgeInsets.symmetric(horizontal: 3.w),
               duration: const Duration(milliseconds: 400),
               curve: Curves.easeInOut,
               height: height ?? 3.h,

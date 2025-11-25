@@ -88,7 +88,7 @@ class LoginMobileLayoutWidget extends StatelessWidget {
             ),
             12.verticalSpace,
             LoginButtonWidget(),
-            30.verticalSpace,
+            24.verticalSpace,
             Row(
               children: [
                 Expanded(
@@ -114,9 +114,8 @@ class LoginMobileLayoutWidget extends StatelessWidget {
               },
               text: 'إنشاء حساب جديد',
             ),
-            20.verticalSpace,
+            140.verticalSpace,
             const ContactUsButtonWidget(),
-            20.verticalSpace,
           ],
         ),
       ),

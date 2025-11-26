@@ -1,10 +1,8 @@
 
 import 'package:falak/core/widgets/coustom_app_bar_widget.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:falak/config/routes/app_routes.dart';
-import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 
@@ -13,37 +11,10 @@ import '../../../../../core/widgets/guest_widget.dart';
 import '../widgets/profile/profile_cart_widget.dart';
 import '../widgets/profile/show_log_out_bottom_sheet.dart';
 
-class ProfileScreen extends StatefulWidget {
+class ProfileScreen extends StatelessWidget {
   const ProfileScreen({super.key});
-
-  @override
-  State<ProfileScreen> createState() => _ProfileScreenState();
-}
-
-class _ProfileScreenState extends State<ProfileScreen> {
-  @override
-  void initState() {
-    _updateStatusBar();
-    super.initState();
-  }
-
-  void _updateStatusBar() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
-    Future.delayed(Duration(milliseconds: 100)).then((v) {
-      setState(() {});
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    _updateStatusBar();
     return Scaffold(
       appBar:  CoustomAppBarWidget(
         leading: const SizedBox.shrink(),

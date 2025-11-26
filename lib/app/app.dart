@@ -1,6 +1,5 @@
 import 'package:device_preview/device_preview.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +11,6 @@ import 'package:falak/features/paegs/presentation/view_model/pages_cubit.dart';
 import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
 
 import '../config/routes/app_routes.dart';
-import '../core/utils/app_colors.dart';
 import '../features/wallet/presentation/view_model/wallet/wallet_cubit.dart';
 
 bool KisGuest = false;
@@ -27,14 +25,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
     return MultiBlocProvider(
       providers: [
         BlocProvider(

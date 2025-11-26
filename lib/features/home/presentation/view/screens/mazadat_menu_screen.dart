@@ -54,15 +54,6 @@ class _MazadatMenuScreenState extends State<MazadatMenuScreen>
       }
     });
 
-    // Set system UI styles
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
   }
 
   @override
@@ -78,55 +69,53 @@ class _MazadatMenuScreenState extends State<MazadatMenuScreen>
   @override
   Widget build(BuildContext context) {
     KisFromFav = false;
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: 'قائمة المزادات',
-          actions: [
-            GestureDetector(
-              onTap: () {
-                filterSheetBottomSheet(context);
-              },
-              child: SvgPicture.asset(
-                Assets.imagesSearchMenuIcon,
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'قائمة المزادات',
+        actions: [
+          GestureDetector(
+            onTap: () {
+              filterSheetBottomSheet(context);
+            },
+            child: SvgPicture.asset(
+              Assets.imagesSearchMenuIcon,
+            ),
+          ),
+          SizedBox(width: 12)
+        ],
+      ),
+      body: Column(
+        children: [
+          SizedBox(
+            height: 8,
+          ),
+          MazadMenuTabBarWidget(
+            tabController: _tabController,
+            tapsName: [
+              'قائمة',
+              'مستقبلية',
+              'منتهية',
+            ],
+          ),
+          SizedBox(height: 4),
+          Expanded(
+            // Ensure TabBarView has space to expand
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 2),
+              child: PageView(
+                controller: _pageController,
+                onPageChanged: (index) {
+                  _tabController.animateTo(index);
+                },
+                children: [
+                  TabBarViewBodyWidget(),
+                  TabBarViewBodyWidget(),
+                  TabBarViewBodyWidget(),
+                ],
               ),
             ),
-            SizedBox(width: 12)
-          ],
-        ),
-        body: Column(
-          children: [
-            SizedBox(
-              height: 8,
-            ),
-            MazadMenuTabBarWidget(
-              tabController: _tabController,
-              tapsName: [
-                'قائمة',
-                'مستقبلية',
-                'منتهية',
-              ],
-            ),
-            SizedBox(height: 4),
-            Expanded(
-              // Ensure TabBarView has space to expand
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 2),
-                child: PageView(
-                  controller: _pageController,
-                  onPageChanged: (index) {
-                    _tabController.animateTo(index);
-                  },
-                  children: [
-                    TabBarViewBodyWidget(),
-                    TabBarViewBodyWidget(),
-                    TabBarViewBodyWidget(),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

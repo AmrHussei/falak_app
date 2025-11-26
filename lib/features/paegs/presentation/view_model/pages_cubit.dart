@@ -102,7 +102,7 @@ class PagesCubit extends Cubit<PagesState> {
   final properityNeighborhoodController = TextEditingController();
   final properityRealeCategoryController = TextEditingController();
   final properityFormKey = GlobalKey<FormState>();
-  void addRealState() async {
+  void addRealState(bool isRated) async {
     if (!addRealFormKey.currentState!.validate()) return;
     emit(state.copyWith(addRealStateRequestState: RequestState.loading));
     AddRealStateParams params = AddRealStateParams(
@@ -111,7 +111,7 @@ class PagesCubit extends Cubit<PagesState> {
       city: cityController.text.trim(),
       area: areaController.text.trim(),
       neighborhood: neighborhoodController.text.trim(),
-      certified: certifiedNotifier,
+      certified: isRated,
       description: descriptionController.text.trim(),
     );
     final result = await _pageRepository.addRealState(params);

@@ -14,206 +14,182 @@ import '../../../../../core/utils/app_images.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../view_model/pages_cubit.dart';
 
-class ProperityManagmentScreen extends StatefulWidget {
+class ProperityManagmentScreen extends StatelessWidget {
   const ProperityManagmentScreen({super.key});
 
-  @override
-  State<ProperityManagmentScreen> createState() =>
-      _ProperityManagmentScreenState();
-}
-
-class _ProperityManagmentScreenState extends State<ProperityManagmentScreen> {
-  @override
-  void initState() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.light,
-        statusBarColor: AppColors.primary(context),
-      ),
-    );
-    super.initState();
-  }
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-      ),
-    );
     PagesCubit cubit = context.read<PagesCubit>();
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(title: 'إدارة أملاكك'),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: SingleChildScrollView(
-            child: Form(
-              key: cubit.properityFormKey,
-              child: Column(
-                children: [
-                  SizedBox(height: 32),
-                  Row(
+    return Scaffold(
+      appBar: CoustomAppBarWidget(title: 'إدارة أملاكك'),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24),
+        child: SingleChildScrollView(
+          child: Form(
+            key: cubit.properityFormKey,
+            child: Column(
+              children: [
+                SizedBox(height: 32),
+                Row(
+                  children: [
+                    Text(
+                      'ادخل تفاصيل الأملاك',
+                      style: AppStyles.styleBold20(context).copyWith(
+                          color: AppColors.typographyHeading(context)),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 16),
+                CustomDropdownField(
+                  label: 'المنطقة',
+                  items: [
+                    'البنك الأهلي السعودي',
+                    'مصرف الراجحي',
+                    'بنك الرياض',
+                    // ...etc
+                  ],
+                  onChanged: (value) {
+                    // handle change
+                    print('Selected: $value');
+                  },
+                  onItemTap: (item) {
+                    // optional: do something as soon as user taps the item
+                    print('Tapped item: $item');
+                  },
+                ),
+                SizedBox(height: 2),
+                SizedBox(
+                  height: 90,
+                  child: Row(
                     children: [
-                      Text(
-                        'ادخل تفاصيل الأملاك',
-                        style: AppStyles.styleBold20(context).copyWith(
-                            color: AppColors.typographyHeading(context)),
+                      Expanded(
+                        child: CustomDropdownField(
+                          label: 'المدينة',
+                          items: [
+                            'البنك الأهلي السعودي',
+                            'مصرف الراجحي',
+                            'بنك الرياض',
+                            // ...etc
+                          ],
+                          onChanged: (value) {
+                            // handle change
+                            print('Selected: $value');
+                          },
+                          onItemTap: (item) {
+                            // optional: do something as soon as user taps the item
+                            print('Tapped item: $item');
+                          },
+                        ),
+                      ),
+                      SizedBox(width: 8),
+                      Expanded(
+                        child: CustomDropdownField(
+                          label: 'الحي',
+                          items: [
+                            'البنك الأهلي السعودي',
+                            'مصرف الراجحي',
+                            'بنك الرياض',
+                            // ...etc
+                          ],
+                          onChanged: (value) {
+                            // handle change
+                            print('Selected: $value');
+                          },
+                          onItemTap: (item) {
+                            // optional: do something as soon as user taps the item
+                            print('Tapped item: $item');
+                          },
+                        ),
                       ),
                     ],
                   ),
-                  SizedBox(height: 16),
-                  CustomDropdownField(
-                    label: 'المنطقة',
-                    items: [
-                      'البنك الأهلي السعودي',
-                      'مصرف الراجحي',
-                      'بنك الرياض',
-                      // ...etc
-                    ],
-                    onChanged: (value) {
-                      // handle change
-                      print('Selected: $value');
-                    },
-                    onItemTap: (item) {
-                      // optional: do something as soon as user taps the item
-                      print('Tapped item: $item');
-                    },
-                  ),
-                  SizedBox(height: 2),
-                  SizedBox(
-                    height: 90,
-                    child: Row(
-                      children: [
-                        Expanded(
-                          child: CustomDropdownField(
-                            label: 'المدينة',
-                            items: [
-                              'البنك الأهلي السعودي',
-                              'مصرف الراجحي',
-                              'بنك الرياض',
-                              // ...etc
-                            ],
-                            onChanged: (value) {
-                              // handle change
-                              print('Selected: $value');
-                            },
-                            onItemTap: (item) {
-                              // optional: do something as soon as user taps the item
-                              print('Tapped item: $item');
-                            },
-                          ),
+                ),
+                SizedBox(height: 2),
+                CustomDropdownField(
+                  label: 'نوع العقار',
+                  items: [
+                    'البنك الأهلي السعودي',
+                    'مصرف الراجحي',
+                    'بنك الرياض',
+                    // ...etc
+                  ],
+                  onChanged: (value) {
+                    // handle change
+                    print('Selected: $value');
+                  },
+                  onItemTap: (item) {
+                    // optional: do something as soon as user taps the item
+                    print('Tapped item: $item');
+                  },
+                ),
+                SizedBox(height: 24),
+                CustomDropdownField(
+                  label: 'فئة العقار',
+                  items: [
+                    'البنك الأهلي السعودي',
+                    'مصرف الراجحي',
+                    'بنك الرياض',
+                    // ...etc
+                  ],
+                  onChanged: (value) {
+                    // handle change
+                    print('Selected: $value');
+                  },
+                  onItemTap: (item) {
+                    // optional: do something as soon as user taps the item
+                    print('Tapped item: $item');
+                  },
+                ),
+                SizedBox(height: 24),
+                TextFormFieldWithTitleWidget(
+                  controller: cubit.realStatephoneNumberController,
+                  label: 'رقم الجوال',
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return 'برجاء ادخال رقم الجوال';
+                    }
+                    if (!RegExp(r'^5\d{8}$').hasMatch(value)) {
+                      return 'يجب أن يبدأ رقم الجوال ب 5 ويتكون من 9 أرقام';
+                    }
+                    return null;
+                  },
+                  keyboardType: TextInputType.number,
+                  suffixIconSize: 70,
+                  suffix: Row(
+                    children: [
+                      Container(
+                        height: 50.h,
+                        width: 1.w,
+                        color: AppColors.separatingBorder(context),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(
+                          vertical: 12.h,
+                          horizontal: 0.w,
                         ),
-                        SizedBox(width: 8),
-                        Expanded(
-                          child: CustomDropdownField(
-                            label: 'الحي',
-                            items: [
-                              'البنك الأهلي السعودي',
-                              'مصرف الراجحي',
-                              'بنك الرياض',
-                              // ...etc
-                            ],
-                            onChanged: (value) {
-                              // handle change
-                              print('Selected: $value');
-                            },
-                            onItemTap: (item) {
-                              // optional: do something as soon as user taps the item
-                              print('Tapped item: $item');
-                            },
+                        child: Container(
+                          alignment: Alignment.center,
+                          padding: EdgeInsets.symmetric(horizontal: 16.w),
+                          height: 24.h,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(6.r),
                           ),
-                        ),
-                      ],
-                    ),
-                  ),
-                  SizedBox(height: 2),
-                  CustomDropdownField(
-                    label: 'نوع العقار',
-                    items: [
-                      'البنك الأهلي السعودي',
-                      'مصرف الراجحي',
-                      'بنك الرياض',
-                      // ...etc
-                    ],
-                    onChanged: (value) {
-                      // handle change
-                      print('Selected: $value');
-                    },
-                    onItemTap: (item) {
-                      // optional: do something as soon as user taps the item
-                      print('Tapped item: $item');
-                    },
-                  ),
-                  SizedBox(height: 24),
-                  CustomDropdownField(
-                    label: 'فئة العقار',
-                    items: [
-                      'البنك الأهلي السعودي',
-                      'مصرف الراجحي',
-                      'بنك الرياض',
-                      // ...etc
-                    ],
-                    onChanged: (value) {
-                      // handle change
-                      print('Selected: $value');
-                    },
-                    onItemTap: (item) {
-                      // optional: do something as soon as user taps the item
-                      print('Tapped item: $item');
-                    },
-                  ),
-                  SizedBox(height: 24),
-                  TextFormFieldWithTitleWidget(
-                    controller: cubit.realStatephoneNumberController,
-                    label: 'رقم الجوال',
-                    validator: (value) {
-                      if (value == null || value.isEmpty) {
-                        return 'برجاء ادخال رقم الجوال';
-                      }
-                      if (!RegExp(r'^5\d{8}$').hasMatch(value)) {
-                        return 'يجب أن يبدأ رقم الجوال ب 5 ويتكون من 9 أرقام';
-                      }
-                      return null;
-                    },
-                    keyboardType: TextInputType.number,
-                    suffixIconSize: 70,
-                    suffix: Row(
-                      children: [
-                        Container(
-                          height: 50.h,
-                          width: 1.w,
-                          color: AppColors.separatingBorder(context),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 12.h,
-                            horizontal: 0.w,
-                          ),
-                          child: Container(
-                            alignment: Alignment.center,
-                            padding: EdgeInsets.symmetric(horizontal: 16.w),
-                            height: 24.h,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(6.r),
-                            ),
-                            child: Text(
-                              '966+',
-                              style: AppStyles.styleBold16(context).copyWith(
-                                color: AppColors.typographyHeading(context),
-                              ),
+                          child: Text(
+                            '966+',
+                            style: AppStyles.styleBold16(context).copyWith(
+                              color: AppColors.typographyHeading(context),
                             ),
                           ),
                         ),
-                      ],
-                    ),
+                      ),
+                    ],
                   ),
-                  SizedBox(height: 24),
-                  AddProperityManagmentButtonWidget(),
-                  SizedBox(height: 24),
-                ],
-              ),
+                ),
+                SizedBox(height: 24),
+                AddProperityManagmentButtonWidget(),
+                SizedBox(height: 24),
+              ],
             ),
           ),
         ),

@@ -26,92 +26,65 @@ class _LayoutScreenState extends State<LayoutScreen> {
   @override
   void initState() {
     super.initState();
-    _updateStatusBar();
     if (!KisGuest) {
       context.read<ProfileCubit>().getProfile();
     }
   }
 
-  void _updateStatusBar() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
-
-    Future.delayed(Duration(milliseconds: 500)).then((v) {
-      setState(() {});
-    });
-  }
-
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
+    return Scaffold(
+      key: homeScaffoldKey,
+      drawer: DrawerWidget(),
 
-    return SafeArea(
-      child: Scaffold(
-        key: homeScaffoldKey,
-        drawer: DrawerWidget(),
-
-        bottomNavigationBar: Container(
-          height: 84,
-          padding: EdgeInsets.symmetric(horizontal: 8),
-          decoration: BoxDecoration(
-            border: Border(
-              top: BorderSide(
-                color: AppColors.inputBorder(context),
-                width: 1.h,
-              ),
-            ),
-          ),
-          child: BottomAppBar(
-            color: Colors.white,
-            shadowColor: AppColors.backgroundGrey(context),
-            elevation: 0,
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                _buildNavItem(
-                  context,
-                  iconPath: AppAssets.app_imagesHome2,
-                  label: 'الرئيسية',
-                  index: 0,
-                ),
-                _buildNavItem(
-                  context,
-                  iconPath: AppAssets.app_imagesGavelLawBlackIcon,
-                  label: 'مزاداتي',
-                  index: 1,
-                ),
-                _buildNavItem(
-                  context,
-                  iconPath: AppAssets.app_imagesWallet,
-                  label: 'محفظتي',
-                  index: 2,
-                ),
-                _buildNavItem(
-                  context,
-                  iconPath: AppAssets.app_imagesFrame,
-                  label: 'الملف الشخصي',
-                  index: 3,
-                ),
-              ],
+      bottomNavigationBar: Container(
+        height: 84,
+        padding: EdgeInsets.symmetric(horizontal: 8),
+        decoration: BoxDecoration(
+          border: Border(
+            top: BorderSide(
+              color: AppColors.inputBorder(context),
+              width: 1.h,
             ),
           ),
         ),
-        body: AppRoutes
-            .layoutScreenBody[KcurrentIndex], // Switch body dynamically
+        child: BottomAppBar(
+          color: Colors.white,
+          shadowColor: AppColors.backgroundGrey(context),
+          elevation: 0,
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              _buildNavItem(
+                context,
+                iconPath: AppAssets.app_imagesHome2,
+                label: 'الرئيسية',
+                index: 0,
+              ),
+              _buildNavItem(
+                context,
+                iconPath: AppAssets.app_imagesGavelLawBlackIcon,
+                label: 'مزاداتي',
+                index: 1,
+              ),
+              _buildNavItem(
+                context,
+                iconPath: AppAssets.app_imagesWallet,
+                label: 'محفظتي',
+                index: 2,
+              ),
+              _buildNavItem(
+                context,
+                iconPath: AppAssets.app_imagesFrame,
+                label: 'الملف الشخصي',
+                index: 3,
+              ),
+            ],
+          ),
+        ),
       ),
+      body: AppRoutes
+          .layoutScreenBody[KcurrentIndex], // Switch body dynamically
     );
   }
 

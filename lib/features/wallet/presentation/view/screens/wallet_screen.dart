@@ -37,14 +37,6 @@ class _WalletScreenState extends State<WalletScreen>
 
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: Color(0xffF9F2DD),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
     super.initState();
     WalletCubit walletCubit = context.read<WalletCubit>();
     walletCubit.winner = false;
@@ -66,14 +58,6 @@ class _WalletScreenState extends State<WalletScreen>
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: Color(0xffF9F2DD),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
     WalletCubit walletCubit = context.read<WalletCubit>();
     return KisGuest == true
         ? GuestWidget()
@@ -156,53 +140,44 @@ class WithdrawBodyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
     // handel using BlocBuilder and use getWithdrawModel and ErrorAppWidget and Loading shimmer
     // convert if to switch case
-    return SafeArea(
-        child: Scaffold(
-      appBar: CoustomAppBarWidget(
-        title: 'طلبات السحب',
-      ),
-      body: BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
-        switch (state.getWithdrawRequestState) {
-          case RequestState.loading:
-          case RequestState.ideal:
-            return LoadingWalletShimmer();
-          case RequestState.error:
-            return ErrorAppWidget(
-              text: state.getWithdrawError.toString(),
-              onTap: () {
-                context.read<WalletCubit>().getWithdraw();
-              },
-            );
-          case RequestState.loaded:
-            return state.getWithdrawModel?.data.isEmpty ?? true
-                ? EmptyWidget(title: 'لا يوجد مسحوبات')
-                : Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: Expanded(
-                      child: ListView.builder(
-                        itemCount: state.getWithdrawModel?.data.length ?? 0,
-                        itemBuilder: (context, index) {
-                          return WithdrawCardWidget(
-                            withdraw: state.getWithdrawModel!,
-                            index: index,
-                          );
-                        },
-                      ),
-                    ),
-                  );
-        }
-      }),
-    ));
+    return Scaffold(
+          appBar: CoustomAppBarWidget(
+    title: 'طلبات السحب',
+          ),
+          body: BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
+    switch (state.getWithdrawRequestState) {
+      case RequestState.loading:
+      case RequestState.ideal:
+        return LoadingWalletShimmer();
+      case RequestState.error:
+        return ErrorAppWidget(
+          text: state.getWithdrawError.toString(),
+          onTap: () {
+            context.read<WalletCubit>().getWithdraw();
+          },
+        );
+      case RequestState.loaded:
+        return state.getWithdrawModel?.data.isEmpty ?? true
+            ? EmptyWidget(title: 'لا يوجد مسحوبات')
+            : Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Expanded(
+                  child: ListView.builder(
+                    itemCount: state.getWithdrawModel?.data.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return WithdrawCardWidget(
+                        withdraw: state.getWithdrawModel!,
+                        index: index,
+                      );
+                    },
+                  ),
+                ),
+              );
+    }
+          }),
+        );
   }
 }
 
@@ -245,52 +220,42 @@ class InvoicesBodyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'شحن المحفظة',
       ),
-    );
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: 'شحن المحفظة',
-        ),
-        body: BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
-          switch (state.getUserInvoicesRequestState) {
-            case RequestState.loading:
-            case RequestState.ideal:
-              return LoadingWalletShimmer();
-            case RequestState.error:
-              return ErrorAppWidget(
-                text: state.getUserInvoicesError.toString(),
-                onTap: () {
-                  context.read<WalletCubit>().getUserInvoices();
-                },
-              );
-            case RequestState.loaded:
-              return state.getUserInvoicesModel?.data.isEmpty ?? true
-                  ? EmptyWidget(title: 'لا يوجد فواتير')
-                  : Padding(
-                      padding: const EdgeInsets.only(top: 12),
-                      child: Expanded(
-                        child: ListView.builder(
-                          itemCount:
-                              state.getUserInvoicesModel?.data.length ?? 0,
-                          itemBuilder: (context, index) {
-                            return InvoiceCardWidget(
-                              invoice: state.getUserInvoicesModel!,
-                              index: index,
-                            );
-                          },
-                        ),
+      body: BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
+        switch (state.getUserInvoicesRequestState) {
+          case RequestState.loading:
+          case RequestState.ideal:
+            return LoadingWalletShimmer();
+          case RequestState.error:
+            return ErrorAppWidget(
+              text: state.getUserInvoicesError.toString(),
+              onTap: () {
+                context.read<WalletCubit>().getUserInvoices();
+              },
+            );
+          case RequestState.loaded:
+            return state.getUserInvoicesModel?.data.isEmpty ?? true
+                ? EmptyWidget(title: 'لا يوجد فواتير')
+                : Padding(
+                    padding: const EdgeInsets.only(top: 12),
+                    child: Expanded(
+                      child: ListView.builder(
+                        itemCount:
+                            state.getUserInvoicesModel?.data.length ?? 0,
+                        itemBuilder: (context, index) {
+                          return InvoiceCardWidget(
+                            invoice: state.getUserInvoicesModel!,
+                            index: index,
+                          );
+                        },
                       ),
-                    );
-          }
-        }),
-      ),
+                    ),
+                  );
+        }
+      }),
     );
   }
 }
@@ -301,51 +266,42 @@ class HeldFundsBodyScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
-    return SafeArea(
-        child: Scaffold(
-      appBar: CoustomAppBarWidget(
-        title: 'المبالغ المحجوزة في المزادت',
-      ),
-      body: BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
-        switch (state.getHeldFundsRequestState) {
-          case RequestState.loading:
-          case RequestState.ideal:
-            return LoadingWalletShimmer();
-          case RequestState.error:
-            return ErrorAppWidget(
-              text: state.getHeldFundsError.toString(),
-              onTap: () {
-                context.read<WalletCubit>().getHeldFunds();
-              },
-            );
-          case RequestState.loaded:
-            return state.getHeldFundsModel?.data.isEmpty ?? true
-                ? EmptyWidget(title: 'لا يوجد مبالغ محجوزة')
-                : Padding(
-                    padding: const EdgeInsets.only(top: 12),
-                    child: Expanded(
-                      child: ListView.builder(
-                        itemCount: state.getHeldFundsModel?.data.length ?? 0,
-                        itemBuilder: (context, index) {
-                          return HeldFundsCardWidget(
-                            heldFunds: state.getHeldFundsModel!,
-                            index: index,
-                          );
-                        },
-                      ),
-                    ),
-                  );
-        }
-      }),
-    ));
+    return Scaffold(
+          appBar: CoustomAppBarWidget(
+    title: 'المبالغ المحجوزة في المزادت',
+          ),
+          body: BlocBuilder<WalletCubit, WalletState>(builder: (context, state) {
+    switch (state.getHeldFundsRequestState) {
+      case RequestState.loading:
+      case RequestState.ideal:
+        return LoadingWalletShimmer();
+      case RequestState.error:
+        return ErrorAppWidget(
+          text: state.getHeldFundsError.toString(),
+          onTap: () {
+            context.read<WalletCubit>().getHeldFunds();
+          },
+        );
+      case RequestState.loaded:
+        return state.getHeldFundsModel?.data.isEmpty ?? true
+            ? EmptyWidget(title: 'لا يوجد مبالغ محجوزة')
+            : Padding(
+                padding: const EdgeInsets.only(top: 12),
+                child: Expanded(
+                  child: ListView.builder(
+                    itemCount: state.getHeldFundsModel?.data.length ?? 0,
+                    itemBuilder: (context, index) {
+                      return HeldFundsCardWidget(
+                        heldFunds: state.getHeldFundsModel!,
+                        index: index,
+                      );
+                    },
+                  ),
+                ),
+              );
+    }
+          }),
+        );
   }
 }
 

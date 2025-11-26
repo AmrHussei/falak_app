@@ -34,14 +34,6 @@ int KtapIndex = 1;
 class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
   @override
   void initState() {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
     HomeCubit homeCubit = context.read<HomeCubit>();
     homeCubit.auctionId = homeCubit.auctionData!.id;
     homeCubit.originId = homeCubit.auctionOrigin!.id;
@@ -53,16 +45,7 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
     HomeCubit homeCubit = context.read<HomeCubit>();
-    debugPrint(homeCubit.auctionOrigin!.id.toString());
     return SafeArea(
       child: Scaffold(
         // backgroundColor: AppColors.white(context),

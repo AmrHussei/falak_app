@@ -53,15 +53,6 @@ class _MyMazadatScreenState extends State<MyMazadatScreen>
       }
     });
 
-    // Set system UI styles
-    SystemChrome.setSystemUIOverlayStyle(
-      SystemUiOverlayStyle(
-        statusBarIconBrightness: Brightness.dark,
-        statusBarColor: AppColors.white(context),
-        systemNavigationBarIconBrightness: Brightness.dark,
-        systemNavigationBarColor: AppColors.white(context),
-      ),
-    );
   }
 
   @override
@@ -77,47 +68,45 @@ class _MyMazadatScreenState extends State<MyMazadatScreen>
   @override
   Widget build(BuildContext context) {
     KisFromFav = false;
-    return SafeArea(
-      child: Scaffold(
-        // appBar: CoustomAppBarWidget(
-        //   title: 'مزاداتي',
-        //   leading: SizedBox.shrink(),
-        // ),
-        body: KisGuest == true
-            ? GuestWidget()
-            : Column(
-                children: [
-                  MyMazadatTabBarWidget(
-                    tabController: _tabController,
-                    tapsName: [
-                      'إشتراكاتي',
-                      'مزاداتي الرابحة',
-                      'مزاداتي الخاسرة',
-                    ],
-                  ),
-                  SizedBox(height: 4),
-                  Expanded(
-                    // Ensure TabBarView has space to expand
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 2),
-                      child: PageView(
-                        controller: _pageController,
-                        onPageChanged: (index) {
-                          if (_tabController.index != index) {
-                            _tabController.animateTo(index);
-                          }
-                        },
-                        children: [
-                          MazadatyTabBarViewBodyWidget(),
-                          MazadatyTabBarViewBodyWidget(),
-                          MazadatyTabBarViewBodyWidget(),
-                        ],
-                      ),
+    return Scaffold(
+      // appBar: CoustomAppBarWidget(
+      //   title: 'مزاداتي',
+      //   leading: SizedBox.shrink(),
+      // ),
+      body: KisGuest == true
+          ? GuestWidget()
+          : Column(
+              children: [
+                MyMazadatTabBarWidget(
+                  tabController: _tabController,
+                  tapsName: [
+                    'إشتراكاتي',
+                    'مزاداتي الرابحة',
+                    'مزاداتي الخاسرة',
+                  ],
+                ),
+                SizedBox(height: 4),
+                Expanded(
+                  // Ensure TabBarView has space to expand
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 2),
+                    child: PageView(
+                      controller: _pageController,
+                      onPageChanged: (index) {
+                        if (_tabController.index != index) {
+                          _tabController.animateTo(index);
+                        }
+                      },
+                      children: [
+                        MazadatyTabBarViewBodyWidget(),
+                        MazadatyTabBarViewBodyWidget(),
+                        MazadatyTabBarViewBodyWidget(),
+                      ],
                     ),
                   ),
-                ],
-              ),
-      ),
+                ),
+              ],
+            ),
     );
   }
 }

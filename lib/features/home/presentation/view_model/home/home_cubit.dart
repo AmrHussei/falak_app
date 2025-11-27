@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/params/home/auctions_params.dart';
 import 'package:falak/core/utils/app_strings.dart';
@@ -18,7 +19,8 @@ import '../../../../../core/storage/i_app_local_storage.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../wallet/data/model/add_wallet_balance.dart';
 import '../../../data/models/auctions_model/auctions_model.dart';
-import '../../../data/models/enrolle/auction_board_model.dart';
+import '../../../data/models/auctions_model/counts.dart';
+import '../../../data/models/enrolle/auction_board_model.dart' hide Pagination;
 import '../../../data/socket/auction_board_socket.dart';
 
 part 'home_state.dart';
@@ -45,9 +47,11 @@ class HomeCubit extends Cubit<HomeState> {
   double? amount;
   int? limit = 6;
   dynamic garlicDifferencetotalAmount;
+
   //
   bool winner = false;
   bool loss = false;
+
   //
   String shareAs = AppStrings.enrollShareAsGenuine;
   String type = AppStrings.enrolltypeOnline;
@@ -61,19 +65,85 @@ class HomeCubit extends Cubit<HomeState> {
   final Map<String, AuctionsModel> auctionsCache = {}; // status -> data
 
   Future<void> getAuctions() async {
+    if (kDebugMode) {
+      emit(
+        state.copyWith(
+          auctionsRequestState: RequestState.loaded,
+          auctionsModel: AuctionsModel(
+            message: '',
+            pagination: Pagination(
+              currentPage: 1,
+              resultCount: 10,
+              totalPages: 1,
+            ),
+            data: [
+              for (int index = 0; index < 10; index++)
+                AuctionData(
+                  id: '$index',
+                  location: Location(
+                    longitude: 1.1,
+                    latitude: 1.1,
+                    title: 'title',
+                  ),
+                  specialToSupportAuthority: index % 2 == 0,
+                  startDate: 'startDate',
+                  endDate: 'endDate',
+                  numberOfDays: 10,
+                  status: 'status',
+                  type: type,
+                  createdByAdmin: true,
+                  auctionApprovalNumber: 'auctionApprovalNumber',
+                  auctionReviewStatus: AuctionReviewStatus(
+                    status: '',
+                    reason: '',
+                    at: '',
+                    by: By(id: '', name: '', profileImage: ''),
+                  ),
+                  createdAt: 'createdAt',
+                  updatedAt: 'updatedAt',
+                  title: 'title',
+                  cover: 'cover',
+                  user: 'user',
+                  provider: Provider(valAuctionsLicenseNumber: ''),
+                  logos: [],
+                  auctionBrochure: 'auctionBrochure',
+                  isFavorite: index % 2 == 0,
+                  auctionOrigins: [],
+                  createdBy: CreatedBy(
+                    id: 'id',
+                    name: 'name',
+                    profileImage: 'profileImage',
+                  ),
+                  updated: Updated(
+                    by: By(id: '', name: '', profileImage: ''),
+                    at: 'at',
+                  ),
+                  timer: null,
+                ),
+            ],
+            counts: Counts(
+              completedCount: 10,
+              inProgressCount: 10,
+              onGoingCount: 10,
+            ),
+          ),
+        ),
+      );
+      return;
+    }
     final cachedModel = auctionsCache[auctionsStatus];
 
     if (cachedModel != null) {
       // 1. 🚀 Show cached data immediately without loading
-      emit(state.copyWith(
-        auctionsModel: cachedModel,
-        auctionsRequestState: RequestState.loaded,
-      ));
+      emit(
+        state.copyWith(
+          auctionsModel: cachedModel,
+          auctionsRequestState: RequestState.loaded,
+        ),
+      );
     } else {
       // 2. 🤔 No cache? then show loading state
-      emit(state.copyWith(
-        auctionsRequestState: RequestState.loading,
-      ));
+      emit(state.copyWith(auctionsRequestState: RequestState.loading));
     }
 
     // 3. 🔥 Always fetch from server in background
@@ -89,24 +159,26 @@ class HomeCubit extends Cubit<HomeState> {
       (failure) {
         // Only show error if no cache existed (first time)
 
-        emit(state.copyWith(
-          auctionsRequestState: RequestState.error,
-          auctionsError: failure,
-        ));
+        emit(
+          state.copyWith(
+            auctionsRequestState: RequestState.error,
+            auctionsError: failure,
+          ),
+        );
 
         log(failure.toString());
       },
       (freshModel) {
         if (!_isAuctionsModelSame(cachedModel, freshModel)) {
           // 4. ✨ If fresh data is different, update cache and UI
-          emit(state.copyWith(
-            auctionsRequestState: RequestState.loading,
-          ));
+          emit(state.copyWith(auctionsRequestState: RequestState.loading));
           auctionsCache[auctionsStatus] = freshModel;
-          emit(state.copyWith(
-            auctionsRequestState: RequestState.loaded,
-            auctionsModel: freshModel,
-          ));
+          emit(
+            state.copyWith(
+              auctionsRequestState: RequestState.loaded,
+              auctionsModel: freshModel,
+            ),
+          );
         }
         // else: if fresh data is same, do nothing! 🎯
       },
@@ -129,10 +201,12 @@ class HomeCubit extends Cubit<HomeState> {
 
     // Check if data is cached
     if (userAuctionsCache.containsKey(cacheKey)) {
-      emit(state.copyWith(
-        getUserAuctionsModel: userAuctionsCache[cacheKey],
-        getUserAuctionsRequestState: RequestState.loaded,
-      ));
+      emit(
+        state.copyWith(
+          getUserAuctionsModel: userAuctionsCache[cacheKey],
+          getUserAuctionsRequestState: RequestState.loaded,
+        ),
+      );
       return;
     }
 
@@ -147,18 +221,22 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getUserAuctionsRequestState: RequestState.error,
-          getUserAuctionsError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getUserAuctionsRequestState: RequestState.error,
+            getUserAuctionsError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (model) {
         userAuctionsCache[cacheKey] = model; // 🛜 Save in cache
-        emit(state.copyWith(
-          getUserAuctionsRequestState: RequestState.loaded,
-          getUserAuctionsModel: model,
-        ));
+        emit(
+          state.copyWith(
+            getUserAuctionsRequestState: RequestState.loaded,
+            getUserAuctionsModel: model,
+          ),
+        );
       },
     );
   }
@@ -175,24 +253,18 @@ class HomeCubit extends Cubit<HomeState> {
 
     if (query == null || query.isEmpty) {
       originList = auctionData!.auctionOrigins;
-      emit(
-        state.copyWith(
-          auctionsRequestState: RequestState.loaded,
-        ),
-      );
+      emit(state.copyWith(auctionsRequestState: RequestState.loaded));
       return;
     }
 
     originList = auctionData!.auctionOrigins
-        .where((origin) =>
-            origin.title != null &&
-            origin.title!.toLowerCase().contains(query.toLowerCase()))
+        .where(
+          (origin) =>
+              origin.title != null &&
+              origin.title!.toLowerCase().contains(query.toLowerCase()),
+        )
         .toList();
-    emit(
-      state.copyWith(
-        auctionsRequestState: RequestState.loaded,
-      ),
-    );
+    emit(state.copyWith(auctionsRequestState: RequestState.loaded));
   }
 
   void getFavorite([bool isLoading = true]) async {
@@ -201,10 +273,12 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getFavoriteRequestState: RequestState.error,
-          getFavoriteError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getFavoriteRequestState: RequestState.error,
+            getFavoriteError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (model) {
@@ -227,10 +301,12 @@ class HomeCubit extends Cubit<HomeState> {
     result.fold(
       (failure) {
         print('state.addFavoriteError == RequestState.error');
-        emit(state.copyWith(
-          addFavoriteRequestState: RequestState.error,
-          addFavoriteError: failure,
-        ));
+        emit(
+          state.copyWith(
+            addFavoriteRequestState: RequestState.error,
+            addFavoriteError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -245,17 +321,20 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void deleteAuctionFavorite(String auctionId) async {
-    emit(state.copyWith(
-        deleteAuctionFavoriteRequestState: RequestState.loading));
+    emit(
+      state.copyWith(deleteAuctionFavoriteRequestState: RequestState.loading),
+    );
 
     final result = await _homeRepository.deleteAuctionFavorite(auctionId);
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          deleteAuctionFavoriteRequestState: RequestState.error,
-          deleteAuctionFavoriteError: failure,
-        ));
+        emit(
+          state.copyWith(
+            deleteAuctionFavoriteRequestState: RequestState.error,
+            deleteAuctionFavoriteError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -271,17 +350,24 @@ class HomeCubit extends Cubit<HomeState> {
 
   void deleteOriginFavorite() async {
     emit(
-        state.copyWith(deleteOriginFavoriteRequestState: RequestState.loading));
+      state.copyWith(deleteOriginFavoriteRequestState: RequestState.loading),
+    );
     GeneralAuctionParams params = GeneralAuctionParams(
-        auctionId: auctionId, originId: originId, amount: amount, limit: limit);
+      auctionId: auctionId,
+      originId: originId,
+      amount: amount,
+      limit: limit,
+    );
     final result = await _homeRepository.deleteOriginFavorite(params);
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          deleteOriginFavoriteRequestState: RequestState.error,
-          deleteOriginFavoriteError: failure,
-        ));
+        emit(
+          state.copyWith(
+            deleteOriginFavoriteRequestState: RequestState.error,
+            deleteOriginFavoriteError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -309,10 +395,12 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          auctionEnrollmentRequestState: RequestState.error,
-          auctionEnrollmentError: failure,
-        ));
+        emit(
+          state.copyWith(
+            auctionEnrollmentRequestState: RequestState.error,
+            auctionEnrollmentError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -335,19 +423,26 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void deleteAuctionEnrollment() async {
-    emit(state.copyWith(
-        deleteAuctionEnrollmentRequestState: RequestState.loading));
+    emit(
+      state.copyWith(deleteAuctionEnrollmentRequestState: RequestState.loading),
+    );
     GeneralAuctionParams params = GeneralAuctionParams(
-        auctionId: auctionId, originId: originId, amount: amount, limit: limit);
+      auctionId: auctionId,
+      originId: originId,
+      amount: amount,
+      limit: limit,
+    );
 
     final result = await _homeRepository.deleteAuctionEnrollment(params);
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          deleteAuctionEnrollmentRequestState: RequestState.error,
-          deleteAuctionEnrollmentError: failure,
-        ));
+        emit(
+          state.copyWith(
+            deleteAuctionEnrollmentRequestState: RequestState.error,
+            deleteAuctionEnrollmentError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -371,16 +466,22 @@ class HomeCubit extends Cubit<HomeState> {
   Future<void> getAuctionBoard() async {
     emit(state.copyWith(getAuctionBoardRequestState: RequestState.loading));
     GeneralAuctionParams params = GeneralAuctionParams(
-        auctionId: auctionId, originId: originId, amount: amount, limit: limit);
+      auctionId: auctionId,
+      originId: originId,
+      amount: amount,
+      limit: limit,
+    );
 
     final result = await _homeRepository.getAuctionBoard(params);
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getAuctionBoardRequestState: RequestState.error,
-          getAuctionBoardError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getAuctionBoardRequestState: RequestState.error,
+            getAuctionBoardError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) async {
@@ -411,26 +512,26 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   void newBider() async {
-    auctionBoardSocket.newBidersController.listen(
-      (biders) {
-        print('Received biders: ${biders.data}');
-        print('Before updating, boardAuctionData: $boardAuctionData');
+    auctionBoardSocket.newBidersController.listen((biders) {
+      print('Received biders: ${biders.data}');
+      print('Before updating, boardAuctionData: $boardAuctionData');
 
-        if (biders.data.isNotEmpty) {
-          boardAuctionData.clear();
-          boardAuctionData.addAll(biders.data);
-          print('After updating, boardAuctionData: $boardAuctionData');
+      if (biders.data.isNotEmpty) {
+        boardAuctionData.clear();
+        boardAuctionData.addAll(biders.data);
+        print('After updating, boardAuctionData: $boardAuctionData');
 
-          if (!isClosed)
-            emit(state.copyWith(
+        if (!isClosed)
+          emit(
+            state.copyWith(
               getAuctionBoardRequestState: RequestState.loaded,
               getAuctionBoardModel: biders,
-            ));
-        } else {
-          print('Received biders is empty');
-        }
-      },
-    );
+            ),
+          );
+      } else {
+        print('Received biders is empty');
+      }
+    });
   }
 
   void addAuctionBid() async {
@@ -447,10 +548,12 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          addAuctionBidRequestState: RequestState.error,
-          addAuctionBidError: failure,
-        ));
+        emit(
+          state.copyWith(
+            addAuctionBidRequestState: RequestState.error,
+            addAuctionBidError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) async {
@@ -467,8 +570,9 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<dynamic> calculateBidAmount() async {
-    String userId =
-        serviceLocator<IAppLocalStorage>().getValue(AppStrings.userId);
+    String userId = serviceLocator<IAppLocalStorage>().getValue(
+      AppStrings.userId,
+    );
     print('userId $userId');
 
     limit = null;
@@ -481,18 +585,22 @@ class HomeCubit extends Cubit<HomeState> {
     } else if (!isUserInList) {
       dynamic amount =
           (boardAuctionData.first.bidAmount - auctionOrigin!.openingPrice) +
-              garlicDifferencetotalAmount;
+          garlicDifferencetotalAmount;
       return amount;
     } else {
-      BiderAuctionData userBid =
-          boardAuctionData.firstWhere((bid) => bid.user.id == userId);
+      BiderAuctionData userBid = boardAuctionData.firstWhere(
+        (bid) => bid.user.id == userId,
+      );
       print(
-          'boardAuctionData.first.bidAmount${boardAuctionData.first.bidAmount} ');
+        'boardAuctionData.first.bidAmount${boardAuctionData.first.bidAmount} ',
+      );
       print('userBid.bidAmount${userBid.bidAmount} ');
       print('garlicDifferencetotalAmount${garlicDifferencetotalAmount} ');
       print(
-          'boardAuctionData.first.bidAmount${boardAuctionData.first.bidAmount} ');
-      dynamic amount = ((boardAuctionData.first.bidAmount - userBid.bidAmount) +
+        'boardAuctionData.first.bidAmount${boardAuctionData.first.bidAmount} ',
+      );
+      dynamic amount =
+          ((boardAuctionData.first.bidAmount - userBid.bidAmount) +
           garlicDifferencetotalAmount);
 
       return amount;
@@ -508,10 +616,12 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getWalletRequestState: RequestState.error,
-          getWalletError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getWalletRequestState: RequestState.error,
+            getWalletError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -532,10 +642,12 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          privacyPolicyRequestState: RequestState.error,
-          privacyPolicyError: failure,
-        ));
+        emit(
+          state.copyWith(
+            privacyPolicyRequestState: RequestState.error,
+            privacyPolicyError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -549,20 +661,22 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  Future<void> auctionBrochure(
-    BuildContext context,
-  ) async {
+  Future<void> auctionBrochure(BuildContext context) async {
     emit(state.copyWith(auctionBrochureRequestState: RequestState.loading));
 
-    final result =
-        await downloadFile(auctionData!.auctionBrochure ?? '', context);
+    final result = await downloadFile(
+      auctionData!.auctionBrochure ?? '',
+      context,
+    );
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          auctionBrochureRequestState: RequestState.error,
-          auctionBrochureError: failure,
-        ));
+        emit(
+          state.copyWith(
+            auctionBrochureRequestState: RequestState.error,
+            auctionBrochureError: failure,
+          ),
+        );
         log(failure.message.toString());
       },
       (right) {
@@ -581,15 +695,18 @@ class HomeCubit extends Cubit<HomeState> {
 
     emit(state.copyWith(addWalletBalanceRequestState: RequestState.loading));
 
-    final result = await _homeRepository
-        .addWalletBalance(parseFormattedNumber(balanceController.text.trim()));
+    final result = await _homeRepository.addWalletBalance(
+      parseFormattedNumber(balanceController.text.trim()),
+    );
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          addWalletBalanceRequestState: RequestState.error,
-          addWalletBalanceError: failure,
-        ));
+        emit(
+          state.copyWith(
+            addWalletBalanceRequestState: RequestState.error,
+            addWalletBalanceError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) async {
@@ -615,13 +732,15 @@ class HomeCubit extends Cubit<HomeState> {
           state.topBid - boardAuctionData.first.bidAmount;
     }
     // Emit new state
-    emit(state.copyWith(
-      propertyPrice: price,
-      transactionFee: transactionFee,
-      commission: commission,
-      commissionTax: commissionTax,
-      total: total,
-    ));
+    emit(
+      state.copyWith(
+        propertyPrice: price,
+        transactionFee: transactionFee,
+        commission: commission,
+        commissionTax: commissionTax,
+        total: total,
+      ),
+    );
   }
 
   void increaseBid() {

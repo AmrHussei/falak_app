@@ -1,31 +1,25 @@
 import 'package:flutter/material.dart';
 
 extension MediaQueryValues on BuildContext {
-  Size get size => MediaQuery.of(this).size;
+  Size get size => MediaQuery.sizeOf(this);
 
-  double get height => MediaQuery.of(this).size.height;
-  double get width => MediaQuery.of(this).size.width;
+  double get height => MediaQuery.sizeOf(this).height;
+
+  double get width => MediaQuery.sizeOf(this).width;
+
   double get topPadding => MediaQuery.of(this).viewPadding.top;
+
   double get bottomPadding => MediaQuery.viewPaddingOf(this).bottom;
+
   bool get isDarkTheme =>
       MediaQuery.of(this).platformBrightness == Brightness.dark;
+
   bool get isPortrait =>
       MediaQuery.of(this).orientation == Orientation.portrait;
 
   ThemeData get theme => Theme.of(this);
-  TextTheme get textTheme => Theme.of(this).textTheme;
 
-  // void showToast({
-  //   required ToastificationType type,
-  //   required String title,
-  //   String? description,
-  // }) =>
-  //     showCustomToast(
-  //       this,
-  //       type: type,
-  //       title: title,
-  //       description: description,
-  //     );
+  TextTheme get textTheme => Theme.of(this).textTheme;
 
   double get aspectRatio => size.aspectRatio;
 
@@ -47,19 +41,22 @@ extension MediaQueryValues on BuildContext {
       heightWithoutAppBarAndPaddingAndBottomBarAndKeyboard - kToolbarHeight;
 
   double
-      get heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBar =>
-          heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBar -
-          kBottomNavigationBarHeight;
+  get heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBar =>
+      heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBar -
+      kBottomNavigationBarHeight;
 
-  double get heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBarAndKeyboard =>
+  double
+  get heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBarAndKeyboard =>
       heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBar -
       MediaQuery.of(this).viewInsets.bottom;
 
-  double get heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBarAndKeyboardAndTopBar =>
+  double
+  get heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBarAndKeyboardAndTopBar =>
       heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBarAndKeyboard -
       kToolbarHeight;
 
-  double get heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBarAndKeyboardAndTopBarAndBottomBar =>
+  double
+  get heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBarAndKeyboardAndTopBarAndBottomBar =>
       heightWithoutAppBarAndPaddingAndBottomBarAndKeyboardAndTopBarAndBottomBarAndKeyboardAndTopBar -
       kBottomNavigationBarHeight;
 
@@ -88,22 +85,19 @@ extension MediaQueryValues on BuildContext {
   }
 
   void navigateToWithReplacement(Widget screen) {
-    Navigator.of(this).pushReplacement(
-      MaterialPageRoute(
-        builder: (context) => screen,
-      ),
-    );
+    Navigator.of(
+      this,
+    ).pushReplacement(MaterialPageRoute(builder: (context) => screen));
   }
 
   void navigateToWithReplacementAndClearStack(String routeName) {
-    Navigator.of(this).pushNamedAndRemoveUntil(
-      routeName,
-      (route) => false,
-    );
+    Navigator.of(this).pushNamedAndRemoveUntil(routeName, (route) => false);
   }
 
   void navigateToWithClearStackAndArguments(
-      String routeName, Object arguments) {
+    String routeName,
+    Object arguments,
+  ) {
     Navigator.of(this).pushNamedAndRemoveUntil(
       routeName,
       (route) => false,
@@ -112,18 +106,14 @@ extension MediaQueryValues on BuildContext {
   }
 
   Future navigateToWithArguments(String routeName, Object arguments) async {
-    return await Navigator.of(this).pushNamed(
-      routeName,
-      arguments: arguments,
-    );
+    return await Navigator.of(this).pushNamed(routeName, arguments: arguments);
   }
 
   void navigateToWithReplacementAndArguments(
-      String routeName, Object arguments) {
-    Navigator.of(this).pushReplacementNamed(
-      routeName,
-      arguments: arguments,
-    );
+    String routeName,
+    Object arguments,
+  ) {
+    Navigator.of(this).pushReplacementNamed(routeName, arguments: arguments);
   }
 
   void pop() {

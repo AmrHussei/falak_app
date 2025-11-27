@@ -1,9 +1,21 @@
-<svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-<g id="vuesax/linear/menu">
-<g id="menu">
-<path id="Vector" d="M3 6.99951H21" stroke="#2E353F" stroke-width="1.8" stroke-linecap="round"/>
-<path id="Vector_2" d="M3 12H21" stroke="#2E353F" stroke-width="1.8" stroke-linecap="round"/>
-<path id="Vector_3" d="M3 17.0005H21" stroke="#2E353F" stroke-width="1.8" stroke-linecap="round"/>
+<svg width="46" height="46" viewBox="0 0 46 46" fill="none" xmlns="http://www.w3.org/2000/svg">
+<g filter="url(#filter0_d_5621_27115)">
+<rect width="40" height="40" rx="8" transform="matrix(-1 0 0 1 43 2)" fill="white" shape-rendering="crispEdges"/>
+<path d="M14.6666 15.75H31.3333H14.6666Z" fill="#14201F"/>
+<path d="M17.7916 22H31.3333H17.7916Z" fill="#14201F"/>
+<path d="M20.9166 28.25H31.3333H20.9166Z" fill="#14201F"/>
+<path d="M14.6666 15.75H31.3333M17.7916 22H31.3333M20.9166 28.25H31.3333" stroke="#14201F" stroke-width="1.5625" stroke-linecap="round" stroke-linejoin="round"/>
 </g>
-</g>
+<defs>
+<filter id="filter0_d_5621_27115" x="0" y="0" width="46" height="46" filterUnits="userSpaceOnUse" color-interpolation-filters="sRGB">
+<feFlood flood-opacity="0" result="BackgroundImageFix"/>
+<feColorMatrix in="SourceAlpha" type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 127 0" result="hardAlpha"/>
+<feOffset dy="1"/>
+<feGaussianBlur stdDeviation="1.5"/>
+<feComposite in2="hardAlpha" operator="out"/>
+<feColorMatrix type="matrix" values="0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0 0.05 0"/>
+<feBlend mode="normal" in2="BackgroundImageFix" result="effect1_dropShadow_5621_27115"/>
+<feBlend mode="normal" in="SourceGraphic" in2="effect1_dropShadow_5621_27115" result="shape"/>
+</filter>
+</defs>
 </svg>

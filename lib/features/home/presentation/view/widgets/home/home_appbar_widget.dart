@@ -23,6 +23,7 @@ class HomeAppBarWidget extends StatefulWidget implements PreferredSizeWidget {
     required this.tabController,
     required this.toggleDrawer,
   });
+
   final TabController tabController;
 
   final Function() toggleDrawer;
@@ -67,73 +68,55 @@ class _HomeAppBarWidgetState extends State<HomeAppBarWidget> {
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      bottom: HomeTabBarWidget(
-        tabController: widget.tabController,
-      ),
+      bottom: HomeTabBarWidget(tabController: widget.tabController),
       elevation: 0,
-      backgroundColor: AppColors.white(context),
       centerTitle: true,
+      surfaceTintColor: Colors.transparent,
+      backgroundColor: Colors.transparent,
       title: ConstrainedBox(
         constraints: BoxConstraints(maxHeight: 34.h, maxWidth: 122.w),
-        child: SvgPicture.asset(
-          AppAssets.app_imagesAppLogo,
-          height: 60,
-        ),
+        child: SvgPicture.asset(AppAssets.app_imagesLogoName, height: 60),
       ),
       toolbarHeight: 64.h,
       leading: Padding(
         padding: EdgeInsetsDirectional.only(start: 16),
         child: InkWell(
           onTap: widget.toggleDrawer,
-          child: FittedBox(
-            child: Container(
-              padding: const EdgeInsets.all(8),
-              decoration: ShapeDecoration(
-                color: const Color(0xFFFAFAFA),
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 1,
-                    color: const Color(0xFFE1E1E2),
-                  ),
-                  borderRadius: BorderRadius.circular(10),
-                ),
-              ),
-              child: SvgPicture.asset(
-                AppAssets.app_imagesMenu,
-                fit: BoxFit.contain,
-              ),
-            ),
+          child: SvgPicture.asset(
+            AppAssets.app_imagesMenu,
+            fit: BoxFit.contain,
           ),
         ),
       ),
       leadingWidth: 60,
-      actions: KisGuest
-          ? [
-              GestureDetector(
+      actions: [
+        KisGuest
+            ? GestureDetector(
                 onTap: () {
                   showPopover(
-                      context: context,
-                      bodyBuilder: (context) => Padding(
-                            padding: const EdgeInsets.only(right: 0),
-                            child: ListItems(),
-                          ),
-                      onPop: () => print('Popover was popped!'),
-                      direction: PopoverDirection.bottom,
-                      width: 252,
-                      height: 200,
-                      arrowHeight: 16,
-                      arrowDxOffset: -16,
-                      barrierColor: Colors.transparent,
-                      arrowDyOffset: -60,
-                      arrowWidth: 0,
-                      backgroundColor: const Color(0xFF2F4A6F));
+                    context: context,
+                    bodyBuilder: (context) => Padding(
+                      padding: const EdgeInsets.only(right: 0),
+                      child: ListItems(),
+                    ),
+                    onPop: () => print('Popover was popped!'),
+                    direction: PopoverDirection.bottom,
+                    width: 252,
+                    height: 200,
+                    arrowHeight: 16,
+                    arrowDxOffset: -16,
+                    barrierColor: Colors.transparent,
+                    arrowDyOffset: -60,
+                    arrowWidth: 0,
+                    backgroundColor: const Color(0xFF2F4A6F),
+                  );
                 },
                 child: Container(
                   width: 44,
                   height: 44,
                   padding: const EdgeInsets.all(8),
                   decoration: ShapeDecoration(
-                    color: const Color(0xFF18365F),
+                    color: AppColors.secondColor(context),
                     shape: RoundedRectangleBorder(
                       side: BorderSide(
                         width: 1,
@@ -150,42 +133,25 @@ class _HomeAppBarWidgetState extends State<HomeAppBarWidget> {
                     ),
                   ),
                 ),
-              ),
-              const SizedBox(width: 16),
-            ]
-          : [
-              InkWell(
+              )
+            : InkWell(
                 onTap: () {
                   context.navigateTo(Routes.notificationScreen);
                 },
                 child: BlocBuilder<PagesCubit, PagesState>(
                   builder: (context, state) {
-                    final count =
-                        context.watch<PagesCubit>().state.notificationCount;
+                    final count = context
+                        .watch<PagesCubit>()
+                        .state
+                        .notificationCount;
                     return Stack(
                       clipBehavior: Clip.none,
                       children: [
-                        Container(
+                        SvgPicture.asset(
+                          Assets.imagesBell,
+                          fit: BoxFit.contain,
                           width: 44,
                           height: 44,
-                          padding: const EdgeInsets.all(8),
-                          decoration: ShapeDecoration(
-                            color: const Color(0xFFFAFAFA),
-                            shape: RoundedRectangleBorder(
-                              side: BorderSide(
-                                width: 1,
-                                color: const Color(0xFFE1E1E2),
-                              ),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
-                          ),
-                          child: FittedBox(
-                            child: SvgPicture.asset(
-                              Assets.imagesBell,
-                              fit: BoxFit.contain,
-                              color: AppColors.typographyHeading(context),
-                            ),
-                          ),
                         ),
                         if (count != 0 && count != null && KisGuest == false)
                           PositionedDirectional(
@@ -201,11 +167,12 @@ class _HomeAppBarWidgetState extends State<HomeAppBarWidget> {
                                 child: Center(
                                   child: Text(
                                     '${count}',
-                                    style:
-                                        AppStyles.stylBold12(context).copyWith(
-                                      color:
-                                          AppColors.typographyHeading(context),
-                                    ),
+                                    style: AppStyles.stylBold12(context)
+                                        .copyWith(
+                                          color: AppColors.typographyHeading(
+                                            context,
+                                          ),
+                                        ),
                                   ),
                                 ),
                               ),
@@ -216,10 +183,8 @@ class _HomeAppBarWidgetState extends State<HomeAppBarWidget> {
                   },
                 ),
               ),
-              SizedBox(
-                width: 16,
-              ),
-            ],
+        SizedBox(width: 16),
+      ],
     );
   }
 
@@ -245,9 +210,7 @@ class ListItems extends StatelessWidget {
               // Your action here
             },
           ),
-          SizedBox(
-            height: 12,
-          ),
+          SizedBox(height: 12),
           MenuItemCard(
             iconAsset: AppAssets.app_imagesUserPlusRounded,
             title: 'إنشاء حساب (أفراد)',
@@ -256,9 +219,7 @@ class ListItems extends StatelessWidget {
               // Your action here
             },
           ),
-          SizedBox(
-            height: 12,
-          ),
+          SizedBox(height: 12),
           MenuItemCard(
             iconAsset: AppAssets.app_imagesAddSales,
             title: 'إنشاء حساب (وكلاء البيع)',
@@ -294,9 +255,7 @@ class MenuItemCard extends StatelessWidget {
         padding: const EdgeInsets.all(12),
         decoration: ShapeDecoration(
           color: AppColors.primary(context),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(8),
-          ),
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
         ),
         child: Row(
           children: [
@@ -305,9 +264,9 @@ class MenuItemCard extends StatelessWidget {
             Text(
               title,
               textAlign: TextAlign.right,
-              style: AppStyles.styleMedium14(context).copyWith(
-                color: AppColors.white(context),
-              ),
+              style: AppStyles.styleMedium14(
+                context,
+              ).copyWith(color: AppColors.white(context)),
             ),
             const SizedBox(width: 8),
             Container(
@@ -325,10 +284,8 @@ class MenuItemCard extends StatelessWidget {
 }
 
 class HomeTabBarWidget extends StatefulWidget implements PreferredSizeWidget {
-  const HomeTabBarWidget({
-    super.key,
-    required TabController tabController,
-  }) : _tabController = tabController;
+  const HomeTabBarWidget({super.key, required TabController tabController})
+    : _tabController = tabController;
 
   final TabController _tabController;
 
@@ -340,24 +297,15 @@ class HomeTabBarWidget extends StatefulWidget implements PreferredSizeWidget {
 }
 
 class _HomeTabBarWidgetState extends State<HomeTabBarWidget> {
-  final List<String> tapsName = [
-    'قائمة',
-    'مستقبلية',
-    'منتهية',
-  ];
+  final List<String> tapsName = ['قائمة', 'مستقبلية', 'منتهية'];
+
   @override
   Widget build(BuildContext context) {
     return Container(
       width: double.infinity,
-      color: AppColors.backgroundPrimary(context),
       child: Container(
-        padding: EdgeInsets.only(
-          top: 8.h,
-          right: 16.w,
-          left: 16.w,
-        ),
+        padding: EdgeInsets.only(top: 8.h, right: 16.w, left: 16.w),
         decoration: BoxDecoration(
-          color: AppColors.white(context),
           border: Border(
             top: BorderSide(
               color: AppColors.strockSheen(context), // Change color as you like
@@ -372,11 +320,11 @@ class _HomeTabBarWidgetState extends State<HomeTabBarWidget> {
         child: TabBar(
           controller: widget._tabController,
           indicatorColor: Colors.transparent,
-          overlayColor: WidgetStateProperty.resolveWith<Color?>(
-            (Set<WidgetState> states) {
-              return Colors.transparent;
-            },
-          ),
+          overlayColor: WidgetStateProperty.resolveWith<Color?>((
+            Set<WidgetState> states,
+          ) {
+            return Colors.transparent;
+          }),
           unselectedLabelColor: Colors.transparent,
           dividerColor: Colors.transparent,
           labelPadding: EdgeInsets.all(0),
@@ -423,34 +371,46 @@ class _HomeTabBarWidgetState extends State<HomeTabBarWidget> {
                                 SizedBox(width: 10),
                                 Container(
                                   padding: const EdgeInsets.symmetric(
-                                      horizontal: 8, vertical: 2),
+                                    horizontal: 8,
+                                    vertical: 2,
+                                  ),
                                   clipBehavior: Clip.antiAlias,
                                   decoration: ShapeDecoration(
                                     color: widget._tabController.index == index
                                         ? AppColors.primary(context)
                                         : AppColors.backgroundPrimary(context),
                                     shape: RoundedRectangleBorder(
-                                        borderRadius: BorderRadius.circular(6)),
+                                      borderRadius: BorderRadius.circular(6),
+                                    ),
                                   ),
                                   child: Text(
                                     index == 0
                                         ? state
-                                            .auctionsModel!.counts!.onGoingCount
-                                            .toString()
+                                              .auctionsModel!
+                                              .counts!
+                                              .onGoingCount
+                                              .toString()
                                         : index == 1
-                                            ? state.auctionsModel!.counts!
-                                                .inProgressCount
-                                                .toString()
-                                            : state.auctionsModel!.counts!
-                                                .completedCount
-                                                .toString(),
+                                        ? state
+                                              .auctionsModel!
+                                              .counts!
+                                              .inProgressCount
+                                              .toString()
+                                        : state
+                                              .auctionsModel!
+                                              .counts!
+                                              .completedCount
+                                              .toString(),
                                     style: AppStyles.styleMedium14(context)
                                         .copyWith(
-                                      color: widget._tabController.index ==
-                                              index
-                                          ? AppColors.white(context)
-                                          : AppColors.typographyBody(context),
-                                    ),
+                                          color:
+                                              widget._tabController.index ==
+                                                  index
+                                              ? AppColors.white(context)
+                                              : AppColors.typographyBody(
+                                                  context,
+                                                ),
+                                        ),
                                   ),
                                 ),
                               ],

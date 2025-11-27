@@ -27,13 +27,13 @@ class AppColors {
   static Color primaryOP5(BuildContext context) => const Color(0x0D135C58);
 
   static Color secondColor(BuildContext context) => const Color(0xff0E4C2B);
+  static Color thirdColor(BuildContext context) => const Color(0xff266241);
 
   static Color secondActionColor(BuildContext context) =>
       const Color(0xff0C3F82);
 
   static Color warrningColor(BuildContext context) => const Color(0xffBD7611);
 
-  static Color thirdColor(BuildContext context) => const Color(0xFFBC2A46);
 
   static Color mainColor(BuildContext context) => const Color(0xFF22A06B);
 
@@ -89,7 +89,7 @@ class AppColors {
       const Color(0xFFD6D9E1);
 
   static Color inputsPlaceholder(BuildContext context) =>
-      const Color(0xFFBBBBBB);
+      const Color(0xFF757575);
 
   static Color separatingBorder(BuildContext context) =>
       const Color(0xFFE9EBEC);

@@ -36,6 +36,7 @@ class AppStrings {
 
   //
   static const String userName = 'userName';
+  static const String userMoney = 'userMoney';
   static const String phoneNum = 'phoneNum';
   static const String Useremail = 'Useremail';
   static const String userImage = 'userImage';

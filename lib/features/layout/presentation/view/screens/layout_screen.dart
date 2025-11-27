@@ -35,8 +35,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       key: homeScaffoldKey,
-      drawer: DrawerWidget(),
-
+      drawer: DrawerWidget(toggleDrawer: toggleDrawer,),
       bottomNavigationBar: Container(
         height: 84,
         padding: EdgeInsets.symmetric(horizontal: 8),

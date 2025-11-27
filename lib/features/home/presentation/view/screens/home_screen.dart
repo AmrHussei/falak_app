@@ -88,17 +88,15 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   Widget build(BuildContext context) {
     KisFromFav = false;
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.primarySurface(context),
-        appBar: HomeAppBarWidget(
-          tabController: _tabController,
-          toggleDrawer: toggleDrawer,
-        ),
-        body: HomeBodyWidget(
-          tabController: _tabController,
-          pageController: _pageController,
-        ),
+    return Scaffold(
+      backgroundColor: AppColors.backgroundPrimary(context),
+      appBar: HomeAppBarWidget(
+        tabController: _tabController,
+        toggleDrawer: toggleDrawer,
+      ),
+      body: HomeBodyWidget(
+        tabController: _tabController,
+        pageController: _pageController,
       ),
     );
   }

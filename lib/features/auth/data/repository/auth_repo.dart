@@ -101,6 +101,8 @@ class AuthRepository {
             response.data['data']['code']; //TODO : return msg at production
         serviceLocator<IAppLocalStorage>()
             .setValue(AppStrings.userName, response.data['data']?['name']??'');
+        serviceLocator<IAppLocalStorage>()
+            .setValue(AppStrings.userMoney, response.data['data']?['name']??'');
 
         return Right(code);
       } else if (response.statusCode == 401) {

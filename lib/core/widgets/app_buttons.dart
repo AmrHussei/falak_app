@@ -22,6 +22,7 @@ class AppPrimaryButton extends StatelessWidget {
   final double? height;
   final bool isLoading;
   final Widget? loadingWidget;
+  final double? radius;
 
   const AppPrimaryButton({
     Key? key,
@@ -31,7 +32,7 @@ class AppPrimaryButton extends StatelessWidget {
     this.width,
     this.height,
     this.isLoading = false,
-    this.loadingWidget,
+    this.loadingWidget, this.radius,
   }) : super(key: key);
 
   @override
@@ -51,7 +52,7 @@ class AppPrimaryButton extends StatelessWidget {
                 ],
               ),
         color: isDisabled ? AppColors.disabled(context) : null,
-        borderRadius: BorderRadius.circular(14.r),
+        borderRadius: BorderRadius.circular(radius??14.r),
         boxShadow: isDisabled
             ? [
                 BoxShadow(
@@ -200,6 +201,7 @@ class AppOutlinedButton extends StatelessWidget {
   final String? icon;
   final double? width;
   final double? height;
+  final double? radius;
   final bool isLoading;
   final Widget? loadingWidget;
 
@@ -213,6 +215,7 @@ class AppOutlinedButton extends StatelessWidget {
     this.height,
     this.isLoading = false,
     this.loadingWidget,
+    this.radius,
   }) : super(key: key);
 
   @override
@@ -226,7 +229,7 @@ class AppOutlinedButton extends StatelessWidget {
           backgroundColor: Colors.transparent,
           side: BorderSide(color: AppColors.borderPrimary(context), width: 1.w),
           shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(14.r),
+            borderRadius: BorderRadius.circular(radius ?? 14.r),
           ),
           padding: EdgeInsets.zero,
         ),

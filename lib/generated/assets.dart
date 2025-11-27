@@ -113,7 +113,6 @@ class Assets {
   static const String appImagesSplashPng = 'assets/app_images/SplashPng.jpg';
   static const String appImagesSquareDoublAltArrowUp = 'assets/app_images/SquareDoublAltArrowUp.svg';
   static const String appImagesTerminated = 'assets/app_images/terminated.svg';
-  static const String appImagesUnion = 'assets/app_images/Union.svg';
   static const String appImagesUploadeFilesIcon = 'assets/app_images/uploadeFilesIcon.svg';
   static const String appImagesUserCheckRounded = 'assets/app_images/UserCheckRounded.svg';
   static const String appImagesUserCircle = 'assets/app_images/user-circle.png';
@@ -187,6 +186,7 @@ class Assets {
   static const String imagesHammer = 'assets/images/hammer.svg';
   static const String imagesHeart = 'assets/images/Heart.svg';
   static const String imagesHome = 'assets/images/home.svg';
+  static const String imagesHomeActive = 'assets/images/homeActive.svg';
   static const String imagesHybridMazadIcon = 'assets/images/hybridMazadIcon.svg';
   static const String imagesHyprideAuctionLogo = 'assets/images/hyprideAuctionLogo.svg';
   static const String imagesIcon = 'assets/images/Icon.svg';
@@ -206,6 +206,8 @@ class Assets {
   static const String imagesMagnifer = 'assets/images/Magnifer.svg';
   static const String imagesMapPoint = 'assets/images/MapPoint.svg';
   static const String imagesMapPointicomn = 'assets/images/MapPointicomn.svg';
+  static const String imagesMazad = 'assets/images/mazad.svg';
+  static const String imagesMazadActive = 'assets/images/mazadActive.svg';
   static const String imagesMazadBord = 'assets/images/mazadBord.svg';
   static const String imagesMazadEnd = 'assets/images/mazadEnd.svg';
   static const String imagesMazadat = 'assets/images/mazadat.svg';
@@ -221,6 +223,8 @@ class Assets {
   static const String imagesPhoneCallingRounded = 'assets/images/PhoneCallingRounded.svg';
   static const String imagesPointOnMap = 'assets/images/PointOnMap.svg';
   static const String imagesPolicyicon = 'assets/images/policyicon.svg';
+  static const String imagesProfile = 'assets/images/profile.svg';
+  static const String imagesProfileActive = 'assets/images/profileActive.svg';
   static const String imagesProfileArrow = 'assets/images/profile_arrow.svg';
   static const String imagesQustionappbarImage = 'assets/images/qustionappbarImage.png';
   static const String imagesQustions = 'assets/images/qustions.svg';
@@ -252,6 +256,7 @@ class Assets {
   static const String imagesWaletb = 'assets/images/waletb.svg';
   static const String imagesWallet = 'assets/images/wallet.svg';
   static const String imagesWallet2 = 'assets/images/Wallet2.svg';
+  static const String imagesWalletActive = 'assets/images/walletActive.svg';
   static const String imagesWhatsapp = 'assets/images/whatsapp.svg';
   static const String imagesWhatsappicon = 'assets/images/whatsappicon.svg';
   static const String imagesXIcon = 'assets/images/X_icon.svg';

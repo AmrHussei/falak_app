@@ -255,7 +255,6 @@ class AppAssets {
 
   static const String app_imagesTerminated = "assets/app_images/terminated.svg";
 
-  static const String app_imagesUnion = "assets/app_images/Union.svg";
 
   static const String app_imagesUploadeFilesIcon =
       "assets/app_images/uploadeFilesIcon.svg";

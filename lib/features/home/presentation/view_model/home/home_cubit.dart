@@ -2,7 +2,6 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/params/home/auctions_params.dart';
 import 'package:falak/core/utils/app_strings.dart';
@@ -19,7 +18,6 @@ import '../../../../../core/storage/i_app_local_storage.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../../wallet/data/model/add_wallet_balance.dart';
 import '../../../data/models/auctions_model/auctions_model.dart';
-import '../../../data/models/auctions_model/counts.dart';
 import '../../../data/models/enrolle/auction_board_model.dart' hide Pagination;
 import '../../../data/socket/auction_board_socket.dart';
 
@@ -65,72 +63,72 @@ class HomeCubit extends Cubit<HomeState> {
   final Map<String, AuctionsModel> auctionsCache = {}; // status -> data
 
   Future<void> getAuctions() async {
-    if (kDebugMode) {
-      emit(
-        state.copyWith(
-          auctionsRequestState: RequestState.loaded,
-          auctionsModel: AuctionsModel(
-            message: '',
-            pagination: Pagination(
-              currentPage: 1,
-              resultCount: 10,
-              totalPages: 1,
-            ),
-            data: [
-              for (int index = 0; index < 10; index++)
-                AuctionData(
-                  id: '$index',
-                  location: Location(
-                    longitude: 1.1,
-                    latitude: 1.1,
-                    title: 'title',
-                  ),
-                  specialToSupportAuthority: index % 2 == 0,
-                  startDate: 'startDate',
-                  endDate: 'endDate',
-                  numberOfDays: 10,
-                  status: 'status',
-                  type: type,
-                  createdByAdmin: true,
-                  auctionApprovalNumber: 'auctionApprovalNumber',
-                  auctionReviewStatus: AuctionReviewStatus(
-                    status: '',
-                    reason: '',
-                    at: '',
-                    by: By(id: '', name: '', profileImage: ''),
-                  ),
-                  createdAt: 'createdAt',
-                  updatedAt: 'updatedAt',
-                  title: 'title',
-                  cover: 'cover',
-                  user: 'user',
-                  provider: Provider(valAuctionsLicenseNumber: ''),
-                  logos: [],
-                  auctionBrochure: 'auctionBrochure',
-                  isFavorite: index % 2 == 0,
-                  auctionOrigins: [],
-                  createdBy: CreatedBy(
-                    id: 'id',
-                    name: 'name',
-                    profileImage: 'profileImage',
-                  ),
-                  updated: Updated(
-                    by: By(id: '', name: '', profileImage: ''),
-                    at: 'at',
-                  ),
-                  timer: null,
-                ),
-            ],
-            counts: Counts(
-              completedCount: 10,
-              inProgressCount: 10,
-              onGoingCount: 10,
-            ),
-          ),
-        ),
-      );
-      return;
-    }
+    // if (kDebugMode) {
+    //   emit(
+    //     state.copyWith(
+    //       auctionsRequestState: RequestState.loaded,
+    //       auctionsModel: AuctionsModel(
+    //         message: '',
+    //         pagination: Pagination(
+    //           currentPage: 1,
+    //           resultCount: 10,
+    //           totalPages: 1,
+    //         ),
+    //         data: [
+    //           for (int index = 0; index < 10; index++)
+    //             AuctionData(
+    //               id: '$index',
+    //               location: Location(
+    //                 longitude: 1.1,
+    //                 latitude: 1.1,
+    //                 title: 'title',
+    //               ),
+    //               specialToSupportAuthority: index % 2 == 0,
+    //               startDate: 'startDate',
+    //               endDate: 'endDate',
+    //               numberOfDays: 10,
+    //               status: 'status',
+    //               type: type,
+    //               createdByAdmin: true,
+    //               auctionApprovalNumber: 'auctionApprovalNumber',
+    //               auctionReviewStatus: AuctionReviewStatus(
+    //                 status: '',
+    //                 reason: '',
+    //                 at: '',
+    //                 by: By(id: '', name: '', profileImage: ''),
+    //               ),
+    //               createdAt: 'createdAt',
+    //               updatedAt: 'updatedAt',
+    //               title: 'title',
+    //               cover: 'cover',
+    //               user: 'user',
+    //               provider: Provider(valAuctionsLicenseNumber: ''),
+    //               logos: [],
+    //               auctionBrochure: 'auctionBrochure',
+    //               isFavorite: index % 2 == 0,
+    //               auctionOrigins: [],
+    //               createdBy: CreatedBy(
+    //                 id: 'id',
+    //                 name: 'name',
+    //                 profileImage: 'profileImage',
+    //               ),
+    //               updated: Updated(
+    //                 by: By(id: '', name: '', profileImage: ''),
+    //                 at: 'at',
+    //               ),
+    //               timer: null,
+    //             ),
+    //         ],
+    //         counts: Counts(
+    //           completedCount: 10,
+    //           inProgressCount: 10,
+    //           onGoingCount: 10,
+    //         ),
+    //       ),
+    //     ),
+    //   );
+    //   return;
+    // }
     final cachedModel = auctionsCache[auctionsStatus];
 
     if (cachedModel != null) {

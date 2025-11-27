@@ -330,10 +330,8 @@ class AssetsDetailsCardColumWidget extends StatelessWidget {
 }
 
 getKTapIndex(BuildContext context, [String? status]) {
-  print('getKTapIndex $status');
   if (status == null) {
     status = context.read<HomeCubit>().auctionData!.status;
-    print('ststus after init from cubit $status');
   }
   KtapIndex = status == AppStrings.auctionsOnGoing
       ? 1

@@ -1,6 +1,11 @@
+import 'package:flutter/foundation.dart';
+
 class EndPoint {
   // static const String baseUrl = 'https://api.ittlt.com';
-  static const String baseUrl = 'https://srv1066914.hstgr.cloud';
+  static const String baseUrl = kDebugMode
+      ? 'https://api.broker.sa'
+      : 'https://srv1066914.hstgr.cloud';
+
   // static const String baseUrl = 'https://api.falak.sa.com';
   //! Auth
   static const String signUp = '/api/users/signup';
@@ -11,6 +16,7 @@ class EndPoint {
   static const String forgetPassword = '/api/users/forget-password';
   static const String resetPassword = '/api/users/forget-password';
   static const String countries = '/api/users/countries';
+
   //paegs
   static const String getQuestions = '/api/users/questions';
   static const String getCategories = '/api/users/categories';
@@ -42,6 +48,7 @@ class EndPoint {
   static const String getUserInvoices = '/api/users/wallet/invoices';
   static const String getWithdraw = '/api/users/withdraw';
   static const String posWithdraw = '/api/users/withdraw';
+
   //
   static const String checkEmail = '/password/check-email';
   static const String checkCode = '/password/check-code';

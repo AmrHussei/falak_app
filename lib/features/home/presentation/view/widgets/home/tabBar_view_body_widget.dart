@@ -5,6 +5,7 @@ import 'package:falak/core/widgets/empty_widget.dart';
 import 'package:falak/core/widgets/error_app_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/mazad_card_widget.dart';
 import 'package:falak/features/home/presentation/view_model/home/home_cubit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../data/models/auctions_model/auctions_model.dart';
 import '../mazad_card_shimmer.dart';
@@ -19,7 +20,6 @@ class TabBarViewBodyWidget extends StatelessWidget {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         final data = state.auctionsModel?[type];
-
         if (data != null) {
           return LoadedMobileActionHomeWidget(auctionsModel: data);
         }
@@ -42,22 +42,20 @@ class LoadedMobileActionHomeWidget extends StatelessWidget {
   const LoadedMobileActionHomeWidget({
     super.key,
     required this.auctionsModel,
-    this.isFromFav = false,
   });
 
   final AuctionsModel auctionsModel;
-  final bool isFromFav;
 
   @override
   Widget build(BuildContext context) {
     return auctionsModel.data.isEmpty
         ? Center(child: EmptyWidget(title: 'لا توجد مزادات '))
         : ListView.builder(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             itemBuilder: (context, index) {
               return MazadCardWidget(
                 index: index,
                 auctionsModel: auctionsModel,
-                isFromFav: isFromFav,
               );
             },
             itemCount: auctionsModel.data.length,

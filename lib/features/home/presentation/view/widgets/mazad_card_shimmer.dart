@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MazadCardShimmer extends StatelessWidget {
@@ -7,20 +8,16 @@ class MazadCardShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
       shrinkWrap: true,
       physics: NeverScrollableScrollPhysics(),
       itemCount: 5,
       itemBuilder: (context, index) {
         return Container(
-          margin: EdgeInsetsDirectional.only(
-            top: index == 0 ? 24 : 0,
-            bottom: 24,
-          ),
-          padding: EdgeInsets.all(8),
           width: double.infinity,
           decoration: BoxDecoration(
             color: Colors.white,
-            borderRadius: BorderRadius.circular(16),
+            borderRadius: BorderRadius.circular(16.r),
             boxShadow: [
               BoxShadow(
                 color: Color(0x19000000),

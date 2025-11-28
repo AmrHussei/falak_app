@@ -18,29 +18,27 @@ class ChangePasswordScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.primarySurface(context),
-        bottomSheet: KisGuest == true
-            ? SizedBox.shrink()
-            : ChangePasswordButtonWidget(),
-        appBar: CoustomAppBarWidget(
-          title: 'تغيير كلمه المرور',
-        ),
-        body: KisGuest == true
-            ? GuestWidget()
-            : AdaptiveLayout(
-                mobileLayout: (context) =>
-                    ChangePasswordScreenMobileLayoutWidget(),
-                tabletLayout: (context) => Center(
-                  child: SizedBox(
-                    height: 1.sw,
-                    width: 600,
-                    child: ChangePasswordScreenMobileLayoutWidget(),
-                  ),
+    return Scaffold(
+      backgroundColor: AppColors.primarySurface(context),
+      bottomSheet: KisGuest == true
+          ? SizedBox.shrink()
+          : ChangePasswordButtonWidget(),
+      appBar: CoustomAppBarWidget(
+        title: 'تغيير كلمه المرور',
+      ),
+      body: KisGuest == true
+          ? GuestWidget()
+          : AdaptiveLayout(
+              mobileLayout: (context) =>
+                  ChangePasswordScreenMobileLayoutWidget(),
+              tabletLayout: (context) => Center(
+                child: SizedBox(
+                  height: 1.sw,
+                  width: 600,
+                  child: ChangePasswordScreenMobileLayoutWidget(),
                 ),
               ),
-      ),
+            ),
     );
   }
 }

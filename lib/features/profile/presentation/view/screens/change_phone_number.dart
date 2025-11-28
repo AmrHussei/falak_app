@@ -39,20 +39,17 @@ class _ChangePhoneNumberScreenState extends State<ChangePhoneNumberScreen> {
 
   @override
   Widget build(BuildContext context) {
-    var cubit = context.read<ProfileCubit>();
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: '',
-        ),
-        body: AdaptiveLayout(
-          mobileLayout: (context) => ChangePhoneNumberMobileLayoutWidget(),
-          tabletLayout: (context) => Center(
-            child: SizedBox(
-              height: 1.sw,
-              width: 600,
-              child: ChangePhoneNumberMobileLayoutWidget(),
-            ),
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: '',
+      ),
+      body: AdaptiveLayout(
+        mobileLayout: (context) => ChangePhoneNumberMobileLayoutWidget(),
+        tabletLayout: (context) => Center(
+          child: SizedBox(
+            height: 1.sw,
+            width: 600,
+            child: ChangePhoneNumberMobileLayoutWidget(),
           ),
         ),
       ),

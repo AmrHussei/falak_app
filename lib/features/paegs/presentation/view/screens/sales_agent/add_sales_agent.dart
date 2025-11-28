@@ -169,95 +169,75 @@ class _AddSalesAgentScreenState extends State<AddSalesAgentScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.primarySurface(context),
-        // bottomNavigationBar: CustomBottomNavigationBar(
-        //   currentPage: _currentPage,
-        //   onPrevious: _onPrevious,
-        //   onNext: () {
-        //     if (_currentPage == 2) {
-        //       pagesCubit.createSalesAgent();
-        //     } else {
-        //       _onNext();
-        //     }
-        //   },
-        //   pagesCubit: pagesCubit,
-        // ),
-        appBar: CoustomAppBarWidget(title: 'وكيل بيع'),
-        body: BlocBuilder<PagesCubit, PagesState>(
-          builder: (context, state) {
-            return PageView.builder(
-              allowImplicitScrolling: false,
-              physics: const NeverScrollableScrollPhysics(),
-              controller: _pageController,
-              onPageChanged: (index) {
-                setState(() {
-                  _currentPage = index;
-                });
-              },
-              itemCount: 3,
-              itemBuilder: (context, index) {
-                switch (index) {
-                  case 0:
-                    return ListView(
-                      children: [
-                        BuildStepOneWidget(),
-                        CustomBottomNavigationBar(
-                          currentPage: _currentPage,
-                          onPrevious: _onPrevious,
-                          onNext: () {
-                            if (_currentPage == 2) {
-                              pagesCubit.createSalesAgent();
-                            } else {
-                              if (pagesCubit.commercialRegStartDateController
-                                      .text.isNotEmpty &&
-                                  pagesCubit.commercialRegEndDateController.text
-                                      .isNotEmpty) {
-                                DateTime startDate = DateTime.parse(pagesCubit
-                                    .commercialRegStartDateController.text);
-                                DateTime endDate = DateTime.parse(pagesCubit
-                                    .commercialRegEndDateController.text);
+    return Scaffold(
+      backgroundColor: AppColors.primarySurface(context),
+      // bottomNavigationBar: CustomBottomNavigationBar(
+      //   currentPage: _currentPage,
+      //   onPrevious: _onPrevious,
+      //   onNext: () {
+      //     if (_currentPage == 2) {
+      //       pagesCubit.createSalesAgent();
+      //     } else {
+      //       _onNext();
+      //     }
+      //   },
+      //   pagesCubit: pagesCubit,
+      // ),
+      appBar: CoustomAppBarWidget(title: 'وكيل بيع'),
+      body: BlocBuilder<PagesCubit, PagesState>(
+        builder: (context, state) {
+          return PageView.builder(
+            allowImplicitScrolling: false,
+            physics: const NeverScrollableScrollPhysics(),
+            controller: _pageController,
+            onPageChanged: (index) {
+              setState(() {
+                _currentPage = index;
+              });
+            },
+            itemCount: 3,
+            itemBuilder: (context, index) {
+              switch (index) {
+                case 0:
+                  return ListView(
+                    children: [
+                      BuildStepOneWidget(),
+                      CustomBottomNavigationBar(
+                        currentPage: _currentPage,
+                        onPrevious: _onPrevious,
+                        onNext: () {
+                          if (_currentPage == 2) {
+                            pagesCubit.createSalesAgent();
+                          } else {
+                            if (pagesCubit.commercialRegStartDateController
+                                    .text.isNotEmpty &&
+                                pagesCubit.commercialRegEndDateController.text
+                                    .isNotEmpty) {
+                              DateTime startDate = DateTime.parse(pagesCubit
+                                  .commercialRegStartDateController.text);
+                              DateTime endDate = DateTime.parse(pagesCubit
+                                  .commercialRegEndDateController.text);
 
-                                if (!endDate.isAfter(startDate)) {
-                                  FloatingSnackBar.show(context,
-                                      'يجب أن يكون تاريخ الانتهاء بعد تاريخ الإصدار');
-                                }
+                              if (!endDate.isAfter(startDate)) {
+                                FloatingSnackBar.show(context,
+                                    'يجب أن يكون تاريخ الانتهاء بعد تاريخ الإصدار');
                               }
-
-                              _onNext();
                             }
-                          },
-                          pagesCubit: pagesCubit,
-                        ),
-                      ],
-                    );
-                  case 1:
-                    return ListView(
-                      children: [
-                        BuildStepTwoWidget(),
-                        Padding(
-                          padding: EdgeInsets.only(top: 220.h),
-                          child: CustomBottomNavigationBar(
-                            currentPage: _currentPage,
-                            onPrevious: _onPrevious,
-                            onNext: () {
-                              if (_currentPage == 2) {
-                                pagesCubit.createSalesAgent();
-                              } else {
-                                _onNext();
-                              }
-                            },
-                            pagesCubit: pagesCubit,
-                          ),
-                        ),
-                      ],
-                    );
-                  case 2:
-                    return ListView(
-                      children: [
-                        BuildStepThreeWidget(),
-                        CustomBottomNavigationBar(
+
+                            _onNext();
+                          }
+                        },
+                        pagesCubit: pagesCubit,
+                      ),
+                    ],
+                  );
+                case 1:
+                  return ListView(
+                    children: [
+                      BuildStepTwoWidget(),
+                      Padding(
+                        padding: EdgeInsets.only(top: 220.h),
+                        child: CustomBottomNavigationBar(
                           currentPage: _currentPage,
                           onPrevious: _onPrevious,
                           onNext: () {
@@ -269,15 +249,33 @@ class _AddSalesAgentScreenState extends State<AddSalesAgentScreen> {
                           },
                           pagesCubit: pagesCubit,
                         ),
-                      ],
-                    );
-                  default:
-                    return const SizedBox.shrink();
-                }
-              },
-            );
-          },
-        ),
+                      ),
+                    ],
+                  );
+                case 2:
+                  return ListView(
+                    children: [
+                      BuildStepThreeWidget(),
+                      CustomBottomNavigationBar(
+                        currentPage: _currentPage,
+                        onPrevious: _onPrevious,
+                        onNext: () {
+                          if (_currentPage == 2) {
+                            pagesCubit.createSalesAgent();
+                          } else {
+                            _onNext();
+                          }
+                        },
+                        pagesCubit: pagesCubit,
+                      ),
+                    ],
+                  );
+                default:
+                  return const SizedBox.shrink();
+              }
+            },
+          );
+        },
       ),
     );
   }

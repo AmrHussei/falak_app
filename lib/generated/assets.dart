@@ -196,6 +196,7 @@ class Assets {
   static const String imagesLetter = 'assets/images/Letter.svg';
   static const String imagesLikedHeart = 'assets/images/likedHeart.svg';
   static const String imagesLinkedIn = 'assets/images/linkedIn.svg';
+  static const String imagesLocation = 'assets/images/location.svg';
   static const String imagesLock = 'assets/images/Lock.svg';
   static const String imagesLockKeyhole = 'assets/images/LockKeyhole.svg';
   static const String imagesLogOutButtom = 'assets/images/logOutButtom.svg';

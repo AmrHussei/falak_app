@@ -33,9 +33,7 @@ class _HomeScreenState extends State<HomeScreen>
   @override
   void initState() {
     super.initState();
-    // Initialize controllers
     _tabController = TabController(vsync: this, length: 3);
-    // Synchronize PageController with TabController
     _tabController.addListener(() {
         String type = '';
         if (_tabController.index == 0) {
@@ -54,8 +52,6 @@ class _HomeScreenState extends State<HomeScreen>
         context.read<HomeCubit>().getAuctions(),
       ]);
     });
-
-    // Set system UI styles
   }
 
   @override

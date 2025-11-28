@@ -19,96 +19,94 @@ class TransactionDetailsScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: 'تفاصيل المعاملة',
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'حجز مبلغ للسوم على " أرض سكنية رقم 344 - 2435 "',
-                    style: AppStyles.styleBold16(context).copyWith(
-                      color: AppColors.typographyHeading(context),
-                    ),
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'تفاصيل المعاملة',
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'حجز مبلغ للسوم على " أرض سكنية رقم 344 - 2435 "',
+                  style: AppStyles.styleBold16(context).copyWith(
+                    color: AppColors.typographyHeading(context),
                   ),
-                  SizedBox(height: 8),
-                  Row(
+                ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Text(
+                      '556,138.5+',
+                      style: AppStyles.styleBold32(context).copyWith(
+                        color: AppColors.typographyHeading(context),
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints:
+                          BoxConstraints(maxHeight: 30, maxWidth: 30),
+                      child: SvgPicture.asset(
+                        Assets.imagesCurrencyIcon,
+                        color: AppColors.typographyHeading(context),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24),
+                Container(
+                  width: double.infinity,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                    color: Colors.white /* Background-Background-secondary */,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        '556,138.5+',
-                        style: AppStyles.styleBold32(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
+                      SizedBox(height: 8),
+                      TransactionDetailsCardWidget(
+                        title: 'تاريخ المعاملة',
+                        desc: '16, سبتمبر ,2024',
                       ),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints(maxHeight: 30, maxWidth: 30),
-                        child: SvgPicture.asset(
-                          Assets.imagesCurrencyIcon,
-                          color: AppColors.typographyHeading(context),
-                        ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
                       ),
+                      TransactionDetailsCardWidget(
+                        title: 'الرقم المرجعي',
+                        desc: '1tf324452356665',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'الرصيد بعد المعاملة',
+                        desc: '556,138.5',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'تفاصيل المعاملة',
+                        desc:
+                            'حجز مبلغ للسوم على " أرض سكنية رقم 344 - 2435 ',
+                      ),
+                      SizedBox(height: 8),
                     ],
                   ),
-                  SizedBox(height: 24),
-                  Container(
-                    width: double.infinity,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
-                      color: Colors.white /* Background-Background-secondary */,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 8),
-                        TransactionDetailsCardWidget(
-                          title: 'تاريخ المعاملة',
-                          desc: '16, سبتمبر ,2024',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'الرقم المرجعي',
-                          desc: '1tf324452356665',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'الرصيد بعد المعاملة',
-                          desc: '556,138.5',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'تفاصيل المعاملة',
-                          desc:
-                              'حجز مبلغ للسوم على " أرض سكنية رقم 344 - 2435 ',
-                        ),
-                        SizedBox(height: 8),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            )
-          ],
-        ),
+                )
+              ],
+            ),
+          )
+        ],
       ),
     );
   }
@@ -121,143 +119,141 @@ class HeldFundsDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final walletCubit = context.read<WalletCubit>();
     final heldFunds = walletCubit.heldFunds;
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: 'تفاصيل المعاملة',
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'حجز عربون على ' +
-                        (heldFunds?.enrollment.auction.title ?? ''),
-                    style: AppStyles.styleBold16(context).copyWith(
-                      color: AppColors.typographyHeading(context),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text(
-                        formatNumber(heldFunds?.amount ?? 0),
-                        style: AppStyles.styleBold32(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints(maxHeight: 30, maxWidth: 30),
-                        child: SvgPicture.asset(
-                          Assets.imagesCurrencyIcon,
-                          color: AppColors.typographyHeading(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  Container(
-                    width: double.infinity,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
-                      color: Colors.white /* Background-Background-secondary */,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 8),
-                        TransactionDetailsCardWidget(
-                          title: 'تاريخ المعاملة',
-                          desc:
-                              '${DateFormat('dd, MMMM, yyyy').format(heldFunds?.createdAt.toLocal() ?? DateTime.now())}',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'وقت المعاملة',
-                          desc:
-                              '${DateFormat('hh:mm a').format(heldFunds?.createdAt.toLocal() ?? DateTime.now())}',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'الرقم المرجعي',
-                          desc:
-                              heldFunds?.enrollment.auction.id.toString() ?? '',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        // TransactionDetailsCardWidget(
-                        //   title: 'الرصيد بعد المعاملة',
-                        //   desc: formatNumber(heldFunds?.amount ?? 0),
-                        // ),
-                        // Divider(
-                        //   thickness: 1,
-                        //   color: AppColors.backgroundPrimary(context),
-                        // ),
-                        TransactionDetailsCardWidget(
-                          title: 'تفاصيل المعاملة',
-                          desc: 'حجز عربون على ' +
-                              (heldFunds?.enrollment.auction.title ?? ''),
-                        ),
-                        SizedBox(height: 8),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (heldFunds == null) return;
-                  FloatingSnackBar.show(
-                    context,
-                    'جاري طباعة الفاتورة',
-                    isError: false,
-                  );
-                  await PdfService.generateAndDownloadInvoice(
-                    title: 'حجز عربون على ' +
-                        (heldFunds.enrollment.auction.title ?? ''),
-                    amount: formatNumber(heldFunds.amount ?? 0),
-                    date: DateFormat('dd, MMMM, yyyy').format(
-                        heldFunds.createdAt.toLocal() ?? DateTime.now()),
-                    time: DateFormat('hh:mm a').format(
-                        heldFunds.createdAt.toLocal() ?? DateTime.now()),
-                    referenceNumber: heldFunds.id.toString() ?? '',
-                    status: 'حجز عربون على ' +
-                        (heldFunds.enrollment.auction.title ?? ''),
-                    details: 'حجز عربون على ' +
-                        (heldFunds.enrollment.auction.title ?? ''),
-                    context: context,
-                  );
-                },
-                child: Text(
-                  'طباعة الفاتورة',
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'تفاصيل المعاملة',
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'حجز عربون على ' +
+                      (heldFunds?.enrollment.auction.title ?? ''),
                   style: AppStyles.styleBold16(context).copyWith(
-                    color: AppColors.white(context),
+                    color: AppColors.typographyHeading(context),
                   ),
                 ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Text(
+                      formatNumber(heldFunds?.amount ?? 0),
+                      style: AppStyles.styleBold32(context).copyWith(
+                        color: AppColors.typographyHeading(context),
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints:
+                          BoxConstraints(maxHeight: 30, maxWidth: 30),
+                      child: SvgPicture.asset(
+                        Assets.imagesCurrencyIcon,
+                        color: AppColors.typographyHeading(context),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24),
+                Container(
+                  width: double.infinity,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                    color: Colors.white /* Background-Background-secondary */,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 8),
+                      TransactionDetailsCardWidget(
+                        title: 'تاريخ المعاملة',
+                        desc:
+                            '${DateFormat('dd, MMMM, yyyy').format(heldFunds?.createdAt.toLocal() ?? DateTime.now())}',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'وقت المعاملة',
+                        desc:
+                            '${DateFormat('hh:mm a').format(heldFunds?.createdAt.toLocal() ?? DateTime.now())}',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'الرقم المرجعي',
+                        desc:
+                            heldFunds?.enrollment.auction.id.toString() ?? '',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      // TransactionDetailsCardWidget(
+                      //   title: 'الرصيد بعد المعاملة',
+                      //   desc: formatNumber(heldFunds?.amount ?? 0),
+                      // ),
+                      // Divider(
+                      //   thickness: 1,
+                      //   color: AppColors.backgroundPrimary(context),
+                      // ),
+                      TransactionDetailsCardWidget(
+                        title: 'تفاصيل المعاملة',
+                        desc: 'حجز عربون على ' +
+                            (heldFunds?.enrollment.auction.title ?? ''),
+                      ),
+                      SizedBox(height: 8),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: ElevatedButton(
+              onPressed: () async {
+                if (heldFunds == null) return;
+                FloatingSnackBar.show(
+                  context,
+                  'جاري طباعة الفاتورة',
+                  isError: false,
+                );
+                await PdfService.generateAndDownloadInvoice(
+                  title: 'حجز عربون على ' +
+                      (heldFunds.enrollment.auction.title ?? ''),
+                  amount: formatNumber(heldFunds.amount ?? 0),
+                  date: DateFormat('dd, MMMM, yyyy').format(
+                      heldFunds.createdAt.toLocal() ?? DateTime.now()),
+                  time: DateFormat('hh:mm a').format(
+                      heldFunds.createdAt.toLocal() ?? DateTime.now()),
+                  referenceNumber: heldFunds.id.toString() ?? '',
+                  status: 'حجز عربون على ' +
+                      (heldFunds.enrollment.auction.title ?? ''),
+                  details: 'حجز عربون على ' +
+                      (heldFunds.enrollment.auction.title ?? ''),
+                  context: context,
+                );
+              },
+              child: Text(
+                'طباعة الفاتورة',
+                style: AppStyles.styleBold16(context).copyWith(
+                  color: AppColors.white(context),
+                ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -270,160 +266,158 @@ class WithdrawDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final walletCubit = context.read<WalletCubit>();
     final withdrawRequest = walletCubit.withdrawRequest;
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: 'تفاصيل المعاملة',
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'طلب سحب رصيد',
-                    style: AppStyles.styleBold16(context).copyWith(
-                      color: AppColors.typographyHeading(context),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text(
-                        formatNumber(withdrawRequest?.amount ?? 0),
-                        style: AppStyles.styleBold32(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints(maxHeight: 30, maxWidth: 30),
-                        child: SvgPicture.asset(
-                          Assets.imagesCurrencyIcon,
-                          color: AppColors.typographyHeading(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  Container(
-                    width: double.infinity,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
-                      color: Colors.white /* Background-Background-secondary */,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 8),
-                        TransactionDetailsCardWidget(
-                          title: 'تاريخ المعاملة',
-                          desc:
-                              '${DateFormat('dd, MMMM, yyyy').format(withdrawRequest?.createdAt.toLocal() ?? DateTime.now())}',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'وقت المعاملة',
-                          desc:
-                              '${DateFormat('hh:mm a').format(withdrawRequest?.createdAt.toLocal() ?? DateTime.now())}',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'الرقم المرجعي',
-                          desc: withdrawRequest?.id.toString() ?? '',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        // TransactionDetailsCardWidget(
-                        //   title: 'الرصيد بعد المعاملة',
-                        //   desc: '556,138.5',
-                        // ),
-                        // Divider(
-                        //   thickness: 1,
-                        //   color: AppColors.backgroundPrimary(context),
-                        // ),
-                        TransactionDetailsCardWidget(
-                          title: 'تفاصيل المعاملة',
-                          desc: 'طلب سحب رصيد' +
-                              'بواسطة ' +
-                              (withdrawRequest?.name ?? ''),
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'حالة الطلب',
-                          desc: (withdrawRequest?.status == 'pending'
-                              ? 'قيد المعالجة'
-                              : withdrawRequest?.status == 'inProgress'
-                                  ? 'قيد التنفيذ'
-                                  : withdrawRequest?.status == 'rejected'
-                                      ? 'عملية مرفوضة'
-                                      : 'تم التحويل'),
-                        ),
-                        SizedBox(height: 8),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (withdrawRequest == null) return;
-                  FloatingSnackBar.show(
-                    context,
-                    'جاري طباعة الفاتورة',
-                    isError: false,
-                  );
-                  await PdfService.generateAndDownloadInvoice(
-                    title: 'طلب سحب رصيد',
-                    amount: formatNumber(withdrawRequest.amount ?? 0),
-                    date: DateFormat('dd, MMMM, yyyy').format(
-                        withdrawRequest.createdAt.toLocal() ?? DateTime.now()),
-                    time: DateFormat('hh:mm a').format(
-                        withdrawRequest.createdAt.toLocal() ?? DateTime.now()),
-                    referenceNumber: withdrawRequest.id.toString() ?? '',
-                    status: withdrawRequest.status == 'pending'
-                        ? 'قيد المعالجة'
-                        : withdrawRequest.status == 'inProgress'
-                            ? 'قيد التنفيذ'
-                            : withdrawRequest.status == 'rejected'
-                                ? 'عملية مرفوضة'
-                                : 'تم التحويل',
-                    details:
-                        'طلب سحب رصيد بواسطة ${withdrawRequest.name ?? ''}',
-                    context: context,
-                  );
-                },
-                child: Text(
-                  'طباعة الفاتورة',
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'تفاصيل المعاملة',
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'طلب سحب رصيد',
                   style: AppStyles.styleBold16(context).copyWith(
-                    color: AppColors.white(context),
+                    color: AppColors.typographyHeading(context),
                   ),
                 ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Text(
+                      formatNumber(withdrawRequest?.amount ?? 0),
+                      style: AppStyles.styleBold32(context).copyWith(
+                        color: AppColors.typographyHeading(context),
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints:
+                          BoxConstraints(maxHeight: 30, maxWidth: 30),
+                      child: SvgPicture.asset(
+                        Assets.imagesCurrencyIcon,
+                        color: AppColors.typographyHeading(context),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24),
+                Container(
+                  width: double.infinity,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                    color: Colors.white /* Background-Background-secondary */,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 8),
+                      TransactionDetailsCardWidget(
+                        title: 'تاريخ المعاملة',
+                        desc:
+                            '${DateFormat('dd, MMMM, yyyy').format(withdrawRequest?.createdAt.toLocal() ?? DateTime.now())}',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'وقت المعاملة',
+                        desc:
+                            '${DateFormat('hh:mm a').format(withdrawRequest?.createdAt.toLocal() ?? DateTime.now())}',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'الرقم المرجعي',
+                        desc: withdrawRequest?.id.toString() ?? '',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      // TransactionDetailsCardWidget(
+                      //   title: 'الرصيد بعد المعاملة',
+                      //   desc: '556,138.5',
+                      // ),
+                      // Divider(
+                      //   thickness: 1,
+                      //   color: AppColors.backgroundPrimary(context),
+                      // ),
+                      TransactionDetailsCardWidget(
+                        title: 'تفاصيل المعاملة',
+                        desc: 'طلب سحب رصيد' +
+                            'بواسطة ' +
+                            (withdrawRequest?.name ?? ''),
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'حالة الطلب',
+                        desc: (withdrawRequest?.status == 'pending'
+                            ? 'قيد المعالجة'
+                            : withdrawRequest?.status == 'inProgress'
+                                ? 'قيد التنفيذ'
+                                : withdrawRequest?.status == 'rejected'
+                                    ? 'عملية مرفوضة'
+                                    : 'تم التحويل'),
+                      ),
+                      SizedBox(height: 8),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: ElevatedButton(
+              onPressed: () async {
+                if (withdrawRequest == null) return;
+                FloatingSnackBar.show(
+                  context,
+                  'جاري طباعة الفاتورة',
+                  isError: false,
+                );
+                await PdfService.generateAndDownloadInvoice(
+                  title: 'طلب سحب رصيد',
+                  amount: formatNumber(withdrawRequest.amount ?? 0),
+                  date: DateFormat('dd, MMMM, yyyy').format(
+                      withdrawRequest.createdAt.toLocal() ?? DateTime.now()),
+                  time: DateFormat('hh:mm a').format(
+                      withdrawRequest.createdAt.toLocal() ?? DateTime.now()),
+                  referenceNumber: withdrawRequest.id.toString() ?? '',
+                  status: withdrawRequest.status == 'pending'
+                      ? 'قيد المعالجة'
+                      : withdrawRequest.status == 'inProgress'
+                          ? 'قيد التنفيذ'
+                          : withdrawRequest.status == 'rejected'
+                              ? 'عملية مرفوضة'
+                              : 'تم التحويل',
+                  details:
+                      'طلب سحب رصيد بواسطة ${withdrawRequest.name ?? ''}',
+                  context: context,
+                );
+              },
+              child: Text(
+                'طباعة الفاتورة',
+                style: AppStyles.styleBold16(context).copyWith(
+                  color: AppColors.white(context),
+                ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }
@@ -436,168 +430,166 @@ class InvoiceDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final walletCubit = context.read<WalletCubit>();
     final invoiceRequest = walletCubit.invoiceRequest;
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: 'تفاصيل المعاملة',
-        ),
-        body: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    'طلب شحن رصيد',
-                    style: AppStyles.styleBold16(context).copyWith(
-                      color: AppColors.typographyHeading(context),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    children: [
-                      Text(
-                        formatNumber(invoiceRequest?.totalAmount ?? 0),
-                        style: AppStyles.styleBold32(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
-                      ),
-                      ConstrainedBox(
-                        constraints:
-                            BoxConstraints(maxHeight: 30, maxWidth: 30),
-                        child: SvgPicture.asset(
-                          Assets.imagesCurrencyIcon,
-                          color: AppColors.typographyHeading(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 24),
-                  Container(
-                    width: double.infinity,
-                    clipBehavior: Clip.antiAlias,
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(12),
-                        topRight: Radius.circular(12),
-                      ),
-                      color: Colors.white /* Background-Background-secondary */,
-                    ),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        SizedBox(height: 8),
-                        TransactionDetailsCardWidget(
-                          title: 'تاريخ المعاملة',
-                          desc:
-                              '${DateFormat('dd, MMMM, yyyy').format(invoiceRequest?.issueDate.toLocal() ?? DateTime.now())}',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'وقت المعاملة',
-                          desc:
-                              '${DateFormat('hh:mm a').format(invoiceRequest?.issueDate.toLocal() ?? DateTime.now())}',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'الرقم المرجعي',
-                          desc: invoiceRequest?.id.toString() ?? '',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'رقم الفاتورة',
-                          desc: invoiceRequest?.invoiceNo.toString() ?? '',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        TransactionDetailsCardWidget(
-                          title: 'رقم السند/الإيصال	',
-                          desc: invoiceRequest?.billNo.toString() ?? '',
-                        ),
-                        Divider(
-                          thickness: 1,
-                          color: AppColors.backgroundPrimary(context),
-                        ),
-                        // TransactionDetailsCardWidget(
-                        //   title: 'الرصيد بعد المعاملة',
-                        //   desc: '556,138.5',
-                        // ),
-                        // Divider(
-                        //   thickness: 1,
-                        //   color: AppColors.backgroundPrimary(context),
-                        // ),
-
-                        TransactionDetailsCardWidget(
-                          title: 'حالة الطلب',
-                          desc: (invoiceRequest?.status == 'Pending'
-                              ? 'معلقة'
-                              : invoiceRequest?.status == 'Confirmed'
-                                  ? 'تم التصديق علي الفاتورة'
-                                  : invoiceRequest?.status == 'Failed'
-                                      ? 'فشلت العملية'
-                                      : 'عملية ناجحة'),
-                        ),
-                        SizedBox(height: 8),
-                      ],
-                    ),
-                  )
-                ],
-              ),
-            ),
-            Spacer(),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
-              child: ElevatedButton(
-                onPressed: () async {
-                  if (invoiceRequest == null) return;
-                  FloatingSnackBar.show(
-                    context,
-                    'جاري طباعة الفاتورة',
-                    isError: false,
-                  );
-                  await PdfService.generateAndDownloadInvoice(
-                    title: 'طلب شحن رصيد',
-                    amount: formatNumber(invoiceRequest.totalAmount ?? 0),
-                    date: DateFormat('dd, MMMM, yyyy').format(
-                        invoiceRequest.issueDate.toLocal() ?? DateTime.now()),
-                    time: DateFormat('hh:mm a').format(
-                        invoiceRequest.issueDate.toLocal() ?? DateTime.now()),
-                    referenceNumber: invoiceRequest.id.toString() ?? '',
-                    status: invoiceRequest.status == 'Pending'
-                        ? 'معلقة'
-                        : invoiceRequest.status == 'Confirmed'
-                            ? 'تم التصديق علي الفاتورة'
-                            : invoiceRequest.status == 'Failed'
-                                ? 'فشلت العملية'
-                                : 'عملية ناجحة',
-                    details: 'طلب شحن رصيد',
-                    invoiceNo: invoiceRequest.invoiceNo.toString() ?? '',
-                    billNo: invoiceRequest.billNo.toString() ?? '',
-                    context: context,
-                  );
-                },
-                child: Text(
-                  'طباعة الفاتورة',
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'تفاصيل المعاملة',
+      ),
+      body: Column(
+        children: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  'طلب شحن رصيد',
                   style: AppStyles.styleBold16(context).copyWith(
-                    color: AppColors.white(context),
+                    color: AppColors.typographyHeading(context),
                   ),
                 ),
+                SizedBox(height: 8),
+                Row(
+                  children: [
+                    Text(
+                      formatNumber(invoiceRequest?.totalAmount ?? 0),
+                      style: AppStyles.styleBold32(context).copyWith(
+                        color: AppColors.typographyHeading(context),
+                      ),
+                    ),
+                    ConstrainedBox(
+                      constraints:
+                          BoxConstraints(maxHeight: 30, maxWidth: 30),
+                      child: SvgPicture.asset(
+                        Assets.imagesCurrencyIcon,
+                        color: AppColors.typographyHeading(context),
+                      ),
+                    ),
+                  ],
+                ),
+                SizedBox(height: 24),
+                Container(
+                  width: double.infinity,
+                  clipBehavior: Clip.antiAlias,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.only(
+                      topLeft: Radius.circular(12),
+                      topRight: Radius.circular(12),
+                    ),
+                    color: Colors.white /* Background-Background-secondary */,
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 8),
+                      TransactionDetailsCardWidget(
+                        title: 'تاريخ المعاملة',
+                        desc:
+                            '${DateFormat('dd, MMMM, yyyy').format(invoiceRequest?.issueDate.toLocal() ?? DateTime.now())}',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'وقت المعاملة',
+                        desc:
+                            '${DateFormat('hh:mm a').format(invoiceRequest?.issueDate.toLocal() ?? DateTime.now())}',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'الرقم المرجعي',
+                        desc: invoiceRequest?.id.toString() ?? '',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'رقم الفاتورة',
+                        desc: invoiceRequest?.invoiceNo.toString() ?? '',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      TransactionDetailsCardWidget(
+                        title: 'رقم السند/الإيصال	',
+                        desc: invoiceRequest?.billNo.toString() ?? '',
+                      ),
+                      Divider(
+                        thickness: 1,
+                        color: AppColors.backgroundPrimary(context),
+                      ),
+                      // TransactionDetailsCardWidget(
+                      //   title: 'الرصيد بعد المعاملة',
+                      //   desc: '556,138.5',
+                      // ),
+                      // Divider(
+                      //   thickness: 1,
+                      //   color: AppColors.backgroundPrimary(context),
+                      // ),
+
+                      TransactionDetailsCardWidget(
+                        title: 'حالة الطلب',
+                        desc: (invoiceRequest?.status == 'Pending'
+                            ? 'معلقة'
+                            : invoiceRequest?.status == 'Confirmed'
+                                ? 'تم التصديق علي الفاتورة'
+                                : invoiceRequest?.status == 'Failed'
+                                    ? 'فشلت العملية'
+                                    : 'عملية ناجحة'),
+                      ),
+                      SizedBox(height: 8),
+                    ],
+                  ),
+                )
+              ],
+            ),
+          ),
+          Spacer(),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 24),
+            child: ElevatedButton(
+              onPressed: () async {
+                if (invoiceRequest == null) return;
+                FloatingSnackBar.show(
+                  context,
+                  'جاري طباعة الفاتورة',
+                  isError: false,
+                );
+                await PdfService.generateAndDownloadInvoice(
+                  title: 'طلب شحن رصيد',
+                  amount: formatNumber(invoiceRequest.totalAmount ?? 0),
+                  date: DateFormat('dd, MMMM, yyyy').format(
+                      invoiceRequest.issueDate.toLocal() ?? DateTime.now()),
+                  time: DateFormat('hh:mm a').format(
+                      invoiceRequest.issueDate.toLocal() ?? DateTime.now()),
+                  referenceNumber: invoiceRequest.id.toString() ?? '',
+                  status: invoiceRequest.status == 'Pending'
+                      ? 'معلقة'
+                      : invoiceRequest.status == 'Confirmed'
+                          ? 'تم التصديق علي الفاتورة'
+                          : invoiceRequest.status == 'Failed'
+                              ? 'فشلت العملية'
+                              : 'عملية ناجحة',
+                  details: 'طلب شحن رصيد',
+                  invoiceNo: invoiceRequest.invoiceNo.toString() ?? '',
+                  billNo: invoiceRequest.billNo.toString() ?? '',
+                  context: context,
+                );
+              },
+              child: Text(
+                'طباعة الفاتورة',
+                style: AppStyles.styleBold16(context).copyWith(
+                  color: AppColors.white(context),
+                ),
               ),
-            )
-          ],
-        ),
+            ),
+          )
+        ],
       ),
     );
   }

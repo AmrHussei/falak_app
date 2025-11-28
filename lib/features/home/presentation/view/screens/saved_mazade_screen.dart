@@ -37,13 +37,11 @@ class _SavedMazadeScreenState extends State<SavedMazadeScreen>
   @override
   Widget build(BuildContext context) {
     KisFromFav = true;
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: 'المزادات المحفوظة',
-        ),
-        body: KisGuest == true ? GuestWidget() : SavedMazadBodyWidget(),
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'المزادات المحفوظة',
       ),
+      body: KisGuest == true ? GuestWidget() : SavedMazadBodyWidget(),
     );
   }
 }
@@ -90,7 +88,6 @@ class SavedMazadHomeMobileLayoute extends StatelessWidget {
           case RequestState.loaded:
             return LoadedMobileActionHomeWidget(
               auctionsModel: state.getFavoriteModel!,
-              isFromFav: true,
             );
         }
       },

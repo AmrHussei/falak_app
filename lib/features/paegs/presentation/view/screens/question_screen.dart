@@ -32,102 +32,100 @@ class _QustionScreenState extends State<QustionScreen> {
   @override
   Widget build(BuildContext context) {
     PagesCubit pagesCubit = context.read<PagesCubit>();
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.primarySurface(context),
-        appBar: CoustomAppBarWidget(
-          title: ' الأسئلة الشائعة',
-          bottom: QustionSearchFiled(),
-          hight: 117,
-        ),
-        body: SingleChildScrollView(
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(height: 32),
-                BlocBuilder<PagesCubit, PagesState>(
-                  buildWhen: (previous, current) =>
-                      previous.qestionsCategoriesRequestState !=
-                      current.qestionsCategoriesRequestState,
+    return Scaffold(
+      backgroundColor: AppColors.primarySurface(context),
+      appBar: CoustomAppBarWidget(
+        title: ' الأسئلة الشائعة',
+        bottom: QustionSearchFiled(),
+        hight: 117,
+      ),
+      body: SingleChildScrollView(
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 32),
+              BlocBuilder<PagesCubit, PagesState>(
+                buildWhen: (previous, current) =>
+                    previous.qestionsCategoriesRequestState !=
+                    current.qestionsCategoriesRequestState,
+                builder: (context, state) {
+                  switch (state.qestionsCategoriesRequestState) {
+                    case RequestState.ideal:
+                    case RequestState.loading:
+                      return SizedBox();
+                    case RequestState.loaded:
+                      return HorizontalCategorySelector(
+                        qestionsCategoriesModel:
+                            state.qestionsCategoriesModel!,
+                      );
+                    case RequestState.error:
+                      return ErrorAppWidget(
+                        text: state.qestionsCategoriesError?.message ??
+                            'حدث شئ ما خطأ',
+                        onTap: () {
+                          pagesCubit.getQestionsCategories();
+                        },
+                      );
+                  }
+                },
+              ),
+              SizedBox(height: 32),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: BlocBuilder<PagesCubit, PagesState>(
                   builder: (context, state) {
-                    switch (state.qestionsCategoriesRequestState) {
+                    switch (state.qestionsRequestState) {
                       case RequestState.ideal:
                       case RequestState.loading:
-                        return SizedBox();
-                      case RequestState.loaded:
-                        return HorizontalCategorySelector(
-                          qestionsCategoriesModel:
-                              state.qestionsCategoriesModel!,
-                        );
+                        return ShimmerQuestionAnswerList();
                       case RequestState.error:
-                        return ErrorAppWidget(
-                          text: state.qestionsCategoriesError?.message ??
-                              'حدث شئ ما خطأ',
-                          onTap: () {
-                            pagesCubit.getQestionsCategories();
-                          },
+                        return SizedBox.shrink();
+                      case RequestState.loaded:
+                        return Column(
+                          children: [
+                            Row(
+                              children: [
+                                Text(
+                                  state.qestionsModel!.data.isEmpty
+                                      ? ''
+                                      : pagesCubit.category == null
+                                          ? 'جميع الأسئلة'
+                                          : pagesCubit.category?.name ??
+                                              'الاسئلة',
+                                  textAlign: TextAlign.start,
+                                  style: AppStyles.styleSemiBold20(context)
+                                      .copyWith(),
+                                ),
+                              ],
+                            ),
+                            SizedBox(
+                              height: 16,
+                            ),
+                            state.qestionsModel!.data.isEmpty
+                                ? EmptyWidget(
+                                    title: 'لم يتم العثور على البحث',
+                                  )
+                                : ListView.builder(
+                                    shrinkWrap: true,
+                                    physics: NeverScrollableScrollPhysics(),
+                                    itemCount:
+                                        state.qestionsModel!.data.length,
+                                    itemBuilder: (context, index) {
+                                      return QuestionAnswerWidget(
+                                        questionsModel: state.qestionsModel!,
+                                        index: index,
+                                      );
+                                    },
+                                  ),
+                          ],
                         );
                     }
                   },
                 ),
-                SizedBox(height: 32),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: BlocBuilder<PagesCubit, PagesState>(
-                    builder: (context, state) {
-                      switch (state.qestionsRequestState) {
-                        case RequestState.ideal:
-                        case RequestState.loading:
-                          return ShimmerQuestionAnswerList();
-                        case RequestState.error:
-                          return SizedBox.shrink();
-                        case RequestState.loaded:
-                          return Column(
-                            children: [
-                              Row(
-                                children: [
-                                  Text(
-                                    state.qestionsModel!.data.isEmpty
-                                        ? ''
-                                        : pagesCubit.category == null
-                                            ? 'جميع الأسئلة'
-                                            : pagesCubit.category?.name ??
-                                                'الاسئلة',
-                                    textAlign: TextAlign.start,
-                                    style: AppStyles.styleSemiBold20(context)
-                                        .copyWith(),
-                                  ),
-                                ],
-                              ),
-                              SizedBox(
-                                height: 16,
-                              ),
-                              state.qestionsModel!.data.isEmpty
-                                  ? EmptyWidget(
-                                      title: 'لم يتم العثور على البحث',
-                                    )
-                                  : ListView.builder(
-                                      shrinkWrap: true,
-                                      physics: NeverScrollableScrollPhysics(),
-                                      itemCount:
-                                          state.qestionsModel!.data.length,
-                                      itemBuilder: (context, index) {
-                                        return QuestionAnswerWidget(
-                                          questionsModel: state.qestionsModel!,
-                                          index: index,
-                                        );
-                                      },
-                                    ),
-                            ],
-                          );
-                      }
-                    },
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),

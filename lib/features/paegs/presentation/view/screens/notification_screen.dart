@@ -33,72 +33,70 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(
-          title: 'الاشعارات',
-          actions: KisGuest == true
-              ? []
-              : [
-                  InkWell(
-                    onTap: () {
-                      showNotificationSettingBottomSheet(context);
-                    },
-                    child: SvgPicture.asset(
-                      AppAssets.app_imagesSetting,
-                    ),
+    return Scaffold(
+      appBar: CoustomAppBarWidget(
+        title: 'الاشعارات',
+        actions: KisGuest == true
+            ? []
+            : [
+                InkWell(
+                  onTap: () {
+                    showNotificationSettingBottomSheet(context);
+                  },
+                  child: SvgPicture.asset(
+                    AppAssets.app_imagesSetting,
                   ),
-                  SizedBox(width: 16)
-                ],
-        ),
-        body: KisGuest == true
-            ? GuestWidget()
-            : BlocBuilder<PagesCubit, PagesState>(
-                builder: (context, state) {
-                  switch (state.getNotificationsRequestState) {
-                    case RequestState.ideal:
-                    case RequestState.loading:
-                      return ShimmerNotificationList();
-                    case RequestState.error:
-                      return ErrorAppWidget(
-                        text: state.notificationsError?.message ?? 'حدث خطا',
-                        onTap: () {
-                          context.read<PagesCubit>().getNotifications();
-                          context.read<PagesCubit>().newNotifications();
-                        },
-                      );
-                    case RequestState.loaded:
-                      return context.read<PagesCubit>().notifications.isEmpty
-                          ? Center(
-                              child: EmptyWidget(title: 'لا يوجد اشعارات '))
-                          : ListView.builder(
-                              itemCount: context
-                                  .read<PagesCubit>()
-                                  .notifications
-                                  .length,
-                              itemBuilder: (context, index) {
-                                return NotificationCard(
-                                  notification: context
-                                      .read<PagesCubit>()
-                                      .notifications[index],
-                                  isLastItem: index ==
-                                      context
-                                              .read<PagesCubit>()
-                                              .notifications
-                                              .length -
-                                          1,
-                                );
-                              },
-                            );
-                    case null:
-                      return SizedBox();
-                  }
-                },
-                // builder: (context, state) {
-
-                // },
-              ),
+                ),
+                SizedBox(width: 16)
+              ],
       ),
+      body: KisGuest == true
+          ? GuestWidget()
+          : BlocBuilder<PagesCubit, PagesState>(
+              builder: (context, state) {
+                switch (state.getNotificationsRequestState) {
+                  case RequestState.ideal:
+                  case RequestState.loading:
+                    return ShimmerNotificationList();
+                  case RequestState.error:
+                    return ErrorAppWidget(
+                      text: state.notificationsError?.message ?? 'حدث خطا',
+                      onTap: () {
+                        context.read<PagesCubit>().getNotifications();
+                        context.read<PagesCubit>().newNotifications();
+                      },
+                    );
+                  case RequestState.loaded:
+                    return context.read<PagesCubit>().notifications.isEmpty
+                        ? Center(
+                            child: EmptyWidget(title: 'لا يوجد اشعارات '))
+                        : ListView.builder(
+                            itemCount: context
+                                .read<PagesCubit>()
+                                .notifications
+                                .length,
+                            itemBuilder: (context, index) {
+                              return NotificationCard(
+                                notification: context
+                                    .read<PagesCubit>()
+                                    .notifications[index],
+                                isLastItem: index ==
+                                    context
+                                            .read<PagesCubit>()
+                                            .notifications
+                                            .length -
+                                        1,
+                              );
+                            },
+                          );
+                  case null:
+                    return SizedBox();
+                }
+              },
+              // builder: (context, state) {
+
+              // },
+            ),
     );
   }
 }

@@ -33,14 +33,12 @@ class _AgenciesDetailsScreenState extends State<AgenciesDetailsScreen>
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.backgroundPrimary(context),
-        appBar: CoustomAppBarWidget(
-          title: 'الوكالات',
-        ),
-        body: KisGuest == true ? GuestWidget() : AgenciesTapBarViweWidegt(),
+    return Scaffold(
+      backgroundColor: AppColors.backgroundPrimary(context),
+      appBar: CoustomAppBarWidget(
+        title: 'الوكالات',
       ),
+      body: KisGuest == true ? GuestWidget() : AgenciesTapBarViweWidegt(),
     );
   }
 }

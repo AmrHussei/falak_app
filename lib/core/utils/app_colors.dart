@@ -11,11 +11,13 @@ class AppColors {
 
   // Primary Colors
   static Color primary(BuildContext context) => const Color(0xFF163A26);
+
   static Color primary600(BuildContext context) => const Color(0xFF236355);
 
   // Button Gradient Colors
   static Color buttonGradientStart(BuildContext context) =>
       const Color(0xFF226C43);
+
   static Color buttonGradientEnd(BuildContext context) =>
       const Color(0xFF24583B);
 
@@ -24,16 +26,18 @@ class AppColors {
   static Color notificationCard(BuildContext context) =>
       const Color(0x0D39360D);
 
+  static Color natural50(BuildContext context) => const Color(0xff30363B);
+
   static Color primaryOP5(BuildContext context) => const Color(0x0D135C58);
 
   static Color secondColor(BuildContext context) => const Color(0xff0E4C2B);
+
   static Color thirdColor(BuildContext context) => const Color(0xff266241);
 
   static Color secondActionColor(BuildContext context) =>
       const Color(0xff0C3F82);
 
   static Color warrningColor(BuildContext context) => const Color(0xffBD7611);
-
 
   static Color mainColor(BuildContext context) => const Color(0xFF22A06B);
 
@@ -44,6 +48,8 @@ class AppColors {
       const Color(0xFF1E1E1E);
 
   static Color titleColor(BuildContext context) => const Color(0xFF14201F);
+
+  static Color black22(BuildContext context) => const Color(0xFF222222);
 
   static Color hintColor(BuildContext context) => const Color(0xFF898F8F);
 
@@ -134,8 +140,13 @@ class AppColors {
   static Color black(BuildContext context) => const Color(0xFF000000);
 
   static Color darkBlue(BuildContext context) => const Color(0xFF102E56);
+
   static Color textFieldBorder(BuildContext context) => const Color(0xFFDCDEDE);
+
   static Color grayText(BuildContext context) => const Color(0xFF444444);
-  static Color containerGrayColor(BuildContext context) => const Color(0xFFF3F4F4);
+
+  static Color containerGrayColor(BuildContext context) =>
+      const Color(0xFFF3F4F4);
+
   static Color veryGrayColor(BuildContext context) => const Color(0xFFADB1B1);
 }

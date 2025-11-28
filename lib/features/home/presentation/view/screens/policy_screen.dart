@@ -25,47 +25,45 @@ class _PolicyScreenState extends State<PolicyScreen> {
   @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(title: 'الشروط و الاحكام'),
-        body: BlocBuilder<HomeCubit, HomeState>(
-          builder: (context, state) {
-            switch (state.privacyPolicyRequestState) {
-              case RequestState.loading:
-              case RequestState.ideal:
-                return ShimmerPolicyContent();
-              case RequestState.loaded:
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.start,
-                      children: [
-                        Html(
-                          data: state.privacyPolicyModel!.data.content,
-                          style: {
-                            "body": Style(
-                              fontFamily: 'Lama Sans',
-                              // fontSize: FontSize(16),
-                              // fontWeight: FontWeight.w500,
-                              lineHeight: LineHeight(1.7),
-                            ),
-                          },
-                        ),
-                      ],
-                    ),
+    return Scaffold(
+      appBar: CoustomAppBarWidget(title: 'الشروط و الاحكام'),
+      body: BlocBuilder<HomeCubit, HomeState>(
+        builder: (context, state) {
+          switch (state.privacyPolicyRequestState) {
+            case RequestState.loading:
+            case RequestState.ideal:
+              return ShimmerPolicyContent();
+            case RequestState.loaded:
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Html(
+                        data: state.privacyPolicyModel!.data.content,
+                        style: {
+                          "body": Style(
+                            fontFamily: 'Lama Sans',
+                            // fontSize: FontSize(16),
+                            // fontWeight: FontWeight.w500,
+                            lineHeight: LineHeight(1.7),
+                          ),
+                        },
+                      ),
+                    ],
                   ),
-                );
-              case RequestState.error:
-                return ErrorAppWidget(
-                  text: 'حدث شئ ما خأ',
-                  onTap: () {
-                    homeCubit.privacyPolicy();
-                  },
-                );
-            }
-          },
-        ),
+                ),
+              );
+            case RequestState.error:
+              return ErrorAppWidget(
+                text: 'حدث شئ ما خأ',
+                onTap: () {
+                  homeCubit.privacyPolicy();
+                },
+              );
+          }
+        },
       ),
     );
   }

@@ -26,7 +26,7 @@ class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   final Function() toggleDrawer;
 
   @override
-  Size get preferredSize => Size.fromHeight(115);
+  Size get preferredSize => Size.fromHeight(108.h);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +39,7 @@ class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.transparent,
-      title: SvgPicture.asset(AppAssets.app_imagesLogoName, height: 60),
+      title: SvgPicture.asset(AppAssets.app_imagesLogoName, height: 34.26.h),
       toolbarHeight: 64.h,
       leading: Padding(
         padding: EdgeInsetsDirectional.only(start: 16),

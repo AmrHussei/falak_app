@@ -44,102 +44,100 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
   @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
-    return SafeArea(
-      child: Scaffold(
-        // backgroundColor: AppColors.white(context),
-        appBar: CoustomAppBarWidget(
-          title: homeCubit.auctionOrigin?.title ?? 'تفاصيل الاصل',
-          actions: [
-            homeCubit.auctionData?.status == AppStrings.auctionsOnGoing
-                ? AuctionDetailsOnGoingStutesWidget()
-                : homeCubit.auctionData?.status == AppStrings.auctionsInProgress
-                    ? AuctionDetailsInprogressStutesWidget()
-                    : AuctionDetailsCompletedStutesWidget(),
-          ],
-        ),
-        body: CustomScrollView(
-          slivers: [
-            SliverToBoxAdapter(child: AssetsImageSlider()),
-            SliverToBoxAdapter(child: SizedBox(height: 12)),
-            SliverToBoxAdapter(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16),
-                child: Column(
-                  children: [
-                    AssetsTitleWidget(homeCubit: homeCubit),
-                    SizedBox(height: 12),
-                    AssetsDescriptionWidget(),
-                    SizedBox(height: 16),
-                    getKTapIndex(context) == 2
-                        ? SizedBox.shrink()
-                        : TopBiddersWidget(),
-                    getKTapIndex(context) == 1
-                        ? Container(
-                            width: double.infinity,
-                            padding: const EdgeInsets.all(12),
-                            decoration: BoxDecoration(
-                              color: const Color(0xFFEBF1EE),
-                              borderRadius: BorderRadius.only(
-                                topLeft: Radius.circular(12),
-                                topRight: Radius.circular(12),
-                              ),
+    return Scaffold(
+      // backgroundColor: AppColors.white(context),
+      appBar: CoustomAppBarWidget(
+        title: homeCubit.auctionOrigin?.title ?? 'تفاصيل الاصل',
+        actions: [
+          homeCubit.auctionData?.status == AppStrings.auctionsOnGoing
+              ? AuctionDetailsOnGoingStutesWidget()
+              : homeCubit.auctionData?.status == AppStrings.auctionsInProgress
+                  ? AuctionDetailsInprogressStutesWidget()
+                  : AuctionDetailsCompletedStutesWidget(),
+        ],
+      ),
+      body: CustomScrollView(
+        slivers: [
+          SliverToBoxAdapter(child: AssetsImageSlider()),
+          SliverToBoxAdapter(child: SizedBox(height: 12)),
+          SliverToBoxAdapter(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 16),
+              child: Column(
+                children: [
+                  AssetsTitleWidget(homeCubit: homeCubit),
+                  SizedBox(height: 12),
+                  AssetsDescriptionWidget(),
+                  SizedBox(height: 16),
+                  getKTapIndex(context) == 2
+                      ? SizedBox.shrink()
+                      : TopBiddersWidget(),
+                  getKTapIndex(context) == 1
+                      ? Container(
+                          width: double.infinity,
+                          padding: const EdgeInsets.all(12),
+                          decoration: BoxDecoration(
+                            color: const Color(0xFFEBF1EE),
+                            borderRadius: BorderRadius.only(
+                              topLeft: Radius.circular(12),
+                              topRight: Radius.circular(12),
                             ),
-                            child: AssetsDetailsCardColumWidget(
-                              dateLabel: 'أعلى مزايدة',
-                              date: '55,505',
-                              showCurrancyLogo: true,
-                              icon: AppAssets.app_imagesSquareDoublAltArrowUp,
-                            ),
-                          )
-                        : SizedBox.shrink(),
-                    AsseteDetailesCardWidget(),
-                    SizedBox(height: 24),
-                    SizedBox(height: 24),
-                    Row(
-                      children: [
-                        Text(
-                          'التفاصيل',
-                          style: AppStyles.styleBold24(context).copyWith(
-                            color: AppColors.typographyHeading(context),
                           ),
-                        ),
-                      ],
-                    ),
-                    SizedBox(height: 24),
-                    ListView.builder(
-                      shrinkWrap: true,
-                      physics: NeverScrollableScrollPhysics(),
-                      itemCount: homeCubit.auctionOrigin!.details.length,
-                      itemBuilder: (context, index) {
-                        return AssetsDetailsWidget(
-                          index: index,
-                        );
-                      },
-                    ),
-                    SizedBox(height: 24),
-                    MapLocationWidget(),
-                    SizedBox(height: 24),
-                    Container(
-                      width: double.infinity,
-                      padding: const EdgeInsets.all(16),
-                      decoration: ShapeDecoration(
-                        shape: RoundedRectangleBorder(
-                          side: BorderSide(
-                            width: 1,
-                            color: const Color(0xFFD7DBD7),
+                          child: AssetsDetailsCardColumWidget(
+                            dateLabel: 'أعلى مزايدة',
+                            date: '55,505',
+                            showCurrancyLogo: true,
+                            icon: AppAssets.app_imagesSquareDoublAltArrowUp,
                           ),
-                          borderRadius: BorderRadius.circular(12),
+                        )
+                      : SizedBox.shrink(),
+                  AsseteDetailesCardWidget(),
+                  SizedBox(height: 24),
+                  SizedBox(height: 24),
+                  Row(
+                    children: [
+                      Text(
+                        'التفاصيل',
+                        style: AppStyles.styleBold24(context).copyWith(
+                          color: AppColors.typographyHeading(context),
                         ),
                       ),
-                      child: RealEstateOrganizationWidget(),
+                    ],
+                  ),
+                  SizedBox(height: 24),
+                  ListView.builder(
+                    shrinkWrap: true,
+                    physics: NeverScrollableScrollPhysics(),
+                    itemCount: homeCubit.auctionOrigin!.details.length,
+                    itemBuilder: (context, index) {
+                      return AssetsDetailsWidget(
+                        index: index,
+                      );
+                    },
+                  ),
+                  SizedBox(height: 24),
+                  MapLocationWidget(),
+                  SizedBox(height: 24),
+                  Container(
+                    width: double.infinity,
+                    padding: const EdgeInsets.all(16),
+                    decoration: ShapeDecoration(
+                      shape: RoundedRectangleBorder(
+                        side: BorderSide(
+                          width: 1,
+                          color: const Color(0xFFD7DBD7),
+                        ),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
                     ),
-                    SizedBox(height: 24),
-                  ],
-                ),
+                    child: RealEstateOrganizationWidget(),
+                  ),
+                  SizedBox(height: 24),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

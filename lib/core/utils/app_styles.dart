@@ -320,6 +320,16 @@ abstract class AppStyles {
       fontWeight: FontWeight.w400,
     );
   }
+ static TextStyle styleRegular11(BuildContext context) {
+    return TextStyle(
+      height: 1.33,
+      color: const Color(0xFF6F6F6F),
+      fontSize: getResponsiveFontSize(context, fontSize: 11),
+      fontFamily: 'Lama Sans',
+      fontWeight: FontWeight.w400,
+    );
+  }
+
 }
 
 // sacleFactor

@@ -28,88 +28,86 @@ class _MazadDetailsScreenState extends State<MazadDetailsScreen> {
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
 
-    return SafeArea(
-      child: Scaffold(
-        backgroundColor: AppColors.white(context),
-        appBar: CoustomAppBarWidget(
-          title: homeCubit.auctionData?.title ?? 'تفاصيل المزاد',
-          actions: [
-            homeCubit.auctionData?.status == AppStrings.auctionsOnGoing
-                ? AuctionDetailsOnGoingStutesWidget()
-                : homeCubit.auctionData?.status == AppStrings.auctionsInProgress
-                    ? AuctionDetailsInprogressStutesWidget()
-                    : AuctionDetailsCompletedStutesWidget(),
-          ],
-        ),
-        body: Padding(
-          padding: const EdgeInsets.only(top: 8),
-          child: CustomScrollView(
-            slivers: [
-              SliverToBoxAdapter(child: SizedBox(height: 8)),
-              MazadDetailsIntoImage(),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: AuctionTitleAndLocationWidget(homeCubit: homeCubit),
-                ),
+    return Scaffold(
+      backgroundColor: AppColors.white(context),
+      appBar: CoustomAppBarWidget(
+        title: homeCubit.auctionData?.title ?? 'تفاصيل المزاد',
+        actions: [
+          homeCubit.auctionData?.status == AppStrings.auctionsOnGoing
+              ? AuctionDetailsOnGoingStutesWidget()
+              : homeCubit.auctionData?.status == AppStrings.auctionsInProgress
+                  ? AuctionDetailsInprogressStutesWidget()
+                  : AuctionDetailsCompletedStutesWidget(),
+        ],
+      ),
+      body: Padding(
+        padding: const EdgeInsets.only(top: 8),
+        child: CustomScrollView(
+          slivers: [
+            SliverToBoxAdapter(child: SizedBox(height: 8)),
+            MazadDetailsIntoImage(),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: AuctionTitleAndLocationWidget(homeCubit: homeCubit),
               ),
-              SliverToBoxAdapter(
-                child: AuctionAssetsNumAndDay(
-                  NumOfAssets:
-                      homeCubit.auctionData!.auctionOrigins.length.toString(),
-                  numOfDayes: homeCubit.auctionData!.numberOfDays.toString(),
-                ),
+            ),
+            SliverToBoxAdapter(
+              child: AuctionAssetsNumAndDay(
+                NumOfAssets:
+                    homeCubit.auctionData!.auctionOrigins.length.toString(),
+                numOfDayes: homeCubit.auctionData!.numberOfDays.toString(),
               ),
-              SliverToBoxAdapter(
-                child: CurrentMazadTimerWidget(),
-                //  getKTapIndex(context) == 1
-                //     ? CurrentMazadTimerWidget()
-                //     : getKTapIndex(context) == 2
-                //         ? CommingMazadTimerWidget()
-                //         : EndedMazadTimerWidget(),
-              ),
-              SliverToBoxAdapter(
-                child: AuctionBrochureWidget(),
-              ),
-              // SliverToBoxAdapter(child: MazadInfoAndTitle()),
+            ),
+            SliverToBoxAdapter(
+              child: CurrentMazadTimerWidget(),
+              //  getKTapIndex(context) == 1
+              //     ? CurrentMazadTimerWidget()
+              //     : getKTapIndex(context) == 2
+              //         ? CommingMazadTimerWidget()
+              //         : EndedMazadTimerWidget(),
+            ),
+            SliverToBoxAdapter(
+              child: AuctionBrochureWidget(),
+            ),
+            // SliverToBoxAdapter(child: MazadInfoAndTitle()),
 
-              // SliverToBoxAdapter(child: LicensesWidget()),
-              SliverToBoxAdapter(child: SizedBox(height: 24)),
-              SliverToBoxAdapter(child: AssetSearchWidgetAndNum()),
-              SliverToBoxAdapter(child: SizedBox(height: 24)),
-              SliverToBoxAdapter(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 16),
-                  child: Divider(
-                    height: 1,
-                    thickness: 1,
-                    color: AppColors.inputBorder(context),
-                  ),
+            // SliverToBoxAdapter(child: LicensesWidget()),
+            SliverToBoxAdapter(child: SizedBox(height: 24)),
+            SliverToBoxAdapter(child: AssetSearchWidgetAndNum()),
+            SliverToBoxAdapter(child: SizedBox(height: 24)),
+            SliverToBoxAdapter(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Divider(
+                  height: 1,
+                  thickness: 1,
+                  color: AppColors.inputBorder(context),
                 ),
               ),
-              SliverToBoxAdapter(child: SizedBox(height: 24)),
-              BlocBuilder<HomeCubit, HomeState>(
-                builder: (context, state) {
-                  return homeCubit.originList.isEmpty
-                      ? SliverToBoxAdapter(
-                          child: Padding(
-                            padding: const EdgeInsets.only(bottom: 16),
-                            child:
-                                EmptyWidget(title: 'لا يوجد اصول بهذا الاسم'),
-                          ),
-                        )
-                      : SliverList(
-                          delegate: SliverChildBuilderDelegate(
-                            (context, index) {
-                              return AssetCardWidget(index: index);
-                            },
-                            childCount: homeCubit.originList.length,
-                          ),
-                        );
-                },
-              ),
-            ],
-          ),
+            ),
+            SliverToBoxAdapter(child: SizedBox(height: 24)),
+            BlocBuilder<HomeCubit, HomeState>(
+              builder: (context, state) {
+                return homeCubit.originList.isEmpty
+                    ? SliverToBoxAdapter(
+                        child: Padding(
+                          padding: const EdgeInsets.only(bottom: 16),
+                          child:
+                              EmptyWidget(title: 'لا يوجد اصول بهذا الاسم'),
+                        ),
+                      )
+                    : SliverList(
+                        delegate: SliverChildBuilderDelegate(
+                          (context, index) {
+                            return AssetCardWidget(index: index);
+                          },
+                          childCount: homeCubit.originList.length,
+                        ),
+                      );
+              },
+            ),
+          ],
         ),
       ),
     );

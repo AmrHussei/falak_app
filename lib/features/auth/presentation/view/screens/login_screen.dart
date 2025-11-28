@@ -13,17 +13,15 @@ class LoginScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final currentStep = useState(0);
-    return SafeArea(
-      child: Scaffold(
-        body: AdaptiveLayout(
-          mobileLayout: (context) =>
-              LoginMobileLayoutWidget(currentStep: currentStep),
-          tabletLayout: (context) => Center(
-            child: SizedBox(
-              height: 1.sw,
-              width: 600,
-              child: LoginMobileLayoutWidget(currentStep: currentStep),
-            ),
+    return Scaffold(
+      body: AdaptiveLayout(
+        mobileLayout: (context) =>
+            LoginMobileLayoutWidget(currentStep: currentStep),
+        tabletLayout: (context) => Center(
+          child: SizedBox(
+            height: 1.sw,
+            width: 600,
+            child: LoginMobileLayoutWidget(currentStep: currentStep),
           ),
         ),
       ),

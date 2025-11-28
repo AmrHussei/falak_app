@@ -53,8 +53,6 @@ class OnGoingAssetsCardBodyWidget extends StatelessWidget {
           SizedBox(height: 16),
           TimerContainerWidget(
             auctionData: context.read<HomeCubit>().auctionData!,
-            textStyle: AppStyles.styleBold16(context)
-                .copyWith(color: AppColors.typographyHeading(context)),
           ),
           SizedBox(height: 16),
           MazadEnrollAndShowMoreWidget(

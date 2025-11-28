@@ -13,56 +13,54 @@ class SalesAgentIntroScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SafeArea(
-      child: Scaffold(
-        appBar: CoustomAppBarWidget(title: 'وكيل بيع'),
-        body: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Row(
-                children: [
-                  DecoratedBox(
-                    decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border(
-                        bottom: BorderSide(
-                          color: AppColors.primary(context).withOpacity(0.15),
-                          width: 20,
-                        ),
+    return Scaffold(
+      appBar: CoustomAppBarWidget(title: 'وكيل بيع'),
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 24, vertical: 20),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              children: [
+                DecoratedBox(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border(
+                      bottom: BorderSide(
+                        color: AppColors.primary(context).withOpacity(0.15),
+                        width: 20,
                       ),
                     ),
-                    child: Text(
-                      'كن وكيلاً للبيع',
-                      style: AppStyles.styleBold32(context),
-                    ),
                   ),
-                ],
-              ),
-              SizedBox(height: 24),
-              Text(
-                AppStrings.salesAgentIntroText,
-                style: AppStyles.styleMedium16(
-                  context,
-                ).copyWith(color: AppColors.typographySubTitle(context)),
-              ),
-              SizedBox(height: 44),
-              ElevatedButton(
-                onPressed: () {
-                  context.navigateTo(Routes.addSalesAgent);
-                },
-                child: Text(
-                  'انضم إلينا',
-                  style: AppStyles.styleMedium18(
-                    context,
-                  ).copyWith(color: AppColors.white(context)),
+                  child: Text(
+                    'كن وكيلاً للبيع',
+                    style: AppStyles.styleBold32(context),
+                  ),
                 ),
+              ],
+            ),
+            SizedBox(height: 24),
+            Text(
+              AppStrings.salesAgentIntroText,
+              style: AppStyles.styleMedium16(
+                context,
+              ).copyWith(color: AppColors.typographySubTitle(context)),
+            ),
+            SizedBox(height: 44),
+            ElevatedButton(
+              onPressed: () {
+                context.navigateTo(Routes.addSalesAgent);
+              },
+              child: Text(
+                'انضم إلينا',
+                style: AppStyles.styleMedium18(
+                  context,
+                ).copyWith(color: AppColors.white(context)),
               ),
-              Spacer(),
-              const ContactUsButtonWidget(),
-            ],
-          ),
+            ),
+            Spacer(),
+            const ContactUsButtonWidget(),
+          ],
         ),
       ),
     );

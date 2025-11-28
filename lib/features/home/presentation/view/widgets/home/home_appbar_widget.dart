@@ -1,3 +1,4 @@
+import 'package:falak/core/widgets/custom_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,19 +6,15 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:popover/popover.dart';
 import 'package:falak/app/app.dart';
 import 'package:falak/config/routes/app_routes.dart';
-import 'package:falak/core/utils/enums.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
-import 'package:falak/features/home/presentation/view/screens/assets_details_screen.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/app_images.dart';
-import '../../../../../../core/utils/app_strings.dart';
 import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../paegs/presentation/view_model/pages_cubit.dart';
-import '../../../view_model/home/home_cubit.dart';
 
-class HomeAppBarWidget extends StatefulWidget implements PreferredSizeWidget {
+class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
   const HomeAppBarWidget({
     super.key,
     required this.tabController,
@@ -29,59 +26,25 @@ class HomeAppBarWidget extends StatefulWidget implements PreferredSizeWidget {
   final Function() toggleDrawer;
 
   @override
-  State<HomeAppBarWidget> createState() => _HomeAppBarWidgetState();
-
-  @override
   Size get preferredSize => Size.fromHeight(115);
-}
-
-class _HomeAppBarWidgetState extends State<HomeAppBarWidget> {
-  @override
-  void initState() {
-    super.initState();
-    widget.tabController.addListener(() {
-      setState(() {});
-
-      // Update the ProfileCubit based on the selected tab
-      if (widget.tabController.index == 0) {
-        KtapIndex = 1;
-        context.read<HomeCubit>().auctionsStatus = AppStrings.auctionsOnGoing;
-        context.read<HomeCubit>().LastHomeAuctionsStatus =
-            AppStrings.auctionsOnGoing;
-      } else if (widget.tabController.index == 1) {
-        KtapIndex = 2;
-        context.read<HomeCubit>().auctionsStatus =
-            AppStrings.auctionsInProgress;
-        context.read<HomeCubit>().LastHomeAuctionsStatus =
-            AppStrings.auctionsInProgress;
-      } else {
-        KtapIndex = 3;
-        context.read<HomeCubit>().auctionsStatus = AppStrings.auctionsCompleted;
-        context.read<HomeCubit>().LastHomeAuctionsStatus =
-            AppStrings.auctionsCompleted;
-      }
-
-      // context.read<HomeCubit>().getAuctions();
-    });
-  }
 
   @override
   Widget build(BuildContext context) {
     return AppBar(
-      bottom: HomeTabBarWidget(tabController: widget.tabController),
+      bottom: CustomTabBar(
+        controller: tabController,
+        tabs: ['مستقبلي', 'قائم', 'منتهية'],
+      ),
       elevation: 0,
       centerTitle: true,
       surfaceTintColor: Colors.transparent,
       backgroundColor: Colors.transparent,
-      title: ConstrainedBox(
-        constraints: BoxConstraints(maxHeight: 34.h, maxWidth: 122.w),
-        child: SvgPicture.asset(AppAssets.app_imagesLogoName, height: 60),
-      ),
+      title: SvgPicture.asset(AppAssets.app_imagesLogoName, height: 60),
       toolbarHeight: 64.h,
       leading: Padding(
         padding: EdgeInsetsDirectional.only(start: 16),
         child: InkWell(
-          onTap: widget.toggleDrawer,
+          onTap: toggleDrawer,
           child: SvgPicture.asset(
             AppAssets.app_imagesMenu,
             fit: BoxFit.contain,
@@ -187,9 +150,6 @@ class _HomeAppBarWidgetState extends State<HomeAppBarWidget> {
       ],
     );
   }
-
-  @override
-  Size get preferredSize => Size.fromHeight(115);
 }
 
 class ListItems extends StatelessWidget {
@@ -277,155 +237,6 @@ class MenuItemCard extends StatelessWidget {
               child: const Stack(),
             ),
           ],
-        ),
-      ),
-    );
-  }
-}
-
-class HomeTabBarWidget extends StatefulWidget implements PreferredSizeWidget {
-  const HomeTabBarWidget({super.key, required TabController tabController})
-    : _tabController = tabController;
-
-  final TabController _tabController;
-
-  @override
-  State<HomeTabBarWidget> createState() => _HomeTabBarWidgetState();
-
-  @override
-  Size get preferredSize => Size.fromHeight(40.h);
-}
-
-class _HomeTabBarWidgetState extends State<HomeTabBarWidget> {
-  final List<String> tapsName = ['قائمة', 'مستقبلية', 'منتهية'];
-
-  @override
-  Widget build(BuildContext context) {
-    return Container(
-      width: double.infinity,
-      child: Container(
-        padding: EdgeInsets.only(top: 8.h, right: 16.w, left: 16.w),
-        decoration: BoxDecoration(
-          border: Border(
-            top: BorderSide(
-              color: AppColors.strockSheen(context), // Change color as you like
-              width: 1.0, // Thickness of the border
-            ),
-            bottom: BorderSide(
-              color: AppColors.strockSheen(context), // Change color as you like
-              width: 1.0, // Thickness of the border
-            ),
-          ),
-        ),
-        child: TabBar(
-          controller: widget._tabController,
-          indicatorColor: Colors.transparent,
-          overlayColor: WidgetStateProperty.resolveWith<Color?>((
-            Set<WidgetState> states,
-          ) {
-            return Colors.transparent;
-          }),
-          unselectedLabelColor: Colors.transparent,
-          dividerColor: Colors.transparent,
-          labelPadding: EdgeInsets.all(0),
-          tabs: List<Widget>.generate(
-            tapsName.length,
-            (index) => InkWell(
-              onTap: () {
-                setState(() {
-                  widget._tabController;
-                  widget._tabController.animateTo(index);
-                });
-              },
-              child: SizedBox(
-                height: 44,
-                child: Container(
-                  margin: EdgeInsets.symmetric(horizontal: 4),
-                  decoration: BoxDecoration(
-                    border: Border(
-                      bottom: BorderSide(
-                        color: widget._tabController.index == index
-                            ? AppColors.primary(context)
-                            : AppColors.white(context),
-                        width: 1.0,
-                      ),
-                    ),
-                  ),
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Text(
-                        tapsName[index],
-                        style: AppStyles.styleMedium16(context).copyWith(
-                          color: widget._tabController.index == index
-                              ? AppColors.primary(context)
-                              : AppColors.typographyBody(context),
-                        ),
-                      ),
-                      BlocBuilder<HomeCubit, HomeState>(
-                        builder: (context, state) {
-                          if (state.auctionsRequestState ==
-                              RequestState.loaded) {
-                            return Row(
-                              children: [
-                                SizedBox(width: 10),
-                                Container(
-                                  padding: const EdgeInsets.symmetric(
-                                    horizontal: 8,
-                                    vertical: 2,
-                                  ),
-                                  clipBehavior: Clip.antiAlias,
-                                  decoration: ShapeDecoration(
-                                    color: widget._tabController.index == index
-                                        ? AppColors.primary(context)
-                                        : AppColors.backgroundPrimary(context),
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(6),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    index == 0
-                                        ? state
-                                              .auctionsModel!
-                                              .counts!
-                                              .onGoingCount
-                                              .toString()
-                                        : index == 1
-                                        ? state
-                                              .auctionsModel!
-                                              .counts!
-                                              .inProgressCount
-                                              .toString()
-                                        : state
-                                              .auctionsModel!
-                                              .counts!
-                                              .completedCount
-                                              .toString(),
-                                    style: AppStyles.styleMedium14(context)
-                                        .copyWith(
-                                          color:
-                                              widget._tabController.index ==
-                                                  index
-                                              ? AppColors.white(context)
-                                              : AppColors.typographyBody(
-                                                  context,
-                                                ),
-                                        ),
-                                  ),
-                                ),
-                              ],
-                            );
-                          } else {
-                            return SizedBox.shrink();
-                          }
-                        },
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
         ),
       ),
     );

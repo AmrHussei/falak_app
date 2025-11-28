@@ -4,7 +4,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/app/app.dart';
-import 'package:falak/core/utils/images.dart';
 
 import '../../../../../config/routes/app_routes.dart';
 import '../../../../../core/utils/app_colors.dart';

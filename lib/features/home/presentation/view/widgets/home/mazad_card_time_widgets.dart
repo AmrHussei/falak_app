@@ -8,7 +8,6 @@ import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/app_strings.dart';
 import '../../../../../auth/presentation/view/widgets/auth_app_logo_widget.dart';
 import '../../../view_model/home/home_cubit.dart';
-import '../../screens/assets_details_screen.dart';
 
 class comingMazadTimeWidget extends StatelessWidget {
   const comingMazadTimeWidget({
@@ -333,10 +332,9 @@ getKTapIndex(BuildContext context, [String? status]) {
   if (status == null) {
     status = context.read<HomeCubit>().auctionData!.status;
   }
-  KtapIndex = status == AppStrings.auctionsOnGoing
+  return (status == AppStrings.auctionsOnGoing
       ? 1
       : status == AppStrings.auctionsInProgress
           ? 2
-          : 3;
-  return KtapIndex;
+          : 3);
 }

@@ -26,15 +26,8 @@ class DrawerWidget extends StatelessWidget {
       {
         'text': 'قائمة المزادات',
         'image': AppAssets.app_imagesGavelLawBlackIcon,
-        'onTap': () async {
-          HomeCubit homeCubit = context.read<HomeCubit>();
-          await context.navigateTo(Routes.mazadatMenuScreen).then((_) {
-            KtapIndex = 1;
-            homeCubit.auctionsStatus = homeCubit.LastHomeAuctionsStatus;
-            homeCubit.auctionFilterSearch.text = '';
-            homeCubit.filterAuctiontype = null;
-            homeCubit.getAuctions();
-          });
+        'onTap': ()  {
+           context.navigateTo(Routes.mazadatMenuScreen);
         },
       },
       if (!KisGuest)

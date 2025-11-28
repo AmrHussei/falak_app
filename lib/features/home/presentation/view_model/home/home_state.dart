@@ -48,14 +48,14 @@ class HomeState extends Equatable {
     this.addFavoriteRequestState = RequestState.ideal,
     this.addFavoriteError,
     this.addFavoriteMsg,
-    this.auctionsRequestState = RequestState.ideal,
+    this.auctionsRequestState ,
     this.auctionsError,
     this.auctionsModel,
   });
 
-  final RequestState auctionsRequestState;
-  final Failure? auctionsError;
-  final AuctionsModel? auctionsModel;
+  final Map<String,RequestState>? auctionsRequestState;
+  final Map<String,Failure>? auctionsError;
+  final Map<String,AuctionsModel>? auctionsModel;
   //
   final RequestState getUserAuctionsRequestState;
   final Failure? getUserAuctionsError;
@@ -169,9 +169,9 @@ class HomeState extends Equatable {
       ];
 
   HomeState copyWith({
-    RequestState? auctionsRequestState,
-    Failure? auctionsError,
-    AuctionsModel? auctionsModel,
+     Map<String,RequestState>? auctionsRequestState,
+     Map<String,Failure>? auctionsError,
+     Map<String,AuctionsModel>? auctionsModel,
     RequestState? getUserAuctionsRequestState,
     Failure? getUserAuctionsError,
     AuctionsModel? getUserAuctionsModel,

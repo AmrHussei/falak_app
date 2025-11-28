@@ -29,8 +29,6 @@ class AssetsDetailsScreen extends StatefulWidget {
   State<AssetsDetailsScreen> createState() => _AssetsDetailsScreenState();
 }
 
-int KtapIndex = 1;
-
 class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
   @override
   void initState() {
@@ -57,16 +55,6 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
                 : homeCubit.auctionData?.status == AppStrings.auctionsInProgress
                     ? AuctionDetailsInprogressStutesWidget()
                     : AuctionDetailsCompletedStutesWidget(),
-            // MazadIconWidget(
-            //   image: Assets.imagesShareAndroid,
-            // ),
-            // KisGuest ? SizedBox.shrink() : SizedBox(width: 16),
-            // KisGuest
-            //     ? SizedBox.shrink()
-            //     : AssetsFavoriteButton(
-            //         homeCubit: homeCubit,
-            //       ),
-            // SizedBox(width: 12),
           ],
         ),
         body: CustomScrollView(

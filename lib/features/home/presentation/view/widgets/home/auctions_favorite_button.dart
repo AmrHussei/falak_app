@@ -72,26 +72,26 @@ class _AuctionsFavoriteButtonState extends State<AuctionsFavoriteButton> {
           }
 
           setState(() {
-            isFavorite = !isFavorite;
-            widget.auctionData.isFavorite = isFavorite;
-            print(
-                'widget.auctionData.isFavorite ${widget.auctionData.isFavorite}');
-            final index = widget.homeCubit.state.auctionsModel!.data
-                .indexWhere((auction) => auction.id == widget.auctionData.id);
-
-            if (index != -1) {
-              widget.homeCubit.state.auctionsModel!.data[index].isFavorite =
-                  isFavorite;
-            }
-            if (widget.isFromDetails) {
-              widget.homeCubit.refreshAuctionsForTab();
-            }
-            if (widget.isFromFav) {
-              widget.homeCubit.refreshAuctionsForTab();
-            }
-
-            print(
-                'isfav ${widget.homeCubit.state.auctionsModel!.data[index].isFavorite}');
+            // isFavorite = !isFavorite;
+            // widget.auctionData.isFavorite = isFavorite;
+            // print(
+            //     'widget.auctionData.isFavorite ${widget.auctionData.isFavorite}');
+            // final index = widget.homeCubit.state.auctionsModel!.data
+            //     .indexWhere((auction) => auction.id == widget.auctionData.id);
+            //
+            // if (index != -1) {
+            //   widget.homeCubit.state.auctionsModel!.data[index].isFavorite =
+            //       isFavorite;
+            // }
+            // if (widget.isFromDetails) {
+            //   widget.homeCubit.refreshAuctionsForTab();
+            // }
+            // if (widget.isFromFav) {
+            //   widget.homeCubit.refreshAuctionsForTab();
+            // }
+            //
+            // print(
+            //     'isfav ${widget.homeCubit.state.auctionsModel!.data[index].isFavorite}');
           });
         },
         child: widget.isFromDetails
@@ -172,23 +172,23 @@ class _AssetsFavoriteButtonState extends State<AssetsFavoriteButton> {
             }
 
             setState(() {
-              isFavorite = !isFavorite;
-              widget.homeCubit.auctionOrigin!.isFavorite = isFavorite;
-              print(
-                  'widget.auctionData.isFavorite ${widget.homeCubit.auctionOrigin!.isFavorite}');
-              final index = widget.homeCubit.auctionData!.auctionOrigins
-                  .indexWhere((origins) =>
-                      origins.id == widget.homeCubit.auctionOrigin!.id);
-
-              if (index != -1) {
-                widget.homeCubit.auctionData!.auctionOrigins[index].isFavorite =
-                    isFavorite;
-              }
-              if (widget.isFromDetails) {
-                widget.homeCubit.getAuctions();
-              }
-              print(
-                  'isfav ${widget.homeCubit.state.auctionsModel!.data[index].isFavorite}');
+              // isFavorite = !isFavorite;
+              // widget.homeCubit.auctionOrigin!.isFavorite = isFavorite;
+              // print(
+              //     'widget.auctionData.isFavorite ${widget.homeCubit.auctionOrigin!.isFavorite}');
+              // final index = widget.homeCubit.auctionData!.auctionOrigins
+              //     .indexWhere((origins) =>
+              //         origins.id == widget.homeCubit.auctionOrigin!.id);
+              //
+              // if (index != -1) {
+              //   widget.homeCubit.auctionData!.auctionOrigins[index].isFavorite =
+              //       isFavorite;
+              // }
+              // if (widget.isFromDetails) {
+              //   widget.homeCubit.getAuctions();
+              // }
+              // print(
+              //     'isfav ${widget.homeCubit.state.auctionsModel!.data[index].isFavorite}');
             });
           },
           child: AuctionDetaislIconWidget(

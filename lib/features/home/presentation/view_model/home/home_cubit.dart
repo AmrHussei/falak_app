@@ -29,9 +29,6 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this._homeRepository) : super(HomeState());
 
   final HomeRepository _homeRepository;
-
-  String auctionsStatus = AppStrings.auctionsOnGoing;
-  String LastHomeAuctionsStatus = AppStrings.auctionsOnGoing;
   AuctionData? auctionData;
   AuctionOrigin? auctionOrigin;
   List<AuctionOrigin> originList = [];
@@ -60,93 +57,22 @@ class HomeCubit extends Cubit<HomeState> {
   final auctionBoardSocket = AuctionBoardSocket();
   final addBalanceKey = GlobalKey<FormState>();
   final Map<String, AuctionsModel> userAuctionsCache = {};
-  final Map<String, AuctionsModel> auctionsCache = {}; // status -> data
+  Future<void> getAuctions({String type = AppStrings.auctionsInProgress,bool refresh =false}) async {
+    final cachedModel = Map<String,AuctionsModel>.from(state.auctionsModel ?? {});
 
-  Future<void> getAuctions() async {
-    // if (kDebugMode) {
-    //   emit(
-    //     state.copyWith(
-    //       auctionsRequestState: RequestState.loaded,
-    //       auctionsModel: AuctionsModel(
-    //         message: '',
-    //         pagination: Pagination(
-    //           currentPage: 1,
-    //           resultCount: 10,
-    //           totalPages: 1,
-    //         ),
-    //         data: [
-    //           for (int index = 0; index < 10; index++)
-    //             AuctionData(
-    //               id: '$index',
-    //               location: Location(
-    //                 longitude: 1.1,
-    //                 latitude: 1.1,
-    //                 title: 'title',
-    //               ),
-    //               specialToSupportAuthority: index % 2 == 0,
-    //               startDate: 'startDate',
-    //               endDate: 'endDate',
-    //               numberOfDays: 10,
-    //               status: 'status',
-    //               type: type,
-    //               createdByAdmin: true,
-    //               auctionApprovalNumber: 'auctionApprovalNumber',
-    //               auctionReviewStatus: AuctionReviewStatus(
-    //                 status: '',
-    //                 reason: '',
-    //                 at: '',
-    //                 by: By(id: '', name: '', profileImage: ''),
-    //               ),
-    //               createdAt: 'createdAt',
-    //               updatedAt: 'updatedAt',
-    //               title: 'title',
-    //               cover: 'cover',
-    //               user: 'user',
-    //               provider: Provider(valAuctionsLicenseNumber: ''),
-    //               logos: [],
-    //               auctionBrochure: 'auctionBrochure',
-    //               isFavorite: index % 2 == 0,
-    //               auctionOrigins: [],
-    //               createdBy: CreatedBy(
-    //                 id: 'id',
-    //                 name: 'name',
-    //                 profileImage: 'profileImage',
-    //               ),
-    //               updated: Updated(
-    //                 by: By(id: '', name: '', profileImage: ''),
-    //                 at: 'at',
-    //               ),
-    //               timer: null,
-    //             ),
-    //         ],
-    //         counts: Counts(
-    //           completedCount: 10,
-    //           inProgressCount: 10,
-    //           onGoingCount: 10,
-    //         ),
-    //       ),
-    //     ),
-    //   );
-    //   return;
-    // }
-    final cachedModel = auctionsCache[auctionsStatus];
-
-    if (cachedModel != null) {
+    final loadingStats = Map<String,RequestState>.from(state.auctionsRequestState ?? {});
+    if (cachedModel[type] != null&&!refresh) {
       // 1. 🚀 Show cached data immediately without loading
-      emit(
-        state.copyWith(
-          auctionsModel: cachedModel,
-          auctionsRequestState: RequestState.loaded,
-        ),
-      );
+      return;
     } else {
       // 2. 🤔 No cache? then show loading state
-      emit(state.copyWith(auctionsRequestState: RequestState.loading));
+      loadingStats[type] = RequestState.loading;
+      emit(state.copyWith(auctionsRequestState: loadingStats));
     }
 
     // 3. 🔥 Always fetch from server in background
     AuctionsParams auctionsParams = AuctionsParams(
-      status: auctionsStatus,
+      status: type,
       search: auctionFilterSearch.text,
       type: filterAuctiontype,
     );
@@ -156,29 +82,29 @@ class HomeCubit extends Cubit<HomeState> {
     result.fold(
       (failure) {
         // Only show error if no cache existed (first time)
+        final auctionsError = Map<String,Failure>.from(state.auctionsError ?? {});
+
+        auctionsError[type] = failure;
+        loadingStats[type] = RequestState.error;
 
         emit(
           state.copyWith(
-            auctionsRequestState: RequestState.error,
-            auctionsError: failure,
+            auctionsRequestState: loadingStats,
+            auctionsError: auctionsError,
           ),
         );
 
         log(failure.toString());
       },
       (freshModel) {
-        if (!_isAuctionsModelSame(cachedModel, freshModel)) {
-          // 4. ✨ If fresh data is different, update cache and UI
-          emit(state.copyWith(auctionsRequestState: RequestState.loading));
-          auctionsCache[auctionsStatus] = freshModel;
-          emit(
+        loadingStats[type] = RequestState.loaded;
+        cachedModel[type] = freshModel;
+        emit(
             state.copyWith(
-              auctionsRequestState: RequestState.loaded,
-              auctionsModel: freshModel,
+              auctionsRequestState: loadingStats,
+              auctionsModel: cachedModel,
             ),
           );
-        }
-        // else: if fresh data is same, do nothing! 🎯
       },
     );
   }
@@ -189,8 +115,7 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> refreshAuctionsForTab() async {
-    auctionsCache.remove(auctionsStatus);
-    await getAuctions();
+    await getAuctions(refresh: true);
   }
 
   // New method: get user auctions with cache
@@ -247,11 +172,9 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   searchAuctionOrigins(String? query) {
-    emit(state.copyWith(auctionsRequestState: RequestState.loading));
 
     if (query == null || query.isEmpty) {
       originList = auctionData!.auctionOrigins;
-      emit(state.copyWith(auctionsRequestState: RequestState.loaded));
       return;
     }
 
@@ -262,7 +185,6 @@ class HomeCubit extends Cubit<HomeState> {
               origin.title!.toLowerCase().contains(query.toLowerCase()),
         )
         .toList();
-    emit(state.copyWith(auctionsRequestState: RequestState.loaded));
   }
 
   void getFavorite([bool isLoading = true]) async {

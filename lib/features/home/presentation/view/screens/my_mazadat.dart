@@ -1,8 +1,7 @@
+import 'package:falak/core/widgets/custom_tab_bar.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../app/app.dart';
 import '../../../../../core/widgets/guest_widget.dart';
 import '../../view_model/home/home_cubit.dart';
@@ -77,9 +76,9 @@ class _MyMazadatScreenState extends State<MyMazadatScreen>
           ? GuestWidget()
           : Column(
               children: [
-                MyMazadatTabBarWidget(
-                  tabController: _tabController,
-                  tapsName: [
+                CustomTabBar(
+                  controller: _tabController,
+                  tabs: [
                     'إشتراكاتي',
                     'مزاداتي الرابحة',
                     'مزاداتي الخاسرة',

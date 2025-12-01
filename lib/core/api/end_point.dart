@@ -1,10 +1,7 @@
-import 'package:flutter/foundation.dart';
 
 class EndPoint {
   // static const String baseUrl = 'https://api.ittlt.com';
-  static const String baseUrl = kDebugMode
-      ? 'https://api.broker.sa'
-      : 'https://srv1066914.hstgr.cloud';
+  static const String baseUrl = 'https://srv1066914.hstgr.cloud';
 
   // static const String baseUrl = 'https://api.falak.sa.com';
   //! Auth

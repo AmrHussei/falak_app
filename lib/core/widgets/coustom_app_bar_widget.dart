@@ -77,12 +77,18 @@ class CoustomAppBarWidget extends StatelessWidget
 }
 
 class PopWidget extends StatelessWidget {
-  const PopWidget({super.key});
+  const PopWidget({super.key, this.height, this.width, this.padding, this.radius,this.flip=false});
+
+  final double? height;
+  final double? width;
+  final double? padding;
+  final double? radius;
+  final bool flip;
 
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: const EdgeInsets.all(8),
+      padding:  EdgeInsets.all(padding??8),
       margin: EdgeInsetsDirectional.only(start: 24, top: 6, bottom: 6),
       decoration: ShapeDecoration(
         color: const Color(0xFFFAFAFA) /* Surface-primary */,
@@ -91,11 +97,19 @@ class PopWidget extends StatelessWidget {
             width: 1,
             color: const Color(0xFFE1E1E2) /* Borders-primary */,
           ),
-          borderRadius: BorderRadius.circular(10),
+          borderRadius: BorderRadius.circular(radius??10),
         ),
       ),
       child: FittedBox(
-        child: SvgPicture.asset(AppAssets.app_imagesArrow, fit: BoxFit.contain),
+        child: Transform.flip(
+          flipX: flip,
+          child: SvgPicture.asset(
+            AppAssets.app_imagesArrow,
+            fit: BoxFit.contain,
+            height: height,
+            width: width,
+          ),
+        ),
       ),
     );
   }

@@ -23,6 +23,7 @@ class AppPrimaryButton extends StatelessWidget {
   final bool isLoading;
   final Widget? loadingWidget;
   final double? radius;
+  final String? icon;
 
   const AppPrimaryButton({
     Key? key,
@@ -32,7 +33,9 @@ class AppPrimaryButton extends StatelessWidget {
     this.width,
     this.height,
     this.isLoading = false,
-    this.loadingWidget, this.radius,
+    this.loadingWidget,
+    this.radius,
+    this.icon,
   }) : super(key: key);
 
   @override
@@ -52,7 +55,7 @@ class AppPrimaryButton extends StatelessWidget {
                 ],
               ),
         color: isDisabled ? AppColors.disabled(context) : null,
-        borderRadius: BorderRadius.circular(radius??14.r),
+        borderRadius: BorderRadius.circular(radius ?? 14.r),
         boxShadow: isDisabled
             ? [
                 BoxShadow(
@@ -94,13 +97,22 @@ class AppPrimaryButton extends StatelessWidget {
                       ),
                     ),
                   ))
-            : Text(
-                text,
-                style: AppStyles.styleMedium16(context).copyWith(
-                  color: isDisabled
-                      ? AppColors.typographySubTitle(context)
-                      : AppColors.white(context),
-                ),
+            : Row(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  if (icon != null) ...[
+                    SvgPicture.asset(icon!, width: 20.w, height: 20.h),
+                    8.horizontalSpace,
+                  ],
+                  Text(
+                    text,
+                    style: AppStyles.styleMedium16(context).copyWith(
+                      color: isDisabled
+                          ? AppColors.typographySubTitle(context)
+                          : AppColors.white(context),
+                    ),
+                  ),
+                ],
               ),
       ),
     );

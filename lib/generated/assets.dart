@@ -5,6 +5,7 @@ class Assets {
   static const String animationLoading = 'assets/animation/loading.json';
   static const String animationScreenLoading = 'assets/animation/screenLoading.json';
   static const String appImagesActiveSvg = 'assets/app_images/activeSvg.svg';
+  static const String appImagesAddAgency = 'assets/app_images/addAgency.svg';
   static const String appImagesAddButtonMoneyIcon = 'assets/app_images/AddButtonMoneyIcon.svg';
   static const String appImagesAddCircle = 'assets/app_images/AddCircle.svg';
   static const String appImagesAddReal = 'assets/app_images/addReal.svg';

@@ -1,3 +1,4 @@
+import 'package:falak/features/profile/presentation/view/widgets/agencies/add_agency_button_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:falak/core/utils/app_colors.dart';
@@ -34,6 +35,8 @@ class _AgenciesDetailsScreenState extends State<AgenciesDetailsScreen>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
+      floatingActionButton:const AddAgencyButtonWidget(),
       backgroundColor: AppColors.backgroundPrimary(context),
       appBar: CoustomAppBarWidget(
         title: 'الوكالات',

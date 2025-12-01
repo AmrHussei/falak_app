@@ -1,0 +1,514 @@
+name: Build and Deploy to Stores
+
+on:
+  push:
+    branches:
+      - main
+      - test
+
+
+jobs:
+  # Run tests before building
+  test:
+    name: Run Tests
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Run tests
+        run: flutter test --coverage
+
+      - name: Upload coverage to Codecov
+        uses: codecov/codecov-action@v3
+        with:
+          file: ./coverage/lcov.info
+          fail_ci_if_error: false
+
+  # Build and deploy Android
+  #    deploy-android:
+  #      name: Build and Deploy Android
+  #      needs: test
+  #      runs-on: ubuntu-latest
+  #      if: github.ref == 'refs/heads/main'
+  #      steps:
+  #        - name: Checkout code
+  #          uses: actions/checkout@v4
+  #
+  #        - name: Setup Java
+  #          uses: actions/setup-java@v3
+  #          with:
+  #            distribution: 'zulu'
+  #            java-version: '17'
+  #
+  #        - name: Setup Flutter
+  #          uses: subosito/flutter-action@v2
+  #          with:
+  #            flutter-version: '3.35.5'
+  #            channel: 'stable'
+  #            cache: true
+  #
+  #        - name: Get dependencies
+  #          run: flutter pub get
+  #
+  #        - name: Decode Keystore
+  #          env:
+  #            ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 }}
+  #          run: |
+  #            echo $ENCODED_KEYSTORE | base64 -di > android/app/keystore.jks
+  #
+  #        - name: Create key.properties
+  #          env:
+  #            KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+  #            KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+  #            KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  #          run: |
+  #            cat > android/key.properties << EOF
+  #            storePassword=$KEYSTORE_PASSWORD
+  #            keyPassword=$KEY_PASSWORD
+  #            keyAlias=$KEY_ALIAS
+  #            storeFile=keystore.jks
+  #            EOF
+  #
+  #
+  #        - name: Build Android App Bundle
+  #          run: flutter build appbundle --release
+  #
+  #        - name: Upload AAB to Google Play
+  #          uses: r0adkll/upload-google-play@v1.1.3
+  #          with:
+  #            serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+  #            packageName: com.dot.score
+  #            releaseFiles: build/app/outputs/bundle/release/app-release.aab
+  #            track: production
+  #            status: completed
+  #            inAppUpdatePriority: 2
+  #
+  #        - name: Upload AAB as artifact
+  #          uses: actions/upload-artifact@v4
+  #          with:
+  #            name: app-release.aab
+  #            path: build/app/outputs/bundle/release/app-release.aab
+
+  # Build and deploy iOS
+  deploy-ios:
+    name: Build and Deploy iOS
+    needs: test
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          pod install
+          cd ..
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable'
+
+      - name: Import Code-Signing Certificates
+        uses: Apple-Actions/import-codesign-certs@v2
+        with:
+          p12-file-base64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
+          p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+
+      - name: Install Provisioning Profile
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+        run: |
+          # Create directory for provisioning profiles
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          
+          # Decode and install the provisioning profile
+          echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode --output ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+          
+          # Extract UUID and Profile Name using security cms
+          PROFILE_DATA=$(security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision 2>/dev/null)
+          PROFILE_UUID=$(echo "$PROFILE_DATA" | python3 -c "import sys, plistlib; print(plistlib.loads(sys.stdin.buffer.read()).get('UUID', ''))")
+          PROFILE_NAME=$(echo "$PROFILE_DATA" | python3 -c "import sys, plistlib; print(plistlib.loads(sys.stdin.buffer.read()).get('Name', ''))")
+          
+          echo "Extracted UUID: $PROFILE_UUID"
+          echo "Extracted Profile Name: $PROFILE_NAME"
+          
+          # Validate UUID was extracted
+          if [ -z "$PROFILE_UUID" ]; then
+            echo "Error: Failed to extract UUID from provisioning profile"
+            exit 1
+          fi
+          
+          # Export for later steps
+          echo "PROFILE_UUID=$PROFILE_UUID" >> $GITHUB_ENV
+          echo "PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
+          
+          # Create a symlink with UUID for Xcode to find it
+          ln -sf ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$PROFILE_UUID.mobileprovision
+          
+          # List installed profiles for debugging
+          echo "Installed provisioning profiles:"
+          ls -la ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      - name: Generate ExportOptions.plist
+        env:
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          cat > ios/ExportOptions.plist << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+          	<key>method</key>
+          	<string>app-store</string>
+          	<key>teamID</key>
+          	<string>$TEAM_ID</string>
+          	<key>uploadBitcode</key>
+          	<false/>
+          	<key>uploadSymbols</key>
+          	<true/>
+          	<key>compileBitcode</key>
+          	<false/>
+          	<key>signingStyle</key>
+          	<string>manual</string>
+          	<key>provisioningProfiles</key>
+          	<dict>
+          		<key>com.dot.score</key>
+          		<string>$PROFILE_NAME</string>
+          	</dict>
+          	<key>signingCertificate</key>
+          	<string>Apple Distribution</string>
+          	<key>destination</key>
+          	<string>export</string>
+          </dict>
+          </plist>
+          EOF
+          
+          echo "Generated ExportOptions.plist:"
+          cat ios/ExportOptions.plist
+
+      - name: Configure Xcode for Manual Signing
+        env:
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          # Install xcodeproj gem if not available
+          gem install xcodeproj
+          
+          # Create a Ruby script to update the Xcode project
+          cat > update_signing.rb << 'RUBY_SCRIPT'
+          require 'xcodeproj'
+          
+          project_path = 'ios/Runner.xcodeproj'
+          project = Xcodeproj::Project.open(project_path)
+          
+          # Get the main target
+          target = project.targets.first
+          
+          # Update build configurations
+          target.build_configurations.each do |config|
+            if config.name == 'Release' || config.name == 'Profile'
+              config.build_settings['CODE_SIGN_STYLE'] = 'Manual'
+              config.build_settings['CODE_SIGN_IDENTITY'] = 'Apple Distribution'
+              config.build_settings['PROVISIONING_PROFILE_SPECIFIER'] = ENV['PROFILE_NAME']
+              config.build_settings['DEVELOPMENT_TEAM'] = ENV['TEAM_ID']
+              puts "Updated #{config.name} configuration"
+            end
+          end
+          
+          project.save
+          puts "Xcode project updated for manual signing"
+          RUBY_SCRIPT
+          
+          # Run the Ruby script
+          ruby update_signing.rb
+
+      - name: Build iOS IPA
+        run: |
+          flutter build ipa --release \
+            --export-options-plist=ios/ExportOptions.plist
+
+      - name: Find IPA file
+        id: find-ipa
+        run: |
+          # Find the IPA file and export its path
+          IPA_PATH=$(find build/ios/ipa -name "*.ipa" -type f | head -n 1)
+          echo "IPA_PATH=$IPA_PATH" >> $GITHUB_ENV
+          echo "Found IPA at: $IPA_PATH"
+          ls -lh "$IPA_PATH"
+
+      - name: Upload to TestFlight
+        uses: Apple-Actions/upload-testflight-build@v1
+        with:
+          app-path: ${{ env.IPA_PATH }}
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+
+      - name: Upload IPA as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.ipa
+          path: ${{ env.IPA_PATH }}
+
+  # Build and distribute Android APK to Firebase (test branch only)
+  #    test-android:
+  #      name: Build and Distribute Android APK
+  #      needs: test
+  #      runs-on: ubuntu-latest
+  #      if: github.ref == 'refs/heads/test'
+  #      steps:
+  #        - name: Checkout code
+  #          uses: actions/checkout@v4
+  #
+  #        - name: Setup Java
+  #          uses: actions/setup-java@v3
+  #          with:
+  #            distribution: 'zulu'
+  #            java-version: '17'
+  #
+  #        - name: Setup Flutter
+  #          uses: subosito/flutter-action@v2
+  #          with:
+  #            flutter-version: '3.35.5'
+  #            channel: 'stable'
+  #            cache: true
+  #
+  #        - name: Get dependencies
+  #          run: flutter pub get
+  #
+  #        - name: Decode Keystore
+  #          env:
+  #            ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 }}
+  #          run: |
+  #            echo $ENCODED_KEYSTORE | base64 -di > android/app/keystore.jks
+  #
+  #        - name: Create key.properties
+  #          env:
+  #            KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+  #            KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+  #            KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+  #          run: |
+  #            cat > android/key.properties << EOF
+  #            storePassword=$KEYSTORE_PASSWORD
+  #            keyPassword=$KEY_PASSWORD
+  #            keyAlias=$KEY_ALIAS
+  #            storeFile=keystore.jks
+  #            EOF
+  #
+  #        - name: Build Android APK
+  #          run: flutter build apk --release
+  #
+  #        - name: Upload APK to Firebase App Distribution
+  #          uses: wzieba/Firebase-Distribution-Github-Action@v1
+  #          with:
+  #            appId: ${{ secrets.FIREBASE_APP_ID_ANDROID }}
+  #            serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+  #            groups: testers
+  #            file: build/app/outputs/flutter-apk/app-release.apk
+  #            releaseNotes: "Test build from branch: ${{ github.ref_name }}"
+  #
+  #        - name: Upload APK as artifact
+  #          uses: actions/upload-artifact@v4
+  #          with:
+  #            name: app-test.apk
+  #            path: build/app/outputs/flutter-apk/app-release.apk
+
+  # Build and distribute iOS IPA to TestFlight (test branch only)
+  test-ios:
+    name: Build and Distribute iOS IPA
+    needs: test
+    runs-on: macos-latest
+    if: github.ref == 'refs/heads/test'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Install CocoaPods dependencies
+        run: |
+          cd ios
+          pod install
+          cd ..
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: 'latest-stable'
+
+      - name: Import Code-Signing Certificates
+        uses: Apple-Actions/import-codesign-certs@v2
+        with:
+          p12-file-base64: ${{ secrets.APPLE_CERTIFICATE_BASE64 }}
+          p12-password: ${{ secrets.APPLE_CERTIFICATE_PASSWORD }}
+
+      - name: Install Provisioning Profile
+        env:
+          PROVISIONING_PROFILE_BASE64: ${{ secrets.PROVISIONING_PROFILE_BASE64 }}
+        run: |
+          # Create directory for provisioning profiles
+          mkdir -p ~/Library/MobileDevice/Provisioning\ Profiles
+          
+          # Decode and install the provisioning profile
+          echo -n "$PROVISIONING_PROFILE_BASE64" | base64 --decode --output ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision
+          
+          # Extract UUID and Profile Name using security cms
+          PROFILE_DATA=$(security cms -D -i ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision 2>/dev/null)
+          PROFILE_UUID=$(echo "$PROFILE_DATA" | python3 -c "import sys, plistlib; print(plistlib.loads(sys.stdin.buffer.read()).get('UUID', ''))")
+          PROFILE_NAME=$(echo "$PROFILE_DATA" | python3 -c "import sys, plistlib; print(plistlib.loads(sys.stdin.buffer.read()).get('Name', ''))")
+          
+          echo "Extracted UUID: $PROFILE_UUID"
+          echo "Extracted Profile Name: $PROFILE_NAME"
+          
+          # Validate UUID was extracted
+          if [ -z "$PROFILE_UUID" ]; then
+            echo "Error: Failed to extract UUID from provisioning profile"
+            exit 1
+          fi
+          
+          # Export for later steps
+          echo "PROFILE_UUID=$PROFILE_UUID" >> $GITHUB_ENV
+          echo "PROFILE_NAME=$PROFILE_NAME" >> $GITHUB_ENV
+          
+          # Create a symlink with UUID for Xcode to find it
+          ln -sf ~/Library/MobileDevice/Provisioning\ Profiles/build_pp.mobileprovision ~/Library/MobileDevice/Provisioning\ Profiles/$PROFILE_UUID.mobileprovision
+          
+          # List installed profiles for debugging
+          echo "Installed provisioning profiles:"
+          ls -la ~/Library/MobileDevice/Provisioning\ Profiles/
+
+      - name: Generate ExportOptions.plist
+        env:
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          cat > ios/ExportOptions.plist << EOF
+          <?xml version="1.0" encoding="UTF-8"?>
+          <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+          <plist version="1.0">
+          <dict>
+          	<key>method</key>
+          	<string>app-store</string>
+          	<key>teamID</key>
+          	<string>$TEAM_ID</string>
+          	<key>uploadBitcode</key>
+          	<false/>
+          	<key>uploadSymbols</key>
+          	<true/>
+          	<key>compileBitcode</key>
+          	<false/>
+          	<key>signingStyle</key>
+          	<string>manual</string>
+          	<key>provisioningProfiles</key>
+          	<dict>
+          		<key>com.dot.score</key>
+          		<string>$PROFILE_NAME</string>
+          	</dict>
+          	<key>signingCertificate</key>
+          	<string>Apple Distribution</string>
+          	<key>destination</key>
+          	<string>export</string>
+          </dict>
+          </plist>
+          EOF
+          
+          echo "Generated ExportOptions.plist:"
+          cat ios/ExportOptions.plist
+
+      - name: Configure Xcode for Manual Signing
+        env:
+          TEAM_ID: ${{ secrets.APPLE_TEAM_ID }}
+        run: |
+          # Install xcodeproj gem if not available
+          gem install xcodeproj
+          
+          # Create a Ruby script to update the Xcode project
+          cat > update_signing.rb << 'RUBY_SCRIPT'
+          require 'xcodeproj'
+          
+          project_path = 'ios/Runner.xcodeproj'
+          project = Xcodeproj::Project.open(project_path)
+          
+          # Get the main target
+          target = project.targets.first
+          
+          # Update build configurations
+          target.build_configurations.each do |config|
+            if config.name == 'Release' || config.name == 'Profile'
+              config.build_settings['CODE_SIGN_STYLE'] = 'Manual'
+              config.build_settings['CODE_SIGN_IDENTITY'] = 'Apple Distribution'
+              config.build_settings['PROVISIONING_PROFILE_SPECIFIER'] = ENV['PROFILE_NAME']
+              config.build_settings['DEVELOPMENT_TEAM'] = ENV['TEAM_ID']
+              puts "Updated #{config.name} configuration"
+            end
+          end
+          
+          project.save
+          puts "Xcode project updated for manual signing"
+          RUBY_SCRIPT
+          
+          # Run the Ruby script
+          ruby update_signing.rb
+
+      - name: Build iOS IPA
+        run: |
+          flutter build ipa --release \
+            --export-options-plist=ios/ExportOptions.plist
+
+      - name: Find IPA file
+        id: find-ipa
+        run: |
+          # Find the IPA file and export its path
+          IPA_PATH=$(find build/ios/ipa -name "*.ipa" -type f | head -n 1)
+          echo "IPA_PATH=$IPA_PATH" >> $GITHUB_ENV
+          echo "Found IPA at: $IPA_PATH"
+          ls -lh "$IPA_PATH"
+
+      - name: Upload to TestFlight
+        uses: Apple-Actions/upload-testflight-build@v1
+        with:
+          app-path: ${{ env.IPA_PATH }}
+          issuer-id: ${{ secrets.APPSTORE_ISSUER_ID }}
+          api-key-id: ${{ secrets.APPSTORE_API_KEY_ID }}
+          api-private-key: ${{ secrets.APPSTORE_API_PRIVATE_KEY }}
+
+      - name: Upload IPA as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-test.ipa
+          path: ${{ env.IPA_PATH }}

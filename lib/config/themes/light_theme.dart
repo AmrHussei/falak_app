@@ -178,6 +178,9 @@ ThemeData get lightTheme => ThemeData(
       // bottomSheetTheme: const BottomSheetThemeData(
       //   backgroundColor: AppColors.white,
       // ),
+      dividerTheme: const DividerThemeData(
+        color: Color(0xffE7E9E9)
+      )
     );
 ThemeData get darkTheme => ThemeData(
       // primaryColor: AppColors.black,

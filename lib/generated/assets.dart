@@ -160,6 +160,7 @@ class Assets {
   static const String imagesClosedDrop = 'assets/images/closedDrop.svg';
   static const String imagesCommingAssetsIcon = 'assets/images/commingAssetsIcon.svg';
   static const String imagesContactUs = 'assets/images/contactUs.svg';
+  static const String imagesContactUsIcon = 'assets/images/contactUsIcon.svg';
   static const String imagesCurrencyIcon = 'assets/images/currencyIcon.svg';
   static const String imagesDataGetSuccess = 'assets/images/dataGetSuccess.svg';
   static const String imagesDate = 'assets/images/date.svg';

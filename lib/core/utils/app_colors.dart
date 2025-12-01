@@ -135,7 +135,7 @@ class AppColors {
   // Basic Colors
   static Color white(BuildContext context) => const Color(0xFFffffff);
 
-  static Color shadow(BuildContext context) => const Color(0xFF00000A);
+  static Color shadow(BuildContext context) => const Color(0x0514201F);
 
   static Color black(BuildContext context) => const Color(0xFF000000);
 
@@ -149,4 +149,5 @@ class AppColors {
       const Color(0xFFF3F4F4);
 
   static Color veryGrayColor(BuildContext context) => const Color(0xFFADB1B1);
+  static Color veryPrimaryColor(BuildContext context) => const Color(0xFF191F10);
 }

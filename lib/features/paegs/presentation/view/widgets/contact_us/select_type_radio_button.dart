@@ -3,6 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/features/paegs/presentation/view_model/pages_cubit.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectTypeRadioButton extends StatefulWidget {
   const SelectTypeRadioButton({super.key});
@@ -24,37 +25,50 @@ class _SelectTypeRadioButtonState extends State<SelectTypeRadioButton> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      scrollDirection: Axis.horizontal,
-      child: Row(
+    return SizedBox(
+      height: 90.h,
+      child: Column(
         children: [
-          RadioItem(
-            label: 'استفسار',
-            value: 'suggestion',
-            groupValue: _selectedValue,
-            onChanged: _handleRadioValueChange,
-            context: context,
+          Row(
+            children: [
+              RadioItem(
+                label: 'استفسار',
+                value: 'suggestion',
+                groupValue: _selectedValue,
+                onChanged: _handleRadioValueChange,
+                context: context,
+              ),
+              8.horizontalSpace,
+              RadioItem(
+                label: 'سؤال',
+                value: 'question',
+                groupValue: _selectedValue,
+                onChanged: _handleRadioValueChange,
+                context: context,
+              ),
+              8.horizontalSpace,
+
+              RadioItem(
+                label: 'إقتراح',
+                value: 'complaint',
+                groupValue: _selectedValue,
+                onChanged: _handleRadioValueChange,
+                context: context,
+              ),
+              8.horizontalSpace,
+              RadioItem(
+                label: 'اخرى',
+                value: 'other',
+                groupValue: _selectedValue,
+                onChanged: _handleRadioValueChange,
+                context: context,
+              ),
+            ],
           ),
-          SizedBox(width: 8),
+          8.verticalSpace,
           RadioItem(
-            label: 'سؤال',
-            value: 'question',
-            groupValue: _selectedValue,
-            onChanged: _handleRadioValueChange,
-            context: context,
-          ),
-          SizedBox(width: 8),
-          RadioItem(
-            label: 'شكوى',
-            value: 'complaint',
-            groupValue: _selectedValue,
-            onChanged: _handleRadioValueChange,
-            context: context,
-          ),
-          SizedBox(width: 8),
-          RadioItem(
-            label: 'اخرى',
-            value: 'other',
+            label: 'تغير بيانات شخصية',
+            value: 'changeProfile',
             groupValue: _selectedValue,
             onChanged: _handleRadioValueChange,
             context: context,
@@ -78,11 +92,7 @@ class DashedLinePainter extends CustomPainter {
     double startX = 0;
 
     while (startX < size.width) {
-      canvas.drawLine(
-        Offset(startX, 0),
-        Offset(startX + dashWidth, 0),
-        paint,
-      );
+      canvas.drawLine(Offset(startX, 0), Offset(startX + dashWidth, 0), paint);
       startX += dashWidth + dashSpace;
     }
   }
@@ -98,23 +108,33 @@ Widget RadioItem({
   required ValueChanged<String?> onChanged,
   required BuildContext context,
 }) {
-  return Row(
-    mainAxisSize: MainAxisSize.min,
-    children: [
-      Radio<String>(
-        value: value,
-        groupValue: groupValue,
-        onChanged: onChanged,
-        activeColor: AppColors.primary(context),
-        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-        visualDensity: VisualDensity.compact,
-      ),
-      Text(
-        label,
-        style: AppStyles.styleBold16(context).copyWith(
-          color: AppColors.typographySubTitle(context),
+  return Expanded(
+    child: SizedBox(
+      height: 41.h,
+      child: InkWell(
+        onTap: () {
+          onChanged(value);
+        },
+        child: Card(
+          elevation: 2,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+          margin: EdgeInsets.zero,
+          color: value == groupValue
+              ? AppColors.secondColor(context)
+              : Colors.white,
+          child: Center(
+            child: Text(
+              label,
+              textAlign: TextAlign.center,
+              style: AppStyles.styleMedium14(context).copyWith(
+                color: value == groupValue
+                    ? Colors.white
+                    : AppColors.typographyHeading(context),
+              ),
+            ),
+          ),
         ),
       ),
-    ],
+    ),
   );
 }

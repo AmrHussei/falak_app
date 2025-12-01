@@ -5,6 +5,7 @@ on:
     branches:
       - main
       - test
+      - dev
 
 
 jobs:
@@ -42,69 +43,69 @@ jobs:
           fail_ci_if_error: false
 
   # Build and deploy Android
-  #    deploy-android:
-  #      name: Build and Deploy Android
-  #      needs: test
-  #      runs-on: ubuntu-latest
-  #      if: github.ref == 'refs/heads/main'
-  #      steps:
-  #        - name: Checkout code
-  #          uses: actions/checkout@v4
-  #
-  #        - name: Setup Java
-  #          uses: actions/setup-java@v3
-  #          with:
-  #            distribution: 'zulu'
-  #            java-version: '17'
-  #
-  #        - name: Setup Flutter
-  #          uses: subosito/flutter-action@v2
-  #          with:
-  #            flutter-version: '3.35.5'
-  #            channel: 'stable'
-  #            cache: true
-  #
-  #        - name: Get dependencies
-  #          run: flutter pub get
-  #
-  #        - name: Decode Keystore
-  #          env:
-  #            ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 }}
-  #          run: |
-  #            echo $ENCODED_KEYSTORE | base64 -di > android/app/keystore.jks
-  #
-  #        - name: Create key.properties
-  #          env:
-  #            KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-  #            KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-  #            KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-  #          run: |
-  #            cat > android/key.properties << EOF
-  #            storePassword=$KEYSTORE_PASSWORD
-  #            keyPassword=$KEY_PASSWORD
-  #            keyAlias=$KEY_ALIAS
-  #            storeFile=keystore.jks
-  #            EOF
-  #
-  #
-  #        - name: Build Android App Bundle
-  #          run: flutter build appbundle --release
-  #
-  #        - name: Upload AAB to Google Play
-  #          uses: r0adkll/upload-google-play@v1.1.3
-  #          with:
-  #            serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
-  #            packageName: com.dot.score
-  #            releaseFiles: build/app/outputs/bundle/release/app-release.aab
-  #            track: production
-  #            status: completed
-  #            inAppUpdatePriority: 2
-  #
-  #        - name: Upload AAB as artifact
-  #          uses: actions/upload-artifact@v4
-  #          with:
-  #            name: app-release.aab
-  #            path: build/app/outputs/bundle/release/app-release.aab
+  deploy-android:
+    name: Build and Deploy Android
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/main'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Decode Keystore
+        env:
+          ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo $ENCODED_KEYSTORE | base64 -di > android/app/keystore.jks
+
+      - name: Create key.properties
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          cat > android/key.properties << EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=keystore.jks
+          EOF
+
+
+      - name: Build Android App Bundle
+        run: flutter build appbundle --release
+
+      - name: Upload AAB to Google Play
+        uses: r0adkll/upload-google-play@v1.1.3
+        with:
+          serviceAccountJsonPlainText: ${{ secrets.GOOGLE_PLAY_SERVICE_ACCOUNT_JSON }}
+          packageName: com.dot.score
+          releaseFiles: build/app/outputs/bundle/release/app-release.aab
+          track: production
+          status: completed
+          inAppUpdatePriority: 2
+
+      - name: Upload AAB as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-release.aab
+          path: build/app/outputs/bundle/release/app-release.aab
 
   # Build and deploy iOS
   deploy-ios:
@@ -279,67 +280,67 @@ jobs:
           path: ${{ env.IPA_PATH }}
 
   # Build and distribute Android APK to Firebase (test branch only)
-  #    test-android:
-  #      name: Build and Distribute Android APK
-  #      needs: test
-  #      runs-on: ubuntu-latest
-  #      if: github.ref == 'refs/heads/test'
-  #      steps:
-  #        - name: Checkout code
-  #          uses: actions/checkout@v4
-  #
-  #        - name: Setup Java
-  #          uses: actions/setup-java@v3
-  #          with:
-  #            distribution: 'zulu'
-  #            java-version: '17'
-  #
-  #        - name: Setup Flutter
-  #          uses: subosito/flutter-action@v2
-  #          with:
-  #            flutter-version: '3.35.5'
-  #            channel: 'stable'
-  #            cache: true
-  #
-  #        - name: Get dependencies
-  #          run: flutter pub get
-  #
-  #        - name: Decode Keystore
-  #          env:
-  #            ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 }}
-  #          run: |
-  #            echo $ENCODED_KEYSTORE | base64 -di > android/app/keystore.jks
-  #
-  #        - name: Create key.properties
-  #          env:
-  #            KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
-  #            KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
-  #            KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
-  #          run: |
-  #            cat > android/key.properties << EOF
-  #            storePassword=$KEYSTORE_PASSWORD
-  #            keyPassword=$KEY_PASSWORD
-  #            keyAlias=$KEY_ALIAS
-  #            storeFile=keystore.jks
-  #            EOF
-  #
-  #        - name: Build Android APK
-  #          run: flutter build apk --release
-  #
-  #        - name: Upload APK to Firebase App Distribution
-  #          uses: wzieba/Firebase-Distribution-Github-Action@v1
-  #          with:
-  #            appId: ${{ secrets.FIREBASE_APP_ID_ANDROID }}
-  #            serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
-  #            groups: testers
-  #            file: build/app/outputs/flutter-apk/app-release.apk
-  #            releaseNotes: "Test build from branch: ${{ github.ref_name }}"
-  #
-  #        - name: Upload APK as artifact
-  #          uses: actions/upload-artifact@v4
-  #          with:
-  #            name: app-test.apk
-  #            path: build/app/outputs/flutter-apk/app-release.apk
+  test-android:
+    name: Build and Distribute Android APK
+    needs: test
+    runs-on: ubuntu-latest
+    if: github.ref == 'refs/heads/test'
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Java
+        uses: actions/setup-java@v3
+        with:
+          distribution: 'zulu'
+          java-version: '17'
+
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
+        with:
+          flutter-version: '3.35.5'
+          channel: 'stable'
+          cache: true
+
+      - name: Get dependencies
+        run: flutter pub get
+
+      - name: Decode Keystore
+        env:
+          ENCODED_KEYSTORE: ${{ secrets.KEYSTORE_BASE64 }}
+        run: |
+          echo $ENCODED_KEYSTORE | base64 -di > android/app/keystore.jks
+
+      - name: Create key.properties
+        env:
+          KEYSTORE_PASSWORD: ${{ secrets.KEYSTORE_PASSWORD }}
+          KEY_ALIAS: ${{ secrets.KEY_ALIAS }}
+          KEY_PASSWORD: ${{ secrets.KEY_PASSWORD }}
+        run: |
+          cat > android/key.properties << EOF
+          storePassword=$KEYSTORE_PASSWORD
+          keyPassword=$KEY_PASSWORD
+          keyAlias=$KEY_ALIAS
+          storeFile=keystore.jks
+          EOF
+
+      - name: Build Android APK
+        run: flutter build apk --release
+
+      - name: Upload APK to Firebase App Distribution
+        uses: wzieba/Firebase-Distribution-Github-Action@v1
+        with:
+          appId: ${{ secrets.FIREBASE_APP_ID_ANDROID }}
+          serviceCredentialsFileContent: ${{ secrets.FIREBASE_SERVICE_ACCOUNT_JSON }}
+          groups: testers
+          file: build/app/outputs/flutter-apk/app-release.apk
+          releaseNotes: "Test build from branch: ${{ github.ref_name }}"
+
+      - name: Upload APK as artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: app-test.apk
+          path: build/app/outputs/flutter-apk/app-release.apk
 
   # Build and distribute iOS IPA to TestFlight (test branch only)
   test-ios:

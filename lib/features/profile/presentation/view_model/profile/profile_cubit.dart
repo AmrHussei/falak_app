@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/functions/pick_images_and_files.dart';
 import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
@@ -394,17 +393,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void createAgency() async {
-    if (kDebugMode) {
-      emit(
-        state.copyWith(
-          createAgencyRequestState: RequestState.loaded,
-          createAgencyMsg: '',
-        ),
-      );
-      clearCreateAgenciesData();
-      return;
-    }
-
     if (!createAgenciesKey.currentState!.validate()) return;
     emit(state.copyWith(createAgencyRequestState: RequestState.loading));
     CreateAgencyParams params = CreateAgencyParams(

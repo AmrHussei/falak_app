@@ -21,7 +21,6 @@ class SocialModel {
 
 class ContactData {
   final PhoneNumber? phoneNumber;
-  final Address? address;
   final PhoneNumber? whatsapp;
   final String? id;
   final String? email;
@@ -36,7 +35,6 @@ class ContactData {
 
   ContactData({
     this.phoneNumber,
-    this.address,
     this.whatsapp,
     this.id,
     this.email,
@@ -55,8 +53,6 @@ class ContactData {
       phoneNumber: json['phoneNumber'] != null
           ? PhoneNumber.fromJson(json['phoneNumber'])
           : null,
-      address:
-          json['address'] != null ? Address.fromJson(json['address']) : null,
       whatsapp: json['whatsapp'] != null
           ? PhoneNumber.fromJson(json['whatsapp'])
           : null,
@@ -78,7 +74,6 @@ class ContactData {
   Map<String, dynamic> toJson() {
     return {
       'phoneNumber': phoneNumber?.toJson(),
-      'address': address?.toJson(),
       'whatsapp': whatsapp?.toJson(),
       '_id': id,
       'email': email,

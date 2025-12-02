@@ -13,12 +13,26 @@ import '../../../../../../app/app.dart';
 import '../../../../../../config/routes/app_routes.dart';
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../view_model/home/home_cubit.dart';
-import '../../screens/assets_details_screen.dart';
 
-class DrawerWidget extends StatelessWidget {
+class DrawerWidget extends StatefulWidget {
   DrawerWidget({super.key, required this.toggleDrawer});
 
   final Function() toggleDrawer;
+
+  @override
+  State<DrawerWidget> createState() => _DrawerWidgetState();
+}
+
+class _DrawerWidgetState extends State<DrawerWidget> {
+
+  @override
+  void initState() {
+
+    WidgetsBinding.instance.addPostFrameCallback((_){
+      context.read<HomeCubit>().getWallet();
+    });
+    super.initState();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -90,7 +104,7 @@ class DrawerWidget extends StatelessWidget {
               12.horizontalSpace,
               InkWell(
                 onTap: () {
-                  toggleDrawer();
+                  widget.toggleDrawer();
                 },
                 child: SvgPicture.asset(Assets.imagesClose, height: 20.h),
               ),
@@ -101,9 +115,9 @@ class DrawerWidget extends StatelessWidget {
           DrawerDividerWidget(),
           24.verticalSpace,
           if (KisGuest)
-            GuestDrawerWidget(toggleDrawer: toggleDrawer)
+            GuestDrawerWidget(toggleDrawer: widget.toggleDrawer)
           else
-            UserDrawerWidget(toggleDrawer: toggleDrawer),
+            UserDrawerWidget(toggleDrawer: widget.toggleDrawer),
           24.verticalSpace,
           DrawerDividerWidget(),
 

@@ -5,6 +5,7 @@ import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/features/home/presentation/view_model/home/home_cubit.dart';
 import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
 import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
@@ -59,11 +60,16 @@ class UserDrawerWidget extends StatelessWidget {
                         children: [
                           SvgPicture.asset(Assets.imagesBag),
                           Flexible(
-                            child: Text(
-                              (user?.data.successAuctionsCount ?? 0).toString(),
-                              style: AppStyles.styleBold14(
-                                context,
-                              ).copyWith(color: AppColors.thirdColor(context)),
+                            child: BlocSelector<HomeCubit,HomeState,double>(
+                              selector: (state)=>state.getWalletModel?.data.balance??0.0,
+                              builder: (_,balance) {
+                                return Text(
+                                  balance.toString(),
+                                  style: AppStyles.styleBold14(
+                                    context,
+                                  ).copyWith(color: AppColors.thirdColor(context)),
+                                );
+                              }
                             ),
                           ),
                           SvgPicture.asset(Assets.imagesRiyal),

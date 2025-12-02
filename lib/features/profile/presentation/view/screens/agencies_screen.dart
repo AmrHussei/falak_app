@@ -27,7 +27,7 @@ class AgenciesScreen extends StatelessWidget {
             AgenciesCardWidegt(
               onTap: () {
                 context.read<ProfileCubit>().status = AppStrings.approved;
-                context.navigateTo(Routes.AgenciesDetailsScreen);
+                context.navigateTo(Routes.AgenciesDetailsScreen, 'النشطة');
               },
               boxColor: const Color(0x0C1D6E4F),
               icon: AppAssets.app_imagesActiveSvg,
@@ -37,7 +37,7 @@ class AgenciesScreen extends StatelessWidget {
             AgenciesCardWidegt(
               onTap: () {
                 context.read<ProfileCubit>().status = AppStrings.pending;
-                context.navigateTo(Routes.AgenciesDetailsScreen);
+                context.navigateTo(Routes.AgenciesDetailsScreen, 'تحت الإجراء');
               },
               boxColor: const Color(0x0C9E5C21),
               icon: AppAssets.app_imagesPindding,
@@ -47,7 +47,7 @@ class AgenciesScreen extends StatelessWidget {
             AgenciesCardWidegt(
               onTap: () {
                 context.read<ProfileCubit>().status = AppStrings.blocked;
-                context.navigateTo(Routes.AgenciesDetailsScreen);
+                context.navigateTo(Routes.AgenciesDetailsScreen, 'الملغية');
               },
               boxColor: const Color(0x0C2E343F),
               icon: AppAssets.app_imagesCanceled,
@@ -57,7 +57,7 @@ class AgenciesScreen extends StatelessWidget {
             AgenciesCardWidegt(
               onTap: () {
                 context.read<ProfileCubit>().status = AppStrings.rejected;
-                context.navigateTo(Routes.AgenciesDetailsScreen);
+                context.navigateTo(Routes.AgenciesDetailsScreen, 'المرفوضة');
               },
               boxColor: const Color(0x0CAF2A1A),
               icon: AppAssets.app_imagesRejected,
@@ -66,9 +66,8 @@ class AgenciesScreen extends StatelessWidget {
             16.verticalSpace,
             AgenciesCardWidegt(
               onTap: () {
-                context.read<ProfileCubit>().status =
-                    AppStrings.terminated; //TODO:
-                context.navigateTo(Routes.AgenciesDetailsScreen);
+                context.read<ProfileCubit>().status = AppStrings.terminated;
+                context.navigateTo(Routes.AgenciesDetailsScreen, 'المنتهية');
               },
               boxColor: const Color(0x0CAF2A1A),
               icon: AppAssets.app_imagesTerminated,

@@ -30,7 +30,7 @@ class AppStrings {
   //
   static const String rejected = 'rejected'; //rejected  approved  pending
   static const String approved = 'approved';
-  static const String terminated = 'expired'; //TODO:
+  static const String terminated = 'expired';
   static const String pending = 'pending';
   static const String blocked = 'blocked ';
 

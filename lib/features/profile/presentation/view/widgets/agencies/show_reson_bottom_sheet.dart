@@ -39,8 +39,8 @@ Future<void> showResonBottomSheet(
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Text('السبب', // Format DateTime
-                        style: AppStyles.stylBold24(context)),
+                    Text('سبب الرفض', // Format DateTime
+                        style: AppStyles.styleBold18(context)),
                     GestureDetector(
                       onTap: () {
                         context.pop();

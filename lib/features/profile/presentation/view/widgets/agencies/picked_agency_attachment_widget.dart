@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
@@ -39,22 +40,20 @@ class _PickedAgencyAttachmentWidgetState
               }
               return null;
             },
-            label: profileCubit.agencyAttachment == null
-                ? 'إرفاق الوكالة'
+            title: profileCubit.agencyAttachment == null
+                ? 'مرفق الوكالة'
                 : profileCubit.agencyAttachment!.path.split('/').last,
+            hint: 'مرفق الوكالة',
             hintStyle: AppStyles.styleBold16(context),
             filled: true,
             fillColor: AppColors.backgroundPrimary(context),
             enabled: false,
             keyboardType: TextInputType.number,
-            prefix: Container(
-              margin: EdgeInsetsDirectional.only(
-                  top: 8, bottom: 8, start: 8, end: 8),
-              padding: EdgeInsets.all(6),
-              child: SvgPicture.asset(
-                AppAssets.app_imagesDocumentUpload,
-                fit: BoxFit.fill,
-              ),
+            prefix: SvgPicture.asset(
+              AppAssets.app_imagesDocumentUpload,
+              fit: BoxFit.fill,
+              height: 32.h,
+              width: 32.w,
             ),
           ),
         );

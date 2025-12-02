@@ -1,4 +1,6 @@
+import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:intl/intl.dart';
 import 'package:falak/core/utils/app_colors.dart';
@@ -14,6 +16,7 @@ class DatePickerWidegt extends StatefulWidget {
     required this.controller,
     this.filled,
   });
+
   final String text;
   final TextEditingController controller;
   final bool? filled;
@@ -70,8 +73,9 @@ class _DatePickerWidegtState extends State<DatePickerWidegt> {
           : selectedDate.toUtc().add(Duration(hours: 0)); // Default to -05:00
 
       final formattedDate = DateFormat("yyyy-MM-dd").format(selectedDate);
-      final isoFormattedDate =
-          DateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSZ").format(selectedDate);
+      final isoFormattedDate = DateFormat(
+        "yyyy-MM-dd'T'HH:mm:ss.SSSZ",
+      ).format(selectedDate);
       print(isoFormattedDate);
 
       // Update UI state
@@ -96,12 +100,14 @@ class _DatePickerWidegtState extends State<DatePickerWidegt> {
         key: UniqueKey(),
         fillColor: AppColors.primarySurface(context),
         filled: widget.filled ?? true,
-        label: widget.text,
+        title: widget.text,
+        hint: widget.text,
 
         controller: TextEditingController(
-            text: widget.controller.text.isEmpty
-                ? '' //widget.text
-                : widget.controller.text.split('T').first),
+          text: widget.controller.text.isEmpty
+              ? '' //widget.text
+              : widget.controller.text.split('T').first,
+        ),
         // // hint: _selectedDateFormatted ?? widget.text,
         // hintStyle: _selectedDateFormatted == null
         //     ? null
@@ -121,21 +127,16 @@ class _DatePickerWidegtState extends State<DatePickerWidegt> {
         suffixIconSize: 0,
         enabled: false,
         keyboardType: TextInputType.emailAddress,
-        prefix: Padding(
-          padding: EdgeInsets.symmetric(
-            vertical: 12,
-            horizontal: 16,
-          ),
-          child: ConstrainedBox(
-            constraints: BoxConstraints(
-              maxWidth: 24,
-              maxHeight: 24,
-            ),
-            child: SvgPicture.asset(
-              AppAssets.app_imagesCalendar,
+        prefix: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            SvgPicture.asset(
+              Assets.appImagesStartDate,
               fit: BoxFit.fill,
+              height: 32.h,
+              width: 32.w,
             ),
-          ),
+          ],
         ),
       ),
     );

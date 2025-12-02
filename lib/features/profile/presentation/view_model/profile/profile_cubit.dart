@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/functions/pick_images_and_files.dart';
 import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
@@ -29,6 +30,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   final ProfileRepository _profileRepository;
   File? imageFile;
   File? agencyAttachment;
+
   //
   TextEditingController firstNameController = TextEditingController();
   TextEditingController SecondNameController = TextEditingController();
@@ -45,8 +47,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController agencyNameController = TextEditingController();
   TextEditingController agencyNumberController = TextEditingController();
-  TextEditingController agencyIdentityNumberController =
-      TextEditingController();
   bool isAcceptAgencyPolicy = true;
   TextEditingController agencyIssuedDateController = TextEditingController();
   final editEmaileKey = GlobalKey<FormState>();
@@ -60,6 +60,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   List<Agency>? rejectedAgencies;
   List<Agency>? approvedAgencies;
   List<Agency>? pendingAgencies;
+
   //
   String? editUserInfoCountryID;
 
@@ -72,18 +73,22 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          profileRequestState: RequestState.error,
-          profileError: failure,
-        ));
+        emit(
+          state.copyWith(
+            profileRequestState: RequestState.error,
+            profileError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (profileModel) {
         setProfileControllers(profileModel);
-        emit(state.copyWith(
-          profileRequestState: RequestState.loaded,
-          profileModel: profileModel,
-        ));
+        emit(
+          state.copyWith(
+            profileRequestState: RequestState.loaded,
+            profileModel: profileModel,
+          ),
+        );
         Kemail = profileModel.data.email;
         Kphone = profileModel.data.phoneNumber.number;
       },
@@ -110,21 +115,27 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(changeProfileImageRequestState: RequestState.loading));
 
     final result = await _profileRepository.changeProfileImage(
-        imageFile, editUserInfoCountryID);
+      imageFile,
+      editUserInfoCountryID,
+    );
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          changeProfileImageRequestState: RequestState.error,
-          changeProfileImageError: failure,
-        ));
+        emit(
+          state.copyWith(
+            changeProfileImageRequestState: RequestState.error,
+            changeProfileImageError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
-        emit(state.copyWith(
-          changeProfileImageRequestState: RequestState.loaded,
-          changeProfileImageMsg: msg,
-        ));
+        emit(
+          state.copyWith(
+            changeProfileImageRequestState: RequestState.loaded,
+            changeProfileImageMsg: msg,
+          ),
+        );
         deletePickedImage();
         deleteCountryIDFunction();
         getProfile(false);
@@ -135,42 +146,46 @@ class ProfileCubit extends Cubit<ProfileState> {
   pickProfileImage() async {
     imageFile = await pickImage();
     if (imageFile != null) {
-      emit(state.copyWith(
-        imageFile: imageFile,
-      ));
+      emit(state.copyWith(imageFile: imageFile));
     }
   }
 
   EditCountryIDFunction() async {
-    emit(state.copyWith(
-      editUserInfoCountryID: editUserInfoCountryID,
-    ));
+    emit(state.copyWith(editUserInfoCountryID: editUserInfoCountryID));
   }
 
   deletePickedImage() async {
     imageFile = null;
 
-    emit(state.copyWith(
-      changeProfileImageRequestState: RequestState.loaded,
-      imageFile: null,
-    ));
-    emit(state.copyWith(
-      changeProfileImageRequestState: RequestState.ideal,
-      imageFile: null,
-    ));
+    emit(
+      state.copyWith(
+        changeProfileImageRequestState: RequestState.loaded,
+        imageFile: null,
+      ),
+    );
+    emit(
+      state.copyWith(
+        changeProfileImageRequestState: RequestState.ideal,
+        imageFile: null,
+      ),
+    );
   }
 
   deleteCountryIDFunction() async {
     editUserInfoCountryID = null;
 
-    emit(state.copyWith(
-      changeProfileImageRequestState: RequestState.loaded,
-      editUserInfoCountryID: null,
-    ));
-    emit(state.copyWith(
-      changeProfileImageRequestState: RequestState.ideal,
-      editUserInfoCountryID: null,
-    ));
+    emit(
+      state.copyWith(
+        changeProfileImageRequestState: RequestState.loaded,
+        editUserInfoCountryID: null,
+      ),
+    );
+    emit(
+      state.copyWith(
+        changeProfileImageRequestState: RequestState.ideal,
+        editUserInfoCountryID: null,
+      ),
+    );
   }
 
   void askAddEmail() async {
@@ -180,18 +195,22 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          askAddEmailRequestState: RequestState.error,
-          askAddEmailError: failure,
-        ));
+        emit(
+          state.copyWith(
+            askAddEmailRequestState: RequestState.error,
+            askAddEmailError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
-        otpCode = msg ;
-        emit(state.copyWith(
-          askAddEmailRequestState: RequestState.loaded,
-          askAddEmailMsg: msg,
-        ));
+        otpCode = msg;
+        emit(
+          state.copyWith(
+            askAddEmailRequestState: RequestState.loaded,
+            askAddEmailMsg: msg,
+          ),
+        );
       },
     );
   }
@@ -199,24 +218,29 @@ class ProfileCubit extends Cubit<ProfileState> {
   void addEmail() async {
     if (!editEmaileKey.currentState!.validate()) return;
     emit(state.copyWith(addEmailRequestState: RequestState.loading));
-    final result =
-        await _profileRepository.addEmail(emailController.text.trim());
+    final result = await _profileRepository.addEmail(
+      emailController.text.trim(),
+    );
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          addEmailRequestState: RequestState.error,
-          addEmailError: failure,
-        ));
+        emit(
+          state.copyWith(
+            addEmailRequestState: RequestState.error,
+            addEmailError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
-        otpCode = msg ;
+        otpCode = msg;
 
-        emit(state.copyWith(
-          addEmailRequestState: RequestState.loaded,
-          addEmailModelMsg: msg,
-        ));
+        emit(
+          state.copyWith(
+            addEmailRequestState: RequestState.loaded,
+            addEmailModelMsg: msg,
+          ),
+        );
       },
     );
   }
@@ -228,18 +252,22 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          askEditPhoneRequestState: RequestState.error,
-          askEditPhoneError: failure,
-        ));
+        emit(
+          state.copyWith(
+            askEditPhoneRequestState: RequestState.error,
+            askEditPhoneError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
-        otpCode = msg ;
-        emit(state.copyWith(
-          askEditPhoneRequestState: RequestState.loaded,
-          askEditPhoneMsg: msg,
-        ));
+        otpCode = msg;
+        emit(
+          state.copyWith(
+            askEditPhoneRequestState: RequestState.loaded,
+            askEditPhoneMsg: msg,
+          ),
+        );
       },
     );
   }
@@ -247,23 +275,28 @@ class ProfileCubit extends Cubit<ProfileState> {
   void addPhone() async {
     if (!editphoneKey.currentState!.validate()) return;
     emit(state.copyWith(addPhoneRequestState: RequestState.loading));
-    final result =
-        await _profileRepository.addPhone(editablePhoneController.text.trim());
+    final result = await _profileRepository.addPhone(
+      editablePhoneController.text.trim(),
+    );
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          addPhoneRequestState: RequestState.error,
-          addPhoneError: failure,
-        ));
+        emit(
+          state.copyWith(
+            addPhoneRequestState: RequestState.error,
+            addPhoneError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
-        otpCode = msg ;
-        emit(state.copyWith(
-          addPhoneRequestState: RequestState.loaded,
-          addPhoneModelMsg: msg,
-        ));
+        otpCode = msg;
+        emit(
+          state.copyWith(
+            addPhoneRequestState: RequestState.loaded,
+            addPhoneModelMsg: msg,
+          ),
+        );
       },
     );
   }
@@ -276,22 +309,27 @@ class ProfileCubit extends Cubit<ProfileState> {
       oldPassword: oldPasswordController.text.trim(),
     );
 
-    final result =
-        await _profileRepository.changePassword(changePasswordParams);
+    final result = await _profileRepository.changePassword(
+      changePasswordParams,
+    );
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          changePasswordRequestState: RequestState.error,
-          changePasswordError: failure,
-        ));
+        emit(
+          state.copyWith(
+            changePasswordRequestState: RequestState.error,
+            changePasswordError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
-        emit(state.copyWith(
-          changePasswordRequestState: RequestState.loaded,
-          changePasswordMsg: msg,
-        ));
+        emit(
+          state.copyWith(
+            changePasswordRequestState: RequestState.loaded,
+            changePasswordMsg: msg,
+          ),
+        );
       },
     );
   }
@@ -303,17 +341,21 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          deleteAccountRequestState: RequestState.error,
-          deleteAccountError: failure,
-        ));
+        emit(
+          state.copyWith(
+            deleteAccountRequestState: RequestState.error,
+            deleteAccountError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) async {
-        emit(state.copyWith(
-          deleteAccountRequestState: RequestState.loaded,
-          deleteAccountMsg: msg,
-        ));
+        emit(
+          state.copyWith(
+            deleteAccountRequestState: RequestState.loaded,
+            deleteAccountMsg: msg,
+          ),
+        );
         await SecureStorageServices().deleteCookie().then((value) => value);
         serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userImage);
         serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userName);
@@ -330,24 +372,39 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getAgenciesRequestState: RequestState.error,
-          getAgenciesError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getAgenciesRequestState: RequestState.error,
+            getAgenciesError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (model) {
         agencies = model.data;
         agenciesLength = agencies.length;
-        emit(state.copyWith(
-          getAgenciesRequestState: RequestState.loaded,
-          getAgenciesModel: model,
-        ));
+        emit(
+          state.copyWith(
+            getAgenciesRequestState: RequestState.loaded,
+            getAgenciesModel: model,
+          ),
+        );
       },
     );
   }
 
   void createAgency() async {
+    if (kDebugMode) {
+      emit(
+        state.copyWith(
+          createAgencyRequestState: RequestState.loaded,
+          createAgencyMsg: '',
+        ),
+      );
+      clearCreateAgenciesData();
+      return;
+    }
+
     if (!createAgenciesKey.currentState!.validate()) return;
     emit(state.copyWith(createAgencyRequestState: RequestState.loading));
     CreateAgencyParams params = CreateAgencyParams(
@@ -355,23 +412,26 @@ class ProfileCubit extends Cubit<ProfileState> {
       agencyNumber: agencyNumberController.text.trim(),
       agencyIssuedDate: agencyIssuedDateController.text.trim(),
       agencyAttachment: agencyAttachment!,
-      identityNumber: agencyIdentityNumberController.text.trim(),
     );
     final result = await _profileRepository.createAgency(params);
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          createAgencyRequestState: RequestState.error,
-          createAgencyError: failure,
-        ));
+        emit(
+          state.copyWith(
+            createAgencyRequestState: RequestState.error,
+            createAgencyError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
-        emit(state.copyWith(
-          createAgencyRequestState: RequestState.loaded,
-          createAgencyMsg: msg,
-        ));
+        emit(
+          state.copyWith(
+            createAgencyRequestState: RequestState.loaded,
+            createAgencyMsg: msg,
+          ),
+        );
         // getAgencies();
         clearCreateAgenciesData();
       },
@@ -383,31 +443,30 @@ class ProfileCubit extends Cubit<ProfileState> {
     agencyNameController.clear();
     agencyNumberController.clear();
     agencyAttachment = null;
-    agencyIdentityNumberController.clear();
   }
 
   Future pickAgencyAttachment() async {
     agencyAttachment = await pickFile();
     if (agencyAttachment != null) {
-      emit(
-        state.copyWith(
-          agencyAttachment: agencyAttachment,
-        ),
-      );
+      emit(state.copyWith(agencyAttachment: agencyAttachment));
     }
   }
 
   deleteAgencyAttachment() async {
     agencyAttachment = null;
 
-    emit(state.copyWith(
-      changeProfileImageRequestState: RequestState.loaded,
-      agencyAttachment: null,
-    ));
-    emit(state.copyWith(
-      changeProfileImageRequestState: RequestState.ideal,
-      agencyAttachment: null,
-    ));
+    emit(
+      state.copyWith(
+        changeProfileImageRequestState: RequestState.loaded,
+        agencyAttachment: null,
+      ),
+    );
+    emit(
+      state.copyWith(
+        changeProfileImageRequestState: RequestState.ideal,
+        agencyAttachment: null,
+      ),
+    );
   }
 
   void deleteAgencies() async {
@@ -417,17 +476,21 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          deleteAgenciesRequestState: RequestState.error,
-          deleteAgenciesError: failure,
-        ));
+        emit(
+          state.copyWith(
+            deleteAgenciesRequestState: RequestState.error,
+            deleteAgenciesError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
-        emit(state.copyWith(
-          deleteAgenciesRequestState: RequestState.loaded,
-          deleteAgenciesMsg: msg,
-        ));
+        emit(
+          state.copyWith(
+            deleteAgenciesRequestState: RequestState.loaded,
+            deleteAgenciesMsg: msg,
+          ),
+        );
         print('deleteAgencies success');
         // getAgencies();
       },
@@ -441,17 +504,21 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          activeAgenciesRequestState: RequestState.error,
-          activeAgenciesError: failure,
-        ));
+        emit(
+          state.copyWith(
+            activeAgenciesRequestState: RequestState.error,
+            activeAgenciesError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
-        emit(state.copyWith(
-          activeAgenciesRequestState: RequestState.loaded,
-          activeAgenciesMsg: msg,
-        ));
+        emit(
+          state.copyWith(
+            activeAgenciesRequestState: RequestState.loaded,
+            activeAgenciesMsg: msg,
+          ),
+        );
       },
     );
   }
@@ -463,17 +530,21 @@ class ProfileCubit extends Cubit<ProfileState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          logOutRequestState: RequestState.error,
-          logOutError: failure,
-        ));
+        emit(
+          state.copyWith(
+            logOutRequestState: RequestState.error,
+            logOutError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) async {
-        emit(state.copyWith(
-          logOutRequestState: RequestState.loaded,
-          logOutMsg: msg,
-        ));
+        emit(
+          state.copyWith(
+            logOutRequestState: RequestState.loaded,
+            logOutMsg: msg,
+          ),
+        );
         await SecureStorageServices().deleteCookie().then((value) => value);
         serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userImage);
         serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userName);

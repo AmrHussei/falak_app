@@ -90,8 +90,8 @@ class Assets {
   static const String appImagesOnGoing = 'assets/app_images/onGoing.svg';
   static const String appImagesOuroffice = 'assets/app_images/ouroffice.svg';
   static const String appImagesOurofficeIcon = 'assets/app_images/ourofficeIcon.svg';
+  static const String appImagesPdfIcon = 'assets/app_images/pdfIcon.svg';
   static const String appImagesPdfIconw = 'assets/app_images/pdfIconw.svg';
-  static const String appImagesPdficon = 'assets/app_images/Pdficon.svg';
   static const String appImagesPerson = 'assets/app_images/person.svg';
   static const String appImagesPhone = 'assets/app_images/phone.svg';
   static const String appImagesPhoneNum = 'assets/app_images/phone_Num.svg';
@@ -113,6 +113,7 @@ class Assets {
   static const String appImagesSplashBg = 'assets/app_images/SplashBg.png';
   static const String appImagesSplashPng = 'assets/app_images/SplashPng.jpg';
   static const String appImagesSquareDoublAltArrowUp = 'assets/app_images/SquareDoublAltArrowUp.svg';
+  static const String appImagesStartDate = 'assets/app_images/startDate.svg';
   static const String appImagesTerminated = 'assets/app_images/terminated.svg';
   static const String appImagesUploadeFilesIcon = 'assets/app_images/uploadeFilesIcon.svg';
   static const String appImagesUserCheckRounded = 'assets/app_images/UserCheckRounded.svg';

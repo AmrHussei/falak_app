@@ -24,6 +24,7 @@ class AppPrimaryButton extends StatelessWidget {
   final Widget? loadingWidget;
   final double? radius;
   final String? icon;
+  final Color? iconColor;
 
   const AppPrimaryButton({
     Key? key,
@@ -36,6 +37,7 @@ class AppPrimaryButton extends StatelessWidget {
     this.loadingWidget,
     this.radius,
     this.icon,
+    this.iconColor,
   }) : super(key: key);
 
   @override
@@ -101,7 +103,12 @@ class AppPrimaryButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
-                    SvgPicture.asset(icon!, width: 20.w, height: 20.h),
+                    SvgPicture.asset(
+                      icon!,
+                      width: 20.w,
+                      height: 20.h,
+                      color: iconColor,
+                    ),
                     8.horizontalSpace,
                   ],
                   Text(
@@ -216,6 +223,7 @@ class AppOutlinedButton extends StatelessWidget {
   final double? radius;
   final bool isLoading;
   final Widget? loadingWidget;
+  final Color? iconColor;
 
   const AppOutlinedButton({
     Key? key,
@@ -228,6 +236,7 @@ class AppOutlinedButton extends StatelessWidget {
     this.isLoading = false,
     this.loadingWidget,
     this.radius,
+    this.iconColor,
   }) : super(key: key);
 
   @override
@@ -261,7 +270,12 @@ class AppOutlinedButton extends StatelessWidget {
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
                   if (icon != null) ...[
-                    SvgPicture.asset(icon!, width: 20.w, height: 20.h),
+                    SvgPicture.asset(
+                      icon!,
+                      width: 20.w,
+                      height: 20.h,
+                      color: iconColor,
+                    ),
                     8.horizontalSpace,
                   ],
                   if (firstText != null) ...[

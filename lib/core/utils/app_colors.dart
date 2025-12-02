@@ -129,6 +129,7 @@ class AppColors {
   static Color success05(BuildContext context) => const Color(0x0D1D6E4F);
 
   static Color error(BuildContext context) => const Color(0xFFEB5757);
+  static Color error2(BuildContext context) => const Color(0xFFBD2915);
 
   static Color danger(BuildContext context) => const Color(0xFFC21818);
 

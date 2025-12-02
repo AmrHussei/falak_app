@@ -12,11 +12,17 @@ class ChangePasswordBottomSheet extends StatelessWidget {
     this.title,
     this.action,
     this.subText,
+    this.haveButton = true,
+    this.haveImage = true,
+    this.height,
   });
 
   final String? title;
   final Function? action;
   final String? subText;
+  final bool haveButton;
+  final bool haveImage;
+  final double? height;
 
   @override
   Widget build(BuildContext context) {
@@ -27,7 +33,7 @@ class ChangePasswordBottomSheet extends StatelessWidget {
         bottom: context.bottomPadding + 8.h,
       ),
       child: Container(
-        height: 387.h,
+        height: height ?? 387.h,
         width: 359.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16.r)),
@@ -69,24 +75,28 @@ class ChangePasswordBottomSheet extends StatelessWidget {
               ],
             ),
             32.verticalSpace,
-            SvgPicture.asset(AppAssets.imagesLock, height: 125.h, width: 181.w),
-            12.verticalSpace,
+           if(haveImage)...[
+             SvgPicture.asset(AppAssets.imagesLock, height: 125.h, width: 181.w),
+             12.verticalSpace,
+           ],
             Text(
               subText ?? 'تم تغير كلمة المرور بنجاح',
               style: AppStyles.styleBold18(context),
             ),
-            const Spacer(),
-            AppPrimaryButton(
-              onPressed: () {
-                if (action != null) {
-                  action!();
-                } else {
-                  context.pop();
-                  context.pop();
-                }
-              },
-              text: 'الرئيسية',
-            ),
+            if (haveButton) ...[
+              const Spacer(),
+              AppPrimaryButton(
+                onPressed: () {
+                  if (action != null) {
+                    action!();
+                  } else {
+                    context.pop();
+                    context.pop();
+                  }
+                },
+                text: 'الرئيسية',
+              ),
+            ],
           ],
         ),
       ),

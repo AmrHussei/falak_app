@@ -10,13 +10,11 @@ class CreateAgencyParams extends Equatable {
   final String agencyName;
   final String agencyNumber;
   final String agencyIssuedDate;
-  final String identityNumber;
   CreateAgencyParams({
     required this.agencyName,
     required this.agencyNumber,
     required this.agencyIssuedDate,
     required this.agencyAttachment,
-    required this.identityNumber,
   });
 
   @override
@@ -25,7 +23,6 @@ class CreateAgencyParams extends Equatable {
         agencyIssuedDate,
         agencyNumber,
         agencyName,
-        identityNumber,
       ];
 
   Future<FormData> toFormData() async {
@@ -52,7 +49,6 @@ class CreateAgencyParams extends Equatable {
       'agencyNumber': $agencyNumber,
       'agencyIssuedDate': $agencyIssuedDate,
         agencyAttachment ${agencyAttachment.path}
-         "identityNumber": $identityNumber,
 """);
 
     FormData formData = FormData.fromMap({
@@ -60,7 +56,6 @@ class CreateAgencyParams extends Equatable {
       'agencyNumber': agencyNumber,
       'agencyIssuedDate': agencyIssuedDate,
       "agencyAttachment": await _createMultipartFile(agencyAttachment),
-      "identityNumber": identityNumber,
     });
 
     return formData;

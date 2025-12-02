@@ -84,20 +84,15 @@ class AppRoutes {
     WalletScreen(),
     ProfileScreen(),
   ];
+
   static Route? onGenerateRoute(RouteSettings routeSettings) {
     switch (routeSettings.name) {
       case Routes.login:
-        return MaterialPageRoute(
-          builder: (_) => LoginScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => LoginScreen());
       case Routes.signUpScreen:
-        return MaterialPageRoute(
-          builder: (_) => SignUpScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => SignUpScreen());
       case Routes.completeSignUpScreen:
-        return MaterialPageRoute(
-          builder: (_) => CompleteSignUpScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => CompleteSignUpScreen());
       case Routes.oTPScreen:
         return MaterialPageRoute(
           builder: (_) {
@@ -115,150 +110,84 @@ class AppRoutes {
               currentStep: params['currentStep'] as int? ?? 0,
               width: params['width'] as double? ?? 0.0,
               title: params['title'] as String?,
-              isEmail:( params['isEmail'] as bool?)??false,
+              isEmail: (params['isEmail'] as bool?) ?? false,
             );
           },
         );
       case Routes.forgetPasswordScreen:
-        return MaterialPageRoute(
-          builder: (_) => ForgetPasswordScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => ForgetPasswordScreen());
       case Routes.resetPasswordScreen:
-        return MaterialPageRoute(
-          builder: (_) => ResetePasswordScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => ResetePasswordScreen());
       case Routes.layoutScreen:
-        return MaterialPageRoute(
-          builder: (_) => LayoutScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => LayoutScreen());
       case Routes.homeScreen:
-        return MaterialPageRoute(
-          builder: (_) => const HomeScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => const HomeScreen());
       case Routes.mazadDetailsScreen:
-        return MaterialPageRoute(
-          builder: (_) => const MazadDetailsScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => const MazadDetailsScreen());
       case Routes.profileScreen:
-        return MaterialPageRoute(
-          builder: (_) => ProfileScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => ProfileScreen());
       case Routes.userInfoScreen:
-        return MaterialPageRoute(
-          builder: (_) => UserInfoScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => UserInfoScreen());
       case Routes.AgenciesDetailsScreen:
         return MaterialPageRoute(
-          builder: (_) => AgenciesDetailsScreen(),
+          builder: (_) => AgenciesDetailsScreen(
+            title: (routeSettings.arguments as String?) ?? '',
+          ),
         );
       case Routes.savedMazadeScreen:
-        return MaterialPageRoute(
-          builder: (_) => SavedMazadeScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => SavedMazadeScreen());
       case Routes.changePasswordScreen:
-        return MaterialPageRoute(
-          builder: (_) => ChangePasswordScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => ChangePasswordScreen());
       case Routes.qustionScreen:
-        return MaterialPageRoute(
-          builder: (_) => QustionScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => QustionScreen());
       case Routes.contactUsScreen:
-        return MaterialPageRoute(
-          builder: (_) => ContactUsScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => ContactUsScreen());
       case Routes.addSalesAgent:
-        return MaterialPageRoute(
-          builder: (_) => AddSalesAgentScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => AddSalesAgentScreen());
       case Routes.SalesAgentIntroScreen:
-        return MaterialPageRoute(
-          builder: (_) => SalesAgentIntroScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => SalesAgentIntroScreen());
       case Routes.notificationScreen:
-        return MaterialPageRoute(
-          builder: (_) => NotificationScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => NotificationScreen());
       case Routes.mazadatMenuScreen:
-        return MaterialPageRoute(
-          builder: (_) => MazadatMenuScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => MazadatMenuScreen());
       case Routes.changeEmailScreen:
-        return MaterialPageRoute(
-          builder: (_) => ChangeEmailScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => ChangeEmailScreen());
       case Routes.Wallet:
-        return MaterialPageRoute(
-          builder: (_) => MyMazadatScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => MyMazadatScreen());
       case Routes.MyMazadat:
-        return MaterialPageRoute(
-          builder: (_) => Wallet(),
-        );
+        return MaterialPageRoute(builder: (_) => Wallet());
       case Routes.assetsDetailsScreen:
-        return MaterialPageRoute(
-          builder: (_) => AssetsDetailsScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => AssetsDetailsScreen());
       case Routes.policyScreen:
-        return MaterialPageRoute(
-          builder: (_) => PolicyScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => PolicyScreen());
       case Routes.changePhoneNumberScreen:
-        return MaterialPageRoute(
-          builder: (_) => ChangePhoneNumberScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => ChangePhoneNumberScreen());
       case Routes.agenciesScreen:
-        return MaterialPageRoute(
-          builder: (_) => AgenciesScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => AgenciesScreen());
       case Routes.walletScreen:
-        return MaterialPageRoute(
-          builder: (_) => WalletScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => WalletScreen());
       case Routes.TrunsactionHistoryScreen:
-        return MaterialPageRoute(
-          builder: (_) => TrunsactionHistoryScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => TrunsactionHistoryScreen());
       case Routes.TransactionDetailsScreen:
-        return MaterialPageRoute(
-          builder: (_) => TransactionDetailsScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => TransactionDetailsScreen());
       case Routes.WithdrawScreen:
-        return MaterialPageRoute(
-          builder: (_) => WithdrawScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => WithdrawScreen());
       case Routes.HeldFundsDetailsScreen:
-        return MaterialPageRoute(
-          builder: (_) => HeldFundsDetailsScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => HeldFundsDetailsScreen());
       case Routes.WithdrawDetailsScreen:
-        return MaterialPageRoute(
-          builder: (_) => WithdrawDetailsScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => WithdrawDetailsScreen());
       case Routes.InvoiceDetailsScreen:
-        return MaterialPageRoute(
-          builder: (_) => InvoiceDetailsScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => InvoiceDetailsScreen());
       case Routes.WithdrawBodyScreen:
-        return MaterialPageRoute(
-          builder: (_) => WithdrawBodyScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => WithdrawBodyScreen());
       case Routes.HeldFundsBodyScreen:
-        return MaterialPageRoute(
-          builder: (_) => HeldFundsBodyScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => HeldFundsBodyScreen());
       case Routes.InvoicesBodyScreen:
-        return MaterialPageRoute(
-          builder: (_) => InvoicesBodyScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => InvoicesBodyScreen());
       case Routes.AddRealStateScreen:
-        return MaterialPageRoute(
-          builder: (_) => AddRealStateScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => AddRealStateScreen());
       case Routes.ProperityManagment:
-        return MaterialPageRoute(
-          builder: (_) => ProperityManagmentScreen(),
-        );
+        return MaterialPageRoute(builder: (_) => ProperityManagmentScreen());
     }
     return null;
   }

@@ -1,4 +1,7 @@
 import 'package:falak/core/utils/app_logger.dart';
+import 'package:falak/core/utils/app_strings.dart';
+import 'package:falak/generated/assets.dart';
+import 'package:flutter/animation.dart';
 
 extension StringExtensions on String? {
   String getLast(int count) {
@@ -29,6 +32,7 @@ extension StringExtensions on String? {
         this!.length < 10 ||
         (this![0] != '1' && this![0] != '2'));
   }
+
   bool get isEmailValid {
     if (this == null || this!.isEmpty) {
       return false;
@@ -41,4 +45,78 @@ extension StringExtensions on String? {
     return emailRegex.hasMatch(this!);
   }
 
+  String get icon {
+    switch (this) {
+      case AppStrings.rejected:
+        return Assets.appImagesRejected;
+      case AppStrings.pending:
+        return Assets.appImagesPindding;
+      case AppStrings.blocked:
+        return Assets.appImagesCanceled;
+      case AppStrings.approved:
+        return Assets.appImagesActiveSvg;
+      default:
+        return Assets.appImagesTerminated;
+    }
+  }
+
+  String get title {
+    switch (this) {
+      case AppStrings.rejected:
+        return 'مرفوض';
+      case AppStrings.pending:
+        return 'تحت الإجراء';
+      case AppStrings.blocked:
+        return 'ملغي';
+      case AppStrings.approved:
+        return 'نشط';
+      default:
+        return 'منتهية ';
+    }
+  }
+
+  Color get bgColor {
+    switch (this) {
+      case AppStrings.rejected:
+        return const Color(0xffFDF4F3);
+      case AppStrings.pending:
+        return const Color(0x1AF2994A);
+      case AppStrings.blocked:
+        return const Color(0xffF9FAFA);
+      case AppStrings.approved:
+        return const Color(0xffF3FBEE);
+      default:
+        return const Color(0xffFDF4F3);
+    }
+  }
+
+  Color get borderColor {
+    switch (this) {
+      case AppStrings.rejected:
+        return const Color(0xffFCD0CC);
+      case AppStrings.pending:
+        return const Color(0x66F2994A);
+      case AppStrings.blocked:
+        return const Color(0xffDCDEDE);
+      case AppStrings.approved:
+        return const Color(0xff009951);
+      default:
+        return const Color(0xffFCD0CC);
+    }
+  }
+
+  Color get textColor {
+    switch (this) {
+      case AppStrings.rejected:
+        return const Color(0xffD54033);
+      case AppStrings.pending:
+        return const Color(0xff9E5C21);
+      case AppStrings.blocked:
+        return const Color(0xff666E6D);
+      case AppStrings.approved:
+        return const Color(0xff009951);
+      default:
+        return const Color(0xffD54033);
+    }
+  }
 }

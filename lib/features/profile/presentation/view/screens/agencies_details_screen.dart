@@ -13,8 +13,8 @@ import '../widgets/agencies/loaded_agencies_widget.dart';
 import '../widgets/agencies/shimmer_agency_list.dart';
 
 class AgenciesDetailsScreen extends StatefulWidget {
-  const AgenciesDetailsScreen({super.key});
-
+  const AgenciesDetailsScreen({super.key, required this.title});
+final String title;
   @override
   State<AgenciesDetailsScreen> createState() => _AgenciesDetailsScreenState();
 }
@@ -39,7 +39,7 @@ class _AgenciesDetailsScreenState extends State<AgenciesDetailsScreen>
       floatingActionButton:const AddAgencyButtonWidget(),
       backgroundColor: AppColors.backgroundPrimary(context),
       appBar: CoustomAppBarWidget(
-        title: 'الوكالات',
+        title:'الوكالات ${widget.title}',
       ),
       body: KisGuest == true ? GuestWidget() : AgenciesTapBarViweWidegt(),
     );

@@ -70,9 +70,6 @@ class Routes {
   static const String HeldFundsDetailsScreen = '/HeldFundsDetailsScreen';
   static const String WithdrawDetailsScreen = '/WithdrawDetailsScreen';
   static const String InvoiceDetailsScreen = '/InvoiceDetailsScreen';
-  static const String InvoicesBodyScreen = '/InvoicesBodyScreen';
-  static const String HeldFundsBodyScreen = '/HeldFundsBodyScreen';
-  static const String WithdrawBodyScreen = '/WithdrawBodyScreen';
   static const String AddRealStateScreen = '/AddRealStateScreen';
   static const String ProperityManagment = '/ProperityManagment';
 }
@@ -178,12 +175,6 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => WithdrawDetailsScreen());
       case Routes.InvoiceDetailsScreen:
         return MaterialPageRoute(builder: (_) => InvoiceDetailsScreen());
-      case Routes.WithdrawBodyScreen:
-        return MaterialPageRoute(builder: (_) => WithdrawBodyScreen());
-      case Routes.HeldFundsBodyScreen:
-        return MaterialPageRoute(builder: (_) => HeldFundsBodyScreen());
-      case Routes.InvoicesBodyScreen:
-        return MaterialPageRoute(builder: (_) => InvoicesBodyScreen());
       case Routes.AddRealStateScreen:
         return MaterialPageRoute(builder: (_) => AddRealStateScreen());
       case Routes.ProperityManagment:

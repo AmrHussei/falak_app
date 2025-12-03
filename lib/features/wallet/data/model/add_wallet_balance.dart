@@ -26,7 +26,7 @@ class WalletData {
   final String id;
   final String user;
   final String userType;
-  final double balance;
+  final num balance;
   final String currency;
   final DateTime createdAt;
   final DateTime updatedAt;

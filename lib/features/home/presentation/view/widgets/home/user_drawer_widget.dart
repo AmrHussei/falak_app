@@ -60,7 +60,7 @@ class UserDrawerWidget extends StatelessWidget {
                         children: [
                           SvgPicture.asset(Assets.imagesBag),
                           Flexible(
-                            child: BlocSelector<HomeCubit,HomeState,double>(
+                            child: BlocSelector<HomeCubit,HomeState,num>(
                               selector: (state)=>state.getWalletModel?.data.balance??0.0,
                               builder: (_,balance) {
                                 return Text(

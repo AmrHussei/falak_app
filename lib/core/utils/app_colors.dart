@@ -145,6 +145,7 @@ class AppColors {
   static Color textFieldBorder(BuildContext context) => const Color(0xFFDCDEDE);
 
   static Color grayText(BuildContext context) => const Color(0xFF444444);
+  static Color gray2Text(BuildContext context) => const Color(0xFFEFEFEF);
 
   static Color containerGrayColor(BuildContext context) =>
       const Color(0xFFF3F4F4);

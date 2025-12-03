@@ -1,15 +1,14 @@
+import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lottie/lottie.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_images.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 
-import '../../../../../../core/utils/app_animations.dart';
 import '../../../../../../core/utils/enums.dart';
 import '../../../../../../core/widgets/my_snackbar.dart';
 import '../../../../../core/functions/format_number.dart';
@@ -20,8 +19,9 @@ Future<void> addBalanceSheetBottomSheet(BuildContext context) async {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
-    backgroundColor: Colors.transparent, // important to allow rounded corners
+    backgroundColor: Colors.transparent,
 
+    // important to allow rounded corners
     shape: RoundedRectangleBorder(
       borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
     ),
@@ -37,9 +37,7 @@ Future<void> addBalanceSheetBottomSheet(BuildContext context) async {
 }
 
 class addBalanceSheetBottomSheetBodyWidget extends StatefulWidget {
-  const addBalanceSheetBottomSheetBodyWidget({
-    super.key,
-  });
+  const addBalanceSheetBottomSheetBodyWidget({super.key});
 
   @override
   State<addBalanceSheetBottomSheetBodyWidget> createState() =>
@@ -95,17 +93,19 @@ class _addBalanceSheetBottomSheetBodyWidgetState
                       Text(
                         'شحن رصيد',
                         textAlign: TextAlign.start,
-                        style: AppStyles.styleSemiBold16(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
+                        style: AppStyles.styleSemiBold16(
+                          context,
+                        ).copyWith(color: AppColors.typographyHeading(context)),
                       ),
                       Container(
                         child: GestureDetector(
-                            onTap: () {
-                              context.pop();
-                            },
-                            child: SvgPicture.asset(
-                                AppAssets.app_imagesCloseSquare)),
+                          onTap: () {
+                            context.pop();
+                          },
+                          child: SvgPicture.asset(
+                            AppAssets.app_imagesCloseSquare,
+                          ),
+                        ),
                       ),
                     ],
                   ),
@@ -115,7 +115,8 @@ class _addBalanceSheetBottomSheetBodyWidgetState
                     children: [
                       TextFormFieldWithTitleWidget(
                         controller: walletCubit.balanceController,
-                        label: 'مبلغ الشحن',
+                        title: 'مبلغ الشحن',
+                        hint: 'مبلغ الشحن',
                         validator: (value) {
                           if (value == null ||
                               value.trim().isEmpty ||
@@ -126,15 +127,18 @@ class _addBalanceSheetBottomSheetBodyWidgetState
                           return null;
                         },
                         onChanged: (value) {
-                          walletCubit.balanceController
-                              .text = formatNumber(parseFormattedNumber(
-                                  walletCubit.balanceController.text.trim()))
-                              .toString();
+                          walletCubit.balanceController.text = formatNumber(
+                            parseFormattedNumber(
+                              walletCubit.balanceController.text.trim(),
+                            ),
+                          ).toString();
                         },
                         keyboardType: TextInputType.number,
                         suffix: Padding(
-                          padding:
-                              EdgeInsetsDirectional.only(end: 20, start: 8.w),
+                          padding: EdgeInsetsDirectional.only(
+                            end: 20,
+                            start: 8.w,
+                          ),
                           child: SizedBox(
                             width: 20,
                             height: 20,
@@ -152,7 +156,7 @@ class _addBalanceSheetBottomSheetBodyWidgetState
                       AddBalanceButtonWidget(),
                       SizedBox(height: 24),
                     ],
-                  )
+                  ),
                 ],
               ),
             ),
@@ -164,95 +168,60 @@ class _addBalanceSheetBottomSheetBodyWidgetState
 }
 
 class AddBalanceButtonWidget extends StatelessWidget {
-  const AddBalanceButtonWidget({
-    super.key,
-  });
+  const AddBalanceButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     WalletCubit walletCubit = context.read<WalletCubit>();
 
-    return SizedBox(
-      height: 54,
-      child: Row(
-        children: [
-          GestureDetector(
-            onTap: () {
+    return Row(
+      children: [
+        Expanded(
+          child: AppOutlinedButton(
+            onPressed: () {
               context.pop();
             },
-            child: Container(
-              padding: const EdgeInsets.symmetric(
-                horizontal: 15.50,
-                vertical: 18,
-              ),
-              decoration: ShapeDecoration(
-                color: Colors.white,
-                shape: RoundedRectangleBorder(
-                  side: BorderSide(
-                    width: 0.84,
-                    strokeAlign: BorderSide.strokeAlignCenter,
-                    color: Color(0xFFEBEEF3),
-                  ),
-                  borderRadius: BorderRadius.circular(13.50),
-                ),
-              ),
-              child: Text(
-                'الغاء',
-                textAlign: TextAlign.start,
-                style: AppStyles.styleBold18(context).copyWith(
-                  color: AppColors.typographySubTitle(context),
-                ),
-              ),
-            ),
+            text: 'الغاء',
           ),
-          SizedBox(width: 12),
-          Expanded(
-            child: ElevatedButton(
-              onPressed: () {
-                walletCubit.addWalletBalance();
-              },
-              child: BlocConsumer<WalletCubit, WalletState>(
-                listenWhen: (previous, current) =>
-                    previous.addWalletBalanceRequestState !=
-                    current.addWalletBalanceRequestState,
-                listener: (context, state) {
-                  if (state.addWalletBalanceRequestState ==
-                      RequestState.loaded) {
-                    context.pop();
-                    FloatingSnackBar.show(
-                      context,
-                      state.addWalletBalanceMsg ?? 'تم',
-                      isError: false,
-                    );
-                  } else if (state.addWalletBalanceRequestState ==
-                      RequestState.error) {
-                    FloatingSnackBar.show(
-                      context,
-                      state.addWalletBalanceError?.message ??
-                          'هناك شئ ما خطأ حاول مجددا',
-                    );
-                  }
+        ),
+        12.horizontalSpace,
+        Expanded(
+          flex: 3,
+          child: BlocConsumer<WalletCubit, WalletState>(
+            listenWhen: (previous, current) =>
+                previous.addWalletBalanceRequestState !=
+                current.addWalletBalanceRequestState,
+            listener: (context, state) {
+              if (state.addWalletBalanceRequestState == RequestState.loaded) {
+                context.pop();
+                FloatingSnackBar.show(
+                  context,
+                  state.addWalletBalanceMsg ?? 'تم',
+                  isError: false,
+                );
+              } else if (state.addWalletBalanceRequestState ==
+                  RequestState.error) {
+                FloatingSnackBar.show(
+                  context,
+                  state.addWalletBalanceError?.message ??
+                      'هناك شئ ما خطأ حاول مجددا',
+                );
+              }
+            },
+            builder: (context, state) {
+              return AppPrimaryButton(
+                isLoading:
+                    state.addWalletBalanceRequestState ==
+                    RequestState.loading,
+                onPressed: () {
+                  walletCubit.addWalletBalance();
                 },
-                builder: (context, state) {
-                  if (state.addWalletBalanceRequestState ==
-                      RequestState.loading) {
-                    return Lottie.asset(
-                      AppAnimationAssets.loading,
-                    );
-                  } else {
-                    return Text(
-                      'شحن',
-                      style: AppStyles.styleBold18(context).copyWith(
-                        color: AppColors.white(context),
-                      ),
-                    );
-                  }
-                },
-              ),
-            ),
+                text: 'شحن',
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }

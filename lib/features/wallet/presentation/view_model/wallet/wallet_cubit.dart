@@ -27,9 +27,11 @@ class WalletCubit extends Cubit<WalletState> {
   final ibanNumberController = TextEditingController();
   final withdrawAmountController = TextEditingController();
   TextEditingController balanceController = TextEditingController();
+
   //
   bool winner = false;
   bool loss = false;
+
   //
   final withdrawFormKey = GlobalKey<FormState>();
   final beneficiaryNameController = TextEditingController();
@@ -38,6 +40,7 @@ class WalletCubit extends Cubit<WalletState> {
   Invoice? invoiceRequest;
   AuctionDataHeld? heldFunds;
   File? ibanAttachment;
+
   Future<void> pickIbanAttachment() async {
     ibanAttachment = await pickFile();
   }
@@ -49,10 +52,12 @@ class WalletCubit extends Cubit<WalletState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getWalletRequestState: RequestState.error,
-          getWalletError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getWalletRequestState: RequestState.error,
+            getWalletError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -73,10 +78,12 @@ class WalletCubit extends Cubit<WalletState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getHeldFundsRequestState: RequestState.error,
-          getHeldFundsError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getHeldFundsRequestState: RequestState.error,
+            getHeldFundsError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -97,10 +104,12 @@ class WalletCubit extends Cubit<WalletState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getWithdrawRequestState: RequestState.error,
-          getWithdrawError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getWithdrawRequestState: RequestState.error,
+            getWithdrawError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -121,10 +130,12 @@ class WalletCubit extends Cubit<WalletState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getUserInvoicesRequestState: RequestState.error,
-          getUserInvoicesError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getUserInvoicesRequestState: RequestState.error,
+            getUserInvoicesError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) {
@@ -143,15 +154,18 @@ class WalletCubit extends Cubit<WalletState> {
 
     emit(state.copyWith(addWalletBalanceRequestState: RequestState.loading));
 
-    final result = await _walletRepository
-        .addWalletBalance(parseFormattedNumber(balanceController.text.trim()));
+    final result = await _walletRepository.addWalletBalance(
+      parseFormattedNumber(balanceController.text.trim()),
+    );
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          addWalletBalanceRequestState: RequestState.error,
-          addWalletBalanceError: failure,
-        ));
+        emit(
+          state.copyWith(
+            addWalletBalanceRequestState: RequestState.error,
+            addWalletBalanceError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (right) async {
@@ -175,18 +189,21 @@ class WalletCubit extends Cubit<WalletState> {
         phoneNumber: contactNumberController.text,
         bankName: bankNameController.text,
         iban: ibanNumberController.text,
-        amount: parseFormattedNumber(withdrawAmountController.text.trim())
-            .toString(),
+        amount: parseFormattedNumber(
+          withdrawAmountController.text.trim(),
+        ).toString(),
         ibanCertificate: ibanAttachment,
       ),
     );
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          submitWithdrawRequestState: RequestState.error,
-          submitWithdrawError: failure,
-        ));
+        emit(
+          state.copyWith(
+            submitWithdrawRequestState: RequestState.error,
+            submitWithdrawError: failure,
+          ),
+        );
       },
       (msg) {
         ibanAttachment = null;
@@ -195,11 +212,17 @@ class WalletCubit extends Cubit<WalletState> {
         bankNameController.clear();
         ibanNumberController.clear();
         withdrawAmountController.clear();
-        emit(state.copyWith(
-          submitWithdrawRequestState: RequestState.loaded,
-          submitWithdrawMsg: msg,
-        ));
+        emit(
+          state.copyWith(
+            submitWithdrawRequestState: RequestState.loaded,
+            submitWithdrawMsg: msg,
+          ),
+        );
       },
     );
+  }
+
+  void changeShowWallet() {
+    emit(state.copyWith(showWallet: !state.showWallet));
   }
 }

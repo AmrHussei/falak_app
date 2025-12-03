@@ -27,6 +27,7 @@ class WalletState extends Equatable {
     this.getUserInvoicesRequestState = RequestState.ideal,
     this.getUserInvoicesError,
     this.getUserInvoicesModel,
+    this.showWallet = true,
   });
   //
   final RequestState getWalletRequestState;
@@ -60,6 +61,7 @@ class WalletState extends Equatable {
   final RequestState getUserInvoicesRequestState;
   final Failure? getUserInvoicesError;
   final InvoiceModel? getUserInvoicesModel;
+  final bool showWallet;
   @override
   List<Object?> get props => [
         this.getWalletRequestState,
@@ -86,6 +88,7 @@ class WalletState extends Equatable {
         this.getUserInvoicesRequestState,
         this.getUserInvoicesError,
         this.getUserInvoicesModel,
+        this.showWallet,
       ];
 
   WalletState copyWith({
@@ -113,6 +116,7 @@ class WalletState extends Equatable {
     RequestState? getUserInvoicesRequestState,
     Failure? getUserInvoicesError,
     InvoiceModel? getUserInvoicesModel,
+    bool? showWallet,
   }) {
     return WalletState(
       getWalletRequestState:
@@ -148,6 +152,7 @@ class WalletState extends Equatable {
           getUserInvoicesRequestState ?? this.getUserInvoicesRequestState,
       getUserInvoicesError: getUserInvoicesError ?? this.getUserInvoicesError,
       getUserInvoicesModel: getUserInvoicesModel ?? this.getUserInvoicesModel,
+      showWallet: showWallet ?? this.showWallet,
     );
   }
 }

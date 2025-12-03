@@ -1,3 +1,4 @@
+import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
@@ -12,18 +13,20 @@ class ChangePasswordBottomSheet extends StatelessWidget {
     this.title,
     this.action,
     this.subText,
+    this.subSubText,
     this.haveButton = true,
     this.haveImage = true,
-    this.height,
+    this.height, this.image,
   });
 
   final String? title;
   final Function? action;
   final String? subText;
+  final String? subSubText;
   final bool haveButton;
   final bool haveImage;
   final double? height;
-
+final String? image;
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -61,7 +64,7 @@ class ChangePasswordBottomSheet extends StatelessWidget {
                 InkWell(
                   onTap: () {
                     if (action != null) {
-                      action!();
+                      action?.call();
                     } else {
                       context.pop();
                       context.pop();
@@ -75,14 +78,27 @@ class ChangePasswordBottomSheet extends StatelessWidget {
               ],
             ),
             32.verticalSpace,
-           if(haveImage)...[
-             SvgPicture.asset(AppAssets.imagesLock, height: 125.h, width: 181.w),
-             12.verticalSpace,
-           ],
+            if (haveImage) ...[
+              SvgPicture.asset(
+                image??AppAssets.imagesLock,
+                height: 125.h,
+                width: 181.w,
+              ),
+              12.verticalSpace,
+            ],
             Text(
               subText ?? 'تم تغير كلمة المرور بنجاح',
               style: AppStyles.styleBold18(context),
             ),
+            if (subSubText != null) ...[
+              8.verticalSpace,
+              Text(
+                subSubText!,
+                style: AppStyles.styleRegular14(
+                  context,
+                ).copyWith(color: AppColors.grayText(context)),
+              ),
+            ],
             if (haveButton) ...[
               const Spacer(),
               AppPrimaryButton(

@@ -1,9 +1,9 @@
 import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/core/widgets/phone_suffix_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/utils/enums.dart';
@@ -11,7 +11,6 @@ import 'package:falak/features/paegs/presentation/view/widgets/contact_us/select
 import 'package:falak/features/paegs/presentation/view_model/pages_cubit.dart';
 
 import '../../../../../../../../core/widgets/text_form_field_with_title_widget.dart';
-import '../../../../../../core/utils/app_animations.dart';
 import '../../../../../../core/widgets/my_snackbar.dart';
 import '../../../../../../core/widgets/show_success_bottom_sheet.dart';
 
@@ -58,22 +57,7 @@ class ContactUsFormWidget extends StatelessWidget {
           inputFormatters: [LengthLimitingTextInputFormatter(9)],
           keyboardType: TextInputType.number,
           suffixIconSize: 66.w,
-          suffix: Container(
-            alignment: Alignment.center,
-            height: 40.h,
-            width: 59.w,
-            margin: EdgeInsetsDirectional.only(end: 6.w, start: 1.w),
-            decoration: BoxDecoration(
-              color: AppColors.containerGrayColor(context),
-              borderRadius: BorderRadius.all(Radius.circular(8.r)),
-            ),
-            child: Text(
-              '966+',
-              style: AppStyles.styleBold14(
-                context,
-              ).copyWith(color: AppColors.veryGrayColor(context)),
-            ),
-          ),
+          suffix: const PhoneSuffixWidget(),
         ),
         16.verticalSpace,
         TextFormFieldWithTitleWidget(

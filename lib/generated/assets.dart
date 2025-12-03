@@ -57,6 +57,7 @@ class Assets {
   static const String appImagesHourglassLine = 'assets/app_images/HourglassLine.svg';
   static const String appImagesIcon = 'assets/app_images/Icon.svg';
   static const String appImagesIconboard = 'assets/app_images/Iconboard.svg';
+  static const String appImagesIllustrations = 'assets/app_images/Illustrations.svg';
   static const String appImagesInfath = 'assets/app_images/infath.svg';
   static const String appImagesInsta = 'assets/app_images/insta.svg';
   static const String appImagesLawIcon = 'assets/app_images/law-icon.svg';

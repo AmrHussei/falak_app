@@ -1,3 +1,4 @@
+import 'package:falak/features/paegs/presentation/view/widgets/contact_us/select_type_radio_button.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -36,67 +37,37 @@ class _SelectTaxStatusRadioButtonState
     return Column(
       children: [
         SizedBox(
-          height: 40,
+          height: 40.h,
           child: Row(
             children: [
-              Expanded(
-                  child: GestureDetector(
-                onTap: () => _handleRadioValueChange('خاضع للضريبة'),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Radio(
-                      value: 'خاضع للضريبة',
-                      groupValue: _selectedValue,
-                      onChanged: _handleRadioValueChange,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      visualDensity: VisualDensity(horizontal: -3, vertical: 0),
-                      activeColor: AppColors.darkBlue(context),
-                    ),
-                    Text(
-                      'خاضع للضريبة',
-                      style: AppStyles.styleBold16(context).copyWith(
-                        color: AppColors.typographySubTitle(context),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-              Expanded(
-                  child: GestureDetector(
-                onTap: () => _handleRadioValueChange('غير خاضع للضريبة'),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Radio(
-                      value: 'غير خاضع للضريبة',
-                      groupValue: _selectedValue,
-                      onChanged: _handleRadioValueChange,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      visualDensity: VisualDensity(horizontal: -3, vertical: 0),
-                      activeColor: AppColors.darkBlue(context),
-                    ),
-                    Text(
-                      'غير خاضع للضريبة',
-                      style: AppStyles.styleBold16(context).copyWith(
-                        color: AppColors.typographySubTitle(context),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
+              RadioItem(
+                label: 'خاضع للضريبة',
+                value: 'خاضع للضريبة',
+                groupValue: _selectedValue,
+                onChanged: _handleRadioValueChange,
+                context: context,
+              ),
+              12.horizontalSpace,
+              RadioItem(
+                label: 'غير خاضع للضريبة',
+                value: 'غير خاضع للضريبة',
+                groupValue: _selectedValue,
+                onChanged: _handleRadioValueChange,
+                context: context,
+              ),
             ],
           ),
         ),
         _selectedValue == 'خاضع للضريبة'
             ? Column(
                 children: [
-                  const SizedBox(height: 16),
+                  16.verticalSpace,
                   TextFormFieldWithTitleWidget(
                     controller: pagesCubit.taxNumberController,
-                    fillColor: AppColors.primarySurface(context),
+                    fillColor: AppColors.white(context),
                     filled: true,
-                    label: 'الرقم الضريبي',
+                    title: 'الرقم الضريبي',
+                    hint: 'الرقم الضريبي',
                     validator: (value) {
                       if (value == null && _selectedValue == 'خاضع للضريبة') {
                         return 'يرجى إدخال الرقم الضريبي';
@@ -112,12 +83,10 @@ class _SelectTaxStatusRadioButtonState
 
                       return null;
                     },
-                    inputFormatters: [
-                      LengthLimitingTextInputFormatter(15),
-                    ],
+                    inputFormatters: [LengthLimitingTextInputFormatter(15)],
                     keyboardType: TextInputType.number,
                   ),
-                  const SizedBox(height: 16),
+                  16.verticalSpace,
                   GestureDetector(
                     onTap: () {
                       pagesCubit.pickTaxRegisterAttachment().then((val) {
@@ -125,11 +94,12 @@ class _SelectTaxStatusRadioButtonState
                       });
                     },
                     child: TextFormFieldWithTitleWidget(
-                      label: pagesCubit.TaxRegisterAttachment == null
+                      title: pagesCubit.TaxRegisterAttachment == null
                           ? 'شهادة التسجيل الضريبي'
                           : pagesCubit.TaxRegisterAttachment!.path
-                              .split('/')
-                              .last,
+                                .split('/')
+                                .last,
+                      hint: 'شهادة التسجيل الضريبي',
                       validator: (value) {
                         if (pagesCubit.TaxRegisterAttachment == null &&
                             _selectedValue == 'خاضع للضريبة') {
@@ -138,25 +108,20 @@ class _SelectTaxStatusRadioButtonState
 
                         return null;
                       },
-                      hintStyle: AppStyles.styleBold16(context),
                       filled: true,
-                      fillColor: AppColors.backgroundPrimary(context),
+                      fillColor: AppColors.white(context),
                       enabled: false,
                       keyboardType: TextInputType.number,
-                      prefix: Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 12.h,
-                          horizontal: 16.w,
-                        ),
-                        child: SvgPicture.asset(
-                          AppAssets.app_imagesUploadeFilesIcon,
-                        ),
+                      prefix: SvgPicture.asset(
+                        AppAssets.app_imagesUploadeFilesIcon,
+                        height: 32.h,
+                        width: 32.w,
                       ),
                     ),
                   ),
                 ],
               )
-            : SizedBox.shrink()
+            : SizedBox.shrink(),
       ],
     );
   }
@@ -202,60 +167,26 @@ class _SelectNafathApprovedRadioButtonState
 
   @override
   Widget build(BuildContext context) {
-    PagesCubit pagesCubit = context.read<PagesCubit>();
     return Column(
       children: [
         SizedBox(
-          height: 40,
+          height: 40.h,
           child: Row(
             children: [
-              Expanded(
-                  child: GestureDetector(
-                onTap: () => _handleRadioValueChange('نعم'),
-                child: Row(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    Radio(
-                      value: 'نعم',
-                      groupValue: _selectedValue,
-                      onChanged: _handleRadioValueChange,
-                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                      visualDensity: VisualDensity(horizontal: -3, vertical: 0),
-                      activeColor: AppColors.darkBlue(context),
-                    ),
-                    Text(
-                      'نعم',
-                      style: AppStyles.styleBold16(context).copyWith(
-                        color: AppColors.typographySubTitle(context),
-                      ),
-                    ),
-                  ],
-                ),
-              )),
-              Expanded(
-                child: GestureDetector(
-                  onTap: () => _handleRadioValueChange('لا'),
-                  child: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      Radio(
-                        value: 'لا',
-                        groupValue: _selectedValue,
-                        onChanged: _handleRadioValueChange,
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        visualDensity:
-                            VisualDensity(horizontal: -3, vertical: 0),
-                        activeColor: AppColors.darkBlue(context),
-                      ),
-                      Text(
-                        'لا',
-                        style: AppStyles.styleBold16(context).copyWith(
-                          color: AppColors.typographySubTitle(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
+              RadioItem(
+                label: 'نعم',
+                value: 'نعم',
+                groupValue: _selectedValue,
+                onChanged: _handleRadioValueChange,
+                context: context,
+              ),
+              12.horizontalSpace,
+              RadioItem(
+                label: 'لا',
+                value: 'لا',
+                groupValue: _selectedValue,
+                onChanged: _handleRadioValueChange,
+                context: context,
               ),
             ],
           ),
@@ -264,79 +195,41 @@ class _SelectNafathApprovedRadioButtonState
             ? Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  SizedBox(
-                    height: 24,
-                  ),
+                  16.verticalSpace,
                   Text(
                     ' هل ترغب بتقديم طلب الاعتماد',
-                    style: AppStyles.styleBold16(context),
+                    style: AppStyles.styleMedium14(
+                      context,
+                    ).copyWith(color: AppColors.veryPrimaryColor(context)),
                   ),
-                  const SizedBox(height: 8),
+                  8.verticalSpace,
                   SizedBox(
-                    height: 40,
+                    height: 40.h,
                     child: Row(
                       children: [
-                        Expanded(
-                            child: GestureDetector(
-                          onTap: () =>
-                              _handleAccreditationRequestRadioValueChange(
-                                  'نعم'),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Radio(
-                                value: 'نعم',
-                                groupValue: _selectedAccreditationRequestValue,
-                                onChanged:
-                                    _handleAccreditationRequestRadioValueChange,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                visualDensity:
-                                    VisualDensity(horizontal: -3, vertical: 0),
-                                activeColor: AppColors.darkBlue(context),
-                              ),
-                              Text(
-                                'نعم',
-                                style: AppStyles.styleBold16(context).copyWith(
-                                  color: AppColors.typographySubTitle(context),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
-                        Expanded(
-                            child: GestureDetector(
-                          onTap: () =>
-                              _handleAccreditationRequestRadioValueChange('لا'),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Radio(
-                                value: 'لا',
-                                groupValue: _selectedAccreditationRequestValue,
-                                onChanged:
-                                    _handleAccreditationRequestRadioValueChange,
-                                materialTapTargetSize:
-                                    MaterialTapTargetSize.shrinkWrap,
-                                visualDensity:
-                                    VisualDensity(horizontal: -3, vertical: 0),
-                                activeColor: AppColors.darkBlue(context),
-                              ),
-                              Text(
-                                'لا',
-                                style: AppStyles.styleBold16(context).copyWith(
-                                  color: AppColors.typographySubTitle(context),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )),
+                        RadioItem(
+                          label: 'نعم',
+                          value: 'نعم',
+                          groupValue: _selectedAccreditationRequestValue,
+                          onChanged:
+                              _handleAccreditationRequestRadioValueChange,
+                          context: context,
+                        ),
+                        12.horizontalSpace,
+                        RadioItem(
+                          label: 'لا',
+                          value: 'لا',
+                          groupValue: _selectedAccreditationRequestValue,
+                          onChanged:
+                              _handleAccreditationRequestRadioValueChange,
+                          context: context,
+                        ),
                       ],
                     ),
                   ),
                 ],
               )
-            : SizedBox.shrink()
+            : SizedBox.shrink(),
       ],
     );
   }

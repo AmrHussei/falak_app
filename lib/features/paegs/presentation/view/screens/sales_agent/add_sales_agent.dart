@@ -1,15 +1,16 @@
+import 'package:falak/core/utils/media_query_values.dart';
+import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/features/auth/presentation/view/widgets/steps_widget.dart';
+import 'package:falak/features/profile/presentation/view/widgets/change_password/change_password_bottom_sheet.dart';
+import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:lottie/lottie.dart';
 import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/widgets/coustom_app_bar_widget.dart';
 
-import '../../../../../../core/utils/app_animations.dart';
 import '../../../../../../core/utils/enums.dart';
 import '../../../../../../core/widgets/my_snackbar.dart';
-import '../../../../../../core/widgets/show_success_bottom_sheet.dart';
 import '../../../view_model/pages_cubit.dart';
 import '../../widgets/sales_agent/build_step_one.dart';
 import '../../widgets/sales_agent/build_step_three.dart';
@@ -31,93 +32,69 @@ class CustomBottomNavigationBar extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: BoxDecoration(
-          // color: AppColors.white(context),
-          // boxShadow: [
-          //   BoxShadow(
-          //     color: Color(0x19101828),
-          //     blurRadius: 26.50,
-          //     offset: Offset(0, -1),
-          //     spreadRadius: -1,
-          //   )
-          // ],
-          ),
-      child: Row(
-        children: [
-          currentPage == 0
-              ? SizedBox.shrink()
-              : Expanded(
-                  flex: 2,
-                  child: OutlinedButton(
-                    onPressed: onPrevious,
-                    child: Text(
-                      'السابق',
-                      style: AppStyles.styleSemiBold16(context).copyWith(
-                          color: AppColors.typographySubTitle(context)),
-                    ),
-                    style: OutlinedButton.styleFrom(
-                      minimumSize: const Size(double.infinity, 55),
-                      side: BorderSide(
-                        color: AppColors.separatingBorder1(context),
-                      ),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      foregroundColor: AppColors.separatingBorder1(context),
-                      backgroundColor: AppColors.white(context),
-                    ),
-                  ),
-                ),
-          const SizedBox(
-            width: 8,
-          ),
-          Expanded(
-            flex: 4,
-            child: ElevatedButton(
-              onPressed: onNext,
-              child: BlocConsumer<PagesCubit, PagesState>(
-                listenWhen: (previous, current) =>
-                    previous.createSalesAgentRequestState !=
-                    current.createSalesAgentRequestState,
-                listener: (context, state) {
-                  if (state.createSalesAgentRequestState ==
-                      RequestState.loaded) {
-                    showSuccessBottomSheet(
-                      context: context,
-                      title: 'تم إرسال الطلب بنجاح ',
-                      subTitle: 'سيتم التواصل معك قريبا جداً.........',
-                    );
-                  } else if (state.createSalesAgentRequestState ==
-                      RequestState.error) {
-                    mySnackBar(
-                      state.createSalesAgentError?.message ??
-                          'هناك شئ ما خطأ حاول مجددا',
-                      context,
-                      isError: true,
-                    );
-                  }
-                },
-                builder: (context, state) {
-                  if (state.createSalesAgentRequestState ==
-                      RequestState.loading) {
-                    return Lottie.asset(
-                      AppAnimationAssets.loading,
-                    );
-                  } else {
-                    return Text(
-                      currentPage == 2 ? 'تأكيد' : 'التالي',
-                      style: AppStyles.styleBold18(context)
-                          .copyWith(color: AppColors.white(context)),
-                    );
-                  }
-                },
+    return Row(
+      children: [
+        currentPage == 0
+            ? SizedBox.shrink()
+            : Expanded(
+                flex: 2,
+                child: AppOutlinedButton(onPressed: onPrevious, text: 'السابق'),
               ),
-            ),
+        8.horizontalSpace,
+        Expanded(
+          flex: 5,
+          child: BlocConsumer<PagesCubit, PagesState>(
+            listenWhen: (previous, current) =>
+                previous.createSalesAgentRequestState !=
+                current.createSalesAgentRequestState,
+            listener: (context, state) {
+              if (state.createSalesAgentRequestState == RequestState.loaded) {
+                context.pop();
+                context.pop();
+                showModalBottomSheet(
+                  isDismissible: false,
+                  isScrollControlled: true,
+                  enableDrag: false,
+                  context: context,
+                  backgroundColor: Colors.transparent,
+                  builder: (_) => Builder(
+                    builder: (context) {
+                      return ChangePasswordBottomSheet(
+                        height: 300.h,
+                        title: '',
+                        subText: 'تم إرسال الطلب بنجاح',
+                        subSubText: 'سيتم التواصل معك قريبا جداً.........',
+                        haveImage: true,
+                        haveButton: false,
+                        image: Assets.appImagesIllustrations,
+                        action: () {
+                          context.pop();
+                        },
+                      );
+                    }
+                  ),
+                );
+              } else if (state.createSalesAgentRequestState ==
+                  RequestState.error) {
+                mySnackBar(
+                  state.createSalesAgentError?.message ??
+                      'هناك شئ ما خطأ حاول مجددا',
+                  context,
+                  isError: true,
+                );
+              }
+            },
+            builder: (context, state) {
+              return AppPrimaryButton(
+                isLoading:
+                    state.createSalesAgentRequestState == RequestState.loading,
+                onPressed: onNext,
+                text: currentPage == 2 ? 'إرسال الطلب' : 'التالي',
+              );
+            },
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 }
@@ -133,6 +110,7 @@ class _AddSalesAgentScreenState extends State<AddSalesAgentScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
   late PagesCubit pagesCubit;
+
   @override
   void initState() {
     pagesCubit = context.read<PagesCubit>();
@@ -140,19 +118,40 @@ class _AddSalesAgentScreenState extends State<AddSalesAgentScreen> {
   }
 
   void _onNext() {
-    if (_currentPage == 0 &&
-        !pagesCubit.companyDataFormKey.currentState!.validate()) return;
+    if (_currentPage == 0) {
+      if (!pagesCubit.companyDataFormKey.currentState!.validate()) {
+        return;
+      }
+      if (pagesCubit.commercialRegStartDateController.text.isNotEmpty &&
+          pagesCubit.commercialRegEndDateController.text.isNotEmpty) {
+        DateTime startDate = DateTime.parse(
+          pagesCubit.commercialRegStartDateController.text,
+        );
+        DateTime endDate = DateTime.parse(
+          pagesCubit.commercialRegEndDateController.text,
+        );
+
+        if (!endDate.isAfter(startDate)) {
+          FloatingSnackBar.show(
+            context,
+            'يجب أن يكون تاريخ الانتهاء بعد تاريخ الإصدار',
+          );
+          return;
+        }
+      }
+    }
+
     if (_currentPage == 1 &&
-        !pagesCubit.bankDateFormKey.currentState!.validate()) return;
+        !pagesCubit.bankDateFormKey.currentState!.validate())
+      return;
     if (_currentPage == 2 &&
-        !pagesCubit.UserDataFormKey.currentState!.validate()) return;
+        !pagesCubit.UserDataFormKey.currentState!.validate())
+      return;
     if (_currentPage < 2) {
       setState(() {
         _currentPage++;
       });
-      _pageController.jumpToPage(
-        _currentPage,
-      );
+      _pageController.jumpToPage(_currentPage);
     }
   }
 
@@ -161,9 +160,7 @@ class _AddSalesAgentScreenState extends State<AddSalesAgentScreen> {
       setState(() {
         _currentPage--;
       });
-      _pageController.jumpToPage(
-        _currentPage,
-      );
+      _pageController.jumpToPage(_currentPage);
     }
   }
 
@@ -171,19 +168,17 @@ class _AddSalesAgentScreenState extends State<AddSalesAgentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.primarySurface(context),
-      // bottomNavigationBar: CustomBottomNavigationBar(
-      //   currentPage: _currentPage,
-      //   onPrevious: _onPrevious,
-      //   onNext: () {
-      //     if (_currentPage == 2) {
-      //       pagesCubit.createSalesAgent();
-      //     } else {
-      //       _onNext();
-      //     }
-      //   },
-      //   pagesCubit: pagesCubit,
-      // ),
-      appBar: CoustomAppBarWidget(title: 'وكيل بيع'),
+      appBar: CoustomAppBarWidget(
+        title: [
+          'بيانات الشركة',
+          'البيانات المالية',
+          'بيانات المفوض',
+        ][_currentPage],
+        actions: [
+          StepsWidget(currentStep: _currentPage, totalSteps: 3),
+          8.horizontalSpace,
+        ],
+      ),
       body: BlocBuilder<PagesCubit, PagesState>(
         builder: (context, state) {
           return PageView.builder(
@@ -196,84 +191,37 @@ class _AddSalesAgentScreenState extends State<AddSalesAgentScreen> {
               });
             },
             itemCount: 3,
-            itemBuilder: (context, index) {
-              switch (index) {
-                case 0:
-                  return ListView(
-                    children: [
-                      BuildStepOneWidget(),
-                      CustomBottomNavigationBar(
-                        currentPage: _currentPage,
-                        onPrevious: _onPrevious,
-                        onNext: () {
-                          if (_currentPage == 2) {
-                            pagesCubit.createSalesAgent();
-                          } else {
-                            if (pagesCubit.commercialRegStartDateController
-                                    .text.isNotEmpty &&
-                                pagesCubit.commercialRegEndDateController.text
-                                    .isNotEmpty) {
-                              DateTime startDate = DateTime.parse(pagesCubit
-                                  .commercialRegStartDateController.text);
-                              DateTime endDate = DateTime.parse(pagesCubit
-                                  .commercialRegEndDateController.text);
-
-                              if (!endDate.isAfter(startDate)) {
-                                FloatingSnackBar.show(context,
-                                    'يجب أن يكون تاريخ الانتهاء بعد تاريخ الإصدار');
-                              }
-                            }
-
-                            _onNext();
-                          }
-                        },
-                        pagesCubit: pagesCubit,
-                      ),
-                    ],
-                  );
-                case 1:
-                  return ListView(
-                    children: [
-                      BuildStepTwoWidget(),
-                      Padding(
-                        padding: EdgeInsets.only(top: 220.h),
-                        child: CustomBottomNavigationBar(
-                          currentPage: _currentPage,
-                          onPrevious: _onPrevious,
-                          onNext: () {
-                            if (_currentPage == 2) {
-                              pagesCubit.createSalesAgent();
-                            } else {
-                              _onNext();
-                            }
-                          },
-                          pagesCubit: pagesCubit,
-                        ),
-                      ),
-                    ],
-                  );
-                case 2:
-                  return ListView(
-                    children: [
-                      BuildStepThreeWidget(),
-                      CustomBottomNavigationBar(
-                        currentPage: _currentPage,
-                        onPrevious: _onPrevious,
-                        onNext: () {
-                          if (_currentPage == 2) {
-                            pagesCubit.createSalesAgent();
-                          } else {
-                            _onNext();
-                          }
-                        },
-                        pagesCubit: pagesCubit,
-                      ),
-                    ],
-                  );
-                default:
-                  return const SizedBox.shrink();
-              }
-            },
+            itemBuilder: (context, index) => ListView(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+              children: [
+                index == 0
+                    ? BuildStepOneWidget()
+                    : index == 1
+                    ? BuildStepTwoWidget()
+                    : BuildStepThreeWidget(),
+                32.verticalSpace,
+                CustomBottomNavigationBar(
+                  currentPage: _currentPage,
+                  onPrevious: _onPrevious,
+                  onNext: () {
+                    if (_currentPage == 2) {
+                      if (!pagesCubit.isTermsAccepted) {
+                        mySnackBar(
+                          'يجب الموافقة على الشروط والاحكام للمتابعة',
+                          context,
+                          isError: true,
+                        );
+                        return;
+                      }
+                      pagesCubit.createSalesAgent();
+                    } else {
+                      _onNext();
+                    }
+                  },
+                  pagesCubit: pagesCubit,
+                ),
+              ],
+            ),
           );
         },
       ),

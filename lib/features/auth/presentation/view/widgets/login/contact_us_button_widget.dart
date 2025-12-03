@@ -10,6 +10,7 @@ class ContactUsButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return AppSecondaryButton(
+      width: double.infinity,
       onPressed: () {
         context.navigateTo(Routes.contactUsScreen);
       },

@@ -17,7 +17,6 @@ import '../../../../../core/utils/images.dart';
 import '../../../../../core/widgets/adaptive_layout_widget.dart';
 import '../../../../../core/widgets/coustom_app_bar_widget.dart';
 import '../../../../../core/widgets/text_form_field_with_title_widget.dart';
-import '../../../../paegs/presentation/view/widgets/sales_agent/stepper_widget.dart';
 
 class ChangePhoneNumberScreen extends StatefulWidget {
   const ChangePhoneNumberScreen({super.key});
@@ -74,38 +73,6 @@ class ChangePhoneNumberMobileLayoutWidget extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                48.verticalSpace,
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: StepperWidget(
-                    stepperList: [
-                      BuildStep(
-                        title: '',
-                        isActive: true,
-                        isCompleted: true,
-                        stepNum: '1',
-                      ),
-                      SteperLineWidegt(
-                        isActive: true,
-                      ),
-                      BuildStep(
-                        title: '',
-                        isActive: true,
-                        isCompleted: false,
-                        stepNum: '2',
-                      ),
-                      SteperLineWidegt(
-                        isActive: false,
-                      ),
-                      BuildStep(
-                        title: '',
-                        isActive: false,
-                        isCompleted: false,
-                        stepNum: '3',
-                      ),
-                    ],
-                  ),
-                ),
                 40.verticalSpace,
                 Row(
                   children: [

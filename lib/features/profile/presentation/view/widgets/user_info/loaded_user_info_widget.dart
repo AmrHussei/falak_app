@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:falak/core/widgets/phone_suffix_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -152,22 +153,7 @@ class LoadedUserInfoWidget extends StatelessWidget {
             inputFormatters: [LengthLimitingTextInputFormatter(9)],
             keyboardType: TextInputType.number,
             suffixIconSize: 66.w,
-            suffix: Container(
-              alignment: Alignment.center,
-              height: 40.h,
-              width: 59.w,
-              margin: EdgeInsetsDirectional.only(end: 6.w, start: 1.w),
-              decoration: BoxDecoration(
-                color: AppColors.containerGrayColor(context),
-                borderRadius: BorderRadius.all(Radius.circular(8.r)),
-              ),
-              child: Text(
-                '966+',
-                style: AppStyles.styleBold14(
-                  context,
-                ).copyWith(color: AppColors.veryGrayColor(context)),
-              ),
-            ),
+            suffix: const PhoneSuffixWidget(),
           ),
           24.verticalSpace,
           BlocListener<ProfileCubit, ProfileState>(

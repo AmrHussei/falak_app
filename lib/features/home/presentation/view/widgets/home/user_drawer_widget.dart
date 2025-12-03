@@ -92,7 +92,7 @@ class UserDrawerWidget extends StatelessWidget {
                     radius: 12.r,
                     onPressed: () {
                       toggleDrawer();
-                      context.navigateTo(Routes.addSalesAgent);
+                      context.navigateTo(Routes.AddRealStateScreen);
                     },
                     text: 'أضف عقارك',
                   ),

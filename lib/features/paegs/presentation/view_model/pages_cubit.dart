@@ -30,6 +30,7 @@ class PagesCubit extends Cubit<PagesState> {
 
   final PagesRepository _pageRepository;
   QestionsCategory? category;
+  bool isTermsAccepted = false;
   final questionsSearchController = TextEditingController();
   final messageController = TextEditingController();
   final nameController = TextEditingController();

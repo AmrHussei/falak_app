@@ -98,7 +98,7 @@ class _DatePickerWidegtState extends State<DatePickerWidegt> {
       onTap: _showDatePicker,
       child: TextFormFieldWithTitleWidget(
         key: UniqueKey(),
-        fillColor: AppColors.primarySurface(context),
+        fillColor: AppColors.white(context),
         filled: widget.filled ?? true,
         title: widget.text,
         hint: widget.text,
@@ -132,9 +132,9 @@ class _DatePickerWidegtState extends State<DatePickerWidegt> {
           children: [
             SvgPicture.asset(
               Assets.appImagesStartDate,
-              fit: BoxFit.fill,
-              height: 32.h,
-              width: 32.w,
+              fit: BoxFit.contain,
+              height: 24.h,
+              width: 24.w,
             ),
           ],
         ),

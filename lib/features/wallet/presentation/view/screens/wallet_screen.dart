@@ -120,8 +120,8 @@ class _WalletScreenState extends State<WalletScreen>
                                   RequestState.loading,
                               child: (int index) {
                                 return InvoiceCardWidget(
-                                  invoice: state.getUserInvoicesModel!,
-                                  index: index,
+                                  model:
+                                      state.getUserInvoicesModel!.data[index],
                                 );
                               },
                             ),
@@ -136,8 +136,7 @@ class _WalletScreenState extends State<WalletScreen>
                                   RequestState.loading,
                               child: (int index) {
                                 return WithdrawCardWidget(
-                                  withdraw: state.getWithdrawModel!,
-                                  index: index,
+                                  model: state.getWithdrawModel!.data[index],
                                 );
                               },
                             ),
@@ -152,8 +151,7 @@ class _WalletScreenState extends State<WalletScreen>
                                   RequestState.loading,
                               child: (int index) {
                                 return HeldFundsCardWidget(
-                                  heldFunds: state.getHeldFundsModel!,
-                                  index: index,
+                                  model: state.getHeldFundsModel!.data[index],
                                 );
                               },
                             ),
@@ -168,47 +166,6 @@ class _WalletScreenState extends State<WalletScreen>
     );
   }
 }
-
-class WithdrawWidget extends StatelessWidget {
-  const WithdrawWidget({super.key});
-
-  @override
-  Widget build(BuildContext context) {
-    return Expanded(
-      child: BlocBuilder<WalletCubit, WalletState>(
-        builder: (context, state) {
-          switch (state.getWithdrawRequestState) {
-            case RequestState.loading:
-            case RequestState.ideal:
-              return LoadingWalletShimmer();
-            case RequestState.error:
-              return ErrorAppWidget(
-                text: state.getWithdrawError.toString(),
-                onTap: () {
-                  context.read<WalletCubit>().getWithdraw();
-                },
-              );
-            case RequestState.loaded:
-              return state.getWithdrawModel?.data.isEmpty ?? true
-                  ? EmptyWidget(title: 'لا يوجد مسحوبات')
-                  : ListView.builder(
-                      padding: EdgeInsets.only(bottom: 16.h),
-
-                      itemCount: state.getWithdrawModel?.data.length ?? 0,
-                      itemBuilder: (context, index) {
-                        return WithdrawCardWidget(
-                          withdraw: state.getWithdrawModel!,
-                          index: index,
-                        );
-                      },
-                    );
-          }
-        },
-      ),
-    );
-  }
-}
-
 // create LoadingWalletShimmer
 class LoadingWalletShimmer extends StatelessWidget {
   const LoadingWalletShimmer({super.key});
@@ -377,14 +334,9 @@ class WalletButtonWidget extends StatelessWidget {
   }
 }
 
-class BalanceWidget extends StatefulWidget {
+class BalanceWidget extends StatelessWidget {
   const BalanceWidget({super.key});
 
-  @override
-  State<BalanceWidget> createState() => _BalanceWidgetState();
-}
-
-class _BalanceWidgetState extends State<BalanceWidget> {
   @override
   Widget build(BuildContext context) {
     return Row(

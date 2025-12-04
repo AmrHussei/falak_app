@@ -1,7 +1,7 @@
 import 'package:falak/core/extensions/string_sxtensions.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/profile/presentation/view/widgets/agencies/delete_agency_widget.dart';
-import 'package:falak/features/profile/presentation/view/widgets/change_password/change_password_bottom_sheet.dart';
+import 'package:falak/core/widgets/success_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -55,7 +55,7 @@ class LoadedAgenciesWidget extends StatelessWidget {
                           enableDrag: false,
                           context: context,
                           backgroundColor: Colors.transparent,
-                          builder: (_) => ChangePasswordBottomSheet(
+                          builder: (_) => SuccessBottomSheet(
                             title: 'سبب الرفض',
                             subText:  agencies[index].status?.reason ??
                                 'تم رفض الوكالة لاسباب تتعلق بالادمن',

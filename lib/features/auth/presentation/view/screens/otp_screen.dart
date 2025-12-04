@@ -1,6 +1,6 @@
 import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:falak/features/auth/presentation/view/widgets/steps_widget.dart';
-import 'package:falak/features/profile/presentation/view/widgets/change_password/change_password_bottom_sheet.dart';
+import 'package:falak/core/widgets/success_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
@@ -171,7 +171,7 @@ class VerifyButtonWidget extends StatelessWidget {
               enableDrag: false,
               context: context,
               backgroundColor: Colors.transparent,
-              builder: (_) => ChangePasswordBottomSheet(
+              builder: (_) => SuccessBottomSheet(
                 title: '',
                 subText: 'تم تغير البريد الالكتروني بنجاح',
               ),

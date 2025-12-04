@@ -2,6 +2,8 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:falak/features/wallet/data/data_source/wallet_data_source.dart';
+import 'package:falak/features/wallet/data/model/wallet_details_model.dart';
+import 'package:flutter/foundation.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/params/wallet/psot_withdraw_params.dart';
@@ -14,9 +16,7 @@ import '../model/withdraw_model.dart';
 class WalletRepository {
   final WalletRemoteDataSource remoteDataSource;
 
-  WalletRepository({
-    required this.remoteDataSource,
-  });
+  WalletRepository({required this.remoteDataSource});
 
   Future<Either<Failure, WalletModel>> getWallet() async {
     try {
@@ -29,11 +29,7 @@ class WalletRepository {
         return Right(data);
       } else {
         log('getWallet Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getWallet Repository Exception Error: $e');
@@ -52,11 +48,7 @@ class WalletRepository {
         return Right(data);
       } else {
         log('getWallet Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getWallet Repository Exception Error: $e');
@@ -65,6 +57,46 @@ class WalletRepository {
   }
 
   Future<Either<Failure, WithdrawModel>> getWithdraw() async {
+    if (kDebugMode) {
+      return Right(
+        WithdrawModel(
+          data: [
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.pending,
+            ),
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.confirmed,
+            ),
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.success,
+            ),
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.failed,
+            ),
+          ],
+        ),
+      );
+    }
     try {
       final response = await remoteDataSource.getWithdraw();
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -75,11 +107,7 @@ class WalletRepository {
         return Right(data);
       } else {
         log('getWallet Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getWallet Repository Exception Error: $e');
@@ -88,6 +116,47 @@ class WalletRepository {
   }
 
   Future<Either<Failure, InvoiceModel>> getUserInvoices() async {
+    if (kDebugMode) {
+      return Right(
+        InvoiceModel(
+          data: [
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.pending,
+            ),
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.confirmed,
+            ),
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.success,
+            ),
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.failed,
+            ),
+          ],
+
+        ),
+      );
+    }
     try {
       final response = await remoteDataSource.getUserInvoices();
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -98,11 +167,7 @@ class WalletRepository {
         return Right(data);
       } else {
         log('getWallet Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getWallet Repository Exception Error: $e');
@@ -111,6 +176,47 @@ class WalletRepository {
   }
 
   Future<Either<Failure, HeldModel>> getHeldFunds() async {
+    if (kDebugMode) {
+      return Right(
+        HeldModel(
+          data: [
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.pending,
+            ),
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.confirmed,
+            ),
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.success,
+            ),
+            WalletDetailsModel(
+              title: '',
+              refNumber: '1',
+              transactionTime: '',
+              transactionDate: '',
+              amount: '1000',
+              status: TransactionStatus.failed,
+            ),
+          ],
+
+        ),
+      );
+    }
     try {
       final response = await remoteDataSource.getHeldFunds();
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -121,11 +227,7 @@ class WalletRepository {
         return Right(data);
       } else {
         log('getWallet Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getWallet Repository Exception Error: $e');
@@ -133,9 +235,7 @@ class WalletRepository {
     }
   }
 
-  Future<Either<Failure, String>> addWalletBalance(
-    dynamic balance,
-  ) async {
+  Future<Either<Failure, String>> addWalletBalance(dynamic balance) async {
     try {
       final response = await remoteDataSource.addWalletBalance(balance);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -145,11 +245,7 @@ class WalletRepository {
         return Right(response.data['message']);
       } else {
         log('addWalletBalance Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('addWalletBalance Repository Exception Error: $e');
@@ -158,7 +254,8 @@ class WalletRepository {
   }
 
   Future<Either<Failure, String>> submitWithdrawRequest(
-      PsotWithdrawParams params) async {
+    PsotWithdrawParams params,
+  ) async {
     try {
       final response = await remoteDataSource.submitWithdrawRequest(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -166,11 +263,7 @@ class WalletRepository {
         return Right("تم إرسال طلب السحب بنجاح");
       } else {
         log('submitWithdrawRequest Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('submitWithdrawRequest Repository Exception Error: $e');

@@ -141,6 +141,15 @@ abstract class AppStyles {
     );
   }
 
+  static TextStyle styleMedium13(BuildContext context) {
+    return TextStyle(
+      height: 1.33,
+      color: AppColors.typographyHeading(context),
+      fontSize: getResponsiveFontSize(context, fontSize: 13),
+      fontFamily: 'Lama Sans',
+      fontWeight: FontWeight.w500,
+    );
+  }
   static TextStyle styleMedium14(BuildContext context) {
     return TextStyle(
       height: 1.33,

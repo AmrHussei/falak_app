@@ -1,7 +1,7 @@
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:falak/features/auth/presentation/view/widgets/steps_widget.dart';
-import 'package:falak/features/profile/presentation/view/widgets/change_password/change_password_bottom_sheet.dart';
+import 'package:falak/core/widgets/success_bottom_sheet.dart';
 import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -59,7 +59,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                   backgroundColor: Colors.transparent,
                   builder: (_) => Builder(
                     builder: (context) {
-                      return ChangePasswordBottomSheet(
+                      return SuccessBottomSheet(
                         height: 300.h,
                         title: '',
                         subText: 'تم إرسال الطلب بنجاح',

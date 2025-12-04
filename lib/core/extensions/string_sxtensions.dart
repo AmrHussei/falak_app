@@ -1,5 +1,6 @@
 import 'package:falak/core/utils/app_logger.dart';
 import 'package:falak/core/utils/app_strings.dart';
+import 'package:falak/features/wallet/data/model/wallet_details_model.dart';
 import 'package:falak/generated/assets.dart';
 import 'package:flutter/animation.dart';
 
@@ -71,7 +72,7 @@ extension StringExtensions on String? {
       case AppStrings.approved:
         return 'نشط';
       default:
-        return 'منتهية ';
+        return 'منتهية';
     }
   }
 
@@ -117,6 +118,32 @@ extension StringExtensions on String? {
         return const Color(0xff009951);
       default:
         return const Color(0xffD54033);
+    }
+  }
+
+  TransactionStatus fromType(WalletType type) {
+    switch (type) {
+      case WalletType.charge:
+        return TransactionStatus.values.firstWhere(
+          (status) => status.name == this!.toLowerCase(),
+          orElse: () => TransactionStatus.failed,
+        );
+      case WalletType.withdraw:
+        switch (this) {
+          case 'pending':
+            return TransactionStatus.pending;
+          case 'rejected':
+            return TransactionStatus.failed;
+          case 'inProgress':
+            return TransactionStatus.confirmed;
+          default:
+            return TransactionStatus.success;
+        }
+      case WalletType.other:
+        return TransactionStatus.values.firstWhere(
+          (status) => status.name == this!.toLowerCase(),
+          orElse: () => TransactionStatus.failed,
+        );
     }
   }
 }

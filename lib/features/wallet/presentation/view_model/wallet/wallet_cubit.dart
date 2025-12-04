@@ -36,9 +36,6 @@ class WalletCubit extends Cubit<WalletState> {
   final withdrawFormKey = GlobalKey<FormState>();
   final beneficiaryNameController = TextEditingController();
   final addBalanceKey = GlobalKey<FormState>();
-  WithdrawRequest? withdrawRequest;
-  Invoice? invoiceRequest;
-  AuctionDataHeld? heldFunds;
   File? ibanAttachment;
 
   Future<void> pickIbanAttachment() async {

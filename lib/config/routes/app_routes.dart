@@ -29,8 +29,6 @@ import '../../features/profile/presentation/view/screens/change_password_screen.
 import '../../features/profile/presentation/view/screens/change_phone_number.dart';
 import '../../features/profile/presentation/view/screens/profile_screen.dart';
 import '../../features/profile/presentation/view/screens/user_info_screen.dart';
-import '../../features/wallet/presentation/view/screens/transaction_details_screen.dart';
-import '../../features/wallet/presentation/view/screens/trunsaction_history_screen.dart';
 import '../../features/wallet/presentation/view/screens/wallet_screen.dart';
 import '../../features/wallet/presentation/view/screens/withdraw_screen.dart';
 
@@ -64,12 +62,7 @@ class Routes {
   static const String changePhoneNumberScreen = '/ChangePhoneNumberScreen';
   static const String agenciesScreen = '/AgenciesScreen';
   static const String walletScreen = '/WalletScreen';
-  static const String TrunsactionHistoryScreen = '/TrunsactionHistoryScreen';
-  static const String TransactionDetailsScreen = '/TransactionDetailsScreen';
   static const String WithdrawScreen = '/WithdrawScreen';
-  static const String HeldFundsDetailsScreen = '/HeldFundsDetailsScreen';
-  static const String WithdrawDetailsScreen = '/WithdrawDetailsScreen';
-  static const String InvoiceDetailsScreen = '/InvoiceDetailsScreen';
   static const String AddRealStateScreen = '/AddRealStateScreen';
   static const String ProperityManagment = '/ProperityManagment';
 }
@@ -163,19 +156,8 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => AgenciesScreen());
       case Routes.walletScreen:
         return MaterialPageRoute(builder: (_) => WalletScreen());
-      case Routes.TrunsactionHistoryScreen:
-        return MaterialPageRoute(builder: (_) => TrunsactionHistoryScreen());
-      case Routes.TransactionDetailsScreen:
-        return MaterialPageRoute(builder: (_) => TransactionDetailsScreen());
       case Routes.WithdrawScreen:
-        return MaterialPageRoute(builder: (_) => WithdrawScreen());
-      case Routes.HeldFundsDetailsScreen:
-        return MaterialPageRoute(builder: (_) => HeldFundsDetailsScreen());
-      case Routes.WithdrawDetailsScreen:
-        return MaterialPageRoute(builder: (_) => WithdrawDetailsScreen());
-      case Routes.InvoiceDetailsScreen:
-        return MaterialPageRoute(builder: (_) => InvoiceDetailsScreen());
-      case Routes.AddRealStateScreen:
+        return MaterialPageRoute(builder: (_) => WithdrawScreen());case Routes.AddRealStateScreen:
         return MaterialPageRoute(builder: (_) => AddRealStateScreen());
       case Routes.ProperityManagment:
         return MaterialPageRoute(builder: (_) => ProperityManagmentScreen());

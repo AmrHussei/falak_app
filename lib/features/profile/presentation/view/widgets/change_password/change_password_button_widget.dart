@@ -1,5 +1,5 @@
 import 'package:falak/core/widgets/app_buttons.dart';
-import 'package:falak/features/profile/presentation/view/widgets/change_password/change_password_bottom_sheet.dart';
+import 'package:falak/core/widgets/success_bottom_sheet.dart';
 import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -30,7 +30,7 @@ class ChangePasswordButtonWidget extends StatelessWidget {
                 enableDrag: false,
                 context: context,
                 backgroundColor: Colors.transparent,
-                builder: (_) => const ChangePasswordBottomSheet(),
+                builder: (_) => const SuccessBottomSheet(),
               );
             } else if (state.changePasswordRequestState == RequestState.error) {
               mySnackBar(

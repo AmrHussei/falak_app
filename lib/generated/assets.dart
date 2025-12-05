@@ -146,8 +146,10 @@ class Assets {
   static const String imagesAppLogoPrimary = 'assets/images/appLogoPrimary.svg';
   static const String imagesAppSplashlogo = 'assets/images/appSplashlogo.svg';
   static const String imagesAppauthlogo = 'assets/images/appauthlogo.svg';
+  static const String imagesArrowBottom = 'assets/images/arrowBottom.svg';
   static const String imagesArrowDown = 'assets/images/arrow-down.svg';
   static const String imagesArrowLeftLong = 'assets/images/arrow-left-long.svg';
+  static const String imagesArrowTop = 'assets/images/arrowTop.svg';
   static const String imagesAssets = 'assets/images/assets.svg';
   static const String imagesBag = 'assets/images/bag.svg';
   static const String imagesBell = 'assets/images/Bell.svg';
@@ -179,6 +181,7 @@ class Assets {
   static const String imagesEllipse474 = 'assets/images/Ellipse474.svg';
   static const String imagesEmailIcon = 'assets/images/emailIcon.svg';
   static const String imagesEmpty = 'assets/images/empty.svg';
+  static const String imagesEmptyNotifications = 'assets/images/emptyNotifications.svg';
   static const String imagesEndAssetsDate = 'assets/images/endAssetsDate.svg';
   static const String imagesEndMazadDetailsicon = 'assets/images/endMazadDetailsicon.svg';
   static const String imagesEndenAssetsIcon = 'assets/images/endenAssetsIcon.svg';
@@ -234,6 +237,7 @@ class Assets {
   static const String imagesQustionappbarImage = 'assets/images/qustionappbarImage.png';
   static const String imagesQustions = 'assets/images/qustions.svg';
   static const String imagesReadNotification = 'assets/images/readNotification.svg';
+  static const String imagesReaded = 'assets/images/readed.svg';
   static const String imagesRiyal = 'assets/images/riyal.svg';
   static const String imagesSavedMazad = 'assets/images/savedMazad.svg';
   static const String imagesSearchMenuIcon = 'assets/images/search_menu_icon.svg';
@@ -253,6 +257,7 @@ class Assets {
   static const String imagesTopUsers = 'assets/images/TopUsers.svg';
   static const String imagesTrash = 'assets/images/trash.svg';
   static const String imagesTrashBinTrash = 'assets/images/TrashBinTrash.svg';
+  static const String imagesUnread = 'assets/images/unread.svg';
   static const String imagesUploadeFile = 'assets/images/uploadeFile.svg';
   static const String imagesUser = 'assets/images/user.svg';
   static const String imagesUserId = 'assets/images/UserId.svg';

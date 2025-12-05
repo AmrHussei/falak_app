@@ -79,7 +79,7 @@ class InProgressAssetsCardBodyWidget extends StatelessWidget {
               flexDetailsButton: 1,
               index: index,
               textButton1:
-                  homeCubit.auctionData!.auctionOrigins[index].isEnrolled!
+                (  homeCubit.auctionData!.auctionOrigins?[index].isEnrolled??false)
                       ? 'مغادرة المزاد'
                       : 'سجل في المزاد',
               onPressedButton1: () {

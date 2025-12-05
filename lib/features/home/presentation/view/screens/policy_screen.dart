@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:falak/core/utils/enums.dart';
 import 'package:falak/core/widgets/error_app_widget.dart';
@@ -35,24 +36,11 @@ class _PolicyScreenState extends State<PolicyScreen> {
               return ShimmerPolicyContent();
             case RequestState.loaded:
               return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16),
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Html(
-                        data: state.privacyPolicyModel!.data.content,
-                        style: {
-                          "body": Style(
-                            fontFamily: 'Lama Sans',
-                            // fontSize: FontSize(16),
-                            // fontWeight: FontWeight.w500,
-                            lineHeight: LineHeight(1.7),
-                          ),
-                        },
-                      ),
-                    ],
-                  ),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 16.w,vertical: 24.h,
+                ),
+                child:Html(
+                  data: state.privacyPolicyModel!.data.content,
                 ),
               );
             case RequestState.error:

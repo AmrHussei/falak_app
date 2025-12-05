@@ -27,10 +27,11 @@ class PagesState extends Equatable {
     this.getsocialRequestState = RequestState.ideal,
     this.socialError,
     this.socialModel,
-    this.qestionsRequestState = RequestState.ideal,
+    this.qestionsRequestState = const {},
     this.qestionsError,
-    this.qestionsModel,
+    this.qestionsModel = const {},
     this.notifications,
+    this.selectedCategory,
   });
   final RequestState addRealStateRequestState;
   final Failure? addRealStateError;
@@ -40,9 +41,9 @@ class PagesState extends Equatable {
   final Failure? properityManagmentError;
   final String? properityManagmentMessage;
   //
-  final RequestState qestionsRequestState;
+  final Map<String,RequestState> qestionsRequestState;
   final Failure? qestionsError;
-  final QuestionsModel? qestionsModel;
+  final Map<String,QuestionsModel> qestionsModel;
   //
   final RequestState qestionsCategoriesRequestState;
   final Failure? qestionsCategoriesError;
@@ -69,9 +70,11 @@ class PagesState extends Equatable {
   final RequestState deleteNotificationsRequestState;
   final Failure? deleteNotificationsError;
   final String? deleteNotificationsMessage;
+  final QestionsCategory? selectedCategory;
 
   @override
   List<Object?> get props => [
+    selectedCategory,
         properityManagmentRequestState,
         properityManagmentError,
         properityManagmentMessage,
@@ -109,9 +112,9 @@ class PagesState extends Equatable {
     RequestState? properityManagmentRequestState,
     Failure? properityManagmentError,
     String? properityManagmentMessage,
-    RequestState? qestionsRequestState,
+    Map<String,RequestState>? qestionsRequestState,
     Failure? qestionsError,
-    QuestionsModel? qestionsModel,
+    Map<String,QuestionsModel>? qestionsModel,
     RequestState? qestionsCategoriesRequestState,
     Failure? qestionsCategoriesError,
     QestionsCategoriesModel? qestionsCategoriesModel,
@@ -131,6 +134,7 @@ class PagesState extends Equatable {
     RequestState? deleteNotificationsRequestState,
     Failure? deleteNotificationsError,
     String? deleteNotificationsMessage,
+    QestionsCategory? selectedCategory
   }) {
     return PagesState(
       addRealStateRequestState:
@@ -177,6 +181,8 @@ class PagesState extends Equatable {
           deleteNotificationsError ?? this.deleteNotificationsError,
       deleteNotificationsMessage:
           deleteNotificationsMessage ?? this.deleteNotificationsMessage,
+      selectedCategory:
+          selectedCategory ?? this.selectedCategory,
     );
   }
 }

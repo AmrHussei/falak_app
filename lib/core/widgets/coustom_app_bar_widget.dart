@@ -15,6 +15,7 @@ class CoustomAppBarWidget extends StatelessWidget
     this.leading,
     this.bottom,
     this.hight,
+    this.titleWidget,
   });
 
   final String? title;
@@ -22,7 +23,7 @@ class CoustomAppBarWidget extends StatelessWidget
   Widget? leading;
   PreferredSizeWidget? bottom;
   double? hight;
-
+final Widget? titleWidget;
   @override
   Widget build(BuildContext context) {
     bool canPop = Navigator.canPop(context);
@@ -37,7 +38,7 @@ class CoustomAppBarWidget extends StatelessWidget
       toolbarHeight: hight ?? 64,
       centerTitle: false,
       flexibleSpace: Container(),
-      title: Row(
+      title:titleWidget?? Row(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
           SizedBox(

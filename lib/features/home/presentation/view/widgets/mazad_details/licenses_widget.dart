@@ -60,28 +60,28 @@ class RealEstateOrganizationWidget extends StatelessWidget {
       children: [
         Row(
           children: [
-            homeCubit.auctionData!.logos.length > 0
+            (homeCubit.auctionData!.logos?.length??0) > 0
                 ? ConstrainedBox(
                     constraints: BoxConstraints(
                       maxWidth: 56,
                       maxHeight: 56,
                     ),
                     child: CachedNetworkImageWidegt(
-                      imageUrl: homeCubit.auctionData!.logos[0].logo ?? '',
+                      imageUrl: homeCubit.auctionData!.logos?[0].logo ?? '',
                     ),
                   )
                 : SizedBox.shrink(),
             SizedBox(
               width: 12,
             ),
-            homeCubit.auctionData!.logos.length > 1
+            (homeCubit.auctionData!.logos?.length??0) > 1
                 ? ConstrainedBox(
                     constraints: BoxConstraints(
                       maxWidth: 56,
                       maxHeight: 56,
                     ),
                     child: CachedNetworkImageWidegt(
-                      imageUrl: homeCubit.auctionData!.logos[1].logo ?? '',
+                      imageUrl: homeCubit.auctionData!.logos?[1].logo ?? '',
                     ),
                   )
                 : SizedBox.shrink(),
@@ -107,7 +107,7 @@ class RealEstateOrganizationWidget extends StatelessWidget {
         ),
         SizedBox(height: 4),
         Text(
-          homeCubit.auctionData?.provider.companyName ?? 'وثيق للمزادات',
+          homeCubit.auctionData?.provider?.companyName ?? 'وثيق للمزادات',
           style: AppStyles.styleMedium16(context).copyWith(
             color: AppColors.typographyHeading(context),
           ),
@@ -118,7 +118,7 @@ class RealEstateOrganizationWidget extends StatelessWidget {
           children: [
             ValTextColumWidget(
               title: 'رخصة فال للمزادات العقارية',
-              desc: homeCubit.auctionData?.provider.valAuctionsLicenseNumber ??
+              desc: homeCubit.auctionData?.provider?.valAuctionsLicenseNumber ??
                   '',
             ),
             ValTextColumWidget(
@@ -237,11 +237,11 @@ class WhatsAppAndCallButtonWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
-    final key = homeCubit.auctionData?.provider.companyPhoneNumber?.key ??
-        homeCubit.auctionData?.provider.auctionPhoneNumber?.key;
+    final key = homeCubit.auctionData?.provider?.companyPhoneNumber?.key ??
+        homeCubit.auctionData?.provider?.auctionPhoneNumber?.key;
 
-    final number = homeCubit.auctionData?.provider.companyPhoneNumber?.number ??
-        homeCubit.auctionData?.provider.auctionPhoneNumber?.number;
+    final number = homeCubit.auctionData?.provider?.companyPhoneNumber?.number ??
+        homeCubit.auctionData?.provider?.auctionPhoneNumber?.number;
 
     String? whatsappNumber =
         (key != null || number != null) ? '${key ?? ''}${number ?? ''}' : null;
@@ -254,7 +254,7 @@ class WhatsAppAndCallButtonWidget extends StatelessWidget {
               if (whatsappNumber != null) {
                 openLink('https://wa.me/${whatsappNumber}');
                 print(
-                    homeCubit.auctionData?.provider.auctionPhoneNumber?.number);
+                    homeCubit.auctionData?.provider?.auctionPhoneNumber?.number);
               } else {
                 FloatingSnackBar.show(context, 'عذرا لا يوجد رقم حاليا');
               }

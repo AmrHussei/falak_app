@@ -181,7 +181,7 @@ class AuctionTitleAndLocationWidget extends StatelessWidget {
                 SizedBox(
                   width: 210,
                   child: Text(
-                    homeCubit.auctionData?.location.title ?? 'السعودية',
+                    homeCubit.auctionData?.location?.title ?? 'السعودية',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,

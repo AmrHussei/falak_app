@@ -8,12 +8,15 @@ class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
   final TabController controller;
   final List<String> tabs;
 final bool haveWidth;
-  const CustomTabBar({super.key, required this.controller, required this.tabs, this.haveWidth = true});
+  final ValueChanged<int>? onTap;
+
+  const CustomTabBar({super.key, required this.controller, required this.tabs, this.haveWidth = true, this.onTap});
 
   @override
   Widget build(BuildContext context) {
     return TabBar(
       controller: controller,
+      onTap: onTap,
       indicator: GradientUnderlineTabIndicator(
         borderSide: BorderSide(
           color: AppColors.secondColor(context),

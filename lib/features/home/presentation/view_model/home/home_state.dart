@@ -3,9 +3,9 @@ part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
   const HomeState({
-    this.getUserAuctionsRequestState = RequestState.ideal,
+    this.getUserAuctionsRequestState = const {},
     this.getUserAuctionsError,
-    this.getUserAuctionsModel,
+    this.getUserAuctionsModel=const {},
     this.auctionBrochureRequestState = RequestState.ideal,
     this.auctionBrochureError,
     this.auctionBrochureMsg,
@@ -57,9 +57,9 @@ class HomeState extends Equatable {
   final Map<String,Failure>? auctionsError;
   final Map<String,AuctionsModel>? auctionsModel;
   //
-  final RequestState getUserAuctionsRequestState;
+  final Map<String,RequestState> getUserAuctionsRequestState;
   final Failure? getUserAuctionsError;
-  final AuctionsModel? getUserAuctionsModel;
+  final Map<String,AuctionsModel> getUserAuctionsModel;
   //
   final RequestState getFavoriteRequestState;
   final Failure? getFavoriteError;
@@ -172,9 +172,9 @@ class HomeState extends Equatable {
      Map<String,RequestState>? auctionsRequestState,
      Map<String,Failure>? auctionsError,
      Map<String,AuctionsModel>? auctionsModel,
-    RequestState? getUserAuctionsRequestState,
+    Map<String,RequestState>? getUserAuctionsRequestState,
     Failure? getUserAuctionsError,
-    AuctionsModel? getUserAuctionsModel,
+    Map<String,AuctionsModel>? getUserAuctionsModel,
     RequestState? getFavoriteRequestState,
     Failure? getFavoriteError,
     AuctionsModel? getFavoriteModel,

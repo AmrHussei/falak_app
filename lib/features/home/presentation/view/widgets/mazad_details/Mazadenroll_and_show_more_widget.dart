@@ -20,6 +20,7 @@ class MazadEnrollAndShowMoreWidget extends StatelessWidget {
     this.flexButton,
     this.flexDetailsButton,
   });
+
   final String? textButton1;
   final Function()? onPressedButton1;
   final Widget? icon;
@@ -46,14 +47,16 @@ class MazadEnrollAndShowMoreWidget extends StatelessWidget {
               },
               label: Text(
                 'التفاصيل',
-                style: AppStyles.styleMedium16(context)
-                    .copyWith(color: AppColors.iconsSecondary(context)),
+                style: AppStyles.styleMedium16(
+                  context,
+                ).copyWith(color: AppColors.iconsSecondary(context)),
               ),
               style: OutlinedButton.styleFrom(
                 side: BorderSide(
                   width: 1,
                   color: AppColors.iconsSecondary(
-                      context), // <-- Border color here
+                    context,
+                  ), // <-- Border color here
                 ),
                 padding: EdgeInsets.all(0),
                 minimumSize: Size(double.infinity, double.infinity),
@@ -76,17 +79,21 @@ class MazadEnrollAndShowMoreWidget extends StatelessWidget {
                     onPressed: onPressedButton1,
                     label: Text(
                       textButton1 ?? '',
-                      style: AppStyles.styleMedium16(context).copyWith(
-                        color: AppColors.white(context),
-                      ),
+                      style: AppStyles.styleMedium16(
+                        context,
+                      ).copyWith(color: AppColors.white(context)),
                     ),
                     icon: icon,
                     style: OutlinedButton.styleFrom(
                       minimumSize: Size(double.infinity, double.infinity),
                       side: BorderSide(
                         width: 1,
-                        color: (homeCubit.auctionData!.auctionOrigins[index]
-                                    .isEnrolled! &&
+                        color:
+                            ((homeCubit
+                                        .auctionData!
+                                        .auctionOrigins?[index]
+                                        .isEnrolled ??
+                                    false) &&
                                 getKTapIndex(context) == 2)
                             ? AppColors.error(context)
                             : buttonColor ?? AppColors.color2(context),
@@ -94,8 +101,12 @@ class MazadEnrollAndShowMoreWidget extends StatelessWidget {
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(12.r),
                       ),
-                      backgroundColor: (homeCubit.auctionData!
-                                  .auctionOrigins[index].isEnrolled! &&
+                      backgroundColor:
+                          ((homeCubit
+                                      .auctionData!
+                                      .auctionOrigins?[index]
+                                      .isEnrolled ??
+                                  false) &&
                               getKTapIndex(context) == 2)
                           ? AppColors.error(context)
                           : buttonColor ?? AppColors.color2(context),

@@ -26,20 +26,20 @@ class ShowMoreWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        auctionData.logos.length > 0
+        (auctionData.logos?.length ?? 0) > 0
             ? ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 56, maxHeight: 56),
                 child: CachedNetworkImageWidegt(
-                  imageUrl: auctionData.logos[0].logo ?? '',
+                  imageUrl: auctionData.logos?[0].logo ?? '',
                 ),
               )
             : SizedBox.shrink(),
         SizedBox(width: 12),
-        auctionData.logos.length > 1
+        (auctionData.logos?.length ?? 0) > 1
             ? ConstrainedBox(
                 constraints: BoxConstraints(maxWidth: 56, maxHeight: 56),
                 child: CachedNetworkImageWidegt(
-                  imageUrl: auctionData.logos[1].logo ?? '',
+                  imageUrl: auctionData.logos?[1].logo ?? '',
                 ),
               )
             : SizedBox.shrink(),
@@ -50,7 +50,11 @@ class ShowMoreWidget extends StatelessWidget {
           radius: 12.r,
           onPressed: () {
             context.read<HomeCubit>().auctionData = auctionData;
-            context.read<HomeCubit>().originList = auctionData.auctionOrigins;
+            if (auctionData.auctionOrigins != null &&
+                auctionData.auctionOrigins!.isNotEmpty) {
+              context.read<HomeCubit>().originList =
+                  auctionData.auctionOrigins!;
+            }
             getKTapIndex(context);
 
             context.navigateTo(Routes.mazadDetailsScreen);

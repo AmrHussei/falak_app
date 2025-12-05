@@ -23,7 +23,7 @@ class AssetSearchWidgetAndNum extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'الاصول  ( ${homeCubit.auctionData!.auctionOrigins.length} )',
+            'الاصول  ( ${homeCubit.auctionData!.auctionOrigins?.length} )',
             style: AppStyles.styleBold24(context).copyWith(
               color: AppColors.typographyHeading(context),
             ),

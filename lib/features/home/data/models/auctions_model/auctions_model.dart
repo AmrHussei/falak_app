@@ -1,63 +1,29 @@
 import 'package:equatable/equatable.dart';
-import 'package:falak/features/home/data/models/auctions_model/counts.dart';
 
 class AuctionsModel extends Equatable {
-  final String? message;
-  final Pagination? pagination;
   final List<AuctionData> data;
-  final Counts? counts;
 
-  AuctionsModel({
-    required this.message,
-    required this.pagination,
-    required this.data,
-    required this.counts,
-  });
+  AuctionsModel({required this.data});
 
   factory AuctionsModel.fromJson(Map<String?, dynamic> json) {
     return AuctionsModel(
-      message: json['message'],
-      pagination: json['pagination'] == null
-          ? null
-          : Pagination.fromJson(json['pagination']),
       data: List<AuctionData>.from(
-          json['data'].map((x) => AuctionData.fromJson(x))),
-      counts: json['counts'] == null ? null : Counts.fromJson(json['counts']),
+        json['data'].map((x) => AuctionData.fromJson(x)),
+      ),
     );
   }
 
   @override
-  // TODO: implement props
-  List<Object?> get props => [data, counts];
-}
-
-class Pagination {
-  final int currentPage;
-  final int resultCount;
-  final int totalPages;
-
-  Pagination({
-    required this.currentPage,
-    required this.resultCount,
-    required this.totalPages,
-  });
-
-  factory Pagination.fromJson(Map<String?, dynamic> json) {
-    return Pagination(
-      currentPage: json['currentPage'],
-      resultCount: json['resultCount'],
-      totalPages: json['totalPages'],
-    );
-  }
+  List<Object?> get props => [data];
 }
 
 class AuctionData extends Equatable {
   final String id;
-  final Location location;
+  final Location? location;
   final bool? specialToSupportAuthority;
   final String? startDate;
   final String? endDate;
-  final int numberOfDays;
+  final int? numberOfDays;
   final String? status;
   final String? type;
   final bool? createdByAdmin;
@@ -68,40 +34,40 @@ class AuctionData extends Equatable {
   final String? title;
   final String? cover;
   final dynamic user;
-  final Provider provider;
-  final List<Logo> logos;
+  final Provider? provider;
+  final List<Logo>? logos;
   final String? auctionBrochure;
   bool? isFavorite;
-  final List<AuctionOrigin> auctionOrigins;
+  final List<AuctionOrigin>? auctionOrigins;
   final CreatedBy? createdBy;
   final Updated? updated;
   final TimerAuction? timer;
 
   AuctionData({
-    required this.id,
-    required this.location,
-    required this.specialToSupportAuthority,
-    required this.startDate,
-    required this.endDate,
-    required this.numberOfDays,
-    required this.status,
-    required this.type,
-    required this.createdByAdmin,
-    required this.auctionApprovalNumber,
-    required this.auctionReviewStatus,
-    required this.createdAt,
-    required this.updatedAt,
-    required this.title,
-    required this.cover,
-    required this.user,
-    required this.provider,
-    required this.logos,
-    required this.auctionBrochure,
-    required this.isFavorite,
-    required this.auctionOrigins,
-    required this.createdBy,
-    required this.updated,
-    required this.timer,
+   required  this.id,
+    this.location,
+    this.specialToSupportAuthority,
+    this.startDate,
+    this.endDate,
+    this.numberOfDays,
+    this.status,
+    this.type,
+    this.createdByAdmin,
+    this.auctionApprovalNumber,
+    this.auctionReviewStatus,
+    this.createdAt,
+    this.updatedAt,
+    this.title,
+    this.cover,
+    this.user,
+    this.provider,
+    this.logos,
+    this.auctionBrochure,
+    this.isFavorite,
+    this.auctionOrigins,
+    this.createdBy,
+    this.updated,
+    this.timer,
   });
 
   factory AuctionData.fromJson(Map<String?, dynamic> json) {
@@ -129,14 +95,17 @@ class AuctionData extends Equatable {
       auctionBrochure: json['auctionBrochure'],
       isFavorite: json['isFavorite'] ?? true,
       auctionOrigins: List<AuctionOrigin>.from(
-          json['auctionOrigins'].map((x) => AuctionOrigin.fromJson(x))),
+        json['auctionOrigins'].map((x) => AuctionOrigin.fromJson(x)),
+      ),
       createdBy: json['createdBy'] == null
           ? null
           : CreatedBy.fromJson(json['createdBy']),
-      updated:
-          json['updated'] == null ? null : Updated.fromJson(json['updated']),
-      timer:
-          json['timer'] == null ? null : TimerAuction.fromJson(json['timer']),
+      updated: json['updated'] == null
+          ? null
+          : Updated.fromJson(json['updated']),
+      timer: json['timer'] == null
+          ? null
+          : TimerAuction.fromJson(json['timer']),
     );
   }
 
@@ -165,11 +134,7 @@ class Location {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'longitude': longitude,
-      'latitude': latitude,
-      'title': title,
-    };
+    return {'longitude': longitude, 'latitude': latitude, 'title': title};
   }
 }
 
@@ -201,11 +166,7 @@ class By {
   final String? name;
   final String? profileImage;
 
-  By({
-    required this.id,
-    required this.name,
-    required this.profileImage,
-  });
+  By({required this.id, required this.name, required this.profileImage});
 
   factory By.fromJson(Map<String?, dynamic> json) {
     return By(
@@ -254,16 +215,10 @@ class CompanyPhoneNumber {
   final String? key;
   final String? number;
 
-  CompanyPhoneNumber({
-    required this.key,
-    required this.number,
-  });
+  CompanyPhoneNumber({required this.key, required this.number});
 
   factory CompanyPhoneNumber.fromJson(Map<String?, dynamic> json) {
-    return CompanyPhoneNumber(
-      key: json['key'],
-      number: json['number'],
-    );
+    return CompanyPhoneNumber(key: json['key'], number: json['number']);
   }
 }
 
@@ -272,43 +227,12 @@ class Logo {
   final String? logo;
   final bool? active;
 
-  Logo({
-    required this.id,
-    required this.logo,
-    required this.active,
-  });
+  Logo({required this.id, required this.logo, required this.active});
 
   factory Logo.fromJson(Map<String?, dynamic> json) {
-    return Logo(
-      id: json['_id'],
-      logo: json['logo'],
-      active: json['active'],
-    );
+    return Logo(id: json['_id'], logo: json['logo'], active: json['active']);
   }
 }
-
-// class AuctionOrigin {
-//   final String id;
-//   final String? title;
-//   final String? description;
-//   final List<String?> attachment;
-
-//   AuctionOrigin({
-//     required this.id,
-//     required this.title,
-//     required this.description,
-//     required this.attachment,
-//   });
-
-//   factory AuctionOrigin.fromJson(Map<String?, dynamic> json) {
-//     return AuctionOrigin(
-//       id: json['_id'],
-//       title: json['title'],
-//       description: json['description'],
-//       attachment: List<String?>.from(json['attachment']),
-//     );
-//   }
-// }
 
 class AuctionOrigin {
   String id;
@@ -378,10 +302,7 @@ class Detail {
   String? title;
   List<AuctionDetail> auctionDetails;
 
-  Detail({
-    required this.title,
-    required this.auctionDetails,
-  });
+  Detail({required this.title, required this.auctionDetails});
 
   // From JSON
   factory Detail.fromJson(Map<String?, dynamic> json) {
@@ -406,10 +327,7 @@ class AuctionDetail {
   String? title;
   String? description;
 
-  AuctionDetail({
-    required this.title,
-    required this.description,
-  });
+  AuctionDetail({required this.title, required this.description});
 
   // From JSON
   factory AuctionDetail.fromJson(Map<String?, dynamic> json) {
@@ -421,10 +339,7 @@ class AuctionDetail {
 
   // To JSON
   Map<String?, dynamic> toJson() {
-    return {
-      'title': title,
-      'description': description,
-    };
+    return {'title': title, 'description': description};
   }
 }
 
@@ -433,11 +348,7 @@ class CreatedBy {
   final String? name;
   final String? profileImage;
 
-  CreatedBy({
-    required this.id,
-    required this.name,
-    required this.profileImage,
-  });
+  CreatedBy({required this.id, required this.name, required this.profileImage});
 
   factory CreatedBy.fromJson(Map<String?, dynamic> json) {
     return CreatedBy(
@@ -452,16 +363,10 @@ class Updated {
   final By by;
   final String? at;
 
-  Updated({
-    required this.by,
-    required this.at,
-  });
+  Updated({required this.by, required this.at});
 
   factory Updated.fromJson(Map<String?, dynamic> json) {
-    return Updated(
-      by: By.fromJson(json['by']),
-      at: json['at'],
-    );
+    return Updated(by: By.fromJson(json['by']), at: json['at']);
   }
 }
 

@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/app_images.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/widgets/coustom_app_bar_widget.dart';
 import 'package:falak/core/widgets/my_snackbar.dart';
@@ -17,6 +17,7 @@ import '../../../../../core/utils/images.dart';
 import '../../../../../core/widgets/empty_widget.dart';
 import '../../../../../core/widgets/error_app_widget.dart';
 import '../../../../../core/widgets/guest_widget.dart';
+import '../../../../../generated/assets.dart';
 
 class NotificationScreen extends StatefulWidget {
   @override
@@ -43,17 +44,30 @@ class _NotificationScreenState extends State<NotificationScreen> {
                   onTap: () {
                     showNotificationSettingBottomSheet(context);
                   },
-                  child: SvgPicture.asset(
-                    AppAssets.app_imagesSetting,
-                  ),
+                  child: SvgPicture.asset(AppAssets.app_imagesSetting),
                 ),
-                SizedBox(width: 16)
+                12.horizontalSpace,
               ],
       ),
       body: KisGuest == true
           ? GuestWidget()
           : BlocBuilder<PagesCubit, PagesState>(
               builder: (context, state) {
+                final notifications = state.notifications ?? [];
+                if (notifications.isNotEmpty) {
+                  return ListView.builder(
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 12.w,
+                      vertical: 16.h,
+                    ),
+                    itemCount: notifications.length,
+                    itemBuilder: (context, index) {
+                      return NotificationCard(
+                        notification: notifications[index],
+                      );
+                    },
+                  );
+                }
                 switch (state.getNotificationsRequestState) {
                   case RequestState.ideal:
                   case RequestState.loading:
@@ -66,36 +80,16 @@ class _NotificationScreenState extends State<NotificationScreen> {
                         context.read<PagesCubit>().newNotifications();
                       },
                     );
-                  case RequestState.loaded:
-                    return context.read<PagesCubit>().notifications.isEmpty
-                        ? Center(
-                            child: EmptyWidget(title: 'لا يوجد اشعارات '))
-                        : ListView.builder(
-                            itemCount: context
-                                .read<PagesCubit>()
-                                .notifications
-                                .length,
-                            itemBuilder: (context, index) {
-                              return NotificationCard(
-                                notification: context
-                                    .read<PagesCubit>()
-                                    .notifications[index],
-                                isLastItem: index ==
-                                    context
-                                            .read<PagesCubit>()
-                                            .notifications
-                                            .length -
-                                        1,
-                              );
-                            },
-                          );
-                  case null:
-                    return SizedBox();
+                  default:
+                    return Center(
+                      child: EmptyWidget(
+                        icon: Assets.imagesEmptyNotifications,
+                        title: 'لا يوجد إشعارات حتى الآن',
+                        subTitle: 'سنخبرك عندما تصل اشعارات جديدة!',
+                      ),
+                    );
                 }
               },
-              // builder: (context, state) {
-
-              // },
             ),
     );
   }
@@ -123,28 +117,6 @@ Future<void> showNotificationSettingBottomSheet(BuildContext context) async {
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 32),
             child: Column(
               children: [
-                // Container(
-                //   padding: EdgeInsets.all(12),
-                //   decoration: BoxDecoration(
-                //     color: AppColors.backgroundPrimary(context),
-                //     borderRadius: BorderRadius.circular(12),
-                //   ),
-                //   child: Row(
-                //     children: [
-                //       SvgPicture.asset(
-                //         Assets.imagesReadNotification,
-                //       ),
-                //       SizedBox(width: 8),
-                //       Text(
-                //         'حدد الكل كمقروء', // Format DateTime
-                //         style: AppStyles.styleRegular14(context).copyWith(
-                //           color: AppColors.typographySubTitle(context),
-                //         ),
-                //       ),
-                //     ],
-                //   ),
-                // ),
-                // SizedBox(height: 12),
                 GestureDetector(
                   onTap: () {
                     context.read<PagesCubit>().deleteNotifications();
@@ -193,18 +165,16 @@ Future<void> showNotificationSettingBottomSheet(BuildContext context) async {
                                 ),
                               );
                             } else {
-                              return SvgPicture.asset(
-                                Assets.imagesDelete,
-                              );
+                              return SvgPicture.asset(Assets.imagesDelete);
                             }
                           },
                         ),
                         SizedBox(width: 8),
                         Text(
                           'حذف الكل',
-                          style: AppStyles.styleSemiBold16(context).copyWith(
-                            color: AppColors.danger(context),
-                          ),
+                          style: AppStyles.styleSemiBold16(
+                            context,
+                          ).copyWith(color: AppColors.danger(context)),
                         ),
                       ],
                     ),
@@ -221,89 +191,69 @@ Future<void> showNotificationSettingBottomSheet(BuildContext context) async {
 
 class NotificationCard extends StatelessWidget {
   final NotificationModel notification;
-  final bool isLastItem;
 
-  const NotificationCard(
-      {Key? key, required this.notification, required this.isLastItem})
-      : super(key: key);
+  const NotificationCard({Key? key, required this.notification})
+    : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final isRead = notification.readAt != null;
     return Container(
-      margin: EdgeInsets.only(
-          right: 16, left: 16, top: 24, bottom: isLastItem ? 24 : 0),
-      padding: EdgeInsets.all(16),
-      child: Column(
+      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+      decoration: BoxDecoration(
+        color: isRead ? Colors.white : AppColors.backgroundPrimary(context),
+        borderRadius: BorderRadius.circular(16.r),
+        border: Border.all(
+          color: isRead
+              ? AppColors.containerGray2Color(context)
+              : AppColors.containerGrayColor(context),
+        ),
+      ),
+      child: Row(
         crossAxisAlignment: CrossAxisAlignment.start,
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
-          Row(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            mainAxisAlignment: MainAxisAlignment.start,
-            children: [
-              Container(
-                padding: const EdgeInsets.all(12),
-                decoration: ShapeDecoration(
-                  shape: RoundedRectangleBorder(
-                    side: BorderSide(
-                      width: 1,
-                      color: const Color(
-                          0xFFEEEEEE) /* Stroke-Border-Full-Stroke-Light */,
-                    ),
-                    borderRadius: BorderRadius.circular(1000),
-                  ),
-                ),
-                child: SvgPicture.asset(
-                  AppAssets.app_imagesNotificationcardIcon,
-                ),
-              ),
-              SizedBox(width: 12),
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(
-                    width: 220,
-                    child: Text(
-                      notification.title ?? "No Title",
-                      maxLines: 1,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
-                      style: AppStyles.styleBold16(context).copyWith(
-                          color: AppColors.typographyHeading(context)),
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  SizedBox(
-                    width: 220,
-                    child: Text(
-                      notification.message ?? "NO Desc",
-                      maxLines: 3,
-                      overflow: TextOverflow.ellipsis,
-                      textAlign: TextAlign.start,
-                      style: AppStyles.styleMedium16(context).copyWith(
-                          color: AppColors.typographySubTitle(context)),
-                    ),
-                  ),
-                  SizedBox(height: 6),
-                  Text(
-                    calculateTimeDifference(
-                        notification.createdAt ?? ''), // Format DateTime
-                    style: AppStyles.styleMedium12(context),
-                  ),
-                ],
-              ),
-              Spacer(),
-              Column(
-                children: [
-                  // SvgPicture.asset(
-                  //   Assets.imagesReadNotification,
-                  //   color: AppColors.backgroundTertiary(context),
-                  // ),
-                ],
-              ),
-            ],
+          SvgPicture.asset(
+            isRead ? Assets.imagesReaded : Assets.imagesUnread,
+            height: 40.h,
+            width: 40.w,
           ),
-          SizedBox(height: 12),
+          12.horizontalSpace,
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text(
+                  notification.title ?? "No Title",
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                  style: AppStyles.styleSemiBold14(
+                    context,
+                  ).copyWith(color: AppColors.typographyHeading(context)),
+                ),
+                8.verticalSpace,
+                Text(
+                  notification.message ?? "NO Desc",
+                  maxLines: 3,
+                  overflow: TextOverflow.ellipsis,
+                  textAlign: TextAlign.start,
+                  style: AppStyles.styleRegular14(
+                    context,
+                  ).copyWith(color: Color(0xff666E6D)),
+                ),
+                12.verticalSpace,
+                Text(
+                  calculateTimeDifference(
+                    notification.createdAt ?? '',
+                  ), // Format DateTime
+                  style: AppStyles.styleRegular12(
+                    context,
+                  ).copyWith(color: AppColors.grayText(context)),
+                ),
+              ],
+            ),
+          ),
         ],
       ),
     );
@@ -344,10 +294,14 @@ class ShimmerNotificationList extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     _buildShimmerBox(
-                        height: 16, width: 200), // Title placeholder
+                      height: 16,
+                      width: 200,
+                    ), // Title placeholder
                     const SizedBox(height: 8),
                     _buildShimmerBox(
-                        height: 12, width: 150), // Date placeholder
+                      height: 12,
+                      width: 150,
+                    ), // Date placeholder
                   ],
                 ),
                 const Spacer(),
@@ -356,10 +310,14 @@ class ShimmerNotificationList extends StatelessWidget {
             ),
             const SizedBox(height: 12),
             _buildShimmerBox(
-                height: 14, width: double.infinity), // Message placeholder
+              height: 14,
+              width: double.infinity,
+            ), // Message placeholder
             const SizedBox(height: 6),
             _buildShimmerBox(
-                height: 14, width: 250), // Shorter message placeholder
+              height: 14,
+              width: 250,
+            ), // Shorter message placeholder
           ],
         ),
       ),

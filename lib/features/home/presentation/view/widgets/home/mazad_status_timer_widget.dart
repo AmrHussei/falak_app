@@ -27,7 +27,7 @@ class MazadStatusTimerWidget extends StatelessWidget {
           children: [
             Expanded(
               child: RowAssetsNumberCardWidget(
-                text: 'الاصول ${auctionData.auctionOrigins.length}',
+                text: 'الاصول ${auctionData.auctionOrigins?.length}',
                 image: AppAssets.app_imagesBriefcase,
               ),
             ),

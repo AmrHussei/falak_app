@@ -148,7 +148,9 @@ class AppColors {
   static Color gray2Text(BuildContext context) => const Color(0xFFEFEFEF);
 
   static Color containerGrayColor(BuildContext context) =>
-      const Color(0xFFF3F4F4);
+      const Color(0xFFF4F4F4);
+  static Color containerGray2Color(BuildContext context) =>
+      const Color(0xFFE6E6E6);
 
   static Color veryGrayColor(BuildContext context) => const Color(0xFFADB1B1);
   static Color veryPrimaryColor(BuildContext context) => const Color(0xFF191F10);

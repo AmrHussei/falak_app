@@ -3,6 +3,7 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/features/paegs/data/models/notification_model.dart';
 import 'package:falak/features/paegs/data/models/question_model.dart';
@@ -29,7 +30,6 @@ class PagesCubit extends Cubit<PagesState> {
   PagesCubit(this._pageRepository) : super(PagesState());
 
   final PagesRepository _pageRepository;
-  QestionsCategory? category;
   bool isTermsAccepted = false;
   final questionsSearchController = TextEditingController();
   final messageController = TextEditingController();
@@ -39,6 +39,7 @@ class PagesCubit extends Cubit<PagesState> {
   final emailController = TextEditingController();
   final phoneNumberController = TextEditingController();
   final ContactFormKey = GlobalKey<FormState>();
+
   // create sales
   final bankCertificateController = TextEditingController();
   final commissionerAttachmentsController = TextEditingController();
@@ -49,8 +50,9 @@ class PagesCubit extends Cubit<PagesState> {
   final companyPhoneKeyController = TextEditingController();
   final bankAccountNumberController = TextEditingController();
   final bankNameController = TextEditingController();
-  final realEstateActivityController =
-      TextEditingController(text: 'مزادات عقارية');
+  final realEstateActivityController = TextEditingController(
+    text: 'مزادات عقارية',
+  );
   final valAuctionsLicenseNumberController = TextEditingController();
   final taxTypeController = TextEditingController();
   final taxNumberController = TextEditingController();
@@ -67,6 +69,7 @@ class PagesCubit extends Cubit<PagesState> {
   final companyDataFormKey = GlobalKey<FormState>();
   final bankDateFormKey = GlobalKey<FormState>();
   final UserDataFormKey = GlobalKey<FormState>();
+
   //bank
   File? bankCertificate;
 
@@ -74,16 +77,15 @@ class PagesCubit extends Cubit<PagesState> {
   File? valAttachment;
   File? commercialRegisterAttachment;
   File? TaxRegisterAttachment;
+
   //user
   File? NationalIDAttachment;
   File? AssociationAttachment;
   File? DelegationAttachment;
+
   //
   bool approvedByNafath = true;
   bool accreditationRequest = false;
-
-  //Notifications
-  List<NotificationModel> notifications = [];
 
   final notificationsSocket = NotificationsSocket();
 
@@ -95,6 +97,7 @@ class PagesCubit extends Cubit<PagesState> {
   final descriptionController = TextEditingController();
   bool certifiedNotifier = true;
   final addRealFormKey = GlobalKey<FormState>();
+
   //
   final properityPhoneNumberController = TextEditingController();
   final properityRealTypeController = TextEditingController();
@@ -103,6 +106,7 @@ class PagesCubit extends Cubit<PagesState> {
   final properityNeighborhoodController = TextEditingController();
   final properityRealeCategoryController = TextEditingController();
   final properityFormKey = GlobalKey<FormState>();
+
   void addRealState(bool isRated) async {
     if (!addRealFormKey.currentState!.validate()) return;
     emit(state.copyWith(addRealStateRequestState: RequestState.loading));
@@ -119,10 +123,12 @@ class PagesCubit extends Cubit<PagesState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          addRealStateRequestState: RequestState.error,
-          addRealStateError: failure,
-        ));
+        emit(
+          state.copyWith(
+            addRealStateRequestState: RequestState.error,
+            addRealStateError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
@@ -152,10 +158,12 @@ class PagesCubit extends Cubit<PagesState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          properityManagmentRequestState: RequestState.error,
-          properityManagmentError: failure,
-        ));
+        emit(
+          state.copyWith(
+            properityManagmentRequestState: RequestState.error,
+            properityManagmentError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
@@ -200,11 +208,7 @@ class PagesCubit extends Cubit<PagesState> {
   }
 
   Future getUnReadCount() async {
-    emit(
-      state.copyWith(
-        getNotificationsRequestState: RequestState.loading,
-      ),
-    );
+    emit(state.copyWith(getNotificationsRequestState: RequestState.loading));
 
     notificationsSocket.unReadCountStream.listen((count) {
       emit(
@@ -216,46 +220,58 @@ class PagesCubit extends Cubit<PagesState> {
     });
     notificationsSocket.emitUnReadCount();
     log("unread cont is ${state.notificationCount}");
-    emit(
-      state.copyWith(
-        getNotificationsRequestState: RequestState.loaded,
-      ),
-    );
+    emit(state.copyWith(getNotificationsRequestState: RequestState.loaded));
   }
 
   void newNotifications() async {
-    notificationsSocket.newNotificationStream.listen(
-      (notification) {
-        if (!notifications.contains(notification)) {
-          notifications.insert(0, notification);
-        }
-        if (!isClosed)
-          emit(state.copyWith(
+    notificationsSocket.newNotificationStream.listen((notification) {
+      final notifications = List<NotificationModel>.from(
+        state.notifications ?? [],
+      );
+      if (!notifications.contains(notification)) {
+        notifications.insert(0, notification);
+      }
+      if (!isClosed)
+        emit(
+          state.copyWith(
             getNotificationsRequestState: RequestState.loaded,
             notifications: notifications,
-          ));
-      },
-    );
+          ),
+        );
+    });
   }
 
   void getNotifications() async {
+    if(kDebugMode){
+      emit(
+        state.copyWith(
+          getNotificationsRequestState: RequestState.loaded,
+          notifications: [
+            NotificationModel()
+          ],
+        ),
+      );
+      return;
+    }
     emit(state.copyWith(getNotificationsRequestState: RequestState.loading));
     final result = await _pageRepository.getNotifications();
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getNotificationsRequestState: RequestState.error,
-          notificationsError: failure,
-        ));
-        log(failure.toString());
+        emit(
+          state.copyWith(
+            getNotificationsRequestState: RequestState.error,
+            notificationsError: failure,
+          ),
+        );
       },
       (r) {
-        notifications = r;
-        emit(state.copyWith(
-          getNotificationsRequestState: RequestState.loaded,
-          notifications: r,
-        ));
+        emit(
+          state.copyWith(
+            getNotificationsRequestState: RequestState.loaded,
+            notifications: r,
+          ),
+        );
       },
     );
   }
@@ -266,24 +282,35 @@ class PagesCubit extends Cubit<PagesState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          deleteNotificationsRequestState: RequestState.error,
-          deleteNotificationsError: failure,
-        ));
+        emit(
+          state.copyWith(
+            deleteNotificationsRequestState: RequestState.error,
+            deleteNotificationsError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (r) {
-        emit(state.copyWith(
-          deleteNotificationsRequestState: RequestState.loaded,
-          deleteNotificationsMessage: r,
-        ));
+        emit(
+          state.copyWith(
+            deleteNotificationsRequestState: RequestState.loaded,
+            deleteNotificationsMessage: r,
+          ),
+        );
         getNotifications();
       },
     );
   }
 
+  void changeCategory(QestionsCategory category) {
+    emit(state.copyWith(selectedCategory: category));
+  }
+
   void getQuestions() async {
-    emit(state.copyWith(qestionsRequestState: RequestState.loading));
+    final category = state.selectedCategory;
+    final loading = Map<String, RequestState>.from(state.qestionsRequestState);
+    loading[category?.id ?? ''] = RequestState.loading;
+    emit(state.copyWith(qestionsRequestState: loading));
     GetQuestionsParams questionsParams = GetQuestionsParams(
       categoryId: category?.id,
       search: questionsSearchController.text,
@@ -292,38 +319,48 @@ class PagesCubit extends Cubit<PagesState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          qestionsRequestState: RequestState.error,
-          qestionsError: failure,
-        ));
-        log(failure.toString());
+        loading[category?.id ?? ''] = RequestState.error;
+
+        emit(
+          state.copyWith(qestionsRequestState: loading, qestionsError: failure),
+        );
       },
       (qestionsModel) {
-        emit(state.copyWith(
-          qestionsRequestState: RequestState.loaded,
-          qestionsModel: qestionsModel,
-        ));
+        loading[category?.id ?? ''] = RequestState.loaded;
+        final qestions = Map<String, QuestionsModel>.from(state.qestionsModel);
+        qestions[category?.id ?? ''] = qestionsModel;
+
+        emit(
+          state.copyWith(
+            qestionsRequestState: loading,
+            qestionsModel: qestions,
+          ),
+        );
       },
     );
   }
 
-  void getQestionsCategories() async {
+  Future<void> getQestionsCategories() async {
     emit(state.copyWith(qestionsCategoriesRequestState: RequestState.loading));
     final result = await _pageRepository.getQestionsCategories();
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          qestionsCategoriesRequestState: RequestState.error,
-          qestionsCategoriesError: failure,
-        ));
-        log(failure.toString());
+        emit(
+          state.copyWith(
+            qestionsCategoriesRequestState: RequestState.error,
+            qestionsCategoriesError: failure,
+          ),
+        );
       },
       (model) {
-        emit(state.copyWith(
-          qestionsCategoriesRequestState: RequestState.loaded,
-          qestionsCategoriesModel: model,
-        ));
+        emit(
+          state.copyWith(
+            qestionsCategoriesRequestState: RequestState.loaded,
+            qestionsCategoriesModel: model,
+            selectedCategory: model.data.isNotEmpty ? model.data.first : null,
+          ),
+        );
       },
     );
   }
@@ -334,17 +371,21 @@ class PagesCubit extends Cubit<PagesState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          getsocialRequestState: RequestState.error,
-          socialError: failure,
-        ));
+        emit(
+          state.copyWith(
+            getsocialRequestState: RequestState.error,
+            socialError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (model) {
-        emit(state.copyWith(
-          getsocialRequestState: RequestState.loaded,
-          socialModel: model,
-        ));
+        emit(
+          state.copyWith(
+            getsocialRequestState: RequestState.loaded,
+            socialModel: model,
+          ),
+        );
       },
     );
   }
@@ -363,10 +404,12 @@ class PagesCubit extends Cubit<PagesState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          postcontactUsRequestState: RequestState.error,
-          postcontactUsError: failure,
-        ));
+        emit(
+          state.copyWith(
+            postcontactUsRequestState: RequestState.error,
+            postcontactUsError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
@@ -391,10 +434,12 @@ class PagesCubit extends Cubit<PagesState> {
 
     result.fold(
       (failure) {
-        emit(state.copyWith(
-          createSalesAgentRequestState: RequestState.error,
-          createSalesAgentError: failure,
-        ));
+        emit(
+          state.copyWith(
+            createSalesAgentRequestState: RequestState.error,
+            createSalesAgentError: failure,
+          ),
+        );
         log(failure.toString());
       },
       (msg) {
@@ -414,22 +459,30 @@ class PagesCubit extends Cubit<PagesState> {
     if (commercialRegStartDateController.text.isNotEmpty &&
         commercialRegEndDateController.text.isNotEmpty) {
       try {
-        DateTime startDate =
-            DateTime.parse(commercialRegStartDateController.text);
+        DateTime startDate = DateTime.parse(
+          commercialRegStartDateController.text,
+        );
         DateTime endDate = DateTime.parse(commercialRegEndDateController.text);
         if (endDate.isBefore(startDate)) {
-          emit(state.copyWith(
-            createSalesAgentRequestState: RequestState.error,
-            createSalesAgentError: AppFailure(
-                message: 'تاريخ الانتهاء يجب أن يكون بعد تاريخ الإصدار'),
-          ));
+          emit(
+            state.copyWith(
+              createSalesAgentRequestState: RequestState.error,
+              createSalesAgentError: AppFailure(
+                message: 'تاريخ الانتهاء يجب أن يكون بعد تاريخ الإصدار',
+              ),
+            ),
+          );
           return false;
         }
       } catch (e) {
-        emit(state.copyWith(
-          createSalesAgentRequestState: RequestState.error,
-          createSalesAgentError: AppFailure(message: 'تنسيق التاريخ غير صحيح'),
-        ));
+        emit(
+          state.copyWith(
+            createSalesAgentRequestState: RequestState.error,
+            createSalesAgentError: AppFailure(
+              message: 'تنسيق التاريخ غير صحيح',
+            ),
+          ),
+        );
         return false;
       }
     }

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
@@ -191,7 +190,7 @@ class AssetsTitleWidget extends StatelessWidget {
                 SizedBox(
                   width: 210,
                   child: Text(
-                    homeCubit.auctionData?.location.title ?? 'السعودية',
+                    homeCubit.auctionData?.location?.title ?? 'السعودية',
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,

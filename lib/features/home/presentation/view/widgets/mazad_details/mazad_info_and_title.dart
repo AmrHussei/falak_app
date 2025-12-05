@@ -32,7 +32,7 @@ class MazadInfoAndTitle extends StatelessWidget {
               SizedBox(
                 width: 180,
                 child: Text(
-                  homeCubit.auctionData?.provider.companyName ?? 'الشركة',
+                  homeCubit.auctionData?.provider?.companyName ?? 'الشركة',
                   maxLines: 2,
                   overflow: TextOverflow.ellipsis,
                   textAlign: TextAlign.start,
@@ -41,15 +41,15 @@ class MazadInfoAndTitle extends StatelessWidget {
                 ),
               ),
               Spacer(),
-              homeCubit.auctionData!.logos.length > 0
+              (homeCubit.auctionData!.logos?.length??0) > 0
                   ? MazadCompanyLogoWidget(
-                      imageURl: homeCubit.auctionData!.logos[0].logo ?? '',
+                      imageURl: homeCubit.auctionData!.logos?[0].logo ?? '',
                     )
                   : SizedBox.shrink(),
               SizedBox(width: 16),
-              homeCubit.auctionData!.logos.length > 1
+              (homeCubit.auctionData!.logos?.length??0) > 1
                   ? MazadCompanyLogoWidget(
-                      imageURl: homeCubit.auctionData!.logos[1].logo ?? '',
+                      imageURl: homeCubit.auctionData!.logos?[1].logo ?? '',
                     )
                   : SizedBox.shrink(),
             ],
@@ -74,15 +74,15 @@ class WhatsAppButtonWidget extends StatelessWidget {
     return OutlinedButton.icon(
       onPressed: () {
         String? whatsappNumber =
-            (homeCubit.auctionData?.provider.companyPhoneNumber?.key ?? '') +
-                (homeCubit.auctionData?.provider.companyPhoneNumber?.number ??
+            (homeCubit.auctionData?.provider?.companyPhoneNumber?.key ?? '') +
+                (homeCubit.auctionData?.provider?.companyPhoneNumber?.number ??
                     '');
 
         openLink('https://wa.me/${whatsappNumber}');
       },
       label: Text(
-        (homeCubit.auctionData?.provider.companyPhoneNumber?.key ?? '') +
-            (homeCubit.auctionData?.provider.companyPhoneNumber?.number ?? ''),
+        (homeCubit.auctionData?.provider?.companyPhoneNumber?.key ?? '') +
+            (homeCubit.auctionData?.provider?.companyPhoneNumber?.number ?? ''),
         style: AppStyles.styleSemiBold14(context)
             .copyWith(color: AppColors.success(context)),
       ),

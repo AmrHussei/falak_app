@@ -8,25 +8,20 @@ import '../../../../../../config/routes/app_routes.dart';
 import '../../../../data/models/auctions_model/auctions_model.dart';
 import '../../../view_model/home/home_cubit.dart';
 
-
 class MazadCardWidget extends StatelessWidget {
-  const MazadCardWidget({
-    super.key,
-    required this.index,
-    required this.auctionsModel,
-  });
+  const MazadCardWidget({super.key, required this.model});
 
-  final AuctionsModel auctionsModel;
-  final int index;
+  final AuctionData model;
 
   @override
   Widget build(BuildContext context) {
-    final model = auctionsModel.data[index];
     return GestureDetector(
       onTap: () {
         final homeCubit = context.read<HomeCubit>();
         homeCubit.auctionData = model;
-        homeCubit.originList = model.auctionOrigins;
+        if (model.auctionOrigins != null && model.auctionOrigins!.isNotEmpty) {
+          homeCubit.originList = model.auctionOrigins!;
+        }
         context.navigateTo(Routes.mazadDetailsScreen);
       },
       child: Card(

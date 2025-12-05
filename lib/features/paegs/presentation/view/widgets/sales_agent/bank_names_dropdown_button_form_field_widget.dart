@@ -82,8 +82,6 @@ class _BankNamesDropdownButtonFormFieldWidgetState
         setState(() {
           selectedValue = null;
         });
-        pagesCubit.category = null;
-
         pagesCubit.bankNameController.clear();
         walletCubit.bankNameController.clear();
       },

@@ -27,48 +27,39 @@ class _SavedMazadeScreenState extends State<SavedMazadeScreen>
     context.read<HomeCubit>().getFavorite();
   }
 
-  @override
-
   // Initial selected value
   String? selectedValue;
 
   // Dropdown menu items
   final List<String> options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
+
   @override
   Widget build(BuildContext context) {
     KisFromFav = true;
     return Scaffold(
-      appBar: CoustomAppBarWidget(
-        title: 'المزادات المحفوظة',
-      ),
+      appBar: CoustomAppBarWidget(title: 'المزادات المحفوظة'),
       body: KisGuest == true ? GuestWidget() : SavedMazadBodyWidget(),
     );
   }
 }
 
 class SavedMazadBodyWidget extends StatelessWidget {
-  const SavedMazadBodyWidget({
-    super.key,
-  });
+  const SavedMazadBodyWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Padding(
-      padding: const EdgeInsetsDirectional.only(
-        start: 16,
-        end: 16,
-      ),
+      padding: const EdgeInsetsDirectional.only(start: 16, end: 16),
       child: AdaptiveLayout(
-          mobileLayout: (context) => SavedMazadHomeMobileLayoute(),
-          tabletLayout: (context) => SavedMazadHomeMobileLayoute()),
+        mobileLayout: (context) => SavedMazadHomeMobileLayoute(),
+        tabletLayout: (context) => SavedMazadHomeMobileLayoute(),
+      ),
     );
   }
 }
 
 class SavedMazadHomeMobileLayoute extends StatelessWidget {
-  const SavedMazadHomeMobileLayoute({
-    super.key,
-  });
+  const SavedMazadHomeMobileLayoute({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -87,7 +78,7 @@ class SavedMazadHomeMobileLayoute extends StatelessWidget {
             );
           case RequestState.loaded:
             return LoadedMobileActionHomeWidget(
-              auctionsModel: state.getFavoriteModel!,
+              data: state.getFavoriteModel!.data,
             );
         }
       },

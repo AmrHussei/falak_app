@@ -31,7 +31,7 @@ class MazadTitleAndLocationWidget extends StatelessWidget {
           children: [
             SvgPicture.asset(Assets.imagesLocation, width: 18.w, height: 16.h),
            2.horizontalSpace, Text(
-              auctionData.location.title ?? '',
+              auctionData.location?.title ?? '',
               maxLines: 1,
               style: AppStyles.styleRegular14(
                 context,

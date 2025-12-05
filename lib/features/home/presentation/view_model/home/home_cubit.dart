@@ -2,6 +2,7 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/params/home/auctions_params.dart';
 import 'package:falak/core/utils/app_strings.dart';
@@ -44,10 +45,6 @@ class HomeCubit extends Cubit<HomeState> {
   dynamic garlicDifferencetotalAmount;
 
   //
-  bool winner = false;
-  bool loss = false;
-
-  //
   String shareAs = AppStrings.enrollShareAsGenuine;
   String type = AppStrings.enrolltypeOnline;
   String? filterAuctiontype;
@@ -56,12 +53,19 @@ class HomeCubit extends Cubit<HomeState> {
   List<BiderAuctionData> boardAuctionData = [];
   final auctionBoardSocket = AuctionBoardSocket();
   final addBalanceKey = GlobalKey<FormState>();
-  final Map<String, AuctionsModel> userAuctionsCache = {};
-  Future<void> getAuctions({String type = AppStrings.auctionsInProgress,bool refresh =false}) async {
-    final cachedModel = Map<String,AuctionsModel>.from(state.auctionsModel ?? {});
 
-    final loadingStats = Map<String,RequestState>.from(state.auctionsRequestState ?? {});
-    if (cachedModel[type] != null&&!refresh) {
+  Future<void> getAuctions({
+    String type = AppStrings.auctionsInProgress,
+    bool refresh = false,
+  }) async {
+    final cachedModel = Map<String, AuctionsModel>.from(
+      state.auctionsModel ?? {},
+    );
+
+    final loadingStats = Map<String, RequestState>.from(
+      state.auctionsRequestState ?? {},
+    );
+    if (cachedModel[type] != null && !refresh) {
       // 1. 🚀 Show cached data immediately without loading
       return;
     } else {
@@ -82,7 +86,9 @@ class HomeCubit extends Cubit<HomeState> {
     result.fold(
       (failure) {
         // Only show error if no cache existed (first time)
-        final auctionsError = Map<String,Failure>.from(state.auctionsError ?? {});
+        final auctionsError = Map<String, Failure>.from(
+          state.auctionsError ?? {},
+        );
 
         auctionsError[type] = failure;
         loadingStats[type] = RequestState.error;
@@ -100,18 +106,13 @@ class HomeCubit extends Cubit<HomeState> {
         loadingStats[type] = RequestState.loaded;
         cachedModel[type] = freshModel;
         emit(
-            state.copyWith(
-              auctionsRequestState: loadingStats,
-              auctionsModel: cachedModel,
-            ),
-          );
+          state.copyWith(
+            auctionsRequestState: loadingStats,
+            auctionsModel: cachedModel,
+          ),
+        );
       },
     );
-  }
-
-  bool _isAuctionsModelSame(AuctionsModel? oldModel, AuctionsModel newModel) {
-    if (oldModel == null) return false;
-    return oldModel == newModel;
   }
 
   Future<void> refreshAuctionsForTab() async {
@@ -119,22 +120,33 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   // New method: get user auctions with cache
-  Future<void> getUserAuctions() async {
+  Future<void> getUserAuctions(bool winner, bool loss) async {
     String cacheKey = '${winner}_${loss}'; // simple unique key per tab
 
-    // Check if data is cached
-    if (userAuctionsCache.containsKey(cacheKey)) {
+    final userAuctions = Map<String, AuctionsModel>.from(
+      state.getUserAuctionsModel,
+    );
+    if (userAuctions[cacheKey] != null) {
+      return;
+    }
+    final loading = Map<String, RequestState>.from(
+      state.getUserAuctionsRequestState,
+    );
+    loading[cacheKey] = RequestState.loading;
+    emit(state.copyWith(getUserAuctionsRequestState: loading));
+    if (kDebugMode) {
+      final model = AuctionsModel(data: [AuctionData(id: '')]);
+      loading[cacheKey] = RequestState.loaded;
+
+      userAuctions[cacheKey] = model;
       emit(
         state.copyWith(
-          getUserAuctionsModel: userAuctionsCache[cacheKey],
-          getUserAuctionsRequestState: RequestState.loaded,
+          getUserAuctionsRequestState: loading,
+          getUserAuctionsModel: userAuctions,
         ),
       );
       return;
     }
-
-    emit(state.copyWith(getUserAuctionsRequestState: RequestState.loading));
-
     UserAuctionsParams userAuctionsParams = UserAuctionsParams(
       loss: loss,
       winner: winner,
@@ -144,47 +156,44 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (failure) {
+        loading[cacheKey] = RequestState.error;
+
         emit(
           state.copyWith(
-            getUserAuctionsRequestState: RequestState.error,
+            getUserAuctionsRequestState: loading,
             getUserAuctionsError: failure,
           ),
         );
-        log(failure.toString());
       },
       (model) {
-        userAuctionsCache[cacheKey] = model; // 🛜 Save in cache
+        loading[cacheKey] = RequestState.loaded;
+
+        userAuctions[cacheKey] = model;
         emit(
           state.copyWith(
-            getUserAuctionsRequestState: RequestState.loaded,
-            getUserAuctionsModel: model,
+            getUserAuctionsRequestState: loading,
+            getUserAuctionsModel: userAuctions,
           ),
         );
       },
     );
   }
 
-  // Optional: force refresh if needed
-  Future<void> refreshUserAuctions() async {
-    String cacheKey = '${winner}_${loss}';
-    userAuctionsCache.remove(cacheKey);
-    await getUserAuctions();
-  }
-
   searchAuctionOrigins(String? query) {
-
-    if (query == null || query.isEmpty) {
-      originList = auctionData!.auctionOrigins;
+    if (query == null || query.isEmpty && auctionData?.auctionOrigins != null) {
+      originList = auctionData!.auctionOrigins!;
       return;
     }
 
-    originList = auctionData!.auctionOrigins
-        .where(
-          (origin) =>
-              origin.title != null &&
-              origin.title!.toLowerCase().contains(query.toLowerCase()),
-        )
-        .toList();
+    originList =
+        auctionData!.auctionOrigins
+            ?.where(
+              (origin) =>
+                  origin.title != null &&
+                  origin.title!.toLowerCase().contains(query.toLowerCase()),
+            )
+            .toList() ??
+        [];
   }
 
   void getFavorite([bool isLoading = true]) async {
@@ -325,10 +334,12 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (right) {
         auctionOrigin!.isEnrolled = true;
-        int index = auctionData!.auctionOrigins.indexWhere(
-          (element) => element.id == auctionOrigin!.id,
-        );
-        auctionData!.auctionOrigins[index].isEnrolled == true;
+        int index =
+            auctionData!.auctionOrigins?.indexWhere(
+              (element) => element.id == auctionOrigin!.id,
+            ) ??
+            -1;
+        auctionData!.auctionOrigins?[index].isEnrolled == true;
         emit(
           state.copyWith(
             auctionEnrollmentRequestState: RequestState.loaded,
@@ -367,10 +378,12 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (right) {
         auctionOrigin!.isEnrolled = false;
-        int index = auctionData!.auctionOrigins.indexWhere(
-          (element) => element.id == auctionOrigin!.id,
-        );
-        auctionData!.auctionOrigins[index].isEnrolled == false;
+        int index =
+            auctionData!.auctionOrigins?.indexWhere(
+              (element) => element.id == auctionOrigin!.id,
+            ) ??
+            -1;
+        auctionData!.auctionOrigins?[index].isEnrolled == false;
         emit(
           state.copyWith(
             deleteAuctionEnrollmentRequestState: RequestState.loaded,

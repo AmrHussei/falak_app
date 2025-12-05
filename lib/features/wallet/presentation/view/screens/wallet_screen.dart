@@ -33,7 +33,6 @@ class WalletScreen extends StatefulWidget {
 class _WalletScreenState extends State<WalletScreen>
     with SingleTickerProviderStateMixin {
   late TabController _tabController;
-  late PageController _pageController;
 
   @override
   void initState() {
@@ -67,7 +66,6 @@ class _WalletScreenState extends State<WalletScreen>
   @override
   void dispose() {
     _tabController.dispose();
-    _pageController.dispose();
     super.dispose();
   }
 

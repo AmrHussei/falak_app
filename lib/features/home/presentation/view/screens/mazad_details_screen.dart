@@ -55,7 +55,7 @@ class _MazadDetailsScreenState extends State<MazadDetailsScreen> {
             SliverToBoxAdapter(
               child: AuctionAssetsNumAndDay(
                 NumOfAssets:
-                    homeCubit.auctionData!.auctionOrigins.length.toString(),
+                    (homeCubit.auctionData!.auctionOrigins?.length).toString(),
                 numOfDayes: homeCubit.auctionData!.numberOfDays.toString(),
               ),
             ),

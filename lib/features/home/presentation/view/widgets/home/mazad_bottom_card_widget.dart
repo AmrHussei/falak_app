@@ -35,7 +35,7 @@ class MazadBottomCardWidget extends StatelessWidget {
               color: const Color(0xffE7E9E9),
             ),
             ShowMoreWidget(
-              auctionOriginsNum: model.auctionOrigins.length,
+              auctionOriginsNum: model.auctionOrigins?.length??0,
               auctionData: model,
             ),
           ],

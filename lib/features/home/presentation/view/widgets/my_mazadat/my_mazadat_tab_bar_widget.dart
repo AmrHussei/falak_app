@@ -1,11 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:falak/features/home/presentation/view/screens/assets_details_screen.dart';
-
-import '../../../../../../core/utils/app_colors.dart';
-import '../../../../../../core/utils/app_strings.dart';
-import '../../../../../../core/utils/app_styles.dart';
 import '../../../../../../core/utils/enums.dart';
 import '../../../../../../core/widgets/adaptive_layout_widget.dart';
 import '../../../../../../core/widgets/error_app_widget.dart';
@@ -16,18 +10,20 @@ import '../mazad_card_shimmer.dart';
 class MazadatyTabBarViewBodyWidget extends StatelessWidget {
   const MazadatyTabBarViewBodyWidget({
     super.key,
+    required this.winner,
+    required this.loss,
   });
+
+  final bool winner;
+  final bool loss;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsetsDirectional.only(
-        start: 16,
-        end: 16,
-      ),
-      child: AdaptiveLayout(
-          mobileLayout: (context) => MazadatyMobileLayoute(),
-          tabletLayout: (context) => MazadatyMobileLayoute()),
+    return AdaptiveLayout(
+      mobileLayout: (context) =>
+          MazadatyMobileLayoute(winner: winner, loss: loss),
+      tabletLayout: (context) =>
+          MazadatyMobileLayoute(winner: winner, loss: loss),
     );
   }
 }
@@ -35,27 +31,35 @@ class MazadatyTabBarViewBodyWidget extends StatelessWidget {
 class MazadatyMobileLayoute extends StatelessWidget {
   const MazadatyMobileLayoute({
     super.key,
+    required this.winner,
+    required this.loss,
   });
+
+  final bool winner;
+  final bool loss;
 
   @override
   Widget build(BuildContext context) {
+    final cacheKey = '${winner}_${loss}';
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        switch (state.getUserAuctionsRequestState) {
+        final data = state.getUserAuctionsModel[cacheKey]?.data;
+        if (data != null) {
+          return LoadedMobileActionHomeWidget(data: data);
+        }
+        switch (state.getUserAuctionsRequestState[cacheKey]) {
           case RequestState.ideal:
           case RequestState.loading:
             return MazadCardShimmer();
           case RequestState.error:
             return ErrorAppWidget(
               onTap: () {
-                context.read<HomeCubit>().getUserAuctions();
+                context.read<HomeCubit>().getUserAuctions(winner, loss);
               },
               text: state.getUserAuctionsError!.message,
             );
-          case RequestState.loaded:
-            return LoadedMobileActionHomeWidget(
-              auctionsModel: state.getUserAuctionsModel!,
-            );
+          default:
+            return const SizedBox.shrink();
         }
       },
     );

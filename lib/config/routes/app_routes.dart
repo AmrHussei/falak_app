@@ -125,7 +125,10 @@ class AppRoutes {
           ),
         );
       case Routes.savedMazadeScreen:
-        return MaterialPageRoute(builder: (_) => SavedMazadeScreen());
+        return MaterialPageRoute(
+          builder: (_) =>
+              SavedMazadeScreen(title: routeSettings.arguments as String?),
+        );
       case Routes.changePasswordScreen:
         return MaterialPageRoute(builder: (_) => ChangePasswordScreen());
       case Routes.qustionScreen:
@@ -157,7 +160,8 @@ class AppRoutes {
       case Routes.walletScreen:
         return MaterialPageRoute(builder: (_) => WalletScreen());
       case Routes.WithdrawScreen:
-        return MaterialPageRoute(builder: (_) => WithdrawScreen());case Routes.AddRealStateScreen:
+        return MaterialPageRoute(builder: (_) => WithdrawScreen());
+      case Routes.AddRealStateScreen:
         return MaterialPageRoute(builder: (_) => AddRealStateScreen());
       case Routes.ProperityManagment:
         return MaterialPageRoute(builder: (_) => ProperityManagmentScreen());

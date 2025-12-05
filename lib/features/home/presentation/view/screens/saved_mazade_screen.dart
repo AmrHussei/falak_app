@@ -13,8 +13,8 @@ import '../widgets/home/tabBar_view_body_widget.dart';
 import '../widgets/mazad_card_shimmer.dart';
 
 class SavedMazadeScreen extends StatefulWidget {
-  const SavedMazadeScreen({super.key});
-
+  const SavedMazadeScreen({super.key, this.title});
+final String? title;
   @override
   State<SavedMazadeScreen> createState() => _SavedMazadeScreenState();
 }
@@ -37,7 +37,7 @@ class _SavedMazadeScreenState extends State<SavedMazadeScreen>
   Widget build(BuildContext context) {
     KisFromFav = true;
     return Scaffold(
-      appBar: CoustomAppBarWidget(title: 'المزادات المحفوظة'),
+      appBar: CoustomAppBarWidget(title: widget.title??'المزادات المحفوظة'),
       body: KisGuest == true ? GuestWidget() : SavedMazadBodyWidget(),
     );
   }

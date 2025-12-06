@@ -6,7 +6,6 @@ import 'package:falak/features/home/presentation/view_model/home/home_cubit.dart
 import '../../../../../core/utils/app_colors.dart';
 import '../../../../../core/utils/app_strings.dart';
 import '../../../../paegs/presentation/view_model/pages_cubit.dart';
-import '../widgets/home/auctions_favorite_button.dart';
 import '../widgets/home/home_body_widget.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -62,7 +61,6 @@ class _HomeScreenState extends State<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    KisFromFav = false;
     return Scaffold(
       backgroundColor: AppColors.backgroundPrimary(context),
       appBar: HomeAppBarWidget(

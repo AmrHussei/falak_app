@@ -19,18 +19,18 @@ class TabBarViewBodyWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        final data = state.auctionsModel?[type];
+        final data = state.auctionsModel[type];
         if (data != null) {
           return LoadedMobileActionHomeWidget(data: data.data);
         }
-        final currentState = state.auctionsRequestState?[type];
+        final currentState = state.auctionsRequestState[type];
 
         if (currentState == RequestState.error)
           return ErrorAppWidget(
             onTap: () {
               context.read<HomeCubit>().getAuctions(type: type);
             },
-            text: state.auctionsError?[type]?.message,
+            text: state.auctionsError[type]?.message,
           );
         return const MazadCardShimmer();
       },
@@ -39,18 +39,27 @@ class TabBarViewBodyWidget extends StatelessWidget {
 }
 
 class LoadedMobileActionHomeWidget extends StatelessWidget {
-  const LoadedMobileActionHomeWidget({super.key, required this.data});
+  const LoadedMobileActionHomeWidget({
+    super.key,
+    required this.data,
+    this.fromWinner = false,
+  });
 
   final List<AuctionData> data;
+  final bool fromWinner;
 
   @override
   Widget build(BuildContext context) {
     return data.isEmpty
         ? Center(child: const EmptyWidget(title: 'لا توجد مزادات '))
-        : ListView.builder(
+        : ListView.separated(
+            separatorBuilder: (_, __) => 12.verticalSpace,
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             itemBuilder: (context, index) {
-              return MazadCardWidget(model: data[index]);
+              return MazadCardWidget(
+                model: data[index],
+                fromWinner: fromWinner,
+              );
             },
             itemCount: data.length,
           );

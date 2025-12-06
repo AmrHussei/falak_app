@@ -28,18 +28,13 @@ class HomeRemoteDataSource {
   }
 
   Future<Response> getFavorite() async {
-    final response = await apiConsumer.get(
-      EndPoint.favorite,
-    );
+    final response = await apiConsumer.get(EndPoint.favorite);
     return response;
   }
 
   Future<Response> addFavorite(GeneralAuctionParams params) async {
     final response = await apiConsumer.post(
       EndPoint.favorite + '/${params.auctionId}',
-      body: {
-        if (params.originId != null) 'origin': params.originId,
-      },
     );
     return response;
   }
@@ -47,13 +42,6 @@ class HomeRemoteDataSource {
   Future<Response> deleteAuctionFavorite(String auctionId) async {
     final response = await apiConsumer.delete(
       EndPoint.favorite + '/$auctionId',
-    );
-    return response;
-  }
-
-  Future<Response> deleteOriginFavorite(GeneralAuctionParams params) async {
-    final response = await apiConsumer.delete(
-      EndPoint.favorite + '/${params.auctionId}/origin/${params.originId}',
     );
     return response;
   }
@@ -75,11 +63,10 @@ class HomeRemoteDataSource {
 
   Future<Response> getAuctionBoard(GeneralAuctionParams params) async {
     final response = await apiConsumer.get(
-        EndPoint.enrollment +
-            '/${params.auctionId}/origin/${params.originId}/bidding-board',
-        query: {
-          if (params.limit != null) 'limit': params.limit.toString(),
-        });
+      EndPoint.enrollment +
+          '/${params.auctionId}/origin/${params.originId}/bidding-board',
+      query: {if (params.limit != null) 'limit': params.limit.toString()},
+    );
     return response;
   }
 
@@ -93,23 +80,20 @@ class HomeRemoteDataSource {
   }
 
   Future<Response> getWallet() async {
-    final response = await apiConsumer.get(
-      EndPoint.getWallet,
-    );
+    final response = await apiConsumer.get(EndPoint.getWallet);
     return response;
   }
 
   Future<Response> addWalletBalance(dynamic balance) async {
-    final response = await apiConsumer.post(EndPoint.addWalletBalance, body: {
-      'balance': balance,
-    });
+    final response = await apiConsumer.post(
+      EndPoint.addWalletBalance,
+      body: {'balance': balance},
+    );
     return response;
   }
 
   Future<Response> privacyPolicy() async {
-    final response = await apiConsumer.get(
-      EndPoint.privacyPolicy,
-    );
+    final response = await apiConsumer.get(EndPoint.privacyPolicy);
     return response;
   }
 }

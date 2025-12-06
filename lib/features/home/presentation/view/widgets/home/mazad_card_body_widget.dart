@@ -7,8 +7,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 
 class MazadCardBodyWidget extends StatelessWidget {
-  const MazadCardBodyWidget({super.key, required this.model});
+  const MazadCardBodyWidget({super.key, required this.model, required this.fromWinner});
   final AuctionData model;
+  final bool fromWinner;
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +23,7 @@ class MazadCardBodyWidget extends StatelessWidget {
           MazadTitleAndLocationWidget(
             auctionData:model,
           ),
-          MazadBottomCardWidget(model: model,),
+          MazadBottomCardWidget(model: model,fromWinner: fromWinner,),
 
         ],
       ),

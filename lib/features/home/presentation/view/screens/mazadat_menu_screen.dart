@@ -7,7 +7,6 @@ import 'package:falak/core/utils/app_images.dart';
 import '../../../../../core/utils/app_strings.dart';
 import '../../../../../core/widgets/coustom_app_bar_widget.dart';
 import '../../view_model/home/home_cubit.dart';
-import '../widgets/home/auctions_favorite_button.dart';
 import '../widgets/mazad_menue/filter_buttom_sheet.dart';
 import '../widgets/mazad_menue/mazad_menu_tab_bar_widget.dart';
 
@@ -57,7 +56,6 @@ class _MazadatMenuScreenState extends State<MazadatMenuScreen>
   // Dropdown menu items
   @override
   Widget build(BuildContext context) {
-    KisFromFav = false;
     return Scaffold(
       appBar: CoustomAppBarWidget(
         title: 'قائمة المزادات',

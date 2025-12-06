@@ -3,21 +3,13 @@ part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
   const HomeState({
-    this.getUserAuctionsRequestState = const {},
-    this.getUserAuctionsError,
-    this.getUserAuctionsModel=const {},
     this.auctionBrochureRequestState = RequestState.ideal,
     this.auctionBrochureError,
     this.auctionBrochureMsg,
-    this.getFavoriteRequestState = RequestState.ideal,
-    this.getFavoriteError,
-    this.getFavoriteModel,
     this.privacyPolicyRequestState = RequestState.ideal,
     this.privacyPolicyError,
     this.privacyPolicyModel,
-    this.deleteOriginFavoriteRequestState = RequestState.ideal,
-    this.deleteOriginFavoriteError,
-    this.deleteOriginFavoriteMsg,
+    this.favoriteRequestState = RequestState.ideal,
     this.getWalletRequestState = RequestState.ideal,
     this.getWalletError,
     this.getWalletModel,
@@ -42,40 +34,16 @@ class HomeState extends Equatable {
     this.addAuctionBidRequestState = RequestState.ideal,
     this.addAuctionBidError,
     this.addAuctionBidMsg,
-    this.deleteAuctionFavoriteRequestState = RequestState.ideal,
-    this.deleteAuctionFavoriteError,
-    this.deleteAuctionFavoriteMsg,
-    this.addFavoriteRequestState = RequestState.ideal,
-    this.addFavoriteError,
-    this.addFavoriteMsg,
-    this.auctionsRequestState ,
-    this.auctionsError,
-    this.auctionsModel,
+    this.auctionsRequestState=const {} ,
+    this.auctionsError=const {},
+    this.auctionsModel = const {},
   });
 
-  final Map<String,RequestState>? auctionsRequestState;
-  final Map<String,Failure>? auctionsError;
-  final Map<String,AuctionsModel>? auctionsModel;
+  final Map<String,RequestState> auctionsRequestState;
+  final Map<String,Failure> auctionsError;
+  final Map<String,AuctionsModel> auctionsModel;
   //
-  final Map<String,RequestState> getUserAuctionsRequestState;
-  final Failure? getUserAuctionsError;
-  final Map<String,AuctionsModel> getUserAuctionsModel;
-  //
-  final RequestState getFavoriteRequestState;
-  final Failure? getFavoriteError;
-  final AuctionsModel? getFavoriteModel;
-  //
-  final RequestState addFavoriteRequestState;
-  final Failure? addFavoriteError;
-  final String? addFavoriteMsg;
-  //
-  final RequestState deleteAuctionFavoriteRequestState;
-  final Failure? deleteAuctionFavoriteError;
-  final String? deleteAuctionFavoriteMsg;
-  //
-  final RequestState deleteOriginFavoriteRequestState;
-  final Failure? deleteOriginFavoriteError;
-  final String? deleteOriginFavoriteMsg;
+  final RequestState favoriteRequestState;
   //
   final RequestState auctionEnrollmentRequestState;
   final Failure? auctionEnrollmentError;
@@ -118,21 +86,12 @@ class HomeState extends Equatable {
 
   @override
   List<Object?> get props => [
-        getUserAuctionsRequestState,
-        getUserAuctionsError,
-        getUserAuctionsModel,
         auctionBrochureRequestState,
         auctionBrochureError,
         auctionBrochureMsg,
-        getFavoriteRequestState,
-        getFavoriteError,
-        getFavoriteModel,
         privacyPolicyRequestState,
         privacyPolicyError,
         privacyPolicyModel,
-        deleteOriginFavoriteRequestState,
-        deleteOriginFavoriteError,
-        deleteOriginFavoriteMsg,
         getWalletRequestState,
         getWalletError,
         getWalletModel,
@@ -145,12 +104,6 @@ class HomeState extends Equatable {
         commission,
         commissionTax,
         total,
-        deleteAuctionFavoriteError,
-        deleteAuctionFavoriteMsg,
-        deleteAuctionFavoriteRequestState,
-        addFavoriteError,
-        addFavoriteMsg,
-        addFavoriteRequestState,
         auctionsRequestState,
         auctionsError,
         auctionsModel,
@@ -175,18 +128,6 @@ class HomeState extends Equatable {
     Map<String,RequestState>? getUserAuctionsRequestState,
     Failure? getUserAuctionsError,
     Map<String,AuctionsModel>? getUserAuctionsModel,
-    RequestState? getFavoriteRequestState,
-    Failure? getFavoriteError,
-    AuctionsModel? getFavoriteModel,
-    RequestState? addFavoriteRequestState,
-    Failure? addFavoriteError,
-    String? addFavoriteMsg,
-    RequestState? deleteAuctionFavoriteRequestState,
-    Failure? deleteAuctionFavoriteError,
-    String? deleteAuctionFavoriteMsg,
-    RequestState? deleteOriginFavoriteRequestState,
-    Failure? deleteOriginFavoriteError,
-    String? deleteOriginFavoriteMsg,
     RequestState? auctionEnrollmentRequestState,
     Failure? auctionEnrollmentError,
     String? auctionEnrollmentMsg,
@@ -203,6 +144,7 @@ class HomeState extends Equatable {
     Failure? getWalletError,
     WalletModel? getWalletModel,
     RequestState? privacyPolicyRequestState,
+    RequestState? favoriteRequestState,
     Failure? privacyPolicyError,
     PrivacyModel? privacyPolicyModel,
     RequestState? auctionBrochureRequestState,
@@ -219,33 +161,10 @@ class HomeState extends Equatable {
     dynamic topBid,
   }) {
     return HomeState(
+      favoriteRequestState:favoriteRequestState??this.favoriteRequestState,
       auctionsRequestState: auctionsRequestState ?? this.auctionsRequestState,
       auctionsError: auctionsError ?? this.auctionsError,
       auctionsModel: auctionsModel ?? this.auctionsModel,
-      getUserAuctionsRequestState:
-          getUserAuctionsRequestState ?? this.getUserAuctionsRequestState,
-      getUserAuctionsError: getUserAuctionsError ?? this.getUserAuctionsError,
-      getUserAuctionsModel: getUserAuctionsModel ?? this.getUserAuctionsModel,
-      getFavoriteRequestState:
-          getFavoriteRequestState ?? this.getFavoriteRequestState,
-      getFavoriteError: getFavoriteError ?? this.getFavoriteError,
-      getFavoriteModel: getFavoriteModel ?? this.getFavoriteModel,
-      addFavoriteRequestState:
-          addFavoriteRequestState ?? this.addFavoriteRequestState,
-      addFavoriteError: addFavoriteError ?? this.addFavoriteError,
-      addFavoriteMsg: addFavoriteMsg ?? this.addFavoriteMsg,
-      deleteAuctionFavoriteRequestState: deleteAuctionFavoriteRequestState ??
-          this.deleteAuctionFavoriteRequestState,
-      deleteAuctionFavoriteError:
-          deleteAuctionFavoriteError ?? this.deleteAuctionFavoriteError,
-      deleteAuctionFavoriteMsg:
-          deleteAuctionFavoriteMsg ?? this.deleteAuctionFavoriteMsg,
-      deleteOriginFavoriteRequestState: deleteOriginFavoriteRequestState ??
-          this.deleteOriginFavoriteRequestState,
-      deleteOriginFavoriteError:
-          deleteOriginFavoriteError ?? this.deleteOriginFavoriteError,
-      deleteOriginFavoriteMsg:
-          deleteOriginFavoriteMsg ?? this.deleteOriginFavoriteMsg,
       auctionEnrollmentRequestState:
           auctionEnrollmentRequestState ?? this.auctionEnrollmentRequestState,
       auctionEnrollmentError:

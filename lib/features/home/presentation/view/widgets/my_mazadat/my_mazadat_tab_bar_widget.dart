@@ -43,20 +43,20 @@ class MazadatyMobileLayoute extends StatelessWidget {
     final cacheKey = '${winner}_${loss}';
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        final data = state.getUserAuctionsModel[cacheKey]?.data;
+        final data = state.auctionsModel[cacheKey]?.data;
         if (data != null) {
-          return LoadedMobileActionHomeWidget(data: data);
+          return LoadedMobileActionHomeWidget(data: data, fromWinner: winner);
         }
-        switch (state.getUserAuctionsRequestState[cacheKey]) {
+        switch (state.auctionsRequestState[cacheKey]) {
           case RequestState.ideal:
           case RequestState.loading:
             return MazadCardShimmer();
           case RequestState.error:
             return ErrorAppWidget(
               onTap: () {
-                context.read<HomeCubit>().getUserAuctions(winner, loss);
+                context.read<HomeCubit>().getAuctions(type:'${winner}_${loss}');
               },
-              text: state.getUserAuctionsError!.message,
+              text: state.auctionsError[cacheKey]?.message??'',
             );
           default:
             return const SizedBox.shrink();

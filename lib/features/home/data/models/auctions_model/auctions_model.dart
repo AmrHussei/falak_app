@@ -13,6 +13,12 @@ class AuctionsModel extends Equatable {
     );
   }
 
+  AuctionsModel copyWith({List<AuctionData>? data}) {
+    return AuctionsModel(
+      data: data ?? this.data,
+    );
+  }
+
   @override
   List<Object?> get props => [data];
 }
@@ -20,53 +26,37 @@ class AuctionsModel extends Equatable {
 class AuctionData extends Equatable {
   final String id;
   final Location? location;
-  final bool? specialToSupportAuthority;
   final String? startDate;
   final String? endDate;
   final int? numberOfDays;
   final String? status;
   final String? type;
-  final bool? createdByAdmin;
   final String? auctionApprovalNumber;
-  final AuctionReviewStatus? auctionReviewStatus;
-  final String? createdAt;
-  final String? updatedAt;
   final String? title;
   final String? cover;
-  final dynamic user;
   final Provider? provider;
   final List<Logo>? logos;
   final String? auctionBrochure;
-  bool? isFavorite;
+  final bool? isFavorite;
   final List<AuctionOrigin>? auctionOrigins;
-  final CreatedBy? createdBy;
-  final Updated? updated;
   final TimerAuction? timer;
 
-  AuctionData({
-   required  this.id,
+  const AuctionData({
+    required this.id,
     this.location,
-    this.specialToSupportAuthority,
     this.startDate,
     this.endDate,
     this.numberOfDays,
     this.status,
     this.type,
-    this.createdByAdmin,
     this.auctionApprovalNumber,
-    this.auctionReviewStatus,
-    this.createdAt,
-    this.updatedAt,
     this.title,
     this.cover,
-    this.user,
     this.provider,
     this.logos,
     this.auctionBrochure,
     this.isFavorite,
     this.auctionOrigins,
-    this.createdBy,
-    this.updated,
     this.timer,
   });
 
@@ -74,22 +64,14 @@ class AuctionData extends Equatable {
     return AuctionData(
       id: json['_id'],
       location: Location.fromJson(json['location']),
-      specialToSupportAuthority: json['specialToSupportAuthority'],
       startDate: json['startDate'],
       endDate: json['endDate'],
       numberOfDays: json['numberOfDays'],
       status: json['status'],
       type: json['type'],
-      createdByAdmin: json['createdByAdmin'],
       auctionApprovalNumber: json['auctionApprovalNumber'],
-      auctionReviewStatus: json['auctionReviewStatus'] == null
-          ? null
-          : AuctionReviewStatus.fromJson(json['auctionReviewStatus']),
-      createdAt: json['createdAt'],
-      updatedAt: json['updatedAt'],
       title: json['title'],
       cover: json['cover'],
-      user: json['user'],
       provider: Provider.fromJson(json['provider']),
       logos: List<Logo>.from(json['logos'].map((x) => Logo.fromJson(x))),
       auctionBrochure: json['auctionBrochure'],
@@ -97,21 +79,33 @@ class AuctionData extends Equatable {
       auctionOrigins: List<AuctionOrigin>.from(
         json['auctionOrigins'].map((x) => AuctionOrigin.fromJson(x)),
       ),
-      createdBy: json['createdBy'] == null
-          ? null
-          : CreatedBy.fromJson(json['createdBy']),
-      updated: json['updated'] == null
-          ? null
-          : Updated.fromJson(json['updated']),
       timer: json['timer'] == null
           ? null
           : TimerAuction.fromJson(json['timer']),
     );
   }
 
+  AuctionData copyWith({bool? isFavorite}) => AuctionData(
+    id: id,
+    isFavorite: isFavorite ?? this.isFavorite,
+    type: type,
+    title: title,
+    status: status,
+    auctionApprovalNumber: auctionApprovalNumber,
+    auctionBrochure: auctionBrochure,
+    auctionOrigins: auctionOrigins,
+    endDate: endDate,
+    cover: cover,
+    location: location,
+    logos: logos,
+    numberOfDays: numberOfDays,
+    provider: provider,
+    startDate: startDate,
+    timer: timer,
+  );
+
   @override
-  // TODO: implement props
-  List<Object?> get props => [id, title, createdAt, status, cover];
+  List<Object?> get props => [id, title, status, cover,isFavorite];
 }
 
 class Location {
@@ -119,7 +113,7 @@ class Location {
   final double latitude;
   final String? title;
 
-  Location({
+  const Location({
     required this.longitude,
     required this.latitude,
     required this.title,
@@ -135,45 +129,6 @@ class Location {
 
   Map<String, dynamic> toJson() {
     return {'longitude': longitude, 'latitude': latitude, 'title': title};
-  }
-}
-
-class AuctionReviewStatus {
-  final String? status;
-  final String? reason;
-  final String? at;
-  final By by;
-
-  AuctionReviewStatus({
-    required this.status,
-    required this.reason,
-    required this.at,
-    required this.by,
-  });
-
-  factory AuctionReviewStatus.fromJson(Map<String?, dynamic> json) {
-    return AuctionReviewStatus(
-      status: json['status'],
-      reason: json['reason'],
-      at: json['at'],
-      by: By.fromJson(json['by']),
-    );
-  }
-}
-
-class By {
-  final String id;
-  final String? name;
-  final String? profileImage;
-
-  By({required this.id, required this.name, required this.profileImage});
-
-  factory By.fromJson(Map<String?, dynamic> json) {
-    return By(
-      id: json['_id'],
-      name: json['name'],
-      profileImage: json['profileImage'],
-    );
   }
 }
 
@@ -343,32 +298,6 @@ class AuctionDetail {
   }
 }
 
-class CreatedBy {
-  final String id;
-  final String? name;
-  final String? profileImage;
-
-  CreatedBy({required this.id, required this.name, required this.profileImage});
-
-  factory CreatedBy.fromJson(Map<String?, dynamic> json) {
-    return CreatedBy(
-      id: json['_id'],
-      name: json['name'],
-      profileImage: json['profileImage'],
-    );
-  }
-}
-
-class Updated {
-  final By by;
-  final String? at;
-
-  Updated({required this.by, required this.at});
-
-  factory Updated.fromJson(Map<String?, dynamic> json) {
-    return Updated(by: By.fromJson(json['by']), at: json['at']);
-  }
-}
 
 class TimerAuction {
   final int days;

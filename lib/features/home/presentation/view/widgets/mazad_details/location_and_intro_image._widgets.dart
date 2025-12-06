@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:falak/features/home/presentation/view/widgets/home/favorite_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,12 +11,9 @@ import 'package:falak/core/utils/images.dart';
 import '../../../../../../app/app.dart';
 import '../../../../../../core/utils/app_styles.dart';
 import '../../../view_model/home/home_cubit.dart';
-import '../home/auctions_favorite_button.dart';
 
 class MazadDetailsIntoImage extends StatelessWidget {
-  const MazadDetailsIntoImage({
-    super.key,
-  });
+  const MazadDetailsIntoImage({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -30,9 +28,10 @@ class MazadDetailsIntoImage extends StatelessWidget {
             decoration: BoxDecoration(
               image: DecorationImage(
                 fit: BoxFit.cover,
-                image: CachedNetworkImageProvider(homeCubit
-                        .auctionData?.cover ??
-                    'https://www.urtrips.com/wp-content/uploads/2022/12/tv-tower.jpg'),
+                image: CachedNetworkImageProvider(
+                  homeCubit.auctionData?.cover ??
+                      'https://www.urtrips.com/wp-content/uploads/2022/12/tv-tower.jpg',
+                ),
               ),
             ),
           ),
@@ -76,15 +75,17 @@ class MazadDetailsIntoImage extends StatelessWidget {
                             decoration: ShapeDecoration(
                               color: AppColors.color2(context),
                               shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(8)),
+                                borderRadius: BorderRadius.circular(8),
+                              ),
                             ),
                             child: Text(
                               getAuctionTypeText(
                                 homeCubit.auctionData?.type?.toLowerCase(),
                               ),
                               style: AppStyles.styleBold16(context).copyWith(
-                                color:
-                                    AppColors.typographyHeadingWhite(context),
+                                color: AppColors.typographyHeadingWhite(
+                                  context,
+                                ),
                               ),
                             ),
                           ),
@@ -103,11 +104,8 @@ class MazadDetailsIntoImage extends StatelessWidget {
 }
 
 class AuctionDetaislIconWidget extends StatelessWidget {
-  const AuctionDetaislIconWidget({
-    super.key,
-    required this.image,
-    this.color,
-  });
+  const AuctionDetaislIconWidget({super.key, required this.image, this.color});
+
   final String image;
   final Color? color;
 
@@ -119,9 +117,7 @@ class AuctionDetaislIconWidget extends StatelessWidget {
       padding: EdgeInsets.all(9),
       decoration: ShapeDecoration(
         color: const Color(0xFFF5F6F7),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       ),
       child: FittedBox(
         child: SvgPicture.asset(
@@ -134,10 +130,7 @@ class AuctionDetaislIconWidget extends StatelessWidget {
 }
 
 class AuctionTitleAndLocationWidget extends StatelessWidget {
-  const AuctionTitleAndLocationWidget({
-    super.key,
-    required this.homeCubit,
-  });
+  const AuctionTitleAndLocationWidget({super.key, required this.homeCubit});
 
   final HomeCubit homeCubit;
 
@@ -167,9 +160,7 @@ class AuctionTitleAndLocationWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: 4,
-            ),
+            SizedBox(height: 4),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -185,9 +176,9 @@ class AuctionTitleAndLocationWidget extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
-                    style: AppStyles.styleMedium14(context).copyWith(
-                      color: AppColors.typographyBodyWhite(context),
-                    ),
+                    style: AppStyles.styleMedium14(
+                      context,
+                    ).copyWith(color: AppColors.typographyBodyWhite(context)),
                   ),
                 ),
               ],
@@ -196,26 +187,18 @@ class AuctionTitleAndLocationWidget extends StatelessWidget {
           ],
         ),
         Spacer(),
-        AuctionDetaislIconWidget(
-          image: AppAssets.app_imagesShareAndroidW,
-        ),
+        AuctionDetaislIconWidget(image: AppAssets.app_imagesShareAndroidW),
         SizedBox(width: 12),
         KisGuest
             ? SizedBox.shrink()
-            : AuctionsFavoriteButton(
-                auctionData: homeCubit.auctionData!,
-                homeCubit: homeCubit,
-                isFromDetails: true,
-              ),
+            : FavoriteWidget(model: homeCubit.auctionData!),
       ],
     );
   }
 }
 
 class MazadLocationWidget extends StatelessWidget {
-  const MazadLocationWidget({
-    super.key,
-  });
+  const MazadLocationWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -223,33 +206,27 @@ class MazadLocationWidget extends StatelessWidget {
       padding: const EdgeInsets.all(8),
       decoration: ShapeDecoration(
         color: Colors.white,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
         shadows: [
           BoxShadow(
             color: Color(0x26111311),
             blurRadius: 8,
             offset: Offset(0, 4),
             spreadRadius: 0,
-          )
+          ),
         ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset(
-            AppAssets.app_imagesMapPoinWave,
-          ),
-          SizedBox(
-            width: 10,
-          ),
+          SvgPicture.asset(AppAssets.app_imagesMapPoinWave),
+          SizedBox(width: 10),
           Text(
             'خريطة المزادات',
-            style: AppStyles.styleMedium14(context).copyWith(
-              color: AppColors.typographyHeading(context),
-            ),
+            style: AppStyles.styleMedium14(
+              context,
+            ).copyWith(color: AppColors.typographyHeading(context)),
           ),
         ],
       ),

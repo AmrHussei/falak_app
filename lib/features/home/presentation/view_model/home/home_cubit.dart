@@ -1,8 +1,9 @@
 import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
+import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
+import 'package:falak/core/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/params/home/auctions_params.dart';
 import 'package:falak/core/utils/app_strings.dart';
@@ -33,7 +34,6 @@ class HomeCubit extends Cubit<HomeState> {
   AuctionData? auctionData;
   AuctionOrigin? auctionOrigin;
   List<AuctionOrigin> originList = [];
-  GeneralAuctionParams? addFavoriteParams;
   TextEditingController originSearch = TextEditingController();
   TextEditingController balanceController = TextEditingController();
   TextEditingController auctionFilterSearch = TextEditingController();
@@ -58,12 +58,10 @@ class HomeCubit extends Cubit<HomeState> {
     String type = AppStrings.auctionsInProgress,
     bool refresh = false,
   }) async {
-    final cachedModel = Map<String, AuctionsModel>.from(
-      state.auctionsModel ?? {},
-    );
+    final cachedModel = Map<String, AuctionsModel>.from(state.auctionsModel);
 
     final loadingStats = Map<String, RequestState>.from(
-      state.auctionsRequestState ?? {},
+      state.auctionsRequestState,
     );
     if (cachedModel[type] != null && !refresh) {
       // 1. 🚀 Show cached data immediately without loading
@@ -80,15 +78,25 @@ class HomeCubit extends Cubit<HomeState> {
       search: auctionFilterSearch.text,
       type: filterAuctiontype,
     );
+    UserAuctionsParams? userAuctionsParams;
+    if (type.contains('false') || type.contains('true')) {
+      final list = type.split('_');
 
-    final result = await _homeRepository.getAuctions(auctionsParams);
+      userAuctionsParams = UserAuctionsParams(
+        loss: bool.parse(list.first),
+        winner: bool.parse(list[1]),
+      );
+    }
+    final result = type == AppConstant.favorite
+        ? await _homeRepository.getFavorite()
+        : userAuctionsParams != null
+        ? await _homeRepository.getUserAuctions(userAuctionsParams)
+        : await _homeRepository.getAuctions(auctionsParams);
 
     result.fold(
       (failure) {
         // Only show error if no cache existed (first time)
-        final auctionsError = Map<String, Failure>.from(
-          state.auctionsError ?? {},
-        );
+        final auctionsError = Map<String, Failure>.from(state.auctionsError);
 
         auctionsError[type] = failure;
         loadingStats[type] = RequestState.error;
@@ -119,66 +127,6 @@ class HomeCubit extends Cubit<HomeState> {
     await getAuctions(refresh: true);
   }
 
-  // New method: get user auctions with cache
-  Future<void> getUserAuctions(bool winner, bool loss) async {
-    String cacheKey = '${winner}_${loss}'; // simple unique key per tab
-
-    final userAuctions = Map<String, AuctionsModel>.from(
-      state.getUserAuctionsModel,
-    );
-    if (userAuctions[cacheKey] != null) {
-      return;
-    }
-    final loading = Map<String, RequestState>.from(
-      state.getUserAuctionsRequestState,
-    );
-    loading[cacheKey] = RequestState.loading;
-    emit(state.copyWith(getUserAuctionsRequestState: loading));
-    if (kDebugMode) {
-      final model = AuctionsModel(data: [AuctionData(id: '')]);
-      loading[cacheKey] = RequestState.loaded;
-
-      userAuctions[cacheKey] = model;
-      emit(
-        state.copyWith(
-          getUserAuctionsRequestState: loading,
-          getUserAuctionsModel: userAuctions,
-        ),
-      );
-      return;
-    }
-    UserAuctionsParams userAuctionsParams = UserAuctionsParams(
-      loss: loss,
-      winner: winner,
-    );
-
-    final result = await _homeRepository.getUserAuctions(userAuctionsParams);
-
-    result.fold(
-      (failure) {
-        loading[cacheKey] = RequestState.error;
-
-        emit(
-          state.copyWith(
-            getUserAuctionsRequestState: loading,
-            getUserAuctionsError: failure,
-          ),
-        );
-      },
-      (model) {
-        loading[cacheKey] = RequestState.loaded;
-
-        userAuctions[cacheKey] = model;
-        emit(
-          state.copyWith(
-            getUserAuctionsRequestState: loading,
-            getUserAuctionsModel: userAuctions,
-          ),
-        );
-      },
-    );
-  }
-
   searchAuctionOrigins(String? query) {
     if (query == null || query.isEmpty && auctionData?.auctionOrigins != null) {
       originList = auctionData!.auctionOrigins!;
@@ -194,120 +142,6 @@ class HomeCubit extends Cubit<HomeState> {
             )
             .toList() ??
         [];
-  }
-
-  void getFavorite([bool isLoading = true]) async {
-    emit(state.copyWith(getFavoriteRequestState: RequestState.loading));
-    final result = await _homeRepository.getFavorite();
-
-    result.fold(
-      (failure) {
-        emit(
-          state.copyWith(
-            getFavoriteRequestState: RequestState.error,
-            getFavoriteError: failure,
-          ),
-        );
-        log(failure.toString());
-      },
-      (model) {
-        emit(
-          state.copyWith(
-            getFavoriteRequestState: RequestState.loaded,
-            getFavoriteModel: model,
-          ),
-        );
-        getAuctions();
-      },
-    );
-  }
-
-  void addFavorite() async {
-    emit(state.copyWith(addFavoriteRequestState: RequestState.loading));
-
-    final result = await _homeRepository.addFavorite(addFavoriteParams!);
-
-    result.fold(
-      (failure) {
-        print('state.addFavoriteError == RequestState.error');
-        emit(
-          state.copyWith(
-            addFavoriteRequestState: RequestState.error,
-            addFavoriteError: failure,
-          ),
-        );
-        log(failure.toString());
-      },
-      (right) {
-        emit(
-          state.copyWith(
-            addFavoriteRequestState: RequestState.loaded,
-            addFavoriteMsg: right,
-          ),
-        );
-      },
-    );
-  }
-
-  void deleteAuctionFavorite(String auctionId) async {
-    emit(
-      state.copyWith(deleteAuctionFavoriteRequestState: RequestState.loading),
-    );
-
-    final result = await _homeRepository.deleteAuctionFavorite(auctionId);
-
-    result.fold(
-      (failure) {
-        emit(
-          state.copyWith(
-            deleteAuctionFavoriteRequestState: RequestState.error,
-            deleteAuctionFavoriteError: failure,
-          ),
-        );
-        log(failure.toString());
-      },
-      (right) {
-        emit(
-          state.copyWith(
-            deleteAuctionFavoriteRequestState: RequestState.loaded,
-            deleteAuctionFavoriteMsg: right,
-          ),
-        );
-      },
-    );
-  }
-
-  void deleteOriginFavorite() async {
-    emit(
-      state.copyWith(deleteOriginFavoriteRequestState: RequestState.loading),
-    );
-    GeneralAuctionParams params = GeneralAuctionParams(
-      auctionId: auctionId,
-      originId: originId,
-      amount: amount,
-      limit: limit,
-    );
-    final result = await _homeRepository.deleteOriginFavorite(params);
-
-    result.fold(
-      (failure) {
-        emit(
-          state.copyWith(
-            deleteOriginFavoriteRequestState: RequestState.error,
-            deleteOriginFavoriteError: failure,
-          ),
-        );
-        log(failure.toString());
-      },
-      (right) {
-        emit(
-          state.copyWith(
-            deleteOriginFavoriteRequestState: RequestState.loaded,
-            deleteOriginFavoriteMsg: right,
-          ),
-        );
-      },
-    );
   }
 
   void auctionEnrollment() async {
@@ -716,4 +550,88 @@ class HomeCubit extends Cubit<HomeState> {
             ),
     );
   }
-}
+
+  Future<Either<Failure, String>> addFavorite(String id) async {
+    return await _homeRepository.addFavorite(
+      GeneralAuctionParams(auctionId: id),
+    );
+  }
+
+  Future<Either<Failure, String>> deleteAuctionFavorite(String id) async {
+    return await _homeRepository.deleteAuctionFavorite(id);
+  }
+
+  Future<void> toggleFavoriteAuction(String id, bool isAdd) async {
+    // Create a new map to ensure immutability
+    final data = Map<String, AuctionsModel>.from(state.auctionsModel);
+
+    AuctionData? originalItem; // Store the original item
+    String? originalKey; // Store the original key
+
+    // Update the data map
+    data.forEach((key, value) {
+      final updatedList = List<AuctionData>.from(value.data); // Create a new list
+      for (int index = 0; index < updatedList.length; index++) {
+        var item = updatedList[index];
+        if (item.id == id) {
+          if (originalItem == null) {
+            originalItem = item; // Save the original item
+            originalKey = key; // Save the original key
+          }
+          if (key == AppConstant.favorite && !isAdd) {
+            updatedList.removeAt(index);
+          } else {
+            updatedList[index] = item.copyWith(isFavorite: isAdd);
+          }
+        }
+      }
+      data[key] = value.copyWith(data: updatedList); // Update the model
+    });
+
+    // Emit the loading state
+    emit(
+      state.copyWith(
+        favoriteRequestState: RequestState.loading,
+        auctionsModel: data,
+      ),
+    );
+
+    // Perform the API call
+    final result = await (isAdd ? addFavorite(id) : deleteAuctionFavorite(id));
+    result.fold(
+          (failure) {
+        // Revert changes on failure
+        if (originalItem != null && originalKey != null) {
+          final revertedData = Map<String, AuctionsModel>.from(state.auctionsModel);
+          final revertedList = List<AuctionData>.from(revertedData[originalKey]!.data);
+
+          if (isAdd) {
+            // Restore the item to its original state
+            revertedList.add(originalItem!);
+          } else {
+            // Restore the item's favorite state
+            final index = revertedList.indexWhere((item) => item.id == id);
+            if (index != -1) {
+              revertedList[index] = originalItem!;
+            }
+          }
+
+          revertedData[originalKey!] = revertedData[originalKey]!.copyWith(
+            data: revertedList,
+          );
+
+          // Emit the reverted state
+          emit(
+            state.copyWith(
+              favoriteRequestState: RequestState.error,
+              auctionsModel: revertedData,
+            ),
+          );
+        }
+      },
+          (right) {
+        // Emit the loaded state on success
+        emit(state.copyWith(favoriteRequestState: RequestState.loaded));
+      },
+    );
+  }}

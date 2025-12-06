@@ -2,11 +2,10 @@ import 'package:falak/app/app.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/features/home/data/models/auctions_model/auctions_model.dart';
+import 'package:falak/features/home/presentation/view/widgets/home/favorite_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/mazad_title_and_location_widget.dart';
-import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class MazadImageWidget extends StatelessWidget {
   const MazadImageWidget({super.key, required this.model});
@@ -63,13 +62,7 @@ class MazadImageWidget extends StatelessWidget {
           PositionedDirectional(
             top: 12.h,
             start: 10.w,
-            child: SvgPicture.asset(
-              model.isFavorite == true
-                  ? Assets.appImagesLikedHeart
-                  : Assets.appImagesFavoriteAuction,
-              height: 32.h,
-              width: 32.w,
-            ),
+            child: FavoriteWidget(model: model),
           ),
       ],
     );

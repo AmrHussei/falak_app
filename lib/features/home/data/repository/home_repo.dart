@@ -136,29 +136,6 @@ class HomeRepository {
     }
   }
 
-  Future<Either<Failure, String>> deleteOriginFavorite(
-      GeneralAuctionParams params) async {
-    try {
-      final response = await remoteDataSource.deleteOriginFavorite(params);
-      if (response.statusCode! >= 200 && response.statusCode! <= 202) {
-        log('addFavorite Status code is 200');
-        // log(response.data);
-
-        return Right("تم ازالة المزاد من المفضلة");
-      } else {
-        log('addFavorite Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
-      }
-    } catch (e) {
-      log('addFavorite Repository Exception Error: $e');
-      return Left(ServerFailure(message: e.toString()));
-    }
-  }
-
   Future<Either<Failure, String>> auctionEnrollment(
       AuctionEnrollmentParams params) async {
     try {

@@ -1,3 +1,4 @@
+import 'package:falak/features/home/presentation/view/widgets/home/favorite_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -18,7 +19,6 @@ import '../widgets/assets_details/assets_comming_status_timer_widget.dart';
 import '../widgets/assets_details/assets_image_slider.dart';
 import '../widgets/assets_details/map_widget.dart';
 import '../widgets/assets_details/top_bidders_widget.dart';
-import '../widgets/home/auctions_favorite_button.dart';
 import '../widgets/mazad_details/licenses_widget.dart';
 
 class AssetsDetailsScreen extends StatefulWidget {
@@ -51,8 +51,8 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
           homeCubit.auctionData?.status == AppStrings.auctionsOnGoing
               ? AuctionDetailsOnGoingStutesWidget()
               : homeCubit.auctionData?.status == AppStrings.auctionsInProgress
-                  ? AuctionDetailsInprogressStutesWidget()
-                  : AuctionDetailsCompletedStutesWidget(),
+              ? AuctionDetailsInprogressStutesWidget()
+              : AuctionDetailsCompletedStutesWidget(),
         ],
       ),
       body: CustomScrollView(
@@ -97,9 +97,9 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
                     children: [
                       Text(
                         'التفاصيل',
-                        style: AppStyles.styleBold24(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
+                        style: AppStyles.styleBold24(
+                          context,
+                        ).copyWith(color: AppColors.typographyHeading(context)),
                       ),
                     ],
                   ),
@@ -109,9 +109,7 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: homeCubit.auctionOrigin!.details.length,
                     itemBuilder: (context, index) {
-                      return AssetsDetailsWidget(
-                        index: index,
-                      );
+                      return AssetsDetailsWidget(index: index);
                     },
                   ),
                   SizedBox(height: 24),
@@ -143,10 +141,7 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
 }
 
 class AssetsTitleWidget extends StatelessWidget {
-  const AssetsTitleWidget({
-    super.key,
-    required this.homeCubit,
-  });
+  const AssetsTitleWidget({super.key, required this.homeCubit});
 
   final HomeCubit homeCubit;
 
@@ -176,9 +171,7 @@ class AssetsTitleWidget extends StatelessWidget {
                 ),
               ],
             ),
-            SizedBox(
-              height: 4,
-            ),
+            SizedBox(height: 4),
             Row(
               mainAxisAlignment: MainAxisAlignment.start,
               children: [
@@ -194,9 +187,9 @@ class AssetsTitleWidget extends StatelessWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                     textAlign: TextAlign.start,
-                    style: AppStyles.styleMedium14(context).copyWith(
-                      color: AppColors.typographyBodyWhite(context),
-                    ),
+                    style: AppStyles.styleMedium14(
+                      context,
+                    ).copyWith(color: AppColors.typographyBodyWhite(context)),
                   ),
                 ),
               ],
@@ -205,15 +198,11 @@ class AssetsTitleWidget extends StatelessWidget {
         ),
         Row(
           children: [
-            AuctionDetaislIconWidget(
-              image: AppAssets.app_imagesShareAndroidW,
-            ),
+            AuctionDetaislIconWidget(image: AppAssets.app_imagesShareAndroidW),
             SizedBox(width: 12),
-            KisGuest
-                ? SizedBox.shrink()
-                : AssetsFavoriteButton(
-                    homeCubit: homeCubit,
-                  ),
+            !KisGuest && homeCubit.auctionData != null
+                ? FavoriteWidget(model: homeCubit.auctionData!)
+                : SizedBox.shrink(),
           ],
         ),
       ],

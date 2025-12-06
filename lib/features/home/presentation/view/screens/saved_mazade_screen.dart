@@ -1,3 +1,4 @@
+import 'package:falak/core/utils/constant.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:falak/core/utils/enums.dart';
@@ -8,7 +9,6 @@ import 'package:falak/features/home/presentation/view_model/home/home_cubit.dart
 import '../../../../../app/app.dart';
 import '../../../../../core/widgets/coustom_app_bar_widget.dart';
 import '../../../../../core/widgets/guest_widget.dart';
-import '../widgets/home/auctions_favorite_button.dart';
 import '../widgets/home/tabBar_view_body_widget.dart';
 import '../widgets/mazad_card_shimmer.dart';
 
@@ -24,18 +24,10 @@ class _SavedMazadeScreenState extends State<SavedMazadeScreen>
   @override
   void initState() {
     super.initState();
-    context.read<HomeCubit>().getFavorite();
+    context.read<HomeCubit>().getAuctions(type: AppConstant.favorite,refresh: true);
   }
-
-  // Initial selected value
-  String? selectedValue;
-
-  // Dropdown menu items
-  final List<String> options = ['Option 1', 'Option 2', 'Option 3', 'Option 4'];
-
   @override
   Widget build(BuildContext context) {
-    KisFromFav = true;
     return Scaffold(
       appBar: CoustomAppBarWidget(title: widget.title??'المزادات المحفوظة'),
       body: KisGuest == true ? GuestWidget() : SavedMazadBodyWidget(),
@@ -65,21 +57,25 @@ class SavedMazadHomeMobileLayoute extends StatelessWidget {
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        switch (state.getFavoriteRequestState) {
+        final data = state.auctionsModel[AppConstant.favorite]?.data;
+        if(data!=null){
+          return LoadedMobileActionHomeWidget(
+            data: data,
+          );
+        }
+        switch (state.auctionsRequestState[AppConstant.favorite]) {
           case RequestState.ideal:
           case RequestState.loading:
             return MazadCardShimmer();
           case RequestState.error:
             return ErrorAppWidget(
               onTap: () {
-                context.read<HomeCubit>().getFavorite();
+                context.read<HomeCubit>().getAuctions(type: AppConstant.favorite,refresh: true);
               },
-              text: state.getFavoriteError!.message,
+              text: state.auctionsError[AppConstant.favorite]?.message??'',
             );
-          case RequestState.loaded:
-            return LoadedMobileActionHomeWidget(
-              data: state.getFavoriteModel!.data,
-            );
+          default:
+            return const SizedBox.shrink();
         }
       },
     );

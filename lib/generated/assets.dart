@@ -269,6 +269,7 @@ class Assets {
   static const String imagesWalletActive = 'assets/images/walletActive.svg';
   static const String imagesWhatsapp = 'assets/images/whatsapp.svg';
   static const String imagesWhatsappicon = 'assets/images/whatsappicon.svg';
+  static const String imagesWinner = 'assets/images/winner.svg';
   static const String imagesXIcon = 'assets/images/X_icon.svg';
   static const String imagesYoutube = 'assets/images/youtube.svg';
 

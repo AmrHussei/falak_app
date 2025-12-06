@@ -10,6 +10,7 @@ class AppConstant {
       const VerticalDivider(color: Colors.transparent);
 
   static const String skipOnBoarding = 'skipOnBoarding';
+  static const String favorite = 'favorite';
   static const String token = 'token';
   static const String userName = 'userName';
   static const String userImage = 'userImage';

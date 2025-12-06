@@ -9,9 +9,9 @@ class GeneralAuctionParams extends Equatable {
 
   GeneralAuctionParams({
     required this.auctionId,
-    required this.originId,
-    required this.amount,
-    required this.limit,
+     this.originId,
+     this.amount,
+     this.limit,
   });
 
   @override

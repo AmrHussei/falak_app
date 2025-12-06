@@ -9,9 +9,10 @@ import '../../../../data/models/auctions_model/auctions_model.dart';
 import '../../../view_model/home/home_cubit.dart';
 
 class MazadCardWidget extends StatelessWidget {
-  const MazadCardWidget({super.key, required this.model});
+  const MazadCardWidget({super.key, required this.model, required this.fromWinner});
 
   final AuctionData model;
+  final bool fromWinner;
 
   @override
   Widget build(BuildContext context) {
@@ -32,7 +33,7 @@ class MazadCardWidget extends StatelessWidget {
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(16.r),
         ),
-        child: MazadCardBodyWidget(model: model),
+        child: MazadCardBodyWidget(model: model, fromWinner: fromWinner,),
       ),
     );
   }

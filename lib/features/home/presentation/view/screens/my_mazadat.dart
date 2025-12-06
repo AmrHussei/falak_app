@@ -9,7 +9,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import '../../../../../app/app.dart';
 import '../../../../../core/widgets/guest_widget.dart';
 import '../../view_model/home/home_cubit.dart';
-import '../widgets/home/auctions_favorite_button.dart';
 import '../widgets/my_mazadat/my_mazadat_tab_bar_widget.dart';
 
 class MyMazadatScreen extends StatefulWidget {
@@ -27,7 +26,7 @@ class _MyMazadatScreenState extends State<MyMazadatScreen>
   void initState() {
     super.initState();
     HomeCubit homeCubit = context.read<HomeCubit>();
-    homeCubit.getUserAuctions(false, false);
+    homeCubit.getAuctions(type:'false_false');
 
     _tabController = TabController(vsync: this, length: 3);
 
@@ -45,7 +44,7 @@ class _MyMazadatScreenState extends State<MyMazadatScreen>
         loss = true;
       }
 
-      homeCubit.getUserAuctions(winner, loss);
+      homeCubit.getAuctions(type:'${winner}_$loss');
     });
   }
 
@@ -60,7 +59,6 @@ class _MyMazadatScreenState extends State<MyMazadatScreen>
   // Dropdown menu items
   @override
   Widget build(BuildContext context) {
-    KisFromFav = false;
     return Scaffold(
       appBar: CoustomAppBarWidget(
         titleWidget: SvgPicture.asset(

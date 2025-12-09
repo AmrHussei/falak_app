@@ -8,9 +8,14 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MazadImageWidget extends StatelessWidget {
-  const MazadImageWidget({super.key, required this.model});
+  const MazadImageWidget({
+    super.key,
+    required this.model,
+    required this.fromDetails,
+  });
 
   final AuctionData model;
+  final bool fromDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -20,7 +25,7 @@ class MazadImageWidget extends StatelessWidget {
           width: double.infinity,
           height: 209.h,
           decoration: BoxDecoration(
-            borderRadius: BorderRadius.only(
+            borderRadius: fromDetails?null:BorderRadius.only(
               topLeft: Radius.circular(12.r),
               topRight: Radius.circular(12.r),
             ),

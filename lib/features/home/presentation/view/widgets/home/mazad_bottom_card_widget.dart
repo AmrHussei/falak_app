@@ -3,6 +3,7 @@ import 'package:falak/core/utils/app_strings.dart';
 import 'package:falak/features/home/data/models/auctions_model/auctions_model.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/mazad_status_timer_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/show_more_widget.dart';
+import 'package:falak/features/home/presentation/view/widgets/mazad_details/download_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/my_mazadat/winner_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -13,10 +14,12 @@ class MazadBottomCardWidget extends StatelessWidget {
     super.key,
     required this.model,
     this.fromWinner = false,
+    required this.fromDetails,
   });
 
   final AuctionData model;
   final bool fromWinner;
+  final bool fromDetails;
 
   @override
   Widget build(BuildContext context) {
@@ -30,7 +33,7 @@ class MazadBottomCardWidget extends StatelessWidget {
         padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
         child: Column(
           children: [
-            if(fromWinner)
+            if (fromWinner)
               const WinnerWidget()
             else if (model.status == AppStrings.auctionsInProgress ||
                 model.status == AppStrings.auctionsOnGoing)
@@ -39,10 +42,13 @@ class MazadBottomCardWidget extends StatelessWidget {
               SvgPicture.asset(Assets.imagesMazadEnd),
 
             Divider(height: 32.h, thickness: 1, color: const Color(0xffE7E9E9)),
-            ShowMoreWidget(
-              auctionOriginsNum: model.auctionOrigins?.length ?? 0,
-              auctionData: model,
-            ),
+           if(fromDetails)
+             const DownloadWidget()
+             else ShowMoreWidget(
+             auctionOriginsNum: model.auctionOrigins?.length ?? 0,
+             auctionData: model,
+           )
+
           ],
         ),
       ),

@@ -49,14 +49,13 @@ class ShowMoreWidget extends StatelessWidget {
           width: 91.w,
           radius: 12.r,
           onPressed: () {
-            context.read<HomeCubit>().auctionData = auctionData;
+            final homeCubit = context.read<HomeCubit>();
+            homeCubit.auctionData = auctionData;
             if (auctionData.auctionOrigins != null &&
                 auctionData.auctionOrigins!.isNotEmpty) {
-              context.read<HomeCubit>().originList =
+              homeCubit.originList =
                   auctionData.auctionOrigins!;
             }
-            getKTapIndex(context);
-
             context.navigateTo(Routes.mazadDetailsScreen);
           },
           text: 'التفاصيل',

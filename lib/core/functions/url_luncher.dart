@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:dartz/dartz.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
@@ -5,6 +7,7 @@ import 'package:media_scanner/media_scanner.dart';
 import 'package:open_file/open_file.dart' as file;
 import 'package:permission_handler/permission_handler.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:path_provider/path_provider.dart';
 
 import '../error/failure.dart';
 import '../widgets/my_snackbar.dart';
@@ -54,23 +57,52 @@ String getFileNameFromUrl(String url) {
 }
 
 Future<Either<Failure, String>> downloadFile(
-  String url,
-  BuildContext context,
-) async {
+    String url,
+    BuildContext context,
+    ) async {
   if (url.isEmpty) {
     return Left(AppFailure(message: "الرابط فارغ"));
   }
 
-  // ✅ اطلب صلاحية التخزين
-  if (!await Permission.manageExternalStorage.request().isGranted) {
-    return Left(AppFailure(message: "تم رفض صلاحية التخزين"));
+  // Request permissions only on Android
+  if (Platform.isAndroid) {
+    PermissionStatus permissionStatus =
+    await Permission.manageExternalStorage.status;
+    if (!permissionStatus.isGranted) {
+      permissionStatus = await Permission.manageExternalStorage.request();
+    }
+
+    if (!permissionStatus.isGranted) {
+      permissionStatus = await Permission.storage.request();
+    }
+
+    if (!permissionStatus.isGranted && !permissionStatus.isLimited) {
+      FloatingSnackBar.show(
+        context,
+        "يرجى منح صلاحية الوصول للتخزين من الإعدادات",
+        isError: true,
+      );
+      await openAppSettings();
+      return Left(AppFailure(message: "فشل التحميل"));
+    }
   }
 
   Dio dio = Dio();
 
   try {
     String fileName = getFileNameFromUrl(url);
-    String filePath = "/storage/emulated/0/Download/$fileName";
+
+    // Get platform-specific directory
+    String filePath;
+    if (Platform.isAndroid) {
+      filePath = "/storage/emulated/0/Download/$fileName";
+    } else if (Platform.isIOS) {
+      final directory = await getApplicationDocumentsDirectory();
+      filePath = "${directory.path}/$fileName";
+    } else {
+      final directory = await getDownloadsDirectory();
+      filePath = "${directory?.path ?? '.'}/$fileName";
+    }
 
     await dio.download(
       url,
@@ -89,10 +121,12 @@ Future<Either<Failure, String>> downloadFile(
       },
     );
 
-    // ✅ media scan عشان الملف يظهر في تطبيق الملفات
-    await MediaScanner.loadMedia(path: filePath);
+    // Media scan only on Android
+    if (Platform.isAndroid) {
+      await MediaScanner.loadMedia(path: filePath);
+    }
 
-    // ✅ افتح الملف بعد التنزيل
+    // Open the file after download
     final result = await file.OpenFile.open(filePath);
 
     if (result.type == file.ResultType.done) {
@@ -104,3 +138,4 @@ Future<Either<Failure, String>> downloadFile(
     return Left(AppFailure(message: "فشل التحميل: $e"));
   }
 }
+

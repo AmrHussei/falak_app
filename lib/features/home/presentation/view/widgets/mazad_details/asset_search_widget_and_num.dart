@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 
@@ -9,63 +10,42 @@ import '../../../../../../core/widgets/text_form_field_with_title_widget.dart';
 import '../../../view_model/home/home_cubit.dart';
 
 class AssetSearchWidgetAndNum extends StatelessWidget {
-  const AssetSearchWidgetAndNum({
-    super.key,
-  });
+  const AssetSearchWidgetAndNum({super.key});
 
   @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(horizontal: 16.w),
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Text(
-            'الاصول  ( ${homeCubit.auctionData!.auctionOrigins?.length} )',
-            style: AppStyles.styleBold24(context).copyWith(
-              color: AppColors.typographyHeading(context),
-            ),
+            'الاصول ( ${homeCubit.auctionData!.auctionOrigins?.length} )',
+            style: AppStyles.styleBold18(
+              context,
+            ).copyWith(color: AppColors.typographyHeading(context)),
           ),
-          SizedBox(width: 40),
+          32.horizontalSpace,
           Expanded(
             child: TextFormFieldWithTitleWidget(
-              label: 'إبحث عن أصل',
+              hint: 'البحث..',
               controller: homeCubit.originSearch,
               onChanged: (value) {
                 homeCubit.searchAuctionOrigins(value);
               },
-              suffix: Container(
-                height: 40,
-                margin: EdgeInsetsDirectional.all(8),
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-                clipBehavior: Clip.antiAlias,
-                decoration: ShapeDecoration(
-                  color: const Color(0xFF18365F) /* Surface-secondary-action */,
-                  shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8)),
-                  shadows: [
-                    BoxShadow(
-                      color: Color(0x0C161513),
-                      blurRadius: 16,
-                      offset: Offset(0, 8),
-                      spreadRadius: 0,
-                    )
-                  ],
-                ),
-                child: SizedBox(
-                  width: 20,
-                  height: 20,
-                  child: InkWell(
-                    child: SvgPicture.asset(
-                      Assets.imagesMagnifer,
-                      fit: BoxFit.contain,
-                      color: AppColors.white(context),
-                    ),
+              filled: true,
+              fillColor: AppColors.white(context),
+              prefix: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  SvgPicture.asset(
+                    Assets.imagesMagnifer,
+                    height: 16.h,
+                    width: 16.w,
                   ),
-                ),
+                ],
               ),
             ),
           ),

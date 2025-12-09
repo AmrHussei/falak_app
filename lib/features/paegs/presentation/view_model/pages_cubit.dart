@@ -3,7 +3,6 @@ import 'dart:io';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/features/paegs/data/models/notification_model.dart';
 import 'package:falak/features/paegs/data/models/question_model.dart';
@@ -242,17 +241,6 @@ class PagesCubit extends Cubit<PagesState> {
   }
 
   void getNotifications() async {
-    if(kDebugMode){
-      emit(
-        state.copyWith(
-          getNotificationsRequestState: RequestState.loaded,
-          notifications: [
-            NotificationModel()
-          ],
-        ),
-      );
-      return;
-    }
     emit(state.copyWith(getNotificationsRequestState: RequestState.loading));
     final result = await _pageRepository.getNotifications();
 

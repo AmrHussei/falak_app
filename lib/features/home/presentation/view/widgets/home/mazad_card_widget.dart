@@ -9,31 +9,31 @@ import '../../../../data/models/auctions_model/auctions_model.dart';
 import '../../../view_model/home/home_cubit.dart';
 
 class MazadCardWidget extends StatelessWidget {
-  const MazadCardWidget({super.key, required this.model, required this.fromWinner});
+  const MazadCardWidget({
+    super.key,
+    required this.model,
+    required this.fromWinner,
+    required this.fromDetails,
+  });
 
   final AuctionData model;
   final bool fromWinner;
+  final bool fromDetails;
 
   @override
   Widget build(BuildContext context) {
-    return GestureDetector(
-      onTap: () {
-        final homeCubit = context.read<HomeCubit>();
-        homeCubit.auctionData = model;
-        if (model.auctionOrigins != null && model.auctionOrigins!.isNotEmpty) {
-          homeCubit.originList = model.auctionOrigins!;
-        }
-        context.navigateTo(Routes.mazadDetailsScreen);
-      },
-      child: Card(
-        margin: EdgeInsets.zero,
-        color: Colors.white,
-        elevation: 5,
-        clipBehavior: Clip.antiAlias,
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(16.r),
-        ),
-        child: MazadCardBodyWidget(model: model, fromWinner: fromWinner,),
+    return Card(
+      margin: EdgeInsets.zero,
+      color: Colors.white,
+      elevation: fromDetails?1:5,
+      clipBehavior: Clip.antiAlias,
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(fromDetails ? 0 : 16.r),
+      ),
+      child: MazadCardBodyWidget(
+        model: model,
+        fromWinner: fromWinner,
+        fromDetails: fromDetails,
       ),
     );
   }

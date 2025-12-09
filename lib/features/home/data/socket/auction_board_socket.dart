@@ -33,7 +33,6 @@ class AuctionBoardSocket {
 
   /// Listen for New Notifications
   Future<void> listenToNewBider() async {
-    print('KoriginId $KoriginId');
     await _ensureSocketConnected();
     _socket.onEvent(SocketEndPoints.NEW_BID_BIDDING_BOARD + KoriginId, (data) {
       print('EventlistenToNewBider $data');

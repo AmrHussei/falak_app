@@ -59,6 +59,7 @@ class LoadedMobileActionHomeWidget extends StatelessWidget {
               return MazadCardWidget(
                 model: data[index],
                 fromWinner: fromWinner,
+                fromDetails: false,
               );
             },
             itemCount: data.length,

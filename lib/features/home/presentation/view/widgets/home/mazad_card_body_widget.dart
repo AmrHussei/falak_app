@@ -5,28 +5,46 @@ import 'package:falak/features/home/presentation/view/widgets/home/mazad_title_a
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
-
 class MazadCardBodyWidget extends StatelessWidget {
-  const MazadCardBodyWidget({super.key, required this.model, required this.fromWinner});
+  const MazadCardBodyWidget({
+    super.key,
+    required this.model,
+    required this.fromWinner,
+    required this.fromDetails,
+  });
+
   final AuctionData model;
   final bool fromWinner;
+  final bool fromDetails;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: 10.w, vertical: 6.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          MazadImageWidget(model: model,),
-          6.verticalSpace,
-          MazadTitleAndLocationWidget(
-            auctionData:model,
-          ),
-          MazadBottomCardWidget(model: model,fromWinner: fromWinner,),
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        6.verticalSpace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: fromDetails ? 0 : 10.w),
 
-        ],
-      ),
+          child: MazadImageWidget(model: model,                fromDetails: fromDetails,
+          ),
+        ),
+        6.verticalSpace,
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: 10.w),
+
+          child: Column(
+            children: [
+              MazadTitleAndLocationWidget(auctionData: model),
+              MazadBottomCardWidget(
+                model: model,
+                fromWinner: fromWinner,
+                fromDetails: fromDetails,
+              ),
+            ],
+          ),
+        ),
+      ],
     );
   }
 }

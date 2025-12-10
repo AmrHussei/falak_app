@@ -197,6 +197,7 @@ class AuctionOrigin {
   dynamic openingPrice;
   dynamic entryDeposit;
   dynamic garlicDifference;
+  dynamic highestBid;
   List<Detail> details;
   bool? isFavorite;
   bool? isEnrolled;
@@ -210,6 +211,7 @@ class AuctionOrigin {
     required this.openingPrice,
     required this.entryDeposit,
     required this.garlicDifference,
+    required this.highestBid,
     required this.details,
     required this.isFavorite,
     required this.isEnrolled,
@@ -226,6 +228,7 @@ class AuctionOrigin {
       openingPrice: json['openingPrice'],
       entryDeposit: json['entryDeposit'],
       garlicDifference: json['garlicDifference'],
+      highestBid: json['highestBid'],
       details: (json['details'] as List)
           .map((item) => Detail.fromJson(item))
           .toList(),
@@ -235,22 +238,6 @@ class AuctionOrigin {
     );
   }
 
-  // To JSON
-  Map<String?, dynamic> toJson() {
-    return {
-      '_id': id,
-      'title': title,
-      'description': description,
-      'attachment': attachment,
-      'openingPrice': openingPrice,
-      'entryDeposit': entryDeposit,
-      'garlicDifference': garlicDifference,
-      'details': details.map((item) => item.toJson()).toList(),
-      'isFavorite': isFavorite ?? true,
-      'isEnrolled': isEnrolled,
-      'location': location.toJson(),
-    };
-  }
 }
 
 class Detail {

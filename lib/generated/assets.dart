@@ -63,6 +63,7 @@ class Assets {
   static const String appImagesInsta = 'assets/app_images/insta.svg';
   static const String appImagesLawIcon = 'assets/app_images/law-icon.svg';
   static const String appImagesLawIconCalculator = 'assets/app_images/law-iconCalculator.svg';
+  static const String appImagesLeaflet = 'assets/app_images/Leaflet.svg';
   static const String appImagesLikedHeart = 'assets/app_images/likedHeart.svg';
   static const String appImagesLinkedin = 'assets/app_images/linkedin.svg';
   static const String appImagesLocationDot = 'assets/app_images/location-dot.svg';
@@ -115,6 +116,7 @@ class Assets {
   static const String appImagesSplashBg = 'assets/app_images/SplashBg.png';
   static const String appImagesSplashPng = 'assets/app_images/SplashPng.jpg';
   static const String appImagesSquareDoublAltArrowUp = 'assets/app_images/SquareDoublAltArrowUp.svg';
+  static const String appImagesSquareDouble = 'assets/app_images/SquareDouble.svg';
   static const String appImagesStartDate = 'assets/app_images/startDate.svg';
   static const String appImagesTerminated = 'assets/app_images/terminated.svg';
   static const String appImagesUploadeFilesIcon = 'assets/app_images/uploadeFilesIcon.svg';

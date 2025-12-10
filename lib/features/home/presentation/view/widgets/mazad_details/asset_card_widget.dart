@@ -3,6 +3,9 @@ import 'package:falak/core/utils/constant.dart';
 import 'package:falak/features/home/data/models/auctions_model/auctions_model.dart';
 import 'package:falak/features/home/presentation/view/widgets/mazad_details/coming_origin_buttons_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/mazad_details/coming_origin_texts_widget.dart';
+import 'package:falak/features/home/presentation/view/widgets/mazad_details/ended_origin_buttons_widget.dart';
+import 'package:falak/features/home/presentation/view/widgets/mazad_details/on_going_origin_buttons_widget.dart';
+import 'package:falak/features/home/presentation/view/widgets/mazad_details/on_going_origin_texts_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -10,13 +13,10 @@ import 'package:hijri/hijri_calendar.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/home/presentation/view/widgets/mazad_details/asset_title_and_location_widget.dart';
-import 'package:falak/features/home/presentation/view/widgets/mazad_details/completed_assets_card_body_widget.dart';
-import 'package:falak/features/home/presentation/view/widgets/mazad_details/on_going_assets_card_body_idget.dart';
 
 import '../../../../../../config/routes/app_routes.dart';
 import '../../../../../../core/utils/app_styles.dart';
 import '../../../view_model/home/home_cubit.dart';
-import '../home/mazad_card_time_widgets.dart';
 
 class AssetCardWidget extends StatelessWidget {
   const AssetCardWidget({
@@ -62,18 +62,18 @@ class AssetCardWidget extends StatelessWidget {
             Divider(),
             12.verticalSpace,
             if (model.status == AppStrings.auctionsInProgress)
-              ComingOriginTextsWidget(origin: origin, model: model),
+              ComingOriginTextsWidget(origin: origin, model: model)
+            else
+              OnGoingOriginTextsWidget(origin: origin, model: model),
             12.verticalSpace,
             Divider(),
             12.verticalSpace,
             if (model.status == AppStrings.auctionsInProgress)
-              ComingOriginButtonsWidget(origin: origin),
-
-            getKTapIndex(context) == 1
-                ? OnGoingAssetsCardBodyWidget(index: index)
-                : getKTapIndex(context) == 2
-                ? const SizedBox.shrink()
-                : CompletedAssetsCardBodyWidget(index: index),
+              ComingOriginButtonsWidget(origin: origin)
+            else if (model.status == AppStrings.auctionsOnGoing)
+              OnGoingOriginButtonsWidget(origin: origin)
+            else if (model.status == AppStrings.auctionsCompleted)
+              EndedOriginButtonsWidget(origin: origin),
           ],
         ),
       ),

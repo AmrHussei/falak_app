@@ -1,54 +1,51 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:falak/core/utils/app_colors.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/utils/app_styles.dart';
-import '../../../view_model/home/home_cubit.dart';
+import '../../../../data/models/auctions_model/auctions_model.dart';
 
 class AssetTitleAndLocationWidget extends StatelessWidget {
   const AssetTitleAndLocationWidget({
     super.key,
+    required this.origin,
     required this.index,
   });
+
+  final AuctionOrigin origin;
   final int index;
 
   @override
   Widget build(BuildContext context) {
-    HomeCubit homeCubit = context.read<HomeCubit>();
-    print(index);
-
     return Row(
       children: [
-        Container(
-          alignment: Alignment.center,
-          padding:
-              const EdgeInsets.only(top: 8, bottom: 0, right: 16, left: 16),
-          decoration: ShapeDecoration(
-            color: const Color(0x33E0E0E0),
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(12),
-            ),
+        Card(
+          color: AppColors.white(context),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.r),
           ),
-          child: Center(
-            child: Text(
-              (index + 1).toString(),
-              style: AppStyles.styleBold16(context).copyWith(
-                fontSize: 32,
-                color: AppColors.typographyHeading(context),
-                overflow: TextOverflow.ellipsis,
+
+          child: SizedBox(
+            height: 36.h,
+            width: 36.w,
+            child: Center(
+              child: Text(
+                (index + 1).toString(),
+                style: AppStyles.styleBold16(
+                  context,
+                ).copyWith(color: AppColors.titleColor(context)),
               ),
             ),
           ),
         ),
-        SizedBox(width: 12),
-        SizedBox(
-          width: 230,
+        12.horizontalSpace,
+        Flexible(
           child: Text(
-            homeCubit.originList[index].title ?? 'اسم الاصل',
+            origin.title ?? 'اسم الاصل',
             maxLines: 2,
-            style: AppStyles.styleBold18(context).copyWith(
-                color: AppColors.typographyHeading(context),
-                overflow: TextOverflow.ellipsis),
+            style: AppStyles.styleSemiBold16(
+              context,
+            ).copyWith(color: AppColors.typographyHeading(context)),
           ),
         ),
       ],

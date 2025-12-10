@@ -1,12 +1,16 @@
+import 'package:falak/core/utils/app_strings.dart';
 import 'package:falak/core/utils/constant.dart';
+import 'package:falak/features/home/data/models/auctions_model/auctions_model.dart';
+import 'package:falak/features/home/presentation/view/widgets/mazad_details/coming_origin_buttons_widget.dart';
+import 'package:falak/features/home/presentation/view/widgets/mazad_details/coming_origin_texts_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hijri/hijri_calendar.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/home/presentation/view/widgets/mazad_details/asset_title_and_location_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/mazad_details/completed_assets_card_body_widget.dart';
-import 'package:falak/features/home/presentation/view/widgets/mazad_details/in_progress_assets_card_body_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/mazad_details/on_going_assets_card_body_idget.dart';
 
 import '../../../../../../config/routes/app_routes.dart';
@@ -17,10 +21,14 @@ import '../home/mazad_card_time_widgets.dart';
 class AssetCardWidget extends StatelessWidget {
   const AssetCardWidget({
     super.key,
+    required this.origin,
     required this.index,
+    required this.model,
   });
 
+  final AuctionOrigin origin;
   final int index;
+  final AuctionData model;
 
   @override
   Widget build(BuildContext context) {
@@ -28,43 +36,44 @@ class AssetCardWidget extends StatelessWidget {
 
     return GestureDetector(
       onTap: () {
-        homeCubit.auctionOrigin = homeCubit.originList[index];
-        KoriginId = homeCubit.originList[index].id;
+        homeCubit.auctionOrigin = origin;
+        KoriginId = origin.id;
 
         context.navigateTo(Routes.assetsDetailsScreen);
       },
       child: Container(
-        margin: EdgeInsetsDirectional.only(bottom: 24, end: 16, start: 16),
+        margin: EdgeInsetsDirectional.only(
+          bottom: 24.h,
+          end: 16.w,
+          start: 16.w,
+        ),
         width: double.infinity,
-        padding: const EdgeInsets.all(12),
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
         decoration: ShapeDecoration(
           shape: RoundedRectangleBorder(
-            side: BorderSide(
-              width: 1,
-              color: const Color(0xFFD7DBD7),
-            ),
-            borderRadius: BorderRadius.circular(16),
+            side: BorderSide(width: 1, color: const Color(0xFFD7DBD7)),
+            borderRadius: BorderRadius.circular(12.r),
           ),
         ),
         child: Column(
           children: [
-            SizedBox(height: 8),
-            AssetTitleAndLocationWidget(
-              index: index,
-            ),
-            SizedBox(height: 16),
+            AssetTitleAndLocationWidget(origin: origin, index: index),
+            8.verticalSpace,
+            Divider(),
+            12.verticalSpace,
+            if (model.status == AppStrings.auctionsInProgress)
+              ComingOriginTextsWidget(origin: origin, model: model),
+            12.verticalSpace,
+            Divider(),
+            12.verticalSpace,
+            if (model.status == AppStrings.auctionsInProgress)
+              ComingOriginButtonsWidget(origin: origin),
+
             getKTapIndex(context) == 1
-                ? OnGoingAssetsCardBodyWidget(
-                    index: index,
-                  )
+                ? OnGoingAssetsCardBodyWidget(index: index)
                 : getKTapIndex(context) == 2
-                    ? InProgressAssetsCardBodyWidget(
-                        index: index,
-                      )
-                    : CompletedAssetsCardBodyWidget(
-                        index: index,
-                      ),
-            SizedBox(height: 16),
+                ? const SizedBox.shrink()
+                : CompletedAssetsCardBodyWidget(index: index),
           ],
         ),
       ),
@@ -79,6 +88,7 @@ class AssetDepositScreen extends StatelessWidget {
     required this.desc,
     this.descColor,
   });
+
   final String title, desc;
   Color? descColor;
 
@@ -89,9 +99,9 @@ class AssetDepositScreen extends StatelessWidget {
       children: [
         Text(
           title,
-          style: AppStyles.styleBold14(context).copyWith(
-            color: AppColors.typographySubTitle(context),
-          ),
+          style: AppStyles.styleBold14(
+            context,
+          ).copyWith(color: AppColors.typographySubTitle(context)),
         ),
         SizedBox(height: 4),
         Text(
@@ -118,8 +128,9 @@ String formatDateFunction(String isoDate) {
 }
 
 String formatTimeFunction(String isoDate) {
-  DateTime dateTime =
-      DateTime.parse(isoDate).toLocal(); // Convert to local time
+  DateTime dateTime = DateTime.parse(
+    isoDate,
+  ).toLocal(); // Convert to local time
   int hour = dateTime.hour;
   String period = hour < 12 ? 'صباحاً' : 'مساءً';
   hour = hour % 12;

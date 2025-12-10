@@ -47,21 +47,25 @@ class _MazadDetailsScreenState extends State<MazadDetailsScreen> {
               fromDetails: true,
             ),
           ),
-          SliverToBoxAdapter(child: 24.verticalSpace),
+          SliverToBoxAdapter(child: 16.verticalSpace),
           SliverToBoxAdapter(child: AssetSearchWidgetAndNum()),
-          SliverToBoxAdapter(child: 24.verticalSpace),
+          SliverToBoxAdapter(child: 16.verticalSpace),
           BlocBuilder<HomeCubit, HomeState>(
             builder: (context, state) {
               return homeCubit.originList.isEmpty
                   ? SliverToBoxAdapter(
                       child: Padding(
-                        padding:  EdgeInsets.only(bottom: 16.h),
+                        padding: EdgeInsets.only(bottom: 16.h),
                         child: EmptyWidget(title: 'لا يوجد اصول بهذا الاسم'),
                       ),
                     )
                   : SliverList(
                       delegate: SliverChildBuilderDelegate((context, index) {
-                        return AssetCardWidget(index: index);
+                        return AssetCardWidget(
+                          origin: homeCubit.originList[index],
+                          index: index,
+                          model:homeCubit.auctionData!
+                        );
                       }, childCount: homeCubit.originList.length),
                     );
             },

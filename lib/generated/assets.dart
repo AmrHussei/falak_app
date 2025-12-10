@@ -26,6 +26,7 @@ class Assets {
   static const String appImagesButtonIconFAB = 'assets/app_images/ButtonIconFAB.svg';
   static const String appImagesButtonIconFABWathiq = 'assets/app_images/ButtonIconFABWathiq.svg';
   static const String appImagesCalendar = 'assets/app_images/calendar.svg';
+  static const String appImagesCalendar1 = 'assets/app_images/Calendar1.svg';
   static const String appImagesCalendarAuctionDe = 'assets/app_images/CalendarAuctionDe.svg';
   static const String appImagesCall = 'assets/app_images/Call.svg';
   static const String appImagesCanceled = 'assets/app_images/Canceled.svg';

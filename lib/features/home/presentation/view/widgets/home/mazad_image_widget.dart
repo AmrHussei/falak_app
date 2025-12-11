@@ -4,7 +4,9 @@ import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/features/home/data/models/auctions_model/auctions_model.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/favorite_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/mazad_title_and_location_widget.dart';
+import 'package:falak/features/home/presentation/view_model/home/home_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class MazadImageWidget extends StatelessWidget {
@@ -25,10 +27,12 @@ class MazadImageWidget extends StatelessWidget {
           width: double.infinity,
           height: 209.h,
           decoration: BoxDecoration(
-            borderRadius: fromDetails?null:BorderRadius.only(
-              topLeft: Radius.circular(12.r),
-              topRight: Radius.circular(12.r),
-            ),
+            borderRadius: fromDetails
+                ? null
+                : BorderRadius.only(
+                    topLeft: Radius.circular(12.r),
+                    topRight: Radius.circular(12.r),
+                  ),
           ),
           clipBehavior: Clip.antiAlias,
           child: CachedNetworkImageWidegt(
@@ -67,7 +71,15 @@ class MazadImageWidget extends StatelessWidget {
           PositionedDirectional(
             top: 12.h,
             start: 10.w,
-            child: FavoriteWidget(model: model),
+            child: FavoriteWidget(
+              isFavorite: model.isFavorite == true,
+              onTab: () {
+                context.read<HomeCubit>().toggleFavoriteAuction(
+                  model.id,
+                  !(model.isFavorite ?? false),
+                );
+              },
+            ),
           ),
       ],
     );

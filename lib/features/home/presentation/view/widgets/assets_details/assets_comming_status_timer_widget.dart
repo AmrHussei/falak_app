@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 
@@ -62,45 +61,6 @@ class AssetsCommingStatusTimerWidget extends StatelessWidget {
   }
 }
 
-class RowAssetsDateWidget extends StatelessWidget {
-  const RowAssetsDateWidget({
-    super.key,
-    required this.lable,
-    required this.description,
-    required this.icon,
-    this.iconColor,
-    this.textColor,
-  });
-  final String lable, description, icon;
-  final Color? iconColor, textColor;
-
-  @override
-  Widget build(BuildContext context) {
-    return Row(
-      children: [
-        SvgPicture.asset(
-          icon,
-          color: iconColor,
-        ),
-        SizedBox(width: 8),
-        Text(
-          lable,
-          style: AppStyles.styleMedium14(context).copyWith(
-            color: textColor ?? AppColors.typographyBody(context),
-          ),
-        ),
-        SizedBox(width: 4),
-        Text(
-          description,
-          style: AppStyles.styleBold16(context).copyWith(
-            color: AppColors.typographyHeading(context),
-          ),
-        ),
-      ],
-    );
-  }
-}
-
 class AssetsDescriptionWidget extends StatefulWidget {
   const AssetsDescriptionWidget({Key? key}) : super(key: key);
 
@@ -110,43 +70,23 @@ class AssetsDescriptionWidget extends StatefulWidget {
 }
 
 class _AssetsDescriptionWidgetState extends State<AssetsDescriptionWidget> {
-  bool _isExpanded = false;
 
   @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
 
-    return SizedBox(
-      width: 0.90.sw,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          Text(
-            homeCubit.auctionOrigin?.description ?? 'وصف الاصل ',
-            maxLines: _isExpanded ? null : 5,
-            overflow:
-                _isExpanded ? TextOverflow.visible : TextOverflow.ellipsis,
-            style: AppStyles.styleMedium18(context).copyWith(
-              color: AppColors.typographyHeading(context),
-              height: 2,
-            ),
+    return Row(
+      children: [
+        Text(
+          homeCubit.auctionOrigin?.description ?? 'وصف الاصل ',
+          style: AppStyles.styleRegular14(context).copyWith(
+            color: AppColors.iconsGrey(context),
+            fontSize: 18,
+            height: 2,
           ),
-          const SizedBox(height: 8),
-          GestureDetector(
-            onTap: () {
-              setState(() {
-                _isExpanded = !_isExpanded;
-              });
-            },
-            child: Text(
-              _isExpanded ? "عرض أقل" : "عرض المزيد",
-              style: AppStyles.styleMedium16(context).copyWith(
-                color: AppColors.primary(context),
-              ),
-            ),
-          ),
-        ],
-      ),
+          textAlign: TextAlign.start,
+        ),
+      ],
     );
   }
 }

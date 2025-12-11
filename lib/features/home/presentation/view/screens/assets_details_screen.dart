@@ -1,14 +1,12 @@
-import 'package:falak/features/home/presentation/view/widgets/home/favorite_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/widgets/coustom_app_bar_widget.dart';
 import 'package:falak/features/home/presentation/view/screens/mazad_details_screen.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/mazad_card_time_widgets.dart';
-import 'package:falak/features/home/presentation/view/widgets/mazad_details/location_and_intro_image._widgets.dart';
 
-import '../../../../../app/app.dart';
 import '../../../../../core/utils/app_strings.dart';
 import '../../../../../core/utils/app_styles.dart';
 import '../../../../../core/utils/images.dart';
@@ -44,7 +42,6 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
     return Scaffold(
-      // backgroundColor: AppColors.white(context),
       appBar: CoustomAppBarWidget(
         title: homeCubit.auctionOrigin?.title ?? 'تفاصيل الاصل',
         actions: [
@@ -58,41 +55,16 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
       body: CustomScrollView(
         slivers: [
           SliverToBoxAdapter(child: AssetsImageSlider()),
-          SliverToBoxAdapter(child: SizedBox(height: 12)),
+          SliverToBoxAdapter(child: 12.verticalSpace),
           SliverToBoxAdapter(
             child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 16),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
               child: Column(
                 children: [
                   AssetsTitleWidget(homeCubit: homeCubit),
-                  SizedBox(height: 12),
                   AssetsDescriptionWidget(),
-                  SizedBox(height: 16),
-                  getKTapIndex(context) == 2
-                      ? SizedBox.shrink()
-                      : TopBiddersWidget(),
-                  getKTapIndex(context) == 1
-                      ? Container(
-                          width: double.infinity,
-                          padding: const EdgeInsets.all(12),
-                          decoration: BoxDecoration(
-                            color: const Color(0xFFEBF1EE),
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(12),
-                              topRight: Radius.circular(12),
-                            ),
-                          ),
-                          child: AssetsDetailsCardColumWidget(
-                            dateLabel: 'أعلى مزايدة',
-                            date: '55,505',
-                            showCurrancyLogo: true,
-                            icon: AppAssets.app_imagesSquareDoublAltArrowUp,
-                          ),
-                        )
-                      : SizedBox.shrink(),
                   AsseteDetailesCardWidget(),
-                  SizedBox(height: 24),
-                  SizedBox(height: 24),
+                  24.verticalSpace,
                   Row(
                     children: [
                       Text(
@@ -147,64 +119,44 @@ class AssetsTitleWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SizedBox(
-                  width: 210,
-                  child: Text(
-                    homeCubit.auctionData?.title ?? 'المزاد',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.start,
-                    style: AppStyles.styleBold20(context).copyWith(
-                      color: AppColors.typographyHeading(context),
-                      height: 1.24,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 4),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.start,
-              children: [
-                SvgPicture.asset(
-                  AppAssets.app_imagesLocationDot,
-                  color: AppColors.typographyHeading(context),
-                ),
-                SizedBox(width: 8),
-                SizedBox(
-                  width: 210,
-                  child: Text(
-                    homeCubit.auctionData?.location?.title ?? 'السعودية',
-                    maxLines: 2,
-                    overflow: TextOverflow.ellipsis,
-                    textAlign: TextAlign.start,
-                    style: AppStyles.styleMedium14(
-                      context,
-                    ).copyWith(color: AppColors.typographyBodyWhite(context)),
-                  ),
-                ),
-              ],
-            ),
-          ],
+        Text(
+          homeCubit.auctionData?.title ?? 'المزاد',
+          maxLines: 2,
+          overflow: TextOverflow.ellipsis,
+          textAlign: TextAlign.start,
+          style: AppStyles.styleSemiBold16(context).copyWith(
+            color: AppColors.typographyHeading(context),
+            height: 1.24,
+          ),
         ),
+        8.verticalSpace,
         Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
-            AuctionDetaislIconWidget(image: AppAssets.app_imagesShareAndroidW),
-            SizedBox(width: 12),
-            !KisGuest && homeCubit.auctionData != null
-                ? FavoriteWidget(model: homeCubit.auctionData!)
-                : SizedBox.shrink(),
+            SvgPicture.asset(
+              AppAssets.app_imagesLocationDot,
+              height: 18.h,
+              width: 18.w,
+            ),
+            4.horizontalSpace,
+            Flexible(
+              child: Text(
+                homeCubit.auctionData?.location?.title ?? 'السعودية',
+                maxLines: 2,
+                overflow: TextOverflow.ellipsis,
+                textAlign: TextAlign.start,
+                style: AppStyles.styleRegular14(
+                  context,
+                ).copyWith(color: AppColors.secondColor(context)),
+              ),
+            ),
           ],
         ),
+        8.verticalSpace,
+
       ],
     );
   }

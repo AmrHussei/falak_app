@@ -87,11 +87,14 @@ class RowAssetsNumberCardWidget extends StatelessWidget {
       children: [
         SvgPicture.asset(image, height: 24.h, width: 24.w),
         4.horizontalSpace,
-        Text(
-          text,
-          style: AppStyles.styleMedium15(
-            context,
-          ).copyWith(color: AppColors.black22(context)),
+        Flexible(
+          child: Text(
+            text,
+            maxLines: 2,
+            style: AppStyles.styleMedium15(
+              context,
+            ).copyWith(color: AppColors.black22(context)),
+          ),
         ),
       ],
     );

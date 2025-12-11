@@ -45,7 +45,6 @@ class HomeCubit extends Cubit<HomeState> {
   dynamic garlicDifferencetotalAmount;
 
   //
-  String shareAs = AppStrings.enrollShareAsGenuine;
   String type = AppStrings.enrolltypeOnline;
   String? filterAuctiontype;
   String? filterAuctiontypeAr;
@@ -144,12 +143,16 @@ class HomeCubit extends Cubit<HomeState> {
         [];
   }
 
+  void changeShareAs(String shareAs) {
+    emit(state.copyWith(shareAs: shareAs));
+  }
+
   void auctionEnrollment() async {
     emit(state.copyWith(auctionEnrollmentRequestState: RequestState.loading));
     AuctionEnrollmentParams params = AuctionEnrollmentParams(
       auction: auctionId,
       auctionOrigin: originId!,
-      shareAs: shareAs,
+      shareAs: state.shareAs,
       type: type,
       agency: agencyId,
     );
@@ -570,7 +573,9 @@ class HomeCubit extends Cubit<HomeState> {
 
     // Update the data map
     data.forEach((key, value) {
-      final updatedList = List<AuctionData>.from(value.data); // Create a new list
+      final updatedList = List<AuctionData>.from(
+        value.data,
+      ); // Create a new list
       for (int index = 0; index < updatedList.length; index++) {
         var item = updatedList[index];
         if (item.id == id) {
@@ -599,11 +604,15 @@ class HomeCubit extends Cubit<HomeState> {
     // Perform the API call
     final result = await (isAdd ? addFavorite(id) : deleteAuctionFavorite(id));
     result.fold(
-          (failure) {
+      (failure) {
         // Revert changes on failure
         if (originalItem != null && originalKey != null) {
-          final revertedData = Map<String, AuctionsModel>.from(state.auctionsModel);
-          final revertedList = List<AuctionData>.from(revertedData[originalKey]!.data);
+          final revertedData = Map<String, AuctionsModel>.from(
+            state.auctionsModel,
+          );
+          final revertedList = List<AuctionData>.from(
+            revertedData[originalKey]!.data,
+          );
 
           if (isAdd) {
             // Restore the item to its original state
@@ -629,9 +638,10 @@ class HomeCubit extends Cubit<HomeState> {
           );
         }
       },
-          (right) {
+      (right) {
         // Emit the loaded state on success
         emit(state.copyWith(favoriteRequestState: RequestState.loaded));
       },
     );
-  }}
+  }
+}

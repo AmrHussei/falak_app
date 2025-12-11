@@ -37,6 +37,7 @@ class HomeState extends Equatable {
     this.auctionsRequestState=const {} ,
     this.auctionsError=const {},
     this.auctionsModel = const {},
+    this.shareAs= AppStrings.enrollShareAsGenuine
   });
 
   final Map<String,RequestState> auctionsRequestState;
@@ -83,6 +84,7 @@ class HomeState extends Equatable {
   final double commissionTax;
   final double total;
   final dynamic topBid;
+  final String shareAs;
 
   @override
   List<Object?> get props => [
@@ -119,6 +121,7 @@ class HomeState extends Equatable {
         addAuctionBidRequestState,
         addAuctionBidError,
         addAuctionBidMsg,
+        shareAs,
       ];
 
   HomeState copyWith({
@@ -159,6 +162,7 @@ class HomeState extends Equatable {
     double? commissionTax,
     double? total,
     dynamic topBid,
+    String? shareAs,
   }) {
     return HomeState(
       favoriteRequestState:favoriteRequestState??this.favoriteRequestState,
@@ -208,6 +212,7 @@ class HomeState extends Equatable {
       commissionTax: commissionTax ?? this.commissionTax,
       total: total ?? this.total,
       topBid: topBid ?? this.topBid,
+      shareAs: shareAs ?? this.shareAs,
     );
   }
 }

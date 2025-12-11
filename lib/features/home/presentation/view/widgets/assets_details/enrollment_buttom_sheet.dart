@@ -1,32 +1,37 @@
+import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/core/widgets/custom_dropdown_widget.dart';
+import 'package:falak/core/widgets/global_bottom_sheet.dart';
+import 'package:falak/features/home/presentation/view/widgets/mazad_details/row_widget.dart';
+import 'package:falak/features/paegs/presentation/view/widgets/contact_us/select_type_radio_button.dart';
+import 'package:falak/features/wallet/presentation/view_model/wallet/wallet_cubit.dart';
+import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:lottie/lottie.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/utils/enums.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
-import 'package:falak/core/widgets/error_app_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/mozayda_sheet/enrollment_first_widget.dart';
 import 'package:falak/features/home/presentation/view_model/home/home_cubit.dart';
 
 import '../../../../../../app/app.dart';
 import '../../../../../../core/functions/format_number.dart';
-import '../../../../../../core/utils/app_animations.dart';
 import '../../../../../../core/utils/app_strings.dart';
 import '../../../../../../core/widgets/my_snackbar.dart';
 import '../../../../../auth/presentation/view/widgets/auth_app_logo_widget.dart';
 import '../../../../../profile/presentation/view_model/profile/profile_cubit.dart';
 import '../../../../../wallet/presentation/view/widgets/add_balance_sheet.dart';
-import '../home/mazad_card_time_widgets.dart';
 
 Future<void> enrollmentSheetBottomSheet(BuildContext context) async {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
+    backgroundColor: Colors.transparent,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
     ),
     builder: (context) {
       return EnrollmentSheetBottomSheetBodyWidget();
@@ -35,9 +40,7 @@ Future<void> enrollmentSheetBottomSheet(BuildContext context) async {
 }
 
 class EnrollmentSheetBottomSheetBodyWidget extends StatefulWidget {
-  const EnrollmentSheetBottomSheetBodyWidget({
-    super.key,
-  });
+  const EnrollmentSheetBottomSheetBodyWidget({super.key});
 
   @override
   State<EnrollmentSheetBottomSheetBodyWidget> createState() =>
@@ -52,8 +55,8 @@ class _EnrollmentSheetBottomSheetBodyWidgetState
     super.initState();
     context.read<HomeCubit>().agencyId = null;
     context.read<ProfileCubit>().status = AppStrings.approved;
-    // context.read<ProfileCubit>().getAgencies();
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<WalletCubit>().getWallet();
       if (mounted) {
         final profileCubit = context.read<ProfileCubit>();
         if (!profileCubit.isClosed) {
@@ -64,359 +67,198 @@ class _EnrollmentSheetBottomSheetBodyWidgetState
   }
 
   @override
-  void dispose() {
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
-    return IntrinsicHeight(
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.white(context),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (_, state) {
+        return GlobalBottomSheet(
+          title: 'التسجيل فى المزاد',
+          height:
+              (state.shareAs == AppStrings.enrollShareAsAgent ? 460.h : 400.h) +
+              (KisGuest ? 60.h : 0),
+          action: () {
+            context.pop();
+          },
+          color: AppColors.backgroundPrimary(context),
           child: Column(
+            mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'التسجيل فى المزاد',
-                    textAlign: TextAlign.start,
-                    style: AppStyles.styleMedium22(context).copyWith(
-                      color: AppColors.typographyHeading(context),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.pop();
-                    },
-                    child: SvgPicture.asset(
-                      AppAssets.app_imagesCloseSquare,
-                    ),
-                  ),
-                ],
-              ),
-              SizedBox(height: 16),
               Container(
                 width: double.infinity,
-                padding: EdgeInsets.all(12),
+                padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
                 decoration: BoxDecoration(
-                  border: Border.all(
-                    color: AppColors.borderPrimary(context),
-                  ),
-                  borderRadius: BorderRadius.circular(16),
+                  border: Border.all(color: Color(0xffE7E9E9)),
+                  borderRadius: BorderRadius.circular(12.r),
                   color: AppColors.white(context),
                 ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: 310,
-                      child: Text(
-                        homeCubit.auctionOrigin!.title ?? '',
-                        maxLines: 3,
-                        style: AppStyles.styleMedium20(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
-                      ),
-                    ),
-                  ],
+                child: Text(
+                  homeCubit.auctionOrigin!.title ?? '',
+                  maxLines: 2,
+                  style: AppStyles.styleSemiBold16(
+                    context,
+                  ).copyWith(color: AppColors.typographyHeading(context)),
                 ),
               ),
-              SizedBox(height: 24),
+              12.verticalSpace,
               Text(
                 'المشاركة ك',
                 textAlign: TextAlign.start,
-                style: AppStyles.styleBold16(context).copyWith(
-                  color: AppColors.typographyHeading(context),
-                ),
+                style: AppStyles.styleMedium14(
+                  context,
+                ).copyWith(color: AppColors.typographyHeading(context)),
               ),
-              SizedBox(height: 16),
+              8.verticalSpace,
               SelectSharAsRadioButton(),
-              // SizedBox(height: 16),
-              Container(
-                width: double.infinity,
-                padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 0),
-                decoration: ShapeDecoration(
-                  color: Color(0xFFF7F7F8),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-                child: Row(
-                  children: [
-                    AssetsDetailsCardColumWidget(
-                      dateLabel: 'عربون الدخول',
-                      date: formatNumber(homeCubit.auctionOrigin!.entryDeposit)
-                          .toString(),
-                      showCurrancyLogo: true,
-                      icon: AppAssets.app_imagesBillCheck,
-                    ),
-                  ],
-                ),
+              16.verticalSpace,
+              RowWidget(
+                title: 'عربون الدخول',
+                subTitle: formatNumber(
+                  homeCubit.auctionOrigin!.entryDeposit,
+                ).toString(),
+                icon: AppAssets.app_imagesBillCheck,
+                subIcon: Assets.imagesRiyal,
               ),
-              KisGuest
-                  ? enrollmentFirstWidget(
-                      padding: 16,
-                    )
-                  : EnrollMentCallToAction(),
-              KisGuest
-                  ? SizedBox(
-                      height: 16,
-                    )
-                  : SizedBox.shrink()
+              16.verticalSpace,
+              KisGuest ? enrollmentFirstWidget() : EnrollMentCallToAction(),
             ],
           ),
-        ),
-      ),
+        );
+      },
     );
   }
 }
 
 class EnrollMentCallToAction extends StatelessWidget {
-  const EnrollMentCallToAction({
-    super.key,
-  });
+  const EnrollMentCallToAction({super.key});
 
   @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
-    return Container(
-      decoration: BoxDecoration(
-          color: AppColors.white(context),
-          borderRadius: BorderRadius.circular(16)),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 16,
-          ),
-          EnrollmentWalletWidget(),
-          SizedBox(
-            height: 16,
-          ),
-          SizedBox(
-            height: 54,
-            width: double.infinity,
-            child: Row(
-              children: [
-                GestureDetector(
-                  onTap: () {
-                    context.pop();
-                  },
-                  child: Container(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 15.50,
-                      vertical: 18,
-                    ),
-                    decoration: ShapeDecoration(
-                      color: Colors.white,
-                      shape: RoundedRectangleBorder(
-                        side: BorderSide(
-                          width: 0.84,
-                          strokeAlign: BorderSide.strokeAlignCenter,
-                          color: Color(0xFFEBEEF3),
-                        ),
-                        borderRadius: BorderRadius.circular(13.50),
-                      ),
-                    ),
-                    child: Text(
-                      'الغاء',
-                      textAlign: TextAlign.start,
-                      style: AppStyles.styleBold18(context).copyWith(
-                        color: AppColors.typographySubTitle(context),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (homeCubit.agencyId == null &&
-                          homeCubit.shareAs == AppStrings.enrollShareAsAgent) {
-                        FloatingSnackBar.show(
-                          context,
-                          'يجب اختيار وكالة اولا او المشاركة كأصيل',
-                        );
-                        return;
-                      } else {
-                        homeCubit.type = AppStrings.enrolltypeOnline;
-                        homeCubit.originId = homeCubit.auctionOrigin!.id;
-                        homeCubit.auctionId = homeCubit.auctionData!.id;
-                        homeCubit.auctionEnrollment();
-                      }
-                    },
-                    child: BlocConsumer<HomeCubit, HomeState>(
-                      listenWhen: (previous, current) =>
-                          previous.auctionEnrollmentRequestState !=
-                          current.auctionEnrollmentRequestState,
-                      listener: (context, state) {
-                        if (state.auctionEnrollmentRequestState ==
-                            RequestState.loaded) {
-                          context.pop();
+    return Column(
+      children: [
+        EnrollmentWalletWidget(),
+        24.verticalSpace,
+        BlocConsumer<HomeCubit, HomeState>(
+          listenWhen: (previous, current) =>
+              previous.auctionEnrollmentRequestState !=
+              current.auctionEnrollmentRequestState,
+          listener: (context, state) {
+            if (state.auctionEnrollmentRequestState == RequestState.loaded) {
+              context.pop();
 
-                          FloatingSnackBar.show(
-                            context,
-                            state.auctionEnrollmentMsg ?? 'تم',
-                            isError: false,
-                          );
-                        } else if (state.auctionEnrollmentRequestState ==
-                            RequestState.error) {
-                          FloatingSnackBar.show(
-                            context,
-                            state.auctionEnrollmentError?.message ??
-                                'هناك شئ ما خطأ حاول مجددا',
-                          );
-                        }
-                      },
-                      builder: (context, state) {
-                        if (state.auctionEnrollmentRequestState ==
-                            RequestState.loading) {
-                          return Lottie.asset(
-                            AppAnimationAssets.loading,
-                          );
-                        } else {
-                          return Text(
-                            'تأكيد',
-                            style: AppStyles.styleMedium16(context).copyWith(
-                              color: AppColors.white(context),
-                            ),
-                          );
-                        }
-                      },
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
-        ],
-      ),
+              FloatingSnackBar.show(
+                context,
+                state.auctionEnrollmentMsg ?? 'تم',
+                isError: false,
+              );
+            } else if (state.auctionEnrollmentRequestState ==
+                RequestState.error) {
+              FloatingSnackBar.show(
+                context,
+                state.auctionEnrollmentError?.message ??
+                    'هناك شئ ما خطأ حاول مجددا',
+              );
+            }
+          },
+          builder: (context, state) {
+            return AppPrimaryButton(
+              isLoading:
+                  state.auctionEnrollmentRequestState == RequestState.loading,
+              onPressed: () {
+                if (homeCubit.agencyId == null &&
+                    homeCubit.state.shareAs == AppStrings.enrollShareAsAgent) {
+                  FloatingSnackBar.show(
+                    context,
+                    'يجب اختيار وكالة اولا او المشاركة كأصيل',
+                  );
+                  return;
+                } else {
+                  homeCubit.type = AppStrings.enrolltypeOnline;
+                  homeCubit.originId = homeCubit.auctionOrigin!.id;
+                  homeCubit.auctionId = homeCubit.auctionData!.id;
+                  homeCubit.auctionEnrollment();
+                }
+              },
+              text: 'تأكيد',
+            );
+          },
+        ),
+      ],
     );
   }
 }
 
 class EnrollmentWalletWidget extends StatelessWidget {
-  const EnrollmentWalletWidget({
-    super.key,
-  });
+  const EnrollmentWalletWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
-    return BlocBuilder<HomeCubit, HomeState>(
+    return BlocBuilder<WalletCubit, WalletState>(
       builder: (context, state) {
-        if (state.getWalletRequestState == RequestState.error) {
-          return ErrorAppWidget(
-            text: state.getWalletError?.message ?? 'حدث خطأ',
-            onTap: () {
-              context.read<HomeCubit>().getWallet();
-            },
-          );
-        } else {
-          return Container(
-            padding: EdgeInsets.all(16),
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: ((state.getWalletModel?.data.balance ?? 0) <
-                      homeCubit.auctionOrigin!.entryDeposit)
-                  ? AppColors.error(context).withOpacity(0.05)
-                  : Color(0xFF2E9C95).withOpacity(0.05),
-              borderRadius: BorderRadius.circular(16),
-            ),
-            child: Column(
-              children: [
-                Row(
-                  children: [
-                    SvgPicture.asset(
-                      AppAssets.app_imagesWalletMoneyenrooleSheet,
-                      color: ((state.getWalletModel?.data.balance ?? 0) <
+        return Container(
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+          decoration: BoxDecoration(
+            color: AppColors.white(context),
+            borderRadius: BorderRadius.circular(12.r),
+          ),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Row(
+                children: [
+                  SvgPicture.asset(
+                    AppAssets.app_imagesWalletMoneyenrooleSheet,
+                    color:
+                        ((state.getWalletModel?.data.balance ?? 0) <
+                            homeCubit.auctionOrigin!.entryDeposit)
+                        ? AppColors.error(context)
+                        : Color(0xFF009951),
+                  ),
+                  6.horizontalSpace,
+                  Text(
+                    state.getWalletModel?.data.balance.toStringAsFixed(2) ??
+                        "0",
+                    textAlign: TextAlign.start,
+                    style: AppStyles.styleRegular16(context).copyWith(
+                      color:
+                          ((state.getWalletModel?.data.balance ?? 0) <
                               homeCubit.auctionOrigin!.entryDeposit)
                           ? AppColors.error(context)
-                          : Color(0xFF2E9C95),
+                          : Color(0xFF009951),
                     ),
-                    SizedBox(width: 8),
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          'رصيد المحفظة',
-                          textAlign: TextAlign.start,
-                          style: AppStyles.styleMedium14(context).copyWith(
-                            color: AppColors.typographyBody(context),
-                          ),
-                        ),
-                        SizedBox(height: 8),
-                        Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              state.getWalletModel?.data.balance
-                                      .toStringAsFixed(2) ??
-                                  "0",
-                              textAlign: TextAlign.start,
-                              style: AppStyles.styleBold16(context).copyWith(
-                                color: ((state.getWalletModel?.data.balance ??
-                                            0) <
-                                        homeCubit.auctionOrigin!.entryDeposit)
-                                    ? AppColors.error(context)
-                                    : Color(0xFF2E9C95),
-                              ),
-                            ),
-                            SizedBox(width: 2),
-                            CurrancyLogoWidget(
-                              maxHeight: 20,
-                              maxWidth: 20,
-                              color:
-                                  ((state.getWalletModel?.data.balance ?? 0) <
-                                          homeCubit.auctionOrigin!.entryDeposit)
-                                      ? AppColors.error(context)
-                                      : Color(0xFF2E9C95),
-                            ),
-                          ],
-                        ),
-                      ],
-                    ),
-                  ],
+                  ),
+                  2.horizontalSpace,
+
+                  CurrancyLogoWidget(
+                    maxHeight: 20,
+                    maxWidth: 20,
+                    color:
+                        ((state.getWalletModel?.data.balance ?? 0) <
+                            homeCubit.auctionOrigin!.entryDeposit)
+                        ? AppColors.error(context)
+                        : Color(0xFF009951),
+                  ),
+                ],
+              ),
+              if (((state.getWalletModel?.data.balance ?? 0) <
+                  homeCubit.auctionOrigin!.entryDeposit))
+                AppPrimaryButton(
+                  width: 80.w,
+                  height: 30.h,
+                  onPressed: () {
+                    addBalanceSheetBottomSheet(context);
+                  },
+                  text: 'شحن المحفظة',
+                  radius: 5.r,
+                  textStyle: AppStyles.styleMedium14(
+                    context,
+                  ).copyWith(color: AppColors.white(context), fontSize: 10),
                 ),
-                SizedBox(
-                  height: ((state.getWalletModel?.data.balance ?? 0) <
-                          homeCubit.auctionOrigin!.entryDeposit)
-                      ? 16
-                      : 0,
-                ),
-                ((state.getWalletModel?.data.balance ?? 0) <
-                        homeCubit.auctionOrigin!.entryDeposit)
-                    ? SizedBox(
-                        height: 54,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            addBalanceSheetBottomSheet(context);
-                          },
-                          child: Text(
-                            'شحن المحفظة',
-                            style: AppStyles.styleMedium16(context).copyWith(
-                              color: AppColors.white(context),
-                            ),
-                          ),
-                        ),
-                      )
-                    : SizedBox.shrink(),
-              ],
-            ),
-          );
-        }
+            ],
+          ),
+        );
       },
     );
   }
@@ -436,77 +278,47 @@ class _SelectSharAsRadioButtonState extends State<SelectSharAsRadioButton> {
   void _handleRadioValueChange(String? value) {
     setState(() {
       _selectedValue = value;
-      context.read<HomeCubit>().shareAs = _selectedValue!;
+      context.read<HomeCubit>().changeShareAs(_selectedValue!);
       print(_selectedValue);
     });
   }
 
   @override
   Widget build(BuildContext context) {
-    return SizedBox(
-      height: AppStrings.enrollShareAsAgent == _selectedValue ? 150 : 80,
-      // width: 300,
-      child: Column(
-        children: [
-          Row(
-            children: [
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(0),
-                  child: RadioListTile(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: VisualDensity.compact,
-                    contentPadding: EdgeInsets.zero,
-                    activeColor: AppColors.primary(context),
-                    title: Text(
-                      'أصيل',
-                      style: AppStyles.styleBold16(context).copyWith(
-                          color: AppColors.typographySubTitle(context)),
-                    ),
-                    value: AppStrings.enrollShareAsGenuine,
-                    groupValue: _selectedValue,
-                    onChanged: _handleRadioValueChange,
-                  ),
-                ),
-              ),
-              SizedBox(width: 12),
-              Expanded(
-                child: Container(
-                  padding: EdgeInsets.all(0),
-                  child: RadioListTile(
-                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                    visualDensity: VisualDensity.compact,
-                    contentPadding: EdgeInsets.zero,
-                    activeColor: AppColors.primary(context),
-                    title: Text(
-                      'وكيل ',
-                      style: AppStyles.styleBold16(context).copyWith(
-                          color: AppColors.typographySubTitle(context)),
-                    ),
-                    value: AppStrings.enrollShareAsAgent,
-                    groupValue: _selectedValue,
-                    onChanged: _handleRadioValueChange,
-                  ),
-                ),
-              ),
-            ],
-          ),
-          SizedBox(
-            height: AppStrings.enrollShareAsAgent == _selectedValue ? 8 : 0,
-          ),
-          AppStrings.enrollShareAsAgent == _selectedValue
-              ? ActiveAgenciesDropdownButtonFormFieldWidget()
-              : SizedBox.shrink(),
-        ],
-      ),
+    return Column(
+      children: [
+        Row(
+          children: [
+            RadioItem(
+              label: 'أصيل',
+              value: AppStrings.enrollShareAsGenuine,
+              groupValue: _selectedValue,
+              onChanged: _handleRadioValueChange,
+              context: context,
+            ),
+            8.horizontalSpace,
+            RadioItem(
+              label: 'وكيل',
+              value: AppStrings.enrollShareAsAgent,
+              groupValue: _selectedValue,
+              onChanged: _handleRadioValueChange,
+              context: context,
+            ),
+          ],
+        ),
+        SizedBox(
+          height: AppStrings.enrollShareAsAgent == _selectedValue ? 8.h : 0,
+        ),
+        AppStrings.enrollShareAsAgent == _selectedValue
+            ? ActiveAgenciesDropdownButtonFormFieldWidget()
+            : SizedBox.shrink(),
+      ],
     );
   }
 }
 
 class ActiveAgenciesDropdownButtonFormFieldWidget extends StatefulWidget {
-  const ActiveAgenciesDropdownButtonFormFieldWidget({
-    super.key,
-  });
+  const ActiveAgenciesDropdownButtonFormFieldWidget({super.key});
 
   @override
   State<ActiveAgenciesDropdownButtonFormFieldWidget> createState() =>
@@ -523,11 +335,9 @@ class _ActiveAgenciesDropdownButtonFormFieldWidgetState
     ProfileCubit profileCubit = context.read<ProfileCubit>();
     return BlocBuilder<ProfileCubit, ProfileState>(
       builder: (context, state) {
-        return DropdownButtonFormField<String>(
-          value: selectedValue,
-          menuMaxHeight: 600,
-          dropdownColor: AppColors.white(context),
-          style: AppStyles.styleBold16(context).copyWith(),
+        return CustomDropdownWidget<String>(
+          initialValue: selectedValue,
+          hint: 'الوكالة',
           onChanged: (value) {
             setState(() {
               selectedValue = value;
@@ -543,14 +353,16 @@ class _ActiveAgenciesDropdownButtonFormFieldWidgetState
                       padding: EdgeInsets.symmetric(horizontal: 24),
                       child: Text(
                         'لا يوجد لديك وكالات مقبولة',
-                        style: AppStyles.styleBold16(context).copyWith(
-                            color: AppColors.typographyHeading(context)),
+                        style: AppStyles.styleBold16(
+                          context,
+                        ).copyWith(color: AppColors.typographyHeading(context)),
                       ),
                     ),
-                  )
+                  ),
                 ]
               : profileCubit.agencies
-                  .map((agency) => DropdownMenuItem<String>(
+                    .map(
+                      (agency) => DropdownMenuItem<String>(
                         value: agency.id,
                         onTap: () {
                           homeCubit.agencyId = agency.id;
@@ -560,87 +372,13 @@ class _ActiveAgenciesDropdownButtonFormFieldWidgetState
                           child: Text(
                             agency.agencyName,
                             style: AppStyles.styleBold16(context).copyWith(
-                                color: AppColors.typographyHeading(context)),
+                              color: AppColors.typographyHeading(context),
+                            ),
                           ),
                         ),
-                      ))
-                  .toList(),
-          decoration: InputDecoration(
-            contentPadding: const EdgeInsets.symmetric(
-              vertical: 16,
-              horizontal: 16,
-            ),
-            filled: true,
-            fillColor: AppColors.white(context), // Background color of the
-            // make is like label text so it will be like a label at the top of the dropdown
-            labelText: 'اختر الوكالة',
-            labelStyle: AppStyles.styleMedium16(context).copyWith(
-              color: AppColors.typographyBody(context),
-            ),
-
-            hintStyle: AppStyles.styleBold16(context).copyWith(),
-            border: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(16), // Custom shape
-              borderSide: BorderSide(
-                color: AppColors.inputBorder(context), // Default border color
-                width: 1,
-              ),
-            ),
-            enabledBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color:
-                    AppColors.inputBorder(context), // Border color when enabled
-                width: 1,
-              ),
-            ),
-            focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color:
-                    AppColors.inputBorder(context), // Border color when focused
-                width: 1.5,
-              ),
-            ),
-            errorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: Colors.red, // Border color when there's an error
-                width: 1,
-              ),
-            ),
-            focusedErrorBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(12),
-              borderSide: BorderSide(
-                color: Colors.red, // Border color when focused with an error
-                width: 1.5,
-              ),
-            ),
-          ),
-          // hint: Text(
-          //   'اختر الوكالة',
-          //   textAlign: TextAlign.center,
-          //   style: AppStyles.styleBold16(context),
-          // ),
-          icon: Icon(
-            Icons.arrow_drop_down,
-            color: AppColors.grey500(context),
-          ),
-          // : InkWell(
-          //     onTap: () {
-          //       setState(() {
-          //         selectedValue = null;
-          //       });
-          //       pagesCubit.category = null;
-
-          //       pagesCubit.getQuestions();
-          //     },
-          //     child: SizedBox(
-          //       child: SvgPicture.asset(
-          //         Assets.imagesCloseIcon,
-          //       ),
-          //     ),
-          //   ),
+                      ),
+                    )
+                    .toList(),
         );
       },
     );

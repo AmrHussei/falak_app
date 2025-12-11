@@ -25,7 +25,8 @@ class AppPrimaryButton extends StatelessWidget {
   final double? radius;
   final String? icon;
   final Color? iconColor;
-
+final TextStyle? textStyle;
+final Color? color;
   const AppPrimaryButton({
     Key? key,
     required this.onPressed,
@@ -37,7 +38,7 @@ class AppPrimaryButton extends StatelessWidget {
     this.loadingWidget,
     this.radius,
     this.icon,
-    this.iconColor,
+    this.iconColor, this.textStyle, this.color,
   }) : super(key: key);
 
   @override
@@ -46,7 +47,7 @@ class AppPrimaryButton extends StatelessWidget {
       width: width ?? 327.w,
       height: height ?? 48.h,
       decoration: BoxDecoration(
-        gradient: isDisabled
+        gradient: color!=null?null:isDisabled
             ? null
             : LinearGradient(
                 begin: Alignment.topCenter,
@@ -56,7 +57,7 @@ class AppPrimaryButton extends StatelessWidget {
                   AppColors.buttonGradientEnd(context),
                 ],
               ),
-        color: isDisabled ? AppColors.disabled(context) : null,
+        color: color??(isDisabled ? AppColors.disabled(context) : null),
         borderRadius: BorderRadius.circular(radius ?? 14.r),
         boxShadow: isDisabled
             ? [
@@ -113,7 +114,7 @@ class AppPrimaryButton extends StatelessWidget {
                   ],
                   Text(
                     text,
-                    style: AppStyles.styleMedium16(context).copyWith(
+                    style: textStyle??AppStyles.styleMedium16(context).copyWith(
                       color: isDisabled
                           ? AppColors.typographySubTitle(context)
                           : AppColors.white(context),

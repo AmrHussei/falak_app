@@ -1,5 +1,4 @@
 import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/app_images.dart';
 import 'package:falak/core/utils/app_strings.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/features/home/data/models/auctions_model/auctions_model.dart';
@@ -9,7 +8,6 @@ import 'package:falak/features/home/presentation/view/widgets/mazad_details/down
 import 'package:falak/features/home/presentation/view/widgets/my_mazadat/winner_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 
 class MazadBottomCardWidget extends StatelessWidget {
   const MazadBottomCardWidget({

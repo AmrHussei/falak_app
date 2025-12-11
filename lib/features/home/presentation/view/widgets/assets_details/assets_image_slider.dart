@@ -1,6 +1,8 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:chewie/chewie.dart';
+import 'package:falak/app/app.dart';
+import 'package:falak/features/home/presentation/view/widgets/home/favorite_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -33,7 +35,8 @@ class _AssetsImageSliderState extends State<AssetsImageSlider> {
           carouselController: _carouselController,
           options: CarouselOptions(
             height: 226,
-            autoPlay: false, // Turn off autoplay for videos
+            autoPlay: false,
+            // Turn off autoplay for videos
             enlargeCenterPage: true,
             viewportFraction: 1,
             onPageChanged: (index, reason) {
@@ -74,18 +77,22 @@ class _AssetsImageSliderState extends State<AssetsImageSlider> {
           end: 0,
           child: Row(
             mainAxisAlignment: MainAxisAlignment.center,
-            children: List.generate(homeCubit.auctionOrigin!.attachment.length,
-                (index) {
-              return Container(
-                margin: EdgeInsets.symmetric(horizontal: 5.0),
-                width: _currentIndex == index ? 19 : 13,
-                height: 10,
-                decoration: BoxDecoration(
-                  color: _currentIndex == index ? Colors.blue : Colors.grey,
-                  borderRadius: BorderRadius.circular(32),
-                ),
-              );
-            }),
+            children: List.generate(
+              homeCubit.auctionOrigin!.attachment.length,
+              (index) {
+                return Container(
+                  margin: EdgeInsets.symmetric(horizontal: 5.0),
+                  width: _currentIndex == index ? 19 : 13,
+                  height: 10,
+                  decoration: BoxDecoration(
+                    color: _currentIndex == index
+                        ? AppColors.secondColor(context)
+                        : Colors.grey,
+                    borderRadius: BorderRadius.circular(32),
+                  ),
+                );
+              },
+            ),
           ),
         ),
         Column(
@@ -104,7 +111,13 @@ class _AssetsImageSliderState extends State<AssetsImageSlider> {
                   children: [
                     Row(
                       children: [
-                        // MazadLocationWidget(),
+                        !KisGuest
+                            ? FavoriteWidget(
+                                isFavorite:
+                                    homeCubit.auctionOrigin?.isFavorite == true,
+                                onTab: () {},
+                              )
+                            : SizedBox.shrink(),
                         Spacer(),
                         Container(
                           height: 40,
@@ -112,15 +125,16 @@ class _AssetsImageSliderState extends State<AssetsImageSlider> {
                           padding: const EdgeInsets.symmetric(horizontal: 16),
                           clipBehavior: Clip.antiAlias,
                           decoration: ShapeDecoration(
-                            color: AppColors.color2(context),
+                            color: AppColors.white(context),
                             shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(8)),
+                              borderRadius: BorderRadius.circular(8),
+                            ),
                           ),
                           child: Text(
                             getAuctionTypeText(homeCubit.auctionData?.type),
-                            style: AppStyles.styleBold16(context).copyWith(
-                              color: AppColors.typographyHeadingWhite(context),
-                            ),
+                            style: AppStyles.styleBold16(
+                              context,
+                            ).copyWith(color: AppColors.black(context)),
                           ),
                         ),
                       ],
@@ -160,9 +174,8 @@ class _VideoWidgetState extends State<VideoWidget> {
             autoPlay: true,
             looping: true,
             aspectRatio: _videoPlayerController.value.aspectRatio,
-            errorBuilder: (context, errorMessage) => Center(
-              child: Text("Error loading video"),
-            ),
+            errorBuilder: (context, errorMessage) =>
+                Center(child: Text("Error loading video")),
           );
         });
       });

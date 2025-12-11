@@ -1,5 +1,7 @@
+import 'package:falak/core/widgets/global_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_strings.dart';
@@ -17,8 +19,9 @@ Future<void> registerAuctionSheet(BuildContext context) async {
   showModalBottomSheet(
     isScrollControlled: true,
     context: context,
+    backgroundColor: Colors.transparent,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
     ),
     builder: (context) {
       return RegisterAuctionSheetBodyWidget();
@@ -27,9 +30,7 @@ Future<void> registerAuctionSheet(BuildContext context) async {
 }
 
 class RegisterAuctionSheetBodyWidget extends StatefulWidget {
-  const RegisterAuctionSheetBodyWidget({
-    super.key,
-  });
+  const RegisterAuctionSheetBodyWidget({super.key});
 
   @override
   State<RegisterAuctionSheetBodyWidget> createState() =>
@@ -39,184 +40,113 @@ class RegisterAuctionSheetBodyWidget extends StatefulWidget {
 class _RegisterAuctionSheetBodyWidgetState
     extends State<RegisterAuctionSheetBodyWidget>
     with SingleTickerProviderStateMixin {
-  late PageController _pageController;
-  late TabController _tabController;
-
   @override
   void initState() {
     super.initState();
     context.read<ProfileCubit>().getAgencies();
-    _pageController = PageController();
-    _tabController = TabController(vsync: this, length: 2);
-    // _pageController.addListener(() {});
-
-    _tabController.addListener(() {
-      if (_tabController.indexIsChanging) {
-        _pageController.animateToPage(
-          _tabController.index,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.ease,
-        );
-
-        // Update the ProfileCubit based on the selected tab
-        // if (_tabController.index == 0) {
-        //   context.read<ProfileCubit>().status = AppStrings.approved;
-        // } else if (_tabController.index == 1) {
-        //   context.read<ProfileCubit>().status = AppStrings.pending;
-        // } else {
-        //   context.read<ProfileCubit>().status = AppStrings.rejected;
-        // }
-
-        // context.read<ProfileCubit>().getAgencies();
-      }
-    });
-  }
-
-  @override
-  void dispose() {
-    _pageController.dispose();
-    _tabController.dispose();
-    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Container(
-        width: double.infinity,
-        decoration: BoxDecoration(
-          color: AppColors.white(context),
-          borderRadius: BorderRadius.only(
-            topLeft: Radius.circular(24),
-            topRight: Radius.circular(24),
-          ),
-        ),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 24),
-          child: Column(
-            children: [
-              SizedBox(height: 24),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text(
-                    'التسجيل في المزاد',
-                    textAlign: TextAlign.start,
-                    style: AppStyles.styleMedium22(context).copyWith(
-                      color: AppColors.typographyHeading(context),
-                    ),
-                  ),
-                  GestureDetector(
-                    onTap: () {
-                      context.pop();
-                    },
-                    child: SvgPicture.asset(AppAssets.app_imagesCloseSquare),
-                  ),
-                ],
-              ),
-              SizedBox(height: 24),
-              Row(
-                children: [
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        context.read<HomeCubit>().addNewBidValue();
-                        context.read<HomeCubit>().type =
-                            AppStrings.enrolltypeOnline;
-                        context.pop();
+    return GlobalBottomSheet(
+      height: 168.h,
+      title: 'التسجيل في المزاد',
+      action: () {
+        context.pop();
+      },
+      child: Row(
+        children: [
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                context.read<HomeCubit>().addNewBidValue();
+                context.read<HomeCubit>().type = AppStrings.enrolltypeOnline;
+                context.pop();
 
-                        if (getKTapIndex(context) == 2) {
-                          enrollmentSheetBottomSheet(context);
-                        } else {
-                          mozaydaSheetBottomSheet(context);
-                        }
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 90,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFF9F9F8),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(12),
-                            side: BorderSide(
-                              width: 1,
-                              color: const Color(0xFF22A06B) /* Color-2 */,
-                            ),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(AppAssets.app_imagesSmartphone),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              'إلكتروني',
-                              textAlign: TextAlign.start,
-                              style: AppStyles.styleBold18(context).copyWith(
-                                color: AppColors.typographyHeading(context),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                if (context.read<HomeCubit>().auctionData!.status ==
+                    AppStrings.auctionsInProgress) {
+                  enrollmentSheetBottomSheet(context);
+                } else {
+                  mozaydaSheetBottomSheet(context);
+                }
+              },
+              child: Container(
+                width: double.infinity,
+                height: 56.h,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: ShapeDecoration(
+                  color: const Color(0xFFF9F9F8),
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(12),
+                    side: BorderSide(
+                      width: 1,
+                      color: const Color(0xFF22A06B) /* Color-2 */,
                     ),
                   ),
-                  SizedBox(width: 24),
-                  Expanded(
-                    child: GestureDetector(
-                      onTap: () {
-                        context.read<HomeCubit>().addNewBidValue();
-                        context.read<HomeCubit>().type =
-                            AppStrings.enrolltypeOffline;
-                        context.pop();
-                        if (getKTapIndex(context) == 2) {
-                          enrollmentSheetBottomSheet(context);
-                        } else {
-                          mozaydaSheetBottomSheet(context);
-                        }
-                      },
-                      child: Container(
-                        width: double.infinity,
-                        height: 90,
-                        padding: const EdgeInsets.symmetric(horizontal: 12),
-                        decoration: ShapeDecoration(
-                          color: const Color(0xFFF9F9F8),
-                          shape: RoundedRectangleBorder(
-                            side: BorderSide(
-                              width: 1,
-                              color: const Color(0xFF22A06B) /* Color-2 */,
-                            ),
-                            borderRadius: BorderRadius.circular(12),
-                          ),
-                        ),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            SvgPicture.asset(AppAssets.app_imagesUserHandUp),
-                            SizedBox(
-                              width: 8,
-                            ),
-                            Text(
-                              'حضوري',
-                              textAlign: TextAlign.start,
-                              style: AppStyles.styleBold18(context).copyWith(
-                                color: AppColors.typographyHeading(context),
-                              ),
-                            ),
-                          ],
-                        ),
-                      ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(AppAssets.app_imagesSmartphone),
+                    SizedBox(width: 8),
+                    Text(
+                      'إلكتروني',
+                      textAlign: TextAlign.start,
+                      style: AppStyles.styleBold18(
+                        context,
+                      ).copyWith(color: AppColors.typographyHeading(context)),
                     ),
-                  ),
-                ],
+                  ],
+                ),
               ),
-              SizedBox(height: 16)
-            ],
+            ),
           ),
-        ),
+          12.horizontalSpace,
+          Expanded(
+            child: GestureDetector(
+              onTap: () {
+                context.read<HomeCubit>().addNewBidValue();
+                context.read<HomeCubit>().type = AppStrings.enrolltypeOffline;
+                context.pop();
+                if (context.read<HomeCubit>().auctionData!.status ==
+                    AppStrings.auctionsInProgress) {
+                  enrollmentSheetBottomSheet(context);
+                } else {
+                  mozaydaSheetBottomSheet(context);
+                }
+              },
+              child: Container(
+                width: double.infinity,
+                height: 56.h,
+                padding: const EdgeInsets.symmetric(horizontal: 12),
+                decoration: ShapeDecoration(
+                  color: const Color(0xFFF9F9F8),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(
+                      width: 1,
+                      color: const Color(0xFF22A06B) /* Color-2 */,
+                    ),
+                    borderRadius: BorderRadius.circular(12),
+                  ),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    SvgPicture.asset(AppAssets.app_imagesUserHandUp),
+                    SizedBox(width: 8),
+                    Text(
+                      'حضوري',
+                      textAlign: TextAlign.start,
+                      style: AppStyles.styleBold18(
+                        context,
+                      ).copyWith(color: AppColors.typographyHeading(context)),
+                    ),
+                  ],
+                ),
+              ),
+            ),
+          ),
+        ],
       ),
     );
   }

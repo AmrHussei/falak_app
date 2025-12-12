@@ -39,6 +39,64 @@ class AsseteDetailesCardWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Column(
         children: [
+          if (model.status != AppStrings.auctionsInProgress) ...[
+            Container(
+              width: double.infinity,
+              height: 56.h,
+              decoration: BoxDecoration(
+                gradient: LinearGradient(
+                  begin: Alignment.topCenter,
+                  end: Alignment.bottomCenter,
+                  colors: [
+                    AppColors.buttonGradientStart(context),
+                    AppColors.buttonGradientEnd(context),
+                  ],
+                ),
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+              padding: EdgeInsets.symmetric(horizontal: 16.w),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Row(
+                    children: [
+                      SvgPicture.asset(
+                        Assets.imagesArrowUp1,
+                        height: 20.h,
+                        width: 20.w,
+                      ),
+                      8.horizontalSpace,
+                      Text(
+                        'أعلى مزايدة',
+                        style: AppStyles.styleMedium16(
+                          context,
+                        ).copyWith(color: AppColors.white(context)),
+                      ),
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Text(
+                        formatNumber(origin.highestBid??0),
+                        style: AppStyles.styleBold16(
+                          context,
+                        ).copyWith(color: AppColors.white(context)),
+                      ),
+                      4.horizontalSpace,
+                      SvgPicture.asset(
+                        Assets.imagesRiyal,
+                        height: 15.h,
+                        width: 15.w,
+                        color: AppColors.white(context),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ),
+            16.verticalSpace,
+          ],
+
           RowWidget(
             title: 'تاريخ بداية المزاد',
             subTitle: formatDateFunction(model.startDate.toString()),

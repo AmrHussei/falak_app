@@ -1,7 +1,8 @@
+import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/images.dart';
 
 import '../../../../../../core/functions/calculate_defrent_betwen_times.dart';
 import '../../../../../../core/functions/format_number.dart';
@@ -15,105 +16,95 @@ class TopBiddersCardWidget extends StatelessWidget {
     required this.index,
     required this.boardAuctionData,
   });
+
   final int index;
   final List<BiderAuctionData> boardAuctionData;
 
   @override
   Widget build(BuildContext context) {
-    return IntrinsicHeight(
-      child: Container(
-        margin: EdgeInsets.only(top: 12),
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-        decoration: ShapeDecoration(
-          color: index != 0 ? AppColors.white(context) : Color(0x0C22A06B),
-          shape: RoundedRectangleBorder(
-            side: BorderSide(
-              width: 1,
-              color: index != 0
-                  ? AppColors.inputBorder(context)
-                  : Colors.transparent,
-            ),
-            borderRadius: BorderRadius.circular(16),
+    final isTop = index == 0;
+    return Container(
+      height: 62.h,
+      padding: EdgeInsets.symmetric(horizontal: 8.w),
+      decoration: ShapeDecoration(
+        color: isTop ? null : AppColors.backgroundPrimary(context),
+        gradient: isTop
+            ? LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.buttonGradientStart(context),
+                  AppColors.buttonGradientEnd(context),
+                ],
+              )
+            : null,
+        shape: RoundedRectangleBorder(
+          side: BorderSide(
+            width: 1,
+            color: index != 0
+                ? AppColors.inputBorder(context)
+                : Colors.transparent,
           ),
+          borderRadius: BorderRadius.circular(8.r),
         ),
-        child: Row(
-          children: [
-            SvgPicture.asset(
-              index == 0
-                  ? AppAssets.app_imagesSquareDoublAltArrowUp
-                  : AppAssets.app_imagesLawIcon,
-              color: index == 0
-                  ? AppColors.color2(context)
-                  : AppColors.typographyHeading(context),
-            ),
-            SizedBox(width: 12),
-            Column(
+      ),
+      child: Row(
+        children: [
+          SvgPicture.asset(
+            isTop ? Assets.imagesFrame2085663780 : Assets.imagesFrame15,
+            height: 38.h,
+            width: 38.w,
+          ),
+          8.horizontalSpace,
+          Expanded(
+            child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                SizedBox(
-                  width: 120,
-                  child: Text(
-                    boardAuctionData[index].user.name.split(' ').first +
-                        ' - ' +
-                        boardAuctionData[index].participantNumber,
-                    style: AppStyles.styleBold14(context).copyWith(
-                      color: index == 0
-                          ? AppColors.typographyHeading(context)
-                          : AppColors.typographyBodyWhite(context),
-                    ),
+                Text(
+                  boardAuctionData[index].user.name,
+                  maxLines: 1,
+                  style: AppStyles.styleMedium13(context).copyWith(
+                    color: isTop
+                        ? AppColors.white(context)
+                        : AppColors.inputsPlaceholder(context),
                   ),
                 ),
-                Spacer(),
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    ConstrainedBox(
-                      constraints: BoxConstraints(maxWidth: 105),
-                      child: Text(
-                        formatNumber(boardAuctionData[index].bidAmount),
-                        style: AppStyles.styleBold14(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
+                    Text(
+                      formatNumber(boardAuctionData[index].bidAmount),
+                      style: AppStyles.styleBold16(context).copyWith(
+                        color: isTop
+                            ? AppColors.white(context)
+                            : AppColors.typographyHeading(context),
                       ),
                     ),
-                    SizedBox(
-                      width: 2,
-                    ),
+                    2.horizontalSpace,
                     CurrancyLogoWidget(
-                      maxHeight: 20,
-                      maxWidth: 20,
-                      color: AppColors.typographyHeading(context),
+                      maxHeight: 15.h,
+                      maxWidth: 15.w,
+                      color: isTop
+                          ? AppColors.white(context)
+                          : AppColors.inputsPlaceholder(context),
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 1,
-                ),
+                SizedBox(height: 1),
               ],
             ),
-            Spacer(),
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: ShapeDecoration(
-                color: const Color(0x33D7D8DB),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(12),
-                ),
-              ),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(maxWidth: 70),
-                child: Text(
-                  calculateTimeDifference(boardAuctionData[index].bidAt),
-                  overflow: TextOverflow.ellipsis,
-                  maxLines: 2,
-                  style: AppStyles.styleBold12(context).copyWith(
-                    color: AppColors.typographyBody(context),
-                  ),
-                ),
-              ),
+          ),
+          Text(
+            calculateTimeDifference(boardAuctionData[index].bidAt),
+            overflow: TextOverflow.ellipsis,
+            maxLines: 1,
+            style: AppStyles.styleMedium13(context).copyWith(
+              color: isTop
+                  ? AppColors.white(context)
+                  : AppColors.inputsPlaceholder(context),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }

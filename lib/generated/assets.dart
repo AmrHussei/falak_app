@@ -153,6 +153,7 @@ class Assets {
   static const String imagesArrowDown = 'assets/images/arrow-down.svg';
   static const String imagesArrowLeftLong = 'assets/images/arrow-left-long.svg';
   static const String imagesArrowTop = 'assets/images/arrowTop.svg';
+  static const String imagesArrowUp1 = 'assets/images/arrowUp1.svg';
   static const String imagesAssets = 'assets/images/assets.svg';
   static const String imagesBag = 'assets/images/bag.svg';
   static const String imagesBell = 'assets/images/Bell.svg';
@@ -189,6 +190,8 @@ class Assets {
   static const String imagesEndMazadDetailsicon = 'assets/images/endMazadDetailsicon.svg';
   static const String imagesEndenAssetsIcon = 'assets/images/endenAssetsIcon.svg';
   static const String imagesEnroll = 'assets/images/enroll.svg';
+  static const String imagesFrame15 = 'assets/images/Frame15.svg';
+  static const String imagesFrame2085663780 = 'assets/images/Frame2085663780.svg';
   static const String imagesGestAtAseetsBord = 'assets/images/gestAtAseetsBord.svg';
   static const String imagesGuestIcon = 'assets/images/guestIcon.svg';
   static const String imagesGuester = 'assets/images/guester.png';

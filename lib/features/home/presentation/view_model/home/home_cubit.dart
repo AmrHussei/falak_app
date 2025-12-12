@@ -4,6 +4,7 @@ import 'package:bloc/bloc.dart';
 import 'package:dartz/dartz.dart';
 import 'package:equatable/equatable.dart';
 import 'package:falak/core/utils/constant.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:falak/core/params/home/auctions_params.dart';
 import 'package:falak/core/utils/app_strings.dart';
@@ -234,6 +235,22 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> getAuctionBoard() async {
+    if (kDebugMode) {
+      boardAuctionData = [
+        for(int index=0;index<10;index++)
+        BiderAuctionData(
+          user: User(id: 'id', name: 'name', profileImage: '', identityNumber: ''),
+          bidAmount: 10121,
+          participantNumber: 'participantNumber',
+          bidAt: DateTime.now().toString(),
+          auctionEnrollment: 'auctionEnrollment',
+          status: 'status',
+          id: 'id',
+        ),
+      ];
+      emit(state.copyWith(getAuctionBoardRequestState: RequestState.loaded));
+      return;
+    }
     emit(state.copyWith(getAuctionBoardRequestState: RequestState.loading));
     GeneralAuctionParams params = GeneralAuctionParams(
       auctionId: auctionId,
@@ -431,13 +448,10 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  Future<void> auctionBrochure(BuildContext context,String link) async {
+  Future<void> auctionBrochure(BuildContext context, String link) async {
     emit(state.copyWith(auctionBrochureRequestState: RequestState.loading));
 
-    final result = await downloadFile(
-      link,
-      context,
-    );
+    final result = await downloadFile(link, context);
 
     result.fold(
       (failure) {

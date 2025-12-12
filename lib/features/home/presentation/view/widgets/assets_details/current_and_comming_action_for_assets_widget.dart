@@ -1,10 +1,10 @@
 import 'package:falak/core/utils/app_strings.dart';
 import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:falak/core/utils/images.dart';
-import 'package:falak/features/home/presentation/view/widgets/assets_details/assets_comming_status_timer_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/assets_details/logout_auction_sheet.dart';
 import 'package:falak/features/home/presentation/view/widgets/assets_details/register_auction_sheet.dart';
 import 'package:falak/features/home/presentation/view/widgets/mozayda_sheet/mozayda_sheet.dart';
@@ -21,15 +21,8 @@ class CurrentAndCommingActionForAssetsWidget extends StatelessWidget {
     final origin = homeCubit.auctionOrigin!;
     return Column(
       children: [
-        model.status == AppStrings.auctionsOnGoing
-            ? AssetsCommingStatusTimerWidget()
-            : SizedBox.shrink(),
-        SizedBox(
-          height: model.status == AppStrings.auctionsInProgress ? 16.h : 0,
-        ),
-        (origin.isEnrolled! && model.status != AppStrings.auctionsInProgress)
-            ? SizedBox.shrink()
-            : Column(
+        if( model.status == AppStrings.auctionsInProgress)
+            Column(
                 children: [
                   AppPrimaryButton(
                     color: origin.isEnrolled! ? Color(0xff008043) : null,
@@ -60,18 +53,16 @@ class CurrentAndCommingActionForAssetsWidget extends StatelessWidget {
                   ],
                 ],
               ),
-        if (model.status == AppStrings.auctionsOnGoing) ...[
-          16.verticalSpace,
-          AppOutlinedButton(
+        if (model.status == AppStrings.auctionsOnGoing)
+          AppPrimaryButton(
             onPressed: () {
               context.read<HomeCubit>().addNewBidValue();
 
               mozaydaSheetBottomSheet(context);
             },
             text: 'لوحة المزايدة',
-            icon: AppAssets.app_imagesDocument,
+            icon: Assets.appImagesEnrolledMazadtrue,
           ),
-        ],
       ],
     );
   }

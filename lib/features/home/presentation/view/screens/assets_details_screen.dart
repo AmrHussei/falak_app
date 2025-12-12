@@ -1,3 +1,4 @@
+import 'package:falak/features/home/presentation/view/widgets/assets_details/top_bidders_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/mazad_details/download_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -63,6 +64,10 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
                   AssetsTitleWidget(homeCubit: homeCubit),
                   AssetsDescriptionWidget(),
                   AsseteDetailesCardWidget(),
+                  if( homeCubit.auctionData?.status == AppStrings.auctionsCompleted)...[
+                    16.verticalSpace,
+                    TopBiddersWidget(),
+                  ],
                   24.verticalSpace,
                   Row(
                     children: [

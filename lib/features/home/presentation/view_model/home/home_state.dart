@@ -30,7 +30,6 @@ class HomeState extends Equatable {
     this.deleteAuctionEnrollmentMsg,
     this.getAuctionBoardRequestState = RequestState.ideal,
     this.getAuctionBoardError,
-    this.getAuctionBoardModel,
     this.addAuctionBidRequestState = RequestState.ideal,
     this.addAuctionBidError,
     this.addAuctionBidMsg,
@@ -56,7 +55,6 @@ class HomeState extends Equatable {
   //
   final RequestState getAuctionBoardRequestState;
   final Failure? getAuctionBoardError;
-  final AuctionBoardModel? getAuctionBoardModel;
   //
   final RequestState addAuctionBidRequestState;
   final Failure? addAuctionBidError;
@@ -117,7 +115,6 @@ class HomeState extends Equatable {
         deleteAuctionEnrollmentMsg,
         getAuctionBoardRequestState,
         getAuctionBoardError,
-        getAuctionBoardModel,
         addAuctionBidRequestState,
         addAuctionBidError,
         addAuctionBidMsg,
@@ -184,7 +181,6 @@ class HomeState extends Equatable {
       getAuctionBoardRequestState:
           getAuctionBoardRequestState ?? this.getAuctionBoardRequestState,
       getAuctionBoardError: getAuctionBoardError ?? this.getAuctionBoardError,
-      getAuctionBoardModel: getAuctionBoardModel ?? this.getAuctionBoardModel,
       addAuctionBidRequestState:
           addAuctionBidRequestState ?? this.addAuctionBidRequestState,
       addAuctionBidError: addAuctionBidError ?? this.addAuctionBidError,

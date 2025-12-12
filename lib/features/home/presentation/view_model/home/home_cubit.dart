@@ -431,11 +431,11 @@ class HomeCubit extends Cubit<HomeState> {
     );
   }
 
-  Future<void> auctionBrochure(BuildContext context) async {
+  Future<void> auctionBrochure(BuildContext context,String link) async {
     emit(state.copyWith(auctionBrochureRequestState: RequestState.loading));
 
     final result = await downloadFile(
-      auctionData!.auctionBrochure ?? '',
+      link,
       context,
     );
 

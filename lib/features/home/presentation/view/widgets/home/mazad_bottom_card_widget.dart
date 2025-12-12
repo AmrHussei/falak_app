@@ -48,14 +48,17 @@ class MazadBottomCardWidget extends StatelessWidget {
                   border: Border.all(color: Color(0xffF9FAFA)),
                 ),
                 alignment: AlignmentDirectional.center,
-                child: Text('مزاد منتهي',style: AppStyles.styleMedium14(context).copyWith(
-                  color: AppColors.error(context)
-                ),),
+                child: Text(
+                  'مزاد منتهي',
+                  style: AppStyles.styleMedium14(
+                    context,
+                  ).copyWith(color: AppColors.error(context)),
+                ),
               ),
 
             Divider(height: 32.h, thickness: 1, color: const Color(0xffE7E9E9)),
             if (fromDetails)
-              const DownloadWidget()
+              DownloadWidget(link: model.auctionBrochure ?? '')
             else
               ShowMoreWidget(
                 auctionOriginsNum: model.auctionOrigins?.length ?? 0,

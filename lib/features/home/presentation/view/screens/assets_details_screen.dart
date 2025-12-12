@@ -1,3 +1,4 @@
+import 'package:falak/features/home/presentation/view/widgets/mazad_details/download_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -5,7 +6,6 @@ import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/widgets/coustom_app_bar_widget.dart';
 import 'package:falak/features/home/presentation/view/screens/mazad_details_screen.dart';
-import 'package:falak/features/home/presentation/view/widgets/home/mazad_card_time_widgets.dart';
 
 import '../../../../../core/utils/app_strings.dart';
 import '../../../../../core/utils/app_styles.dart';
@@ -16,7 +16,6 @@ import '../widgets/assets_details/assete_detailes_card_widget.dart';
 import '../widgets/assets_details/assets_comming_status_timer_widget.dart';
 import '../widgets/assets_details/assets_image_slider.dart';
 import '../widgets/assets_details/map_widget.dart';
-import '../widgets/assets_details/top_bidders_widget.dart';
 import '../widgets/mazad_details/licenses_widget.dart';
 
 class AssetsDetailsScreen extends StatefulWidget {
@@ -69,24 +68,35 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
                     children: [
                       Text(
                         'التفاصيل',
-                        style: AppStyles.styleBold24(
+                        style: AppStyles.styleMedium18(
                           context,
                         ).copyWith(color: AppColors.typographyHeading(context)),
                       ),
                     ],
                   ),
-                  SizedBox(height: 24),
-                  ListView.builder(
+                  16.verticalSpace,
+                  ListView.separated(
                     shrinkWrap: true,
+                    padding: EdgeInsets.zero,
                     physics: NeverScrollableScrollPhysics(),
                     itemCount: homeCubit.auctionOrigin!.details.length,
                     itemBuilder: (context, index) {
-                      return AssetsDetailsWidget(index: index);
+                      return AssetsDetailsWidget(
+                        detail: homeCubit.auctionOrigin!.details[index],
+                      );
                     },
+                    separatorBuilder: (_, __) => 12.verticalSpace,
                   ),
-                  SizedBox(height: 24),
+                  8.verticalSpace,
+                  DownloadWidget(
+                    link: homeCubit.auctionData?.auctionBrochure ?? '',
+                    withBorder: true,
+                  ),
+                  8.verticalSpace,
+                  const Divider(),
+                  8.verticalSpace,
                   MapLocationWidget(),
-                  SizedBox(height: 24),
+                 16.verticalSpace,
                   Container(
                     width: double.infinity,
                     padding: const EdgeInsets.all(16),
@@ -101,7 +111,7 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
                     ),
                     child: RealEstateOrganizationWidget(),
                   ),
-                  SizedBox(height: 24),
+                  24.verticalSpace,
                 ],
               ),
             ),
@@ -127,10 +137,9 @@ class AssetsTitleWidget extends StatelessWidget {
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.start,
-          style: AppStyles.styleSemiBold16(context).copyWith(
-            color: AppColors.typographyHeading(context),
-            height: 1.24,
-          ),
+          style: AppStyles.styleSemiBold16(
+            context,
+          ).copyWith(color: AppColors.typographyHeading(context), height: 1.24),
         ),
         8.verticalSpace,
         Row(
@@ -156,7 +165,6 @@ class AssetsTitleWidget extends StatelessWidget {
           ],
         ),
         8.verticalSpace,
-
       ],
     );
   }

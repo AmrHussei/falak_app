@@ -1,5 +1,9 @@
+import 'package:falak/core/functions/url_luncher.dart';
+import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
@@ -8,9 +12,7 @@ import '../../../../../../core/widgets/map_error_widget.dart';
 import '../../../view_model/home/home_cubit.dart';
 
 class MapLocationWidget extends StatefulWidget {
-  const MapLocationWidget({
-    super.key,
-  });
+  const MapLocationWidget({super.key});
 
   @override
   State<MapLocationWidget> createState() => _MapLocationWidgetState();
@@ -119,20 +121,6 @@ class _MapLocationWidgetState extends State<MapLocationWidget>
     print('تم إضافة علامة على الخريطة');
   }
 
-  // Future<void> _openAppSettings() async {
-  //   try {
-  //     await Geolocator.openAppSettings();
-  //   } catch (e) {
-  //     ScaffoldMessenger.of(context).showSnackBar(
-  //       SnackBar(
-  //         content:
-  //             Text('يرجى فتح إعدادات التطبيق يدوياً وتفعيل صلاحيات الموقع'),
-  //         backgroundColor: Colors.orange,
-  //       ),
-  //     );
-  //   }
-  // }
-
   @override
   void dispose() {
     mapController?.dispose();
@@ -142,64 +130,44 @@ class _MapLocationWidgetState extends State<MapLocationWidget>
   @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
-    return IntrinsicHeight(
-      child: Container(
-        width: double.infinity,
-        height: 510,
-        child: Column(
-          children: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 0),
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  SizedBox(height: 24),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        'الموقع',
-                        textAlign: TextAlign.start,
-                        style: AppStyles.styleBold22(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        homeCubit.auctionOrigin?.location.title ?? '',
-                        textAlign: TextAlign.start,
-                        style: AppStyles.styleMedium14(context).copyWith(
-                          color: AppColors.typographySubTitle(context),
-                        ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 16),
-                ],
-              ),
-            ),
-            Expanded(
-              child: Container(
-                margin: EdgeInsets.symmetric(horizontal: 0),
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  border: Border.all(
-                    color: AppColors.separatingBorder(context),
-                    width: 1,
-                  ),
-                ),
-                child: _buildMapContent(),
-              ),
-            ),
-            SizedBox(height: 24),
-          ],
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Text(
+          'الموقع',
+          textAlign: TextAlign.start,
+          style: AppStyles.styleBold18(
+            context,
+          ).copyWith(color: AppColors.typographyHeading(context)),
         ),
-      ),
+        12.verticalSpace,
+        Text(
+          homeCubit.auctionOrigin?.location.title ?? '',
+          textAlign: TextAlign.start,
+          style: AppStyles.styleRegular16(
+            context,
+          ).copyWith(color: AppColors.typographyBodyWhite(context)),
+        ),
+        12.verticalSpace,
+        AppOutlinedButton(
+          width: double.infinity,
+          onPressed: () {
+            openLink(
+              'https://www.google.com/maps/@${auctionLocation?.longitude},${auctionLocation?.latitude}',
+            );
+          },
+          text: 'الذهاب للموقع',
+          icon: Assets.appImagesMapPoint,
+          textColor: AppColors.typographyHeading(context),
+        ),
+        12.verticalSpace,
+        Container(
+          height: 390.h,
+          decoration: BoxDecoration(borderRadius: BorderRadius.circular(12.r)),
+          clipBehavior: Clip.antiAlias,
+          child: _buildMapContent(),
+        ),
+      ],
     );
   }
 
@@ -212,15 +180,13 @@ class _MapLocationWidgetState extends State<MapLocationWidget>
           child: Column(
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
-              CircularProgressIndicator(
-                color: AppColors.primary(context),
-              ),
+              CircularProgressIndicator(color: AppColors.primary(context)),
               SizedBox(height: 16),
               Text(
                 'جاري تحميل الخريطة...',
-                style: AppStyles.styleBold16(context).copyWith(
-                  color: AppColors.typographySubTitle(context),
-                ),
+                style: AppStyles.styleBold16(
+                  context,
+                ).copyWith(color: AppColors.typographySubTitle(context)),
               ),
             ],
           ),
@@ -239,31 +205,35 @@ class _MapLocationWidgetState extends State<MapLocationWidget>
     //         : null,
     //   );
     // }
-
     // عرض الخريطة
     if (auctionLocation != null) {
       print(
-          'عرض الخريطة مع الموقع: ${auctionLocation!.latitude}, ${auctionLocation!.longitude}');
+        'عرض الخريطة مع الموقع: ${auctionLocation!.latitude}, ${auctionLocation!.longitude}',
+      );
       return GoogleMap(
         onMapCreated: (GoogleMapController controller) {
           mapController = controller;
           print('تم إنشاء الخريطة بنجاح');
         },
         initialCameraPosition: CameraPosition(
-          target: LatLng(auctionLocation?.latitude ?? 24.724068,
-              auctionLocation?.longitude ?? 46.774978),
+          target: LatLng(
+            auctionLocation?.latitude ?? 24.724068,
+            auctionLocation?.longitude ?? 46.774978,
+          ),
           zoom: 14.0,
         ),
         markers: markers,
         zoomControlsEnabled: true,
-        myLocationEnabled: false, // لا نحتاج لموقع المستخدم
-        myLocationButtonEnabled: false, // لا نحتاج لزر موقع المستخدم
+        myLocationEnabled: false,
+        // لا نحتاج لموقع المستخدم
+        myLocationButtonEnabled: false,
+        // لا نحتاج لزر موقع المستخدم
         mapType: MapType.normal,
         onCameraMove: (position) {
           // يمكن إضافة منطق إضافي هنا
         },
-        // تفعيل التفاعل مع الخريطة
 
+        // تفعيل التفاعل مع الخريطة
         scrollGesturesEnabled: true,
         zoomGesturesEnabled: true,
         tiltGesturesEnabled: true,

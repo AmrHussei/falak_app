@@ -225,6 +225,7 @@ class AppOutlinedButton extends StatelessWidget {
   final bool isLoading;
   final Widget? loadingWidget;
   final Color? iconColor;
+  final Color? textColor;
 
   const AppOutlinedButton({
     Key? key,
@@ -238,6 +239,7 @@ class AppOutlinedButton extends StatelessWidget {
     this.loadingWidget,
     this.radius,
     this.iconColor,
+    this.textColor,
   }) : super(key: key);
 
   @override
@@ -292,7 +294,7 @@ class AppOutlinedButton extends StatelessWidget {
                     text,
                     style: AppStyles.styleSemiBold14(
                       context,
-                    ).copyWith(color: AppColors.secondColor(context)),
+                    ).copyWith(color:textColor?? AppColors.secondColor(context)),
                   ),
                 ],
               ),

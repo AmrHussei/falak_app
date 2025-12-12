@@ -11,14 +11,17 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 class DownloadWidget extends StatelessWidget {
-  const DownloadWidget({super.key});
+  const DownloadWidget({super.key, required this.link,  this.withBorder=false});
 
+  final String link;
+final bool withBorder;
   @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
         borderRadius: BorderRadius.circular(12.r),
         color: AppColors.white(context),
+        border: withBorder?Border.all(color: const Color(0xffE7E9E9)):null,
       ),
       padding: EdgeInsets.symmetric(vertical: 4.h, horizontal: 8.w),
       child: Row(
@@ -59,7 +62,7 @@ class DownloadWidget extends StatelessWidget {
               } else {
                 return InkWell(
                   onTap: () {
-                    context.read<HomeCubit>().auctionBrochure(context);
+                    context.read<HomeCubit>().auctionBrochure(context, link);
                   },
                   child: Card(
                     color: AppColors.white(context),

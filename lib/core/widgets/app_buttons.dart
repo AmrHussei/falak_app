@@ -25,8 +25,9 @@ class AppPrimaryButton extends StatelessWidget {
   final double? radius;
   final String? icon;
   final Color? iconColor;
-final TextStyle? textStyle;
-final Color? color;
+  final TextStyle? textStyle;
+  final Color? color;
+
   const AppPrimaryButton({
     Key? key,
     required this.onPressed,
@@ -38,7 +39,9 @@ final Color? color;
     this.loadingWidget,
     this.radius,
     this.icon,
-    this.iconColor, this.textStyle, this.color,
+    this.iconColor,
+    this.textStyle,
+    this.color,
   }) : super(key: key);
 
   @override
@@ -47,7 +50,9 @@ final Color? color;
       width: width ?? 327.w,
       height: height ?? 48.h,
       decoration: BoxDecoration(
-        gradient: color!=null?null:isDisabled
+        gradient: color != null
+            ? null
+            : isDisabled
             ? null
             : LinearGradient(
                 begin: Alignment.topCenter,
@@ -57,7 +62,7 @@ final Color? color;
                   AppColors.buttonGradientEnd(context),
                 ],
               ),
-        color: color??(isDisabled ? AppColors.disabled(context) : null),
+        color: color ?? (isDisabled ? AppColors.disabled(context) : null),
         borderRadius: BorderRadius.circular(radius ?? 14.r),
         boxShadow: isDisabled
             ? [
@@ -114,11 +119,13 @@ final Color? color;
                   ],
                   Text(
                     text,
-                    style: textStyle??AppStyles.styleMedium16(context).copyWith(
-                      color: isDisabled
-                          ? AppColors.typographySubTitle(context)
-                          : AppColors.white(context),
-                    ),
+                    style:
+                        textStyle ??
+                        AppStyles.styleMedium16(context).copyWith(
+                          color: isDisabled
+                              ? AppColors.typographySubTitle(context)
+                              : AppColors.white(context),
+                        ),
                   ),
                 ],
               ),
@@ -226,6 +233,7 @@ class AppOutlinedButton extends StatelessWidget {
   final Widget? loadingWidget;
   final Color? iconColor;
   final Color? textColor;
+  final Color? backgroundColor;
 
   const AppOutlinedButton({
     Key? key,
@@ -240,6 +248,7 @@ class AppOutlinedButton extends StatelessWidget {
     this.radius,
     this.iconColor,
     this.textColor,
+    this.backgroundColor,
   }) : super(key: key);
 
   @override
@@ -250,7 +259,7 @@ class AppOutlinedButton extends StatelessWidget {
       child: OutlinedButton(
         onPressed: isLoading ? null : onPressed,
         style: OutlinedButton.styleFrom(
-          backgroundColor: Colors.transparent,
+          backgroundColor:backgroundColor?? Colors.transparent,
           side: BorderSide(color: AppColors.borderPrimary(context), width: 1.w),
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(radius ?? 14.r),
@@ -292,9 +301,9 @@ class AppOutlinedButton extends StatelessWidget {
                   ],
                   Text(
                     text,
-                    style: AppStyles.styleSemiBold14(
-                      context,
-                    ).copyWith(color:textColor?? AppColors.secondColor(context)),
+                    style: AppStyles.styleSemiBold14(context).copyWith(
+                      color: textColor ?? AppColors.secondColor(context),
+                    ),
                   ),
                 ],
               ),

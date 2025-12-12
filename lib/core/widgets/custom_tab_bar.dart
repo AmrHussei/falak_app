@@ -7,10 +7,16 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomTabBar extends StatelessWidget implements PreferredSizeWidget {
   final TabController controller;
   final List<String> tabs;
-final bool haveWidth;
+  final bool haveWidth;
   final ValueChanged<int>? onTap;
-
-  const CustomTabBar({super.key, required this.controller, required this.tabs, this.haveWidth = true, this.onTap});
+final double? height;
+  const CustomTabBar({
+    super.key,
+    required this.controller,
+    required this.tabs,
+    this.haveWidth = true,
+    this.onTap, this.height,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -44,13 +50,16 @@ final bool haveWidth;
       tabs: tabs
           .map(
             (title) => Tab(
-              child: haveWidth?SizedBox(width:65.w, child: Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  Text(title),
-                ],
-              )):Text(title),
+              child: haveWidth
+                  ? SizedBox(
+                      width: 65.w,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        mainAxisSize: MainAxisSize.min,
+                        children: [Text(title)],
+                      ),
+                    )
+                  : Text(title),
             ),
           )
           .toList(),
@@ -58,5 +67,5 @@ final bool haveWidth;
   }
 
   @override
-  Size get preferredSize => Size(double.infinity, 52.h);
+  Size get preferredSize => Size(double.infinity,height?? 52.h);
 }

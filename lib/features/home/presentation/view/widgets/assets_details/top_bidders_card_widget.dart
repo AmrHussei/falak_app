@@ -90,7 +90,6 @@ class TopBiddersCardWidget extends StatelessWidget {
                     ),
                   ],
                 ),
-                SizedBox(height: 1),
               ],
             ),
           ),

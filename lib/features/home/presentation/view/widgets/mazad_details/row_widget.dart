@@ -10,14 +10,15 @@ class RowWidget extends StatelessWidget {
     required this.title,
     required this.subTitle,
     required this.icon,
-    this.subIcon,
+    this.subIcon, this.titleStyle, this.subTitleStyle,
   });
 
   final String title;
   final String subTitle;
   final String icon;
   final String? subIcon;
-
+final TextStyle? titleStyle;
+final TextStyle? subTitleStyle;
   @override
   Widget build(BuildContext context) {
     return Row(
@@ -29,7 +30,7 @@ class RowWidget extends StatelessWidget {
             8.horizontalSpace,
             Text(
               title,
-              style: AppStyles.styleRegular14(
+              style:titleStyle?? AppStyles.styleRegular14(
                 context,
               ).copyWith(color: AppColors.inputsPlaceholder(context)),
             ),
@@ -39,7 +40,7 @@ class RowWidget extends StatelessWidget {
           children: [
             Text(
               subTitle,
-              style: AppStyles.styleMedium14(
+              style: subTitleStyle??AppStyles.styleMedium14(
                 context,
               ).copyWith(color: AppColors.typographyHeading(context)),
             ),

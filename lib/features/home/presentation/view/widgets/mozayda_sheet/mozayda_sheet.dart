@@ -1,15 +1,17 @@
+import 'package:falak/core/widgets/custom_tab_bar.dart';
+import 'package:falak/core/widgets/global_bottom_sheet.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
-import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/home/presentation/view/widgets/assets_details/top_bidders_widget.dart';
-import 'package:falak/features/home/presentation/view/widgets/mozayda_sheet/mozayda_board_tab_bar_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/mozayda_sheet/mozayda_board_widget.dart';
 
 import '../../../../../../core/functions/format_number.dart';
+import '../../../../../../generated/assets.dart';
 import '../../../../../auth/presentation/view/widgets/auth_app_logo_widget.dart';
 import '../../../../../profile/presentation/view_model/profile/profile_cubit.dart';
 import '../../../view_model/home/home_cubit.dart';
@@ -19,28 +21,17 @@ Future<void> mozaydaSheetBottomSheet(BuildContext context) async {
     isScrollControlled: true,
     backgroundColor: Colors.transparent,
     context: context,
-    isDismissible: true,
     shape: RoundedRectangleBorder(
-      borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
+      borderRadius: BorderRadius.vertical(top: Radius.circular(0)),
     ),
     builder: (context) {
-      return DraggableScrollableSheet(
-        initialChildSize: 0.85,
-        minChildSize: 0.0,
-        maxChildSize: 1.0,
-        expand: true,
-        builder: (context, scrollController) {
-          return mozaydaSheetBottomSheetBodyWidget(scrollController);
-        },
-      );
+      return mozaydaSheetBottomSheetBodyWidget();
     },
   );
 }
 
 class mozaydaSheetBottomSheetBodyWidget extends StatefulWidget {
-  final ScrollController scrollController;
-
-  const mozaydaSheetBottomSheetBodyWidget(this.scrollController, {super.key});
+  const mozaydaSheetBottomSheetBodyWidget({super.key});
 
   @override
   State<mozaydaSheetBottomSheetBodyWidget> createState() =>
@@ -50,7 +41,6 @@ class mozaydaSheetBottomSheetBodyWidget extends StatefulWidget {
 class _mozaydaSheetBottomSheetBodyWidgetState
     extends State<mozaydaSheetBottomSheetBodyWidget>
     with SingleTickerProviderStateMixin {
-  late PageController _pageController;
   late TabController _tabController;
 
   @override
@@ -58,36 +48,11 @@ class _mozaydaSheetBottomSheetBodyWidgetState
     super.initState();
     context.read<ProfileCubit>().getAgencies();
     context.read<HomeCubit>().getWallet();
-
-    _pageController = PageController();
     _tabController = TabController(vsync: this, length: 2);
-    // _pageController.addListener(() {});
-
-    _tabController.addListener(() {
-      if (_tabController.indexIsChanging) {
-        _pageController.animateToPage(
-          _tabController.index,
-          duration: Duration(milliseconds: 300),
-          curve: Curves.ease,
-        );
-
-        // Update the ProfileCubit based on the selected tab
-        // if (_tabController.index == 0) {
-        //   context.read<ProfileCubit>().status = AppStrings.approved;
-        // } else if (_tabController.index == 1) {
-        //   context.read<ProfileCubit>().status = AppStrings.pending;
-        // } else {
-        //   context.read<ProfileCubit>().status = AppStrings.rejected;
-        // }
-
-        // context.read<ProfileCubit>().getAgencies();
-      }
-    });
   }
 
   @override
   void dispose() {
-    _pageController.dispose();
     _tabController.dispose();
     super.dispose();
   }
@@ -96,71 +61,28 @@ class _mozaydaSheetBottomSheetBodyWidgetState
   Widget build(BuildContext context) {
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
-        return IntrinsicHeight(
-          child: Container(
-            width: double.infinity,
-            decoration: BoxDecoration(
-              color: AppColors.white(context),
-              borderRadius: BorderRadius.only(
-                topLeft: Radius.circular(24),
-                topRight: Radius.circular(24),
-              ),
-            ),
-            child: Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: SingleChildScrollView(
-                controller:
-                    widget.scrollController, // Enable swipe up to full screen
-
-                child: Column(
-                  children: [
-                    SizedBox(height: 24),
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      children: [
-                        Text(
-                          'لوحة المزايدة',
-                          textAlign: TextAlign.start,
-                          style: AppStyles.styleMedium22(context).copyWith(
-                            color: AppColors.typographyHeading(context),
-                          ),
-                        ),
-                        Container(
-                          child: GestureDetector(
-                              onTap: () {
-                                context.pop();
-                              },
-                              child: SvgPicture.asset(
-                                  AppAssets.app_imagesCloseSquare)),
-                        ),
-                      ],
-                    ),
-                    MozaydaBoardTabBarWidget(
-                      tabController: _tabController,
-                    ),
-                    SizedBox(height: 16),
-                    SizedBox(
-                      height: 700,
-                      width: double.infinity,
-                      child: PageView(
-                        controller: _pageController,
-                        physics: NeverScrollableScrollPhysics(),
-                        onPageChanged: (index) {
-                          _tabController.animateTo(index);
-                        },
-                        children: [
-                          MozaydaBoardWidget(),
-                          SingleChildScrollView(
-                            child: Column(
-                              children: [TopBiddersWidget()],
-                            ),
-                          )
-                        ],
-                      ),
-                    ),
-                  ],
+        return GlobalBottomSheet(
+          title: 'لوحة المزايدة',
+          action: () {
+            context.pop();
+          },
+          height: 600.h,
+          child: Expanded(
+            child: Column(
+              children: [
+                CustomTabBar(
+                  controller: _tabController,
+                  tabs: ['لوحة المزايدة', 'المزايدين'],
+                  haveWidth: false,
                 ),
-              ),
+                12.verticalSpace,
+                Expanded(
+                  child: TabBarView(
+                    controller: _tabController,
+                    children: [MozaydaBoardWidget(), TopBiddersWidget()],
+                  ),
+                ),
+              ],
             ),
           ),
         );
@@ -170,69 +92,125 @@ class _mozaydaSheetBottomSheetBodyWidgetState
 }
 
 class TopMozaydaWidget extends StatelessWidget {
-  const TopMozaydaWidget({
-    super.key,
-  });
+  const TopMozaydaWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
 
-    return Container(
-      width: double.infinity,
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
-      decoration: ShapeDecoration(
-        color: const Color(0x1922A06B),
-        shape: RoundedRectangleBorder(
-          borderRadius: BorderRadius.circular(12),
-        ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.center,
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          SvgPicture.asset(AppAssets.app_imagesSquareDoublAltArrowUp),
-          SizedBox(width: 8),
-          BlocBuilder<HomeCubit, HomeState>(
-            builder: (context, state) {
-              return Row(
-                children: [
-                  Text(
-                    'اعلي مزايدة' + ' ',
-                    textAlign: TextAlign.start,
-                    style: AppStyles.styleMedium16(context).copyWith(
-                      color: AppColors.typographyBody(context),
-                    ),
-                  ),
-                  SizedBox(height: 8),
-                  Row(
-                    crossAxisAlignment: CrossAxisAlignment.end,
+    return Row(
+      children: [
+        Expanded(
+          child: Container(
+            height: 50.h,
+            padding: EdgeInsets.symmetric(horizontal: 8.w),
+            decoration: ShapeDecoration(
+              gradient: LinearGradient(
+                begin: Alignment.topCenter,
+                end: Alignment.bottomCenter,
+                colors: [
+                  AppColors.buttonGradientStart(context),
+                  AppColors.buttonGradientEnd(context),
+                ],
+              ),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8.r),
+              ),
+            ),
+            child: Row(
+              children: [
+                SvgPicture.asset(
+                  Assets.imagesFrame2085663780,
+                  height: 38.h,
+                  width: 38.w,
+                ),
+                8.horizontalSpace,
+                Expanded(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                     children: [
                       Text(
-                        homeCubit.boardAuctionData.isEmpty
-                            ? 'لا يوجد مزايدين بعد'
-                            : formatNumber(
-                                homeCubit.boardAuctionData.first.bidAmount),
-                        textAlign: TextAlign.start,
-                        style: AppStyles.styleBold20(context).copyWith(
-                          color: AppColors.typographyHeading(context),
-                        ),
+                        'أعلى مزايدة',
+                        maxLines: 1,
+                        style: AppStyles.styleMedium13(
+                          context,
+                        ).copyWith(color: AppColors.white(context)),
                       ),
-                      SizedBox(
-                          width: homeCubit.boardAuctionData.isEmpty ? 0 : 2),
-                      homeCubit.boardAuctionData.isEmpty
-                          ? SizedBox.shrink()
-                          : CurrancyLogoWidget(
-                              color: AppColors.typographyHeading(context),
+                      Row(
+                        children: [
+                          Flexible(
+                            child: FittedBox(
+                              fit: BoxFit.scaleDown,
+                              child: Text(
+                                homeCubit.boardAuctionData.isEmpty
+                                    ? 'لا يوجد مزايدين بعد'
+                                    : formatNumber(
+                                        homeCubit
+                                            .boardAuctionData
+                                            .first
+                                            .bidAmount,
+                                      ),
+                                style: AppStyles.styleBold16(
+                                  context,
+                                ).copyWith(color: AppColors.white(context)),
+                              ),
                             ),
+                          ),
+                          2.horizontalSpace,
+                          CurrancyLogoWidget(
+                            maxHeight: 15.h,
+                            maxWidth: 15.w,
+                            color: AppColors.white(context),
+                          ),
+                        ],
+                      ),
                     ],
-                  )
-                ],
-              );
-            },
-          )
-        ],
-      ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+
+        Expanded(
+          child: SizedBox(
+            height: 50.h,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  'فرق السوم',
+                  textAlign: TextAlign.start,
+                  style: AppStyles.styleMedium13(
+                    context,
+                  ).copyWith(color: AppColors.inputsPlaceholder(context)),
+                ),
+                4.verticalSpace,
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Text(
+                      formatNumber(homeCubit.auctionOrigin!.garlicDifference),
+                      textAlign: TextAlign.start,
+                      style: AppStyles.styleMedium13(
+                        context,
+                      ).copyWith(color: AppColors.typographyHeading(context)),
+                    ),
+                    2.horizontalSpace,
+                    CurrancyLogoWidget(
+                      color: AppColors.typographyHeading(context),
+                      maxHeight: 15.h,
+                      maxWidth: 15.w,
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
+        ),
+      ],
     );
   }
 }

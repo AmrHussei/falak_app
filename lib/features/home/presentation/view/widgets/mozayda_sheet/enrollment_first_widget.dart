@@ -9,17 +9,17 @@ import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 
 class enrollmentFirstWidget extends StatelessWidget {
-  const enrollmentFirstWidget({super.key, this.padding});
+  const enrollmentFirstWidget({super.key, this.padding, this.height});
 
   final double? padding;
-
+final double? height;
   @override
   Widget build(BuildContext context) {
     return Column(
       children: [
         Container(
           width: double.infinity,
-          height: 100.h,
+          height: height??100.h,
           alignment: AlignmentGeometry.center,
           decoration: ShapeDecoration(
             color: const Color(0x0C226C43),

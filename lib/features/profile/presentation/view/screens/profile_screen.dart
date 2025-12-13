@@ -1,6 +1,8 @@
 
 import 'package:falak/core/widgets/coustom_app_bar_widget.dart';
+import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:falak/config/routes/app_routes.dart';
 import 'package:falak/core/utils/images.dart';
@@ -20,57 +22,59 @@ class ProfileScreen extends StatelessWidget {
         leading: const SizedBox.shrink(),
         title: 'حسابي',
       ),
-      body: KisGuest == true
-          ? GuestWidget()
-          : SingleChildScrollView(
-              padding:  EdgeInsets.symmetric(horizontal: 23.5.w,vertical: 16.h),
-              child: Column(
-                children: [
-                  ProfileCartWidget(
-                    image: AppAssets.app_imagesProfilr,
-                    onTap: () {
-                      context.navigateTo(Routes.userInfoScreen);
-                    },
-                    text: 'المعلومات الشخصية',
-                  ),
-                  8.verticalSpace,
-                  ProfileCartWidget(
-                    image: AppAssets.app_imagesHeart,
-                    onTap: () {
-                      context.navigateTo(Routes.savedMazadeScreen);
-                    },
-                    text: 'المفضلة',
-                  ),
-                  8.verticalSpace,
-
-                  ProfileCartWidget(
-                    image: AppAssets.app_imagesAgencies,
-                    onTap: () {
-                      context.navigateTo(Routes.agenciesScreen);
-                    },
-                    text: 'الوكالات',
-                  ),
-                  8.verticalSpace,
-                  ProfileCartWidget(
-                    image: AppAssets.app_imagesChangePassword,
-                    onTap: () {
-                      context.navigateTo(Routes.changePasswordScreen);
-                    },
-                    text: 'تغير كلمة المرور',
-                  ),
-                  8.verticalSpace,
-
-                  ProfileCartWidget(
-                    image: AppAssets.app_imagesProfileArrow,
-                    onTap: () {
-                      showLogOutBottomSheet(context);
-                    },
-                    text: 'تسجيل الخروج',
-                    isRed: true,
-                  ),
-                ],
+      body: BlocBuilder<AuthCubit,AuthState>(builder: (_,_){
+        return KisGuest == true
+            ? GuestWidget()
+            : SingleChildScrollView(
+          padding:  EdgeInsets.symmetric(horizontal: 23.5.w,vertical: 16.h),
+          child: Column(
+            children: [
+              ProfileCartWidget(
+                image: AppAssets.app_imagesProfilr,
+                onTap: () {
+                  context.navigateTo(Routes.userInfoScreen);
+                },
+                text: 'المعلومات الشخصية',
               ),
-            ),
+              8.verticalSpace,
+              ProfileCartWidget(
+                image: AppAssets.app_imagesHeart,
+                onTap: () {
+                  context.navigateTo(Routes.savedMazadeScreen);
+                },
+                text: 'المفضلة',
+              ),
+              8.verticalSpace,
+
+              ProfileCartWidget(
+                image: AppAssets.app_imagesAgencies,
+                onTap: () {
+                  context.navigateTo(Routes.agenciesScreen);
+                },
+                text: 'الوكالات',
+              ),
+              8.verticalSpace,
+              ProfileCartWidget(
+                image: AppAssets.app_imagesChangePassword,
+                onTap: () {
+                  context.navigateTo(Routes.changePasswordScreen);
+                },
+                text: 'تغير كلمة المرور',
+              ),
+              8.verticalSpace,
+
+              ProfileCartWidget(
+                image: AppAssets.app_imagesProfileArrow,
+                onTap: () {
+                  showLogOutBottomSheet(context);
+                },
+                text: 'تسجيل الخروج',
+                isRed: true,
+              ),
+            ],
+          ),
+        );
+      }),
     );
   }
 }

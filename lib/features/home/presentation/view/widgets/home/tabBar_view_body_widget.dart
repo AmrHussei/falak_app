@@ -1,3 +1,5 @@
+import 'package:falak/config/routes/app_routes.dart';
+import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/core/widgets/empty_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -56,10 +58,22 @@ class LoadedMobileActionHomeWidget extends StatelessWidget {
             separatorBuilder: (_, __) => 12.verticalSpace,
             padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 16.h),
             itemBuilder: (context, index) {
-              return MazadCardWidget(
-                model: data[index],
-                fromWinner: fromWinner,
-                fromDetails: false,
+              return InkWell(
+                onTap: () {
+                  final homeCubit = context.read<HomeCubit>();
+                  homeCubit.auctionData = data[index];
+                  if (data[index].auctionOrigins != null &&
+                      data[index].auctionOrigins!.isNotEmpty) {
+                    homeCubit.originList =
+                    data[index].auctionOrigins!;
+                  }
+                  context.navigateTo(Routes.mazadDetailsScreen);
+                },
+                child: MazadCardWidget(
+                  model: data[index],
+                  fromWinner: fromWinner,
+                  fromDetails: false,
+                ),
               );
             },
             itemCount: data.length,

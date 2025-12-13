@@ -119,7 +119,7 @@ class AgenciesCardWidegt extends StatelessWidget {
                 12.horizontalSpace,
                 Text(
                   title,
-                  style: AppStyles.styleRegular16(
+                  style: AppStyles.styleRegular18(
                     context,
                   ).copyWith(color: AppColors.titleColor(context)),
                 ),

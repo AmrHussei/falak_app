@@ -1,4 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
+import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:falak/core/widgets/phone_suffix_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -27,7 +28,7 @@ class LoadedUserInfoWidget extends StatelessWidget {
     ProfileCubit profileCubit = context.read<ProfileCubit>();
 
     return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 31.5.w, vertical: 24.h),
+      padding: EdgeInsets.symmetric(horizontal: 31.5.w, vertical: 8.h),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -93,51 +94,35 @@ class LoadedUserInfoWidget extends StatelessWidget {
               );
             },
           ),
-          40.verticalSpace,
-          Row(
-            children: [
-              Expanded(
-                child: TextFormFieldWithTitleWidget(
-                  title: 'الإسم الأول',
-                  controller: profileCubit.firstNameController,
-                  enabled: false,
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-              12.horizontalSpace,
-              Expanded(
-                child: TextFormFieldWithTitleWidget(
-                  title: 'الإسم الثاني',
-                  controller: profileCubit.SecondNameController,
-                  enabled: false,
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-            ],
+          8.verticalSpace,
+          TextFormFieldWithTitleWidget(
+            title: 'الإسم الأول',
+            controller: profileCubit.firstNameController,
+            enabled: false,
+            keyboardType: TextInputType.text,
           ),
-          24.verticalSpace,
-          Row(
-            children: [
-              Expanded(
-                child: TextFormFieldWithTitleWidget(
-                  title: 'الإسم الثالث',
-                  controller: profileCubit.thirdNameController,
-                  enabled: false,
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-              12.horizontalSpace,
-              Expanded(
-                child: TextFormFieldWithTitleWidget(
-                  title: 'الإسم الاخير',
-                  controller: profileCubit.lastNameController,
-                  enabled: false,
-                  keyboardType: TextInputType.text,
-                ),
-              ),
-            ],
+          8.verticalSpace,
+          TextFormFieldWithTitleWidget(
+            title: 'الإسم الثاني',
+            controller: profileCubit.SecondNameController,
+            enabled: false,
+            keyboardType: TextInputType.text,
           ),
-          24.verticalSpace,
+          8.verticalSpace,
+          TextFormFieldWithTitleWidget(
+            title: 'الإسم الثالث',
+            controller: profileCubit.thirdNameController,
+            enabled: false,
+            keyboardType: TextInputType.text,
+          ),
+          8.verticalSpace,
+          TextFormFieldWithTitleWidget(
+            title: 'الإسم الاخير',
+            controller: profileCubit.lastNameController,
+            enabled: false,
+            keyboardType: TextInputType.text,
+          ),
+          8.verticalSpace,
           TextFormFieldWithTitleWidget(
             title: 'الهوية الوطنة / رقم الاقامة',
             controller: profileCubit.identityNumberController,
@@ -145,7 +130,7 @@ class LoadedUserInfoWidget extends StatelessWidget {
             enabled: false,
             keyboardType: TextInputType.number,
           ),
-          24.verticalSpace,
+          8.verticalSpace,
           TextFormFieldWithTitleWidget(
             title: 'رقم الجوال',
             controller: profileCubit.phoneController,
@@ -155,7 +140,7 @@ class LoadedUserInfoWidget extends StatelessWidget {
             suffixIconSize: 66.w,
             suffix: const PhoneSuffixWidget(),
           ),
-          24.verticalSpace,
+          8.verticalSpace,
           BlocListener<ProfileCubit, ProfileState>(
             listenWhen: (previous, current) =>
                 previous.askAddEmailRequestState !=
@@ -222,19 +207,37 @@ class LoadedUserInfoWidget extends StatelessWidget {
               ),
             ),
           ),
-          12.verticalSpace,
-          profileModel.data.email == null
-              ? Row(
-                  children: [
-                    Text(
-                      'يرجى ادخال البريد الالكتروني',
-                      style: AppStyles.styleMedium14(
-                        context,
-                      ).copyWith(color: AppColors.danger(context)),
-                    ),
-                  ],
-                )
-              : SizedBox.shrink(),
+          if (profileModel.data.email == null) ...[
+            4.verticalSpace,
+            Row(
+              children: [
+                Text(
+                  'يرجى ادخال البريد الالكتروني',
+                  style: AppStyles.styleMedium14(
+                    context,
+                  ).copyWith(color: AppColors.danger(context)),
+                ),
+              ],
+            ),
+          ],
+
+          24.verticalSpace,
+          BlocBuilder<ProfileCubit, ProfileState>(
+            builder: (context, state) {
+              return (profileCubit.imageFile == null &&
+                      profileCubit.editUserInfoCountryID == null)
+                  ? SizedBox.shrink()
+                  : AppPrimaryButton(
+                      isLoading:
+                          state.changeProfileImageRequestState ==
+                          RequestState.loading,
+                      onPressed: () {
+                        profileCubit.changeProfileImage();
+                      },
+                      text: 'حفظ التعديلات',
+                    );
+            },
+          ),
         ],
       ),
     );

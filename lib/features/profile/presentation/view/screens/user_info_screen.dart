@@ -1,3 +1,4 @@
+import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -28,40 +29,11 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
     super.initState();
   }
 
-
   @override
   Widget build(BuildContext context) {
     ProfileCubit profileCubit = context.read<ProfileCubit>();
     return Scaffold(
-      bottomSheet: BlocBuilder<ProfileCubit, ProfileState>(
-        builder: (context, state) {
-          return (profileCubit.imageFile == null &&
-                  profileCubit.editUserInfoCountryID == null)
-              ? SizedBox.shrink()
-              : Container(
-                  padding: EdgeInsets.all(16),
-                  color: AppColors.white(context),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      profileCubit.changeProfileImage();
-                    },
-                    child: state.changeProfileImageRequestState ==
-                            RequestState.loading
-                        ? Lottie.asset(
-                            AppAnimationAssets.loading,
-                          )
-                        : Text(
-                            'حفظ التعديلات',
-                            style: AppStyles.styleBold18(context)
-                                .copyWith(color: AppColors.white(context)),
-                          ),
-                  ),
-                );
-        },
-      ),
-      appBar: CoustomAppBarWidget(
-        title: 'المعلومات الشخصية',
-      ),
+      appBar: CoustomAppBarWidget(title: 'المعلومات الشخصية'),
       body: KisGuest == true
           ? GuestWidget()
           : BlocBuilder<ProfileCubit, ProfileState>(

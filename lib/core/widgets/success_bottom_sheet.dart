@@ -67,7 +67,7 @@ class SuccessBottomSheet extends StatelessWidget {
             ),
           ],
           if (haveButton) ...[
-            const Spacer(),
+           16.verticalSpace,
             AppPrimaryButton(
               onPressed: () {
                 if (action != null) {

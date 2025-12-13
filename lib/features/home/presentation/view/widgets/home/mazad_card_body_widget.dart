@@ -26,8 +26,7 @@ class MazadCardBodyWidget extends StatelessWidget {
         Padding(
           padding: EdgeInsets.symmetric(horizontal: fromDetails ? 0 : 10.w),
 
-          child: MazadImageWidget(model: model,                fromDetails: fromDetails,
-          ),
+          child: MazadImageWidget(model: model, fromDetails: fromDetails),
         ),
         6.verticalSpace,
         Padding(

@@ -14,14 +14,16 @@ class LoginScreen extends HookWidget {
   Widget build(BuildContext context) {
     final currentStep = useState(0);
     return Scaffold(
-      body: AdaptiveLayout(
-        mobileLayout: (context) =>
-            LoginMobileLayoutWidget(currentStep: currentStep),
-        tabletLayout: (context) => Center(
-          child: SizedBox(
-            height: 1.sw,
-            width: 600,
-            child: LoginMobileLayoutWidget(currentStep: currentStep),
+      body: SafeArea(
+        child: AdaptiveLayout(
+          mobileLayout: (context) =>
+              LoginMobileLayoutWidget(currentStep: currentStep),
+          tabletLayout: (context) => Center(
+            child: SizedBox(
+              height: 1.sw,
+              width: 600,
+              child: LoginMobileLayoutWidget(currentStep: currentStep),
+            ),
           ),
         ),
       ),

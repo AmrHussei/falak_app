@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 ThemeData get lightTheme => ThemeData(
       // primaryColor: AppColors.primary,
@@ -164,7 +165,13 @@ ThemeData get lightTheme => ThemeData(
           borderRadius: BorderRadius.circular(5), // Rounded corners
         ),
       ),
+       appBarTheme: AppBarTheme(
+         systemOverlayStyle: SystemUiOverlayStyle(
+           statusBarColor: Colors.white,
+           statusBarIconBrightness: Brightness.dark,
+         ),
 
+         ),
       // //! Radio Theme
       // radioTheme: RadioThemeData(
       //   fillColor: WidgetStateProperty.all(AppColors.primary),

@@ -8,7 +8,7 @@ import '../utils/app_colors.dart';
 import '../utils/app_styles.dart';
 
 // ignore: must_be_immutable
-class TextFormFieldWithTitleWidget extends StatelessWidget {
+class TextFormFieldWithTitleWidget extends StatefulWidget {
   TextFormFieldWithTitleWidget({
     super.key,
     this.showBorder = true,
@@ -41,7 +41,6 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
     this.title,
     this.hintStyle,
   });
-
   final TextEditingController? controller;
   final double? prefixIconSize;
   final double? suffixIconSize;
@@ -72,6 +71,39 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
   final TextStyle? hintStyle;
 
   @override
+  State<TextFormFieldWithTitleWidget> createState() =>
+      _TextFormFieldWithTitleWidgetState();
+}
+
+class _TextFormFieldWithTitleWidgetState
+    extends State<TextFormFieldWithTitleWidget> {
+  late FocusNode _internalFocusNode;
+  bool _isFocused = false;
+
+  @override
+  void initState() {
+    super.initState();
+    _internalFocusNode = widget.focusNode ?? FocusNode();
+    _internalFocusNode.addListener(_onFocusChange);
+  }
+
+  @override
+  void dispose() {
+    if (widget.focusNode == null) {
+      _internalFocusNode.dispose();
+    } else {
+      _internalFocusNode.removeListener(_onFocusChange);
+    }
+    super.dispose();
+  }
+
+  void _onFocusChange() {
+    setState(() {
+      _isFocused = _internalFocusNode.hasFocus;
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     final _border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(12.r),
@@ -83,28 +115,32 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        title != null
-            ? Text(title ?? '', style: AppStyles.styleSemiBold14(context))
+        widget.title != null
+            ? Text(
+                widget.title ?? '',
+                style: AppStyles.styleSemiBold14(context),
+              )
             : SizedBox.shrink(),
-        title != null ? 6.verticalSpace : SizedBox.shrink(),
+        widget.title != null ? 6.verticalSpace : SizedBox.shrink(),
         SizedBox(
           child: TextFormField(
-            onTap: onTap,
-            onChanged: onChanged,
-            maxLines: maxLines,
-            controller: controller,
-            textInputAction: textInputAction,
-            keyboardType: keyboardType,
-            obscureText: obscureText ?? false,
-            autofocus: autofocus ?? false,
-            enabled: enabled ?? true,
+            onTap: widget.onTap,
+            onChanged: widget.onChanged,
+            maxLines: widget.maxLines,
+            controller: widget.controller,
+            textInputAction: widget.textInputAction,
+            keyboardType: widget.keyboardType,
+            obscureText: widget.obscureText ?? false,
+            autofocus: widget.autofocus ?? false,
+            enabled: widget.enabled ?? true,
             cursorColor: AppColors.primary(context),
             // autovalidateMode: AutovalidateMode.onUserInteraction,
-            onFieldSubmitted: onFieldSubmitted,
-            textCapitalization: textCapitalization ?? TextCapitalization.none,
-            focusNode: focusNode,
-            validator: validator,
-            inputFormatters: inputFormatters,
+            onFieldSubmitted: widget.onFieldSubmitted,
+            textCapitalization:
+                widget.textCapitalization ?? TextCapitalization.none,
+            focusNode: _internalFocusNode,
+            validator: widget.validator,
+            inputFormatters: widget.inputFormatters,
             style: AppStyles.styleSemiBold16(context),
             decoration: InputDecoration(
               contentPadding: const EdgeInsets.symmetric(
@@ -112,32 +148,44 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
                 horizontal: 16,
               ),
 
-              prefixIconConstraints: prefixIconSize == null
+              prefixIconConstraints: widget.prefixIconSize == null
                   ? null
                   : BoxConstraints(
-                      maxHeight: prefixIconSize!,
-                      maxWidth: prefixIconSize!,
+                      maxHeight: widget.prefixIconSize!,
+                      maxWidth: widget.prefixIconSize!,
                     ),
-              suffixIconConstraints: suffixIconSize == null
+              suffixIconConstraints: widget.suffixIconSize == null
                   ? null
                   : BoxConstraints(
-                      maxHeight: suffixIconSize!,
-                      maxWidth: suffixIconSize!,
+                      maxHeight: widget.suffixIconSize!,
+                      maxWidth: widget.suffixIconSize!,
                     ),
-              filled: filled ?? true,
-              fillColor: fillColor ?? AppColors.white(context),
+              filled: widget.filled ?? true,
+              fillColor: widget.fillColor ?? AppColors.white(context),
               focusColor: AppColors.white(context),
               iconColor: context.theme.colorScheme.shadow,
               prefixIconColor: AppColors.iconsThAndTCaptions(context),
-              suffixIconColor: AppColors.iconsPrimary(context),
-              prefixIcon: prefix,
-              suffixIcon: suffix,
+              suffixIconColor: _isFocused
+                  ? AppColors.secondColor(context)
+                  : AppColors.iconsPrimary(context),
+              prefixIcon: widget.prefix,
+              suffixIcon: widget.suffix != null
+                  ? (_isFocused
+                        ? ColorFiltered(
+                            colorFilter: ColorFilter.mode(
+                              AppColors.secondColor(context),
+                              BlendMode.srcIn,
+                            ),
+                            child: widget.suffix,
+                          )
+                        : widget.suffix)
+                  : null,
               // suffix: suffix,
-              hintText: hint,
-              hintStyle: hintStyle ?? AppStyles.styleRegular14(context),
-              label: Text(label ?? ''),
+              hintText: widget.hint,
+              hintStyle: widget.hintStyle ?? AppStyles.styleRegular14(context),
+              label: Text(widget.label ?? ''),
               labelStyle: AppStyles.styleRegular16(context).copyWith(
-                color: enabled == false
+                color: widget.enabled == false
                     ? AppColors.typographyBody(context)
                     : AppColors.typographyBody(context),
               ),
@@ -175,7 +223,7 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
             ),
           ),
         ),
-        errorWidget ?? const SizedBox.shrink(),
+        widget.errorWidget ?? const SizedBox.shrink(),
       ],
     );
   }

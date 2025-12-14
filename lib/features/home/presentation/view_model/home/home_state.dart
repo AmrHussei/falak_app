@@ -3,6 +3,7 @@ part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
   const HomeState({
+    this.searchState = RequestState.ideal,
     this.auctionBrochureRequestState = RequestState.ideal,
     this.auctionBrochureError,
     this.auctionBrochureMsg,
@@ -38,6 +39,7 @@ class HomeState extends Equatable {
     this.auctionsModel = const {},
     this.shareAs= AppStrings.enrollShareAsGenuine
   });
+  final RequestState searchState;
 
   final Map<String,RequestState> auctionsRequestState;
   final Map<String,Failure> auctionsError;
@@ -86,6 +88,7 @@ class HomeState extends Equatable {
 
   @override
   List<Object?> get props => [
+    searchState,
         auctionBrochureRequestState,
         auctionBrochureError,
         auctionBrochureMsg,
@@ -131,6 +134,7 @@ class HomeState extends Equatable {
     RequestState? auctionEnrollmentRequestState,
     Failure? auctionEnrollmentError,
     String? auctionEnrollmentMsg,
+    RequestState? searchState,
     RequestState? deleteAuctionEnrollmentRequestState,
     Failure? deleteAuctionEnrollmentError,
     String? deleteAuctionEnrollmentMsg,
@@ -209,6 +213,7 @@ class HomeState extends Equatable {
       total: total ?? this.total,
       topBid: topBid ?? this.topBid,
       shareAs: shareAs ?? this.shareAs,
+      searchState: searchState ?? this.searchState,
     );
   }
 }

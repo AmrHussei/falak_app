@@ -138,7 +138,7 @@ class AssetsTitleWidget extends StatelessWidget {
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Text(
-          homeCubit.auctionData?.title ?? 'المزاد',
+          homeCubit.auctionOrigin?.title ?? 'المزاد',
           maxLines: 2,
           overflow: TextOverflow.ellipsis,
           textAlign: TextAlign.start,

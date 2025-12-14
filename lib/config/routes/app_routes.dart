@@ -18,7 +18,6 @@ import '../../features/home/presentation/view/screens/wallet.dart';
 import '../../features/layout/presentation/view/screens/layout_screen.dart';
 import '../../features/paegs/presentation/view/screens/add_real_state_screen.dart';
 import '../../features/paegs/presentation/view/screens/notification_screen.dart';
-import '../../features/paegs/presentation/view/screens/properity_managment.dart';
 import '../../features/paegs/presentation/view/screens/question_screen.dart';
 import '../../features/paegs/presentation/view/screens/sales_agent/add_sales_agent.dart';
 import '../../features/paegs/presentation/view/screens/sales_agent/sales_agent_intro_screen.dart';
@@ -64,7 +63,6 @@ class Routes {
   static const String walletScreen = '/WalletScreen';
   static const String WithdrawScreen = '/WithdrawScreen';
   static const String AddRealStateScreen = '/AddRealStateScreen';
-  static const String ProperityManagment = '/ProperityManagment';
 }
 
 class AppRoutes {
@@ -163,8 +161,6 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => WithdrawScreen());
       case Routes.AddRealStateScreen:
         return MaterialPageRoute(builder: (_) => AddRealStateScreen());
-      case Routes.ProperityManagment:
-        return MaterialPageRoute(builder: (_) => ProperityManagmentScreen());
     }
     return null;
   }

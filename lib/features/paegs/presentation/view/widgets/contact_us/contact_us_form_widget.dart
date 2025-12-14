@@ -111,7 +111,8 @@ class ContactUsFormWidget extends StatelessWidget {
             if (state.postcontactUsRequestState == RequestState.loaded) {
               showSuccessBottomSheet(
                 context: context,
-                title:
+                title: '',
+                subTitle:
                     'تم إرسال رسالتك بنجاح! شكرًا لتواصلك معنا. سنقوم بمراجعة طلبك والرد عليك قريبًا',
               );
             } else if (state.postcontactUsRequestState == RequestState.error) {

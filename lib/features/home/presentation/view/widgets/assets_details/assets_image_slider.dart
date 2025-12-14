@@ -36,7 +36,6 @@ class _AssetsImageSliderState extends State<AssetsImageSlider> {
           options: CarouselOptions(
             height: 226,
             autoPlay: false,
-            // Turn off autoplay for videos
             enlargeCenterPage: true,
             viewportFraction: 1,
             onPageChanged: (index, reason) {
@@ -95,55 +94,36 @@ class _AssetsImageSliderState extends State<AssetsImageSlider> {
             ),
           ),
         ),
-        Column(
-          children: [
-            Container(
-              height: 226,
-              width: 1.sw,
-              decoration: BoxDecoration(),
-              child: Padding(
-                padding: const EdgeInsets.symmetric(
-                  vertical: 8,
-                  horizontal: 16,
-                ),
-                child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        !KisGuest
-                            ? FavoriteWidget(
-                                isFavorite:
-                                    homeCubit.auctionOrigin?.isFavorite == true,
-                                onTab: () {},
-                              )
-                            : SizedBox.shrink(),
-                        Spacer(),
-                        Container(
-                          height: 40,
-                          alignment: Alignment.center,
-                          padding: const EdgeInsets.symmetric(horizontal: 16),
-                          clipBehavior: Clip.antiAlias,
-                          decoration: ShapeDecoration(
-                            color: AppColors.white(context),
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(8),
-                            ),
-                          ),
-                          child: Text(
-                            getAuctionTypeText(homeCubit.auctionData?.type),
-                            style: AppStyles.styleBold16(
-                              context,
-                            ).copyWith(color: AppColors.black(context)),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
+        PositionedDirectional(
+          top: 12,
+          start: 12,
+          child: !KisGuest
+            ? FavoriteWidget(
+          isFavorite: homeCubit.auctionOrigin?.isFavorite == true,
+          onTab: () {},
+        )
+            : SizedBox.shrink(),),
+        PositionedDirectional(
+          top: 12,
+          end: 12,
+          child: Container(
+            height: 40,
+            width: 90,
+            alignment: Alignment.center,
+            clipBehavior: Clip.antiAlias,
+            decoration: ShapeDecoration(
+              color: AppColors.white(context),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
               ),
             ),
-          ],
+            child: Text(
+              getAuctionTypeText(homeCubit.auctionData?.type),
+              style: AppStyles.styleBold16(
+                context,
+              ).copyWith(color: AppColors.black(context)),
+            ),
+          ),
         ),
       ],
     );

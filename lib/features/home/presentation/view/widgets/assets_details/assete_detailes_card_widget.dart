@@ -23,6 +23,12 @@ class AsseteDetailesCardWidget extends StatelessWidget {
     HomeCubit homeCubit = context.read<HomeCubit>();
     final model = homeCubit.auctionData!;
     final origin = homeCubit.auctionOrigin!;
+    final titleStyle = AppStyles.styleRegular16(
+      context,
+    ).copyWith(color: AppColors.inputsPlaceholder(context));
+    final subTitleStyle = AppStyles.styleMedium16(
+      context,
+    ).copyWith(color: AppColors.typographyHeading(context));
     return Container(
       decoration: BoxDecoration(
         color: AppColors.backgroundPrimary(context),
@@ -39,74 +45,78 @@ class AsseteDetailesCardWidget extends StatelessWidget {
       padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
       child: Column(
         children: [
-          if (model.status != AppStrings.auctionsInProgress) ...[
-            Container(
-              width: double.infinity,
-              height: 56.h,
-              decoration: BoxDecoration(
-                gradient: LinearGradient(
-                  begin: Alignment.topCenter,
-                  end: Alignment.bottomCenter,
-                  colors: [
-                    AppColors.buttonGradientStart(context),
-                    AppColors.buttonGradientEnd(context),
-                  ],
-                ),
-                borderRadius: BorderRadius.circular(8.r),
-              ),
-              padding: EdgeInsets.symmetric(horizontal: 16.w),
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Row(
-                    children: [
-                      SvgPicture.asset(
-                        Assets.imagesArrowUp1,
-                        height: 20.h,
-                        width: 20.w,
-                      ),
-                      8.horizontalSpace,
-                      Text(
-                        'أعلى مزايدة',
-                        style: AppStyles.styleMedium16(
-                          context,
-                        ).copyWith(color: AppColors.white(context)),
-                      ),
-                    ],
-                  ),
-                  Row(
-                    children: [
-                      Text(
-                        formatNumber(origin.highestBid??0),
-                        style: AppStyles.styleBold16(
-                          context,
-                        ).copyWith(color: AppColors.white(context)),
-                      ),
-                      4.horizontalSpace,
-                      SvgPicture.asset(
-                        Assets.imagesRiyal,
-                        height: 15.h,
-                        width: 15.w,
-                        color: AppColors.white(context),
-                      ),
-                    ],
-                  ),
-                ],
-              ),
-            ),
-            16.verticalSpace,
-          ],
+          // if (model.status != AppStrings.auctionsInProgress) ...[
+          //   Container(
+          //     width: double.infinity,
+          //     height: 56.h,
+          //     decoration: BoxDecoration(
+          //       gradient: LinearGradient(
+          //         begin: Alignment.topCenter,
+          //         end: Alignment.bottomCenter,
+          //         colors: [
+          //           AppColors.buttonGradientStart(context),
+          //           AppColors.buttonGradientEnd(context),
+          //         ],
+          //       ),
+          //       borderRadius: BorderRadius.circular(8.r),
+          //     ),
+          //     padding: EdgeInsets.symmetric(horizontal: 16.w),
+          //     child: Row(
+          //       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //       children: [
+          //         Row(
+          //           children: [
+          //             SvgPicture.asset(
+          //               Assets.imagesArrowUp1,
+          //               height: 20.h,
+          //               width: 20.w,
+          //             ),
+          //             8.horizontalSpace,
+          //             Text(
+          //               'أعلى مزايدة',
+          //               style: AppStyles.styleMedium16(
+          //                 context,
+          //               ).copyWith(color: AppColors.white(context)),
+          //             ),
+          //           ],
+          //         ),
+          //         Row(
+          //           children: [
+          //             Text(
+          //               formatNumber(origin.highestBid ?? 0),
+          //               style: AppStyles.styleBold16(
+          //                 context,
+          //               ).copyWith(color: AppColors.white(context)),
+          //             ),
+          //             4.horizontalSpace,
+          //             SvgPicture.asset(
+          //               Assets.imagesRiyal,
+          //               height: 15.h,
+          //               width: 15.w,
+          //               color: AppColors.white(context),
+          //             ),
+          //           ],
+          //         ),
+          //       ],
+          //     ),
+          //   ),
+          //   16.verticalSpace,
+          // ],
 
           RowWidget(
             title: 'تاريخ بداية المزاد',
             subTitle: formatDateFunction(model.startDate.toString()),
             icon: Assets.appImagesCalendar1,
+            titleStyle: titleStyle,
+            subTitleStyle: subTitleStyle,
           ),
           12.verticalSpace,
           RowWidget(
             title: 'وقت بداية المزاد',
             subTitle: formatTimeFunction(model.startDate.toString()),
             icon: Assets.appImagesAlarm,
+            titleStyle: titleStyle,
+            subTitleStyle: subTitleStyle,
           ),
           12.verticalSpace,
           RowWidget(
@@ -114,6 +124,8 @@ class AsseteDetailesCardWidget extends StatelessWidget {
             subTitle: formatNumber(origin.openingPrice),
             icon: Assets.appImagesBanknote,
             subIcon: Assets.imagesRiyal,
+            titleStyle: titleStyle,
+            subTitleStyle: subTitleStyle,
           ),
           12.verticalSpace,
           RowWidget(
@@ -121,12 +133,16 @@ class AsseteDetailesCardWidget extends StatelessWidget {
             subTitle: formatNumber(origin.entryDeposit),
             icon: Assets.appImagesBillCheck,
             subIcon: Assets.imagesRiyal,
+            titleStyle: titleStyle,
+            subTitleStyle: subTitleStyle,
           ),
           12.verticalSpace,
           RowWidget(
             title: 'مدة المزاد',
             subTitle: '${model.numberOfDays ?? 0}  أيام',
             icon: Assets.appImagesClock,
+            titleStyle: titleStyle,
+            subTitleStyle: subTitleStyle,
           ),
           8.verticalSpace,
           Divider(),
@@ -137,7 +153,7 @@ class AsseteDetailesCardWidget extends StatelessWidget {
               8.horizontalSpace,
               Text(
                 'تاريخ ويوم نهاية المزاد :',
-                style: AppStyles.styleRegular14(
+                style: AppStyles.styleRegular16(
                   context,
                 ).copyWith(color: AppColors.inputsPlaceholder(context)),
               ),
@@ -146,7 +162,7 @@ class AsseteDetailesCardWidget extends StatelessWidget {
                 '${getDayNameArabic(model.startDate.toString())}' +
                     ' ' +
                     formatDateFunction(model.endDate.toString()),
-                style: AppStyles.styleMedium14(
+                style: AppStyles.styleMedium16(
                   context,
                 ).copyWith(color: AppColors.typographyHeading(context)),
               ),

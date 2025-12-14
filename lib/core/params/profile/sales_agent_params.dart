@@ -9,6 +9,7 @@ class SalesAgentParams extends Equatable {
   final File? valAttachment;
   final File? taxAttachment;
   final File? commercialAttachment;
+
   //
   final File? bankCertificate;
 
@@ -18,6 +19,7 @@ class SalesAgentParams extends Equatable {
   final File? letterOfAuthorization;
 
   final String companyName;
+  final String nationalAddress;
   final String companyEmail;
   final String companyPhoneNumber;
   final String companyPhoneKey;
@@ -51,6 +53,7 @@ class SalesAgentParams extends Equatable {
     required this.letterOfAuthorization,
     required this.bankCertificate,
     required this.companyName,
+    required this.nationalAddress,
     required this.companyEmail,
     required this.companyPhoneNumber,
     required this.companyPhoneKey,
@@ -74,36 +77,37 @@ class SalesAgentParams extends Equatable {
 
   @override
   List<Object?> get props => [
-        approvedByNafath,
-        accreditationRequest,
-        letterOfAuthorization,
-        articlesOfAssociation,
-        identityAttachment,
-        commercialAttachment,
-        taxAttachment,
-        valAttachment,
-        bankCertificate,
-        companyName,
-        companyEmail,
-        companyPhoneNumber,
-        companyPhoneKey,
-        bankAccountNumber,
-        bankName,
-        realEstateActivity,
-        valAuctionsLicenseNumber,
-        taxType,
-        taxNumber,
-        commercialRegNumber,
-        commercialRegStartDate,
-        commercialRegEndDate,
-        userName,
-        userPhoneKey,
-        userPhoneNumber,
-        userEmail,
-        userBirthDay,
-        userIdentityNumber,
-        userPassword,
-      ];
+    approvedByNafath,
+    accreditationRequest,
+    letterOfAuthorization,
+    articlesOfAssociation,
+    identityAttachment,
+    commercialAttachment,
+    taxAttachment,
+    valAttachment,
+    bankCertificate,
+    companyName,
+    nationalAddress,
+    companyEmail,
+    companyPhoneNumber,
+    companyPhoneKey,
+    bankAccountNumber,
+    bankName,
+    realEstateActivity,
+    valAuctionsLicenseNumber,
+    taxType,
+    taxNumber,
+    commercialRegNumber,
+    commercialRegStartDate,
+    commercialRegEndDate,
+    userName,
+    userPhoneKey,
+    userPhoneNumber,
+    userEmail,
+    userBirthDay,
+    userIdentityNumber,
+    userPassword,
+  ];
 
   // Helper function to validate and create MultipartFile
   // Future<MultipartFile> _createMultipartFile(File file) async {
@@ -161,10 +165,12 @@ class SalesAgentParams extends Equatable {
     print('bankCertificate' + bankCertificate!.path);
     // Construct FormData
     return FormData.fromMap({
-      'letterOfAuthorization':
-          await _createMultipartFile(letterOfAuthorization!),
-      'articlesOfAssociation':
-          await _createMultipartFile(articlesOfAssociation!),
+      'letterOfAuthorization': await _createMultipartFile(
+        letterOfAuthorization!,
+      ),
+      'articlesOfAssociation': await _createMultipartFile(
+        articlesOfAssociation!,
+      ),
       'identityAttachment': await _createMultipartFile(identityAttachment!),
       //
       'bankCertificate': await _createMultipartFile(bankCertificate!),
@@ -175,6 +181,7 @@ class SalesAgentParams extends Equatable {
       'valAttachment': await _createMultipartFile(valAttachment!),
       //
       'companyName': companyName,
+      'nationalAddress': nationalAddress,
       'companyEmail': companyEmail,
       'companyPhoneNumber[number]': companyPhoneNumber,
       'companyPhoneNumber[key]': '+966',

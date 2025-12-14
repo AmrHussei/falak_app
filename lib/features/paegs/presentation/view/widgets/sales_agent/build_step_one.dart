@@ -240,6 +240,25 @@ class _BuildStepOneWidgetState extends State<BuildStepOneWidget> {
             suffixIconSize: 66.w,
             suffix: const PhoneSuffixWidget(),
           ),
+         16.verticalSpace,
+          TextFormFieldWithTitleWidget(
+            filled: true,
+            fillColor: AppColors.white(context),
+            controller: pagesCubit.nationalAddressController,
+            title: 'العنوان الوطني',
+            hint: 'ادخل العنوان الوطني',
+            keyboardType: TextInputType.text,
+            validator: (value) {
+              if (value == null) {
+                return 'يرجى إدخال العنوان الوطني';
+              }
+              if (value.isEmpty) {
+                return 'يرجى إدخال العنوان الوطني';
+              }
+              return null;
+            },
+          ),
+
         ],
       ),
     );

@@ -22,37 +22,41 @@ class CurrentAndCommingActionForAssetsWidget extends StatelessWidget {
     return Column(
       children: [
         if( model.status == AppStrings.auctionsInProgress)
-            Column(
-                children: [
-                  AppPrimaryButton(
-                    color: origin.isEnrolled! ? Color(0xff008043) : null,
-                    onPressed: () {
-                      if (origin.isEnrolled!) {
-                        return;
-                      } else {
-                        registerAuctionSheet(context);
-                      }
-                    },
-                    text: origin.isEnrolled!
-                        ? 'أنت مسجل في المزاد'
-                        : 'سجل في المزاد',
-                    icon: origin.isEnrolled!
-                        ? AppAssets.app_imagesEnrolledMazadtrue
-                        : null,
-                  ),
-                  if (origin.isEnrolled!) ...[
-                    16.verticalSpace,
-                    AppPrimaryButton(
-                      color: Color(0xffBD2915),
-                      onPressed: () {
-                        LogOutFromAuctionSheetBottomSheet(context);
-                      },
-                      text: 'الخروج من المزاد',
-                      icon: AppAssets.app_imagesLogoutFromAuction,
-                    ),
-                  ],
-                ],
-              ),
+            BlocBuilder<HomeCubit,HomeState>(
+              builder: (_,_) {
+                return Column(
+                    children: [
+                      AppPrimaryButton(
+                        color: origin.isEnrolled! ? Color(0xff008043) : null,
+                        onPressed: () {
+                          if (origin.isEnrolled!) {
+                            return;
+                          } else {
+                            registerAuctionSheet(context);
+                          }
+                        },
+                        text: origin.isEnrolled!
+                            ? 'أنت مسجل في المزاد'
+                            : 'سجل في المزاد',
+                        icon: origin.isEnrolled!
+                            ? AppAssets.app_imagesEnrolledMazadtrue
+                            : null,
+                      ),
+                      if (origin.isEnrolled!) ...[
+                        16.verticalSpace,
+                        AppPrimaryButton(
+                          color: Color(0xffBD2915),
+                          onPressed: () {
+                            LogOutFromAuctionSheetBottomSheet(context);
+                          },
+                          text: 'الخروج من المزاد',
+                          icon: AppAssets.app_imagesLogoutFromAuction,
+                        ),
+                      ],
+                    ],
+                  );
+              }
+            ),
         if (model.status == AppStrings.auctionsOnGoing)
           AppPrimaryButton(
             onPressed: () {

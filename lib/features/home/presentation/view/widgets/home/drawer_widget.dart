@@ -24,11 +24,9 @@ class DrawerWidget extends StatefulWidget {
 }
 
 class _DrawerWidgetState extends State<DrawerWidget> {
-
   @override
   void initState() {
-
-    WidgetsBinding.instance.addPostFrameCallback((_){
+    WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<HomeCubit>().getWallet();
     });
     super.initState();
@@ -40,8 +38,8 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       {
         'text': 'قائمة المزادات',
         'image': AppAssets.app_imagesGavelLawBlackIcon,
-        'onTap': ()  {
-           context.navigateTo(Routes.mazadatMenuScreen);
+        'onTap': () {
+          context.navigateTo(Routes.mazadatMenuScreen);
         },
       },
       if (!KisGuest)
@@ -168,7 +166,7 @@ class ListTileWidget extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-          leading: SvgPicture.asset(image, fit: BoxFit.contain),
+          leading: SvgPicture.asset(image, width: 24.w, height: 24.h),
           title: Text(
             text,
             textAlign: TextAlign.start,

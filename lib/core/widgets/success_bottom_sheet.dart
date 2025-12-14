@@ -44,6 +44,7 @@ class SuccessBottomSheet extends StatelessWidget {
         }
       },
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           if (haveImage) ...[
             SvgPicture.asset(
@@ -61,6 +62,7 @@ class SuccessBottomSheet extends StatelessWidget {
             8.verticalSpace,
             Text(
               subSubText!,
+              textAlign: TextAlign.center,
               style: AppStyles.styleRegular14(
                 context,
               ).copyWith(color: AppColors.grayText(context)),

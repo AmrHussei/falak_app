@@ -79,6 +79,7 @@ class _EnrollmentSheetBottomSheetBodyWidgetState
           action: () {
             context.pop();
           },
+          padding: 8.w,
           color: AppColors.backgroundPrimary(context),
           child: Column(
             mainAxisSize: MainAxisSize.min,
@@ -104,7 +105,7 @@ class _EnrollmentSheetBottomSheetBodyWidgetState
               Text(
                 'المشاركة ك',
                 textAlign: TextAlign.start,
-                style: AppStyles.styleMedium14(
+                style: AppStyles.styleMedium16(
                   context,
                 ).copyWith(color: AppColors.typographyHeading(context)),
               ),
@@ -116,6 +117,12 @@ class _EnrollmentSheetBottomSheetBodyWidgetState
                 subTitle: formatNumber(
                   homeCubit.auctionOrigin!.entryDeposit,
                 ).toString(),
+                titleStyle: AppStyles.styleRegular16(
+                  context,
+                ).copyWith(color: AppColors.inputsPlaceholder(context)),
+                subTitleStyle: AppStyles.styleMedium16(
+                  context,
+                ).copyWith(color: AppColors.typographyHeading(context)),
                 icon: AppAssets.app_imagesBillCheck,
                 subIcon: Assets.imagesRiyal,
               ),

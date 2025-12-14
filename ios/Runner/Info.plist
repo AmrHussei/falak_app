@@ -50,11 +50,11 @@
 		<true/>
 		<key>UIApplicationSupportsIndirectInputEvents</key>
 		<true/>
-	<key>UIStatusBarHidden</key>
-	<false/>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>نحتاج إلى الوصول لحفظ الفاتورة في معرض الصور</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>نحتاج إلى الوصول لحفظ الفاتورة في معرض الصور</string>
-</dict>
+		<key>UIStatusBarHidden</key>
+		<false/>
+		<key>NSPhotoLibraryAddUsageDescription</key>
+		<string>نحتاج إلى الوصول لحفظ الفاتورة في معرض الصور</string>
+		<key>NSPhotoLibraryUsageDescription</key>
+		<string>نحتاج إلى الوصول لحفظ الفاتورة في معرض الصور</string>
+	</dict>
 </plist>

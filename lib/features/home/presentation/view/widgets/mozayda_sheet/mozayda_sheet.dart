@@ -62,11 +62,12 @@ class _mozaydaSheetBottomSheetBodyWidgetState
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (context, state) {
         return GlobalBottomSheet(
+          padding: 8.w,
           title: 'لوحة المزايدة',
           action: () {
             context.pop();
           },
-          height: 600.h,
+          height: 610.h,
           child: Expanded(
             child: Column(
               children: [
@@ -133,37 +134,41 @@ class TopMozaydaWidget extends StatelessWidget {
                       Text(
                         'أعلى مزايدة',
                         maxLines: 1,
-                        style: AppStyles.styleMedium13(
+                        style: AppStyles.styleMedium15(
                           context,
                         ).copyWith(color: AppColors.white(context)),
                       ),
-                      Row(
-                        children: [
-                          Flexible(
-                            child: FittedBox(
-                              fit: BoxFit.scaleDown,
-                              child: Text(
-                                homeCubit.boardAuctionData.isEmpty
-                                    ? 'لا يوجد مزايدين بعد'
-                                    : formatNumber(
-                                        homeCubit
-                                            .boardAuctionData
-                                            .first
-                                            .bidAmount,
-                                      ),
-                                style: AppStyles.styleBold16(
-                                  context,
-                                ).copyWith(color: AppColors.white(context)),
+                      BlocBuilder<HomeCubit,HomeState>(
+                        builder: (_,_) {
+                          return Row(
+                            children: [
+                              Flexible(
+                                child: FittedBox(
+                                  fit: BoxFit.scaleDown,
+                                  child: Text(
+                                    homeCubit.boardAuctionData.isEmpty
+                                        ? 'لا يوجد مزايدين بعد'
+                                        : formatNumber(
+                                            homeCubit
+                                                .boardAuctionData
+                                                .first
+                                                .bidAmount,
+                                          ),
+                                    style: AppStyles.styleBold18(
+                                      context,
+                                    ).copyWith(color: AppColors.white(context)),
+                                  ),
+                                ),
                               ),
-                            ),
-                          ),
-                          2.horizontalSpace,
-                          CurrancyLogoWidget(
-                            maxHeight: 15.h,
-                            maxWidth: 15.w,
-                            color: AppColors.white(context),
-                          ),
-                        ],
+                              2.horizontalSpace,
+                              CurrancyLogoWidget(
+                                maxHeight: 15.h,
+                                maxWidth: 15.w,
+                                color: AppColors.white(context),
+                              ),
+                            ],
+                          );
+                        }
                       ),
                     ],
                   ),
@@ -182,7 +187,7 @@ class TopMozaydaWidget extends StatelessWidget {
                 Text(
                   'فرق السوم',
                   textAlign: TextAlign.start,
-                  style: AppStyles.styleMedium13(
+                  style: AppStyles.styleMedium15(
                     context,
                   ).copyWith(color: AppColors.inputsPlaceholder(context)),
                 ),
@@ -194,7 +199,7 @@ class TopMozaydaWidget extends StatelessWidget {
                     Text(
                       formatNumber(homeCubit.auctionOrigin!.garlicDifference),
                       textAlign: TextAlign.start,
-                      style: AppStyles.styleMedium13(
+                      style: AppStyles.styleMedium16(
                         context,
                       ).copyWith(color: AppColors.typographyHeading(context)),
                     ),

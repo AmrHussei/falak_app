@@ -41,6 +41,7 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
     this.title,
     this.hintStyle,
   });
+
   final TextEditingController? controller;
   final double? prefixIconSize;
   final double? suffixIconSize;
@@ -69,24 +70,23 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
   final VoidCallback? onTap;
   final String? title;
   final TextStyle? hintStyle;
+
   @override
   Widget build(BuildContext context) {
     final _border = OutlineInputBorder(
       borderRadius: BorderRadius.circular(12.r),
       borderSide: BorderSide(
-          color: AppColors.textFieldBorder(context), width: 1),
-    );return Column(
+        color: AppColors.textFieldBorder(context),
+        width: 1,
+      ),
+    );
+    return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         title != null
-            ? Text(
-                title ?? '',
-                style: AppStyles.styleSemiBold14(context),
-              )
+            ? Text(title ?? '', style: AppStyles.styleSemiBold14(context))
             : SizedBox.shrink(),
-        title != null
-            ? 6.verticalSpace
-            : SizedBox.shrink(),
+        title != null ? 6.verticalSpace : SizedBox.shrink(),
         SizedBox(
           child: TextFormField(
             onTap: onTap,
@@ -111,7 +111,7 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
                 vertical: 16,
                 horizontal: 16,
               ),
-              
+
               prefixIconConstraints: prefixIconSize == null
                   ? null
                   : BoxConstraints(
@@ -135,38 +135,42 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
               // suffix: suffix,
               hintText: hint,
               hintStyle: hintStyle ?? AppStyles.styleRegular14(context),
-              label: Text(
-                label ?? '',
-              ),
+              label: Text(label ?? ''),
               labelStyle: AppStyles.styleRegular16(context).copyWith(
                 color: enabled == false
                     ? AppColors.typographyBody(context)
                     : AppColors.typographyBody(context),
               ),
-              floatingLabelStyle: AppStyles.styleRegular14(context).copyWith(
-                color: AppColors.primary(context),
-              ),
+              floatingLabelStyle: AppStyles.styleRegular14(
+                context,
+              ).copyWith(color: AppColors.primary(context)),
               floatingLabelBehavior: FloatingLabelBehavior.always,
-              //OutlineInputBorder
 
+              //OutlineInputBorder
               border: _border,
               enabledBorder: _border,
               disabledBorder: _border,
               errorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
-                borderSide:
-                    BorderSide(color: AppColors.error(context), width: 1),
+                borderSide: BorderSide(
+                  color: AppColors.error(context),
+                  width: 1,
+                ),
               ),
 
               focusedBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
-                borderSide:
-                    BorderSide(color: AppColors.primary(context), width: 1),
+                borderSide: BorderSide(
+                  color: AppColors.primary(context),
+                  width: 1,
+                ),
               ),
               focusedErrorBorder: OutlineInputBorder(
                 borderRadius: BorderRadius.circular(12.r),
-                borderSide:
-                    BorderSide(color: AppColors.primary(context), width: 1),
+                borderSide: BorderSide(
+                  color: AppColors.primary(context),
+                  width: 1,
+                ),
               ),
             ),
           ),
@@ -174,8 +178,5 @@ class TextFormFieldWithTitleWidget extends StatelessWidget {
         errorWidget ?? const SizedBox.shrink(),
       ],
     );
-    }
-
-
-
+  }
 }

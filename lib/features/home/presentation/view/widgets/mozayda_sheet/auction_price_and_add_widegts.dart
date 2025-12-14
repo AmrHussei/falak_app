@@ -143,7 +143,7 @@ class PriceingRowTextWidget extends StatelessWidget {
           textAlign: TextAlign.start,
           style:
               titleStyle ??
-              AppStyles.styleRegular14(
+              AppStyles.styleRegular16(
                 context,
               ).copyWith(color: AppColors.inputsPlaceholder(context)),
         ),
@@ -155,7 +155,7 @@ class PriceingRowTextWidget extends StatelessWidget {
               textAlign: TextAlign.start,
               style:
                   priceStyle ??
-                  AppStyles.styleMedium13(
+                  AppStyles.styleMedium15(
                     context,
                   ).copyWith(color: AppColors.typographyHeading(context)),
             ),

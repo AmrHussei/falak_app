@@ -44,6 +44,7 @@ class PagesCubit extends Cubit<PagesState> {
   final commissionerAttachmentsController = TextEditingController();
   final companyAttachmentsController = TextEditingController();
   final companyNameController = TextEditingController();
+  final nationalAddressController = TextEditingController();
   final companyEmailController = TextEditingController();
   final companyPhoneNumberController = TextEditingController();
   final companyPhoneKeyController = TextEditingController();
@@ -489,6 +490,7 @@ class PagesCubit extends Cubit<PagesState> {
     AssociationAttachment = null;
     DelegationAttachment = null;
     companyNameController.clear();
+    nationalAddressController.clear();
     companyEmailController.clear();
     companyPhoneNumberController.clear();
     companyPhoneKeyController.clear();
@@ -520,6 +522,7 @@ class PagesCubit extends Cubit<PagesState> {
       //
       bankCertificate: bankCertificate,
       companyName: companyNameController.text.trim(),
+      nationalAddress: nationalAddressController.text.trim(),
       companyEmail: companyEmailController.text.trim(),
       companyPhoneNumber: companyPhoneNumberController.text.trim(),
       companyPhoneKey: companyPhoneKeyController.text.trim(),

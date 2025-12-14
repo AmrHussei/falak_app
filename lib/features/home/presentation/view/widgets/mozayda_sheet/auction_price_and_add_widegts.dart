@@ -192,7 +192,7 @@ class AddMozaydaWidget extends StatelessWidget {
           ),
         ],
       ),
-      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+      padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 8.h),
       child: BlocBuilder<HomeCubit, HomeState>(
         builder: (context, state) {
           final homeCubit = context.read<HomeCubit>();
@@ -207,8 +207,8 @@ class AddMozaydaWidget extends StatelessWidget {
                     },
                     child: SvgPicture.asset(
                       AppAssets.app_imagesMinus,
-                      height: 48.h,
-                      width: 48.w,
+                      height: 70.h,
+                      width: 70.w,
                     ),
                   ),
                   Expanded(
@@ -243,13 +243,13 @@ class AddMozaydaWidget extends StatelessWidget {
                     },
                     child: SvgPicture.asset(
                       AppAssets.app_imagesAddCircle,
-                      height: 48.h,
-                      width: 48.w,
+                      height: 70.h,
+                      width: 70.w,
                     ),
                   ),
                 ],
               ),
-              24.verticalSpace,
+              16.verticalSpace,
               Row(
                 children: [
                   CallToActionAddMozaydaWidget(),

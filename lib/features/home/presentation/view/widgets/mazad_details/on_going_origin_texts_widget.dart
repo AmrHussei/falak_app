@@ -22,10 +22,10 @@ class OnGoingOriginTextsWidget extends StatelessWidget {
     return Column(
       children: [
         RowWidget(
-          title: 'أعلى مزايدة',
-          subTitle: formatNumber(origin.highestBid??0),
-          icon: Assets.appImagesSquareDouble,
-          subIcon: Assets.imagesRiyal,
+            title: 'السعر الافتتاحي',
+            subTitle: formatNumber(origin.openingPrice),
+            icon: Assets.appImagesBanknote,
+            subIcon:Assets.imagesRiyal
         ),
         12.verticalSpace,
         RowWidget(

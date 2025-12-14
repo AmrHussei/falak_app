@@ -71,7 +71,7 @@ class MozaydaBoardWidget extends StatelessWidget {
                   ),
                   16.verticalSpace,
                   EnrollmentWalletWidget(),
-                  32.verticalSpace,
+                  16.verticalSpace,
                   AppPrimaryButton(
                     width: double.infinity,
                     onPressed: () {

@@ -198,7 +198,7 @@ class EnrollmentWalletWidget extends StatelessWidget {
     return BlocBuilder<WalletCubit, WalletState>(
       builder: (context, state) {
         return Container(
-          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+          padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
           decoration: BoxDecoration(
             color: AppColors.white(context),
             borderRadius: BorderRadius.circular(12.r),
@@ -245,8 +245,8 @@ class EnrollmentWalletWidget extends StatelessWidget {
               if (((state.getWalletModel?.data.balance ?? 0) <
                   homeCubit.auctionOrigin!.entryDeposit))
                 AppPrimaryButton(
-                  width: 80.w,
-                  height: 30.h,
+                  width: 120.w,
+                  height: 40.h,
                   onPressed: () {
                     addBalanceSheetBottomSheet(context);
                   },
@@ -254,7 +254,7 @@ class EnrollmentWalletWidget extends StatelessWidget {
                   radius: 5.r,
                   textStyle: AppStyles.styleMedium14(
                     context,
-                  ).copyWith(color: AppColors.white(context), fontSize: 10),
+                  ).copyWith(color: AppColors.white(context), fontSize: 13),
                 ),
             ],
           ),

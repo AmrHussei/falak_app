@@ -95,6 +95,21 @@ Future<void> showAddAgenciesBottomSheet(BuildContext context) async {
                       },
                     ),
                     16.verticalSpace,
+                    TextFormFieldWithTitleWidget(
+                      controller: context
+                          .read<ProfileCubit>()
+                          .agencyIdentityNumberController,
+                      title: 'هويه الموكل',
+                      hint: 'هويه الموكل',
+                      keyboardType: TextInputType.number,
+                      validator: (value) {
+                        if (value == null || value.isEmpty) {
+                          return 'من فضلك ادخل هويه الموكل';
+                        }
+                        return null;
+                      },
+                    ),
+                    16.verticalSpace,
                     DatePickerWidegt(
                       text: 'تاريخ اصدار الوكالة',
                       controller: context

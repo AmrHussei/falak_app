@@ -71,7 +71,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
         'text': 'وكيل البيع',
         'image': AppAssets.app_imagesAddSales,
         'onTap': () {
-          context.navigateTo(Routes.SalesAgentIntroScreen);
+          context.navigateTo(Routes.addSalesAgent);
         },
       },
       {

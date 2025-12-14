@@ -55,97 +55,90 @@ class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
       actions: [
         KisGuest
             ? GestureDetector(
-                onTap: () {
-                  showPopover(
-                    context: context,
-                    bodyBuilder: (context) => Padding(
-                      padding: const EdgeInsets.only(right: 0),
-                      child: ListItems(),
-                    ),
-                    onPop: () => print('Popover was popped!'),
-                    direction: PopoverDirection.bottom,
-                    width: 252,
-                    height: 200,
-                    arrowHeight: 16,
-                    arrowDxOffset: -16,
-                    barrierColor: Colors.transparent,
-                    arrowDyOffset: -60,
-                    arrowWidth: 0,
-                    backgroundColor: const Color(0xFF2F4A6F),
-                  );
-                },
-                child: Container(
-                  width: 44,
-                  height: 44,
-                  padding: const EdgeInsets.all(8),
-                  decoration: ShapeDecoration(
-                    color: AppColors.secondColor(context),
-                    shape: RoundedRectangleBorder(
-                      side: BorderSide(
-                        width: 1,
-                        color: const Color(0xFFE1E1E2),
+              onTap: () {
+                showPopover(
+                  context: context,
+                  bodyBuilder:
+                      (context) => Padding(
+                        padding: const EdgeInsets.only(right: 0),
+                        child: ListItems(),
                       ),
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                  child: FittedBox(
-                    child: SvgPicture.asset(
-                      Assets.imagesUser,
-                      fit: BoxFit.contain,
-                      color: AppColors.white(context),
-                    ),
+                  onPop: () => print('Popover was popped!'),
+                  direction: PopoverDirection.bottom,
+                  width: 252,
+                  height: 200,
+                  arrowHeight: 16,
+                  arrowDxOffset: -16,
+                  barrierColor: Colors.transparent,
+                  arrowDyOffset: -60,
+                  arrowWidth: 0,
+                  backgroundColor: Colors.white,
+                );
+              },
+              child: Container(
+                width: 44,
+                height: 44,
+                padding: const EdgeInsets.all(8),
+                decoration: ShapeDecoration(
+                  color: AppColors.secondColor(context),
+                  shape: RoundedRectangleBorder(
+                    side: BorderSide(width: 1, color: const Color(0xFFE1E1E2)),
+                    borderRadius: BorderRadius.circular(10),
                   ),
                 ),
-              )
+                child: FittedBox(
+                  child: SvgPicture.asset(
+                    Assets.imagesUser,
+                    fit: BoxFit.contain,
+                    color: AppColors.white(context),
+                  ),
+                ),
+              ),
+            )
             : InkWell(
-                onTap: () {
-                  context.navigateTo(Routes.notificationScreen);
-                },
-                child: BlocBuilder<PagesCubit, PagesState>(
-                  builder: (context, state) {
-                    final count = context
-                        .watch<PagesCubit>()
-                        .state
-                        .notificationCount;
-                    return Stack(
-                      clipBehavior: Clip.none,
-                      children: [
-                        SvgPicture.asset(
-                          Assets.imagesBell,
-                          fit: BoxFit.contain,
-                          width: 44,
-                          height: 44,
-                        ),
-                        if (count != 0 && count != null && KisGuest == false)
-                          PositionedDirectional(
-                            top: 0,
-                            start: 0,
-                            child: Center(
-                              child: Container(
-                                decoration: BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: AppColors.mainColor(context),
-                                ),
-                                padding: EdgeInsets.all(4),
-                                child: Center(
-                                  child: Text(
-                                    '${count}',
-                                    style: AppStyles.stylBold12(context)
-                                        .copyWith(
-                                          color: AppColors.typographyHeading(
-                                            context,
-                                          ),
-                                        ),
+              onTap: () {
+                context.navigateTo(Routes.notificationScreen);
+              },
+              child: BlocBuilder<PagesCubit, PagesState>(
+                builder: (context, state) {
+                  final count =
+                      context.watch<PagesCubit>().state.notificationCount;
+                  return Stack(
+                    clipBehavior: Clip.none,
+                    children: [
+                      SvgPicture.asset(
+                        Assets.imagesBell,
+                        fit: BoxFit.contain,
+                        width: 44,
+                        height: 44,
+                      ),
+                      if (count != 0 && count != null && KisGuest == false)
+                        PositionedDirectional(
+                          top: 0,
+                          start: 0,
+                          child: Center(
+                            child: Container(
+                              decoration: BoxDecoration(
+                                shape: BoxShape.circle,
+                                color: AppColors.mainColor(context),
+                              ),
+                              padding: EdgeInsets.all(4),
+                              child: Center(
+                                child: Text(
+                                  '${count}',
+                                  style: AppStyles.stylBold12(context).copyWith(
+                                    color: AppColors.typographyHeading(context),
                                   ),
                                 ),
                               ),
                             ),
                           ),
-                      ],
-                    );
-                  },
-                ),
+                        ),
+                    ],
+                  );
+                },
               ),
+            ),
         SizedBox(width: 16),
       ],
     );
@@ -219,7 +212,7 @@ class MenuItemCard extends StatelessWidget {
         ),
         child: Row(
           children: [
-            SvgPicture.asset(iconAsset),
+            SvgPicture.asset(iconAsset, color: Colors.white),
             const SizedBox(width: 8),
             Text(
               title,

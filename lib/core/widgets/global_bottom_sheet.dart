@@ -11,20 +11,24 @@ class GlobalBottomSheet extends StatelessWidget {
     required this.title,
     this.action,
     this.height,
-    required this.child, this.color,
+    required this.child,
+    this.color,
+    this.padding,
   });
 
   final String title;
   final GestureTapCallback? action;
   final double? height;
   final Widget child;
-final Color? color;
+  final Color? color;
+  final double? padding;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: EdgeInsets.only(
-        right: 15.5.w,
-        left: 15.5.w,
+        right: padding??15.5.w,
+        left: padding??15.5.w,
         bottom: context.bottomPadding + 8.h,
       ),
       child: Container(
@@ -32,7 +36,7 @@ final Color? color;
         width: 359.h,
         decoration: BoxDecoration(
           borderRadius: BorderRadius.all(Radius.circular(16.r)),
-          color:color?? Colors.white,
+          color: color ?? Colors.white,
         ),
         padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
         child: Column(
@@ -51,7 +55,7 @@ final Color? color;
               children: [
                 Text(title, style: AppStyles.styleBold18(context)),
                 InkWell(
-                  onTap:action,
+                  onTap: action,
                   child: SvgPicture.asset(
                     AppAssets.app_imagesCloseSquare,
                     height: 24.h,

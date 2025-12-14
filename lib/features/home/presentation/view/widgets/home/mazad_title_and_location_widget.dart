@@ -63,7 +63,12 @@ class CachedNetworkImageWidegt extends StatelessWidget {
       width: width,
       imageUrl: imageUrl,
       fit: BoxFit.cover,
-      placeholder: (context, url) => CustomCircularProgressIndicatorWidget(),
+      placeholder: (context, url) => Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CustomCircularProgressIndicatorWidget(),
+        ],
+      ),
       errorWidget: (context, url, error) => Icon(Icons.error),
     );
   }

@@ -109,9 +109,10 @@ class _QustionScreenState extends State<QustionScreen>
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               BlocBuilder<PagesCubit, PagesState>(
-                buildWhen: (previous, current) =>
-                    previous.qestionsCategoriesRequestState !=
-                    current.qestionsCategoriesRequestState,
+                buildWhen:
+                    (previous, current) =>
+                        previous.qestionsCategoriesRequestState !=
+                        current.qestionsCategoriesRequestState,
                 builder: (context, state) {
                   if (state.qestionsCategoriesModel != null) {
                     return HorizontalCategorySelector(
@@ -141,8 +142,9 @@ class _QustionScreenState extends State<QustionScreen>
                     final data = state.qestionsModel[category]?.data ?? [];
                     final status = state.qestionsRequestState[category];
                     if (data.isNotEmpty) {
-                      return ListView.builder(
+                      return ListView.separated(
                         padding: EdgeInsets.symmetric(vertical: 16.h),
+                        separatorBuilder: (context, index) => 12.verticalSpace,
                         itemCount: data.length,
                         itemBuilder: (context, index) {
                           return QuestionAnswerWidget(model: data[index]);
@@ -155,7 +157,11 @@ class _QustionScreenState extends State<QustionScreen>
                         return ShimmerQuestionAnswerList();
                       case RequestState.loaded:
                         return data.isEmpty
-                            ? Center(child: EmptyWidget(title: 'لم يتم العثور على البحث'))
+                            ? Center(
+                              child: EmptyWidget(
+                                title: 'لم يتم العثور على البحث',
+                              ),
+                            )
                             : const SizedBox.shrink();
                       default:
                         return SizedBox.shrink();
@@ -185,17 +191,15 @@ class HorizontalCategorySelector extends StatelessWidget {
   Widget build(BuildContext context) {
     return controller != null
         ? CustomTabBar(
-            haveWidth: false,
-            onTap: (index) {
-              context.read<PagesCubit>().changeCategory(
-                qestionsCategoriesModel.data[index],
-              );
-            },
-            controller: controller!,
-            tabs: qestionsCategoriesModel.data
-                .map((item) => item.name)
-                .toList(),
-          )
+          haveWidth: false,
+          onTap: (index) {
+            context.read<PagesCubit>().changeCategory(
+              qestionsCategoriesModel.data[index],
+            );
+          },
+          controller: controller!,
+          tabs: qestionsCategoriesModel.data.map((item) => item.name).toList(),
+        )
         : const SizedBox.shrink();
   }
 }

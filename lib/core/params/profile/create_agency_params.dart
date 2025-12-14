@@ -10,20 +10,24 @@ class CreateAgencyParams extends Equatable {
   final String agencyName;
   final String agencyNumber;
   final String agencyIssuedDate;
+  final String agencyIdentityNumber;
+
   CreateAgencyParams({
     required this.agencyName,
     required this.agencyNumber,
     required this.agencyIssuedDate,
     required this.agencyAttachment,
+    required this.agencyIdentityNumber,
   });
 
   @override
   List<Object?> get props => [
-        agencyAttachment,
-        agencyIssuedDate,
-        agencyNumber,
-        agencyName,
-      ];
+    agencyAttachment,
+    agencyIssuedDate,
+    agencyNumber,
+    agencyIdentityNumber,
+    agencyName,
+  ];
 
   Future<FormData> toFormData() async {
     Future<MultipartFile> _createMultipartFile(File file) async {
@@ -42,19 +46,11 @@ class CreateAgencyParams extends Equatable {
       );
     }
 
-    String? extensionName;
-    extensionName = agencyAttachment.path.split('.').last;
-    print("""
- 'agencyName': $agencyName,
-      'agencyNumber': $agencyNumber,
-      'agencyIssuedDate': $agencyIssuedDate,
-        agencyAttachment ${agencyAttachment.path}
-""");
-
     FormData formData = FormData.fromMap({
       'agencyName': agencyName,
       'agencyNumber': agencyNumber,
       'agencyIssuedDate': agencyIssuedDate,
+      'identityNumber': agencyIdentityNumber,
       "agencyAttachment": await _createMultipartFile(agencyAttachment),
     });
 

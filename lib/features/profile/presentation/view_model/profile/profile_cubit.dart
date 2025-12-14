@@ -46,6 +46,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController agencyNameController = TextEditingController();
   TextEditingController agencyNumberController = TextEditingController();
+  TextEditingController agencyIdentityNumberController = TextEditingController();
   bool isAcceptAgencyPolicy = true;
   TextEditingController agencyIssuedDateController = TextEditingController();
   final editEmaileKey = GlobalKey<FormState>();
@@ -398,6 +399,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     CreateAgencyParams params = CreateAgencyParams(
       agencyName: agencyNameController.text.trim(),
       agencyNumber: agencyNumberController.text.trim(),
+      agencyIdentityNumber: agencyIdentityNumberController.text.trim(),
       agencyIssuedDate: agencyIssuedDateController.text.trim(),
       agencyAttachment: agencyAttachment!,
     );
@@ -430,6 +432,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     agencyIssuedDateController.clear();
     agencyNameController.clear();
     agencyNumberController.clear();
+    agencyIdentityNumberController.clear();
     agencyAttachment = null;
   }
 

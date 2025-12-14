@@ -54,6 +54,7 @@ class _RegisterAuctionSheetBodyWidgetState
       action: () {
         context.pop();
       },
+      padding: 8.w,
       child: Row(
         children: [
           Expanded(

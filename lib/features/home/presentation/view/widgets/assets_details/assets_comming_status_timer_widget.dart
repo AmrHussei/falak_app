@@ -75,18 +75,14 @@ class _AssetsDescriptionWidgetState extends State<AssetsDescriptionWidget> {
   Widget build(BuildContext context) {
     HomeCubit homeCubit = context.read<HomeCubit>();
 
-    return Row(
-      children: [
-        Text(
-          homeCubit.auctionOrigin?.description ?? 'وصف الاصل ',
-          style: AppStyles.styleRegular14(context).copyWith(
-            color: AppColors.iconsGrey(context),
-            fontSize: 18,
-            height: 2,
-          ),
-          textAlign: TextAlign.start,
-        ),
-      ],
+    return Text(
+      homeCubit.auctionOrigin?.description ?? 'وصف الاصل ',
+      style: AppStyles.styleRegular14(context).copyWith(
+        color: AppColors.iconsGrey(context),
+        fontSize: 18,
+        height: 2,
+      ),
+      textAlign: TextAlign.start,
     );
   }
 }

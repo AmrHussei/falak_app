@@ -1,5 +1,6 @@
 import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:falak/core/widgets/global_bottom_sheet.dart';
+import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -59,7 +60,7 @@ class _LogOutFromAuctionSheetBottomSheetBodyWidgetState
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          SvgPicture.asset(AppAssets.app_imagesLogioutMAuction, height: 60.h),
+          SvgPicture.asset(Assets.appImagesLogout, height: 60.h),
           16.verticalSpace,
           Text(
             'تأكيد المغادرة',

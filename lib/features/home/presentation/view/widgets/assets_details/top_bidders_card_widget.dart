@@ -64,7 +64,7 @@ class TopBiddersCardWidget extends StatelessWidget {
                 Text(
                   boardAuctionData[index].user.name,
                   maxLines: 1,
-                  style: AppStyles.styleMedium13(context).copyWith(
+                  style: AppStyles.styleMedium16(context).copyWith(
                     color: isTop
                         ? AppColors.white(context)
                         : AppColors.inputsPlaceholder(context),
@@ -74,7 +74,7 @@ class TopBiddersCardWidget extends StatelessWidget {
                   children: [
                     Text(
                       formatNumber(boardAuctionData[index].bidAmount),
-                      style: AppStyles.styleBold16(context).copyWith(
+                      style: AppStyles.styleBold18(context).copyWith(
                         color: isTop
                             ? AppColors.white(context)
                             : AppColors.typographyHeading(context),

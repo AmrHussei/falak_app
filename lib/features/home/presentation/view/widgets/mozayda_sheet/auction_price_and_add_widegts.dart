@@ -61,7 +61,7 @@ class AuctionPriceWidegt extends StatelessWidget {
                       ? PriceingRowTextWidget(
                           title: 'سعر المتر',
                           price:
-                              '${formatNumber(propertyPrice / int.parse(homeCubit.auctionOrigin!.details[1].auctionDetails[0].description!))}',
+                              '${formatNumber(propertyPrice / num.parse(homeCubit.auctionOrigin!.details[1].auctionDetails[0].description!))}',
                         )
                       : SizedBox.shrink(),
                   Divider(),

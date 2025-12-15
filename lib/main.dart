@@ -1,4 +1,5 @@
 import 'package:device_preview/device_preview.dart';
+import 'package:falak/core/notifications/firebase_messaging.dart';
 import 'package:falak/core/storage/flutter_secure_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_native_splash/flutter_native_splash.dart';
@@ -24,7 +25,7 @@ void main() async {
     AppLogger.success('Service locator initialized');
 
     /// NOTIFICATIONS
-    // await FirebaseNotifications.initialize();
+    await FirebaseNotifications.initialize();
     AppLogger.info('Initializing local notifications...');
     await LocalNotificationService.initialize();
     AppLogger.success('Local notifications initialized');

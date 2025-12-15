@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "66980351270",
+    "project_id": "falak-d50b7",
+    "storage_bucket": "falak-d50b7.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:66980351270:android:e0386d57af23f9560d85e7",
+        "android_client_info": {
+          "package_name": "com.app.falak"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBGTf-As-wbYu92dMJ2mmjjdT_-DZxqtQs"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

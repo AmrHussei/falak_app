@@ -1,6 +1,8 @@
 import 'dart:developer';
 
 import 'package:falak/core/utils/media_query_values.dart';
+import 'package:falak/firebase_options.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 
 import '../../app/app.dart';
@@ -16,6 +18,9 @@ class FirebaseNotifications {
   /// Initialize Firebase Messaging
   static Future<void> initialize() async {
     try {
+      await Firebase.initializeApp(
+        options: DefaultFirebaseOptions.currentPlatform,
+      );
       // Request FCM Permissions
       await _handleNotificationPermissions();
 

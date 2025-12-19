@@ -169,7 +169,7 @@ class PdfService {
                       child: pw.Column(
                         children: [
                           pw.Text(
-                            'فاتورة وثيق المزادات',
+                            'فاتورة فلك المزادات',
                             style: pw.TextStyle(
                               font: ttf,
                               fontSize: 16,

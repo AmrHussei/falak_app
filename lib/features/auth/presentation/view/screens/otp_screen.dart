@@ -181,7 +181,7 @@ class VerifyButtonWidget extends StatelessWidget {
           } else if (nextRoute == Routes.layoutScreen) {
             FloatingSnackBar.show(
               context,
-              'مرحبا بكم بمنصة وثيق',
+              'مرحبا بكم بمنصة فلك',
               isError: false,
             );
             context.navigateToWithReplacementAndClearStack(nextRoute);

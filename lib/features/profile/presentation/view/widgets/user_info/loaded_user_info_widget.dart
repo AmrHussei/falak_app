@@ -52,6 +52,7 @@ class LoadedUserInfoWidget extends StatelessWidget {
                     child: profileCubit.imageFile == null
                         ? CachedNetworkImage(
                             imageUrl: profileModel.data.profileImage ?? '',
+                            fit: BoxFit.cover,
                             placeholder: (_, _) =>
                                 Image.asset(AppAssets.app_imagesUserCircle),
                             errorWidget: (_, _, _) =>

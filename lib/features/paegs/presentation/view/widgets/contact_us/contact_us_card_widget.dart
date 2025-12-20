@@ -116,11 +116,17 @@ class ContactUsCardWidget extends StatelessWidget {
                           onTap: () async {
                             await openLink(links!.values.elementAt(index));
                           },
-                          child: SvgPicture.asset(
-                            links!.keys.elementAt(index),
-                            height: 24.h,
-                            width: 24.w,
-                          ),
+                          child: links!.keys.elementAt(index).endsWith('png')
+                              ? Image.asset(
+                                  links!.keys.elementAt(index),
+                                  height: 24.h,
+                                  width: 24.w,
+                                )
+                              : SvgPicture.asset(
+                                  links!.keys.elementAt(index),
+                                  height: 24.h,
+                                  width: 24.w,
+                                ),
                         ),
                   ],
                 ),

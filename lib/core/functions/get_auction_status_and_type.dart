@@ -2,9 +2,9 @@ import '../utils/app_strings.dart';
 
 String getAuctionStatusText(String? status) {
   if (status == AppStrings.auctionsOnGoing) {
-    return 'قائم';
+    return 'حالية';
   } else if (status == AppStrings.auctionsInProgress) {
-    return 'مستقبلي';
+    return 'قادمة';
   } else {
     return 'منتهي';
   }

@@ -5,18 +5,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/svg.dart';
-import 'package:lottie/lottie.dart';
-import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
 
 import '../../../../../../config/routes/app_routes.dart';
-import '../../../../../../core/utils/app_animations.dart';
 import '../../../../../../core/utils/enums.dart';
 import '../../../../../../core/widgets/my_snackbar.dart';
-import '../../../../../core/utils/images.dart';
 import '../../../../../core/widgets/adaptive_layout_widget.dart';
 import '../../../../../core/widgets/coustom_app_bar_widget.dart';
 import '../../../../../core/widgets/text_form_field_with_title_widget.dart';
@@ -33,7 +27,7 @@ class _ChangePhoneNumberScreenState extends State<ChangePhoneNumberScreen> {
   @override
   void initState() {
     if (Kphone != null) {
-      context.read<ProfileCubit>().editablePhoneController.text = Kphone!;
+      context.read<ProfileCubit>().phoneController.text = Kphone!;
     }
 
     super.initState();
@@ -78,7 +72,7 @@ class ChangePhoneNumberMobileLayoutWidget extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             TextFormFieldWithTitleWidget(
-              controller: cubit.editablePhoneController,
+              controller: cubit.phoneController,
               title: 'رقم الجوال الجديد',
               hint: 'رقم الجوال الجديد',
               validator: (value) {
@@ -92,7 +86,8 @@ class ChangePhoneNumberMobileLayoutWidget extends StatelessWidget {
               },
               inputFormatters: [LengthLimitingTextInputFormatter(9)],
               keyboardType: TextInputType.number,
-              suffixIconSize: 66.w,              isPhone: true,
+              suffixIconSize: 66.w,
+              isPhone: true,
 
               suffix: PhoneSuffixWidget(),
             ),
@@ -118,11 +113,12 @@ class ChangePhoneNumberButtonWidget extends StatelessWidget {
           previous.addPhoneRequestState != current.addPhoneRequestState,
       listener: (context, state) {
         if (state.addPhoneRequestState == RequestState.loaded) {
-          context.navigateToWithArguments(Routes.oTPScreen, {
+          context.navigateToWithReplacementAndArguments(Routes.oTPScreen, {
             'nextRoute': Routes.userInfoScreen,
             'totalSteps': 3,
             'currentStep': 3,
             'width': 95.0,
+            'isPhone': true,
             'title': 'فضلا ادخل الرمز  المرسل الي بريدك الاليكتروني',
           });
           mySnackBar(state.addPhoneModelMsg ?? 'تم', context, isError: false);

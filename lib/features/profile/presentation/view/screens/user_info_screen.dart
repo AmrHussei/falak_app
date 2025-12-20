@@ -1,4 +1,5 @@
 import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:lottie/lottie.dart';
@@ -26,6 +27,8 @@ class _UserInfoScreenState extends State<UserInfoScreen> {
   @override
   void initState() {
     context.read<ProfileCubit>().getProfile();
+    context.read<AuthCubit>().getCountries();
+
     super.initState();
   }
 

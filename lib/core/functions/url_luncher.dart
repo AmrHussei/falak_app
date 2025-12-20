@@ -16,11 +16,8 @@ Future<void> openLink(String? url) async {
   if (url == null) return;
 
   final Uri uri = Uri.parse(url);
-  if (await canLaunchUrl(uri)) {
-    await launchUrl(uri, mode: LaunchMode.platformDefault);
-  } else {
-    throw 'Could not launch $url';
-  }
+  await launchUrl(uri, mode: LaunchMode.platformDefault);
+
 }
 
 Future<void> callPhoneNumber(String? phoneNumber) async {

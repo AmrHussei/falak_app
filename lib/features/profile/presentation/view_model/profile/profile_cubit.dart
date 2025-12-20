@@ -36,9 +36,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   TextEditingController thirdNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
   TextEditingController countryController = TextEditingController();
+  TextEditingController dateController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController identityNumberController = TextEditingController();
-  TextEditingController editablePhoneController = TextEditingController();
 
   //
   TextEditingController emailController = TextEditingController();
@@ -107,6 +107,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     thirdNameController.text = userName[2];
     lastNameController.text = userName[3];
     countryController.text = profileModel.data.country.name;
+    dateController.text = profileModel.data.birthDate;
     phoneController.text =
         '${profileModel.data.phoneNumber.key.replaceAll('+', '')}${profileModel.data.phoneNumber.number}+';
     emailController.text = profileModel.data.email ?? '';
@@ -119,6 +120,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     final result = await _profileRepository.changeProfileImage(
       imageFile,
       editUserInfoCountryID,
+      dateController.text.isEmpty?null:dateController.text,
     );
 
     result.fold(
@@ -278,7 +280,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     if (!editphoneKey.currentState!.validate()) return;
     emit(state.copyWith(addPhoneRequestState: RequestState.loading));
     final result = await _profileRepository.addPhone(
-      editablePhoneController.text.trim(),
+      phoneController.text.trim(),
     );
 
     result.fold(

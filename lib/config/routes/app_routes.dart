@@ -98,6 +98,7 @@ class AppRoutes {
               width: params['width'] as double? ?? 0.0,
               title: params['title'] as String?,
               isEmail: (params['isEmail'] as bool?) ?? false,
+              isPhone: (params['isPhone'] as bool?) ?? false,
             );
           },
         );

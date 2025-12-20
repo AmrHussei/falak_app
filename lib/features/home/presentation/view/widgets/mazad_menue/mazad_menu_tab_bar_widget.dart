@@ -28,7 +28,7 @@ class MazadMenuTabBarWidget extends StatelessWidget {
         ),
         child: CustomTabBar(
           controller: _tabController,
-          tabs: ['مستقبلي', 'قائم', 'منتهية'],
+          tabs: ['قادمة', 'حالية', 'منتهية'],
         ),
       ),
     );

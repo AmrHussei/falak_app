@@ -94,7 +94,7 @@ class AuctionDetailsInprogressStutesWidget extends StatelessWidget {
         ),
       ),
       child: Text(
-        'مستقبلي',
+        'قادمة',
         style: AppStyles.styleMedium13(
           context,
         ).copyWith(color: const Color(0xFFEF9A11)),
@@ -159,7 +159,7 @@ class AuctionDetailsOnGoingStutesWidget extends StatelessWidget {
           ),
           4.horizontalSpace,
           Text(
-            'قائم',
+            'حالية',
             style: AppStyles.styleMedium16(
               context,
             ).copyWith(color: const Color(0xff009951)),

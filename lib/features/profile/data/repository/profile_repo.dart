@@ -67,10 +67,10 @@ class ProfileRepository {
   }
 
   Future<Either<Failure, String>> changeProfileImage(
-      File? imageFile, String? countryID) async {
+      File? imageFile, String? countryID, String? date) async {
     try {
       final response =
-          await remoteDataSource.changeProfileImage(imageFile, countryID);
+          await remoteDataSource.changeProfileImage(imageFile, countryID,date);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         log('Register Status code is 200');
 

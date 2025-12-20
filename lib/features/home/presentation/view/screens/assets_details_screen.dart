@@ -63,6 +63,11 @@ class _AssetsDetailsScreenState extends State<AssetsDetailsScreen> {
                 children: [
                   AssetsTitleWidget(homeCubit: homeCubit),
                   AssetsDescriptionWidget(),
+                  if(homeCubit.auctionData?.status == AppStrings.auctionsOnGoing)...[
+                    TopBiddersWidget(),
+                    16.verticalSpace,
+
+                  ],
                   AsseteDetailesCardWidget(),
                   if( homeCubit.auctionData?.status == AppStrings.auctionsCompleted)...[
                     16.verticalSpace,

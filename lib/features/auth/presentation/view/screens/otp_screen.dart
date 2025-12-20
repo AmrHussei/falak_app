@@ -27,6 +27,7 @@ class OTPScreen extends StatelessWidget {
     required this.width,
     this.title,
     this.isEmail = false,
+    this.isPhone = false,
   });
 
   final String nextRoute;
@@ -35,6 +36,7 @@ class OTPScreen extends StatelessWidget {
   final int totalSteps;
   final double width;
   final bool isEmail;
+  final bool isPhone;
 
   @override
   Widget build(BuildContext context) {
@@ -58,6 +60,7 @@ class OTPScreen extends StatelessWidget {
           width: width,
           title: title,
           isEmail: isEmail,
+          isPhone: isPhone,
         ),
         tabletLayout: (context) => Center(
           child: SizedBox(
@@ -70,6 +73,7 @@ class OTPScreen extends StatelessWidget {
               width: width,
               title: title,
               isEmail: isEmail,
+              isPhone: isPhone,
             ),
           ),
         ),
@@ -87,6 +91,7 @@ class OTPScreenMobileLayoutWidget extends HookWidget {
     required this.width,
     this.title,
     required this.isEmail,
+    required this.isPhone,
   });
 
   final String nextRoute;
@@ -95,6 +100,7 @@ class OTPScreenMobileLayoutWidget extends HookWidget {
   final double width;
   final String? title;
   final bool isEmail;
+  final bool isPhone;
 
   @override
   Widget build(BuildContext context) {
@@ -131,6 +137,7 @@ class OTPScreenMobileLayoutWidget extends HookWidget {
                   nextRoute: nextRoute,
                   isCodeComplete: otpLength.value >= 6,
                   isEmail: isEmail,
+                  isPhone: isPhone,
                 ),
                 24.verticalSpace,
                 TimerWidget(),
@@ -149,11 +156,13 @@ class VerifyButtonWidget extends StatelessWidget {
     required this.nextRoute,
     required this.isCodeComplete,
     required this.isEmail,
+    required this.isPhone,
   });
 
   final String nextRoute;
   final bool isCodeComplete;
   final bool isEmail;
+  final bool isPhone;
 
   @override
   Widget build(BuildContext context) {
@@ -166,7 +175,7 @@ class VerifyButtonWidget extends StatelessWidget {
         if (state.verifyRequestState == RequestState.loaded) {
           if (isEmail) {
             await showModalBottomSheet(
-              isDismissible: true,
+              isDismissible: false,
               isScrollControlled: true,
               enableDrag: false,
               context: context,
@@ -174,6 +183,20 @@ class VerifyButtonWidget extends StatelessWidget {
               builder: (_) => SuccessBottomSheet(
                 title: '',
                 subText: 'تم تغير البريد الالكتروني بنجاح',
+                canPop: false,
+              ),
+            );
+          } else if (isPhone) {
+            await showModalBottomSheet(
+              isDismissible: false,
+              isScrollControlled: true,
+              enableDrag: false,
+              context: context,
+              backgroundColor: Colors.transparent,
+              builder: (_) => SuccessBottomSheet(
+                title: '',
+                subText: 'تم تغير رقم الجوال بنجاح',
+                canPop: false,
               ),
             );
           } else if (nextRoute == Routes.userInfoScreen) {
@@ -189,7 +212,7 @@ class VerifyButtonWidget extends StatelessWidget {
             context.navigateToWithReplacementNamed(nextRoute);
           } else if (nextRoute == Routes.resetPasswordScreen ||
               nextRoute == Routes.changePhoneNumberScreen) {
-            context.navigateTo(nextRoute);
+            context.navigateToWithReplacementNamed(nextRoute);
           } else {
             context.navigateToWithReplacementAndClearStack(nextRoute);
           }

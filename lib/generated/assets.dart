@@ -42,6 +42,7 @@ class Assets {
   static const String appImagesEmail = 'assets/app_images/email.svg';
   static const String appImagesEnrolledMazadtrue = 'assets/app_images/enrolledMazadtrue.svg';
   static const String appImagesFaceID = 'assets/app_images/FaceID.svg';
+  static const String appImagesFacebook = 'assets/app_images/facebook.png';
   static const String appImagesFavoriteAuction = 'assets/app_images/favoriteAuction.svg';
   static const String appImagesFile = 'assets/app_images/File.png';
   static const String appImagesFingerprint = 'assets/app_images/fingerprint.svg';
@@ -110,6 +111,7 @@ class Assets {
   static const String appImagesSale = 'assets/app_images/Sale.svg';
   static const String appImagesSealesEgentEmailIcn = 'assets/app_images/sealesEgentEmailIcn.svg';
   static const String appImagesSetting = 'assets/app_images/setting.svg';
+  static const String appImagesShare = 'assets/app_images/share.svg';
   static const String appImagesShareAndroidW = 'assets/app_images/share-androidW.svg';
   static const String appImagesSmartphone = 'assets/app_images/Smartphone.svg';
   static const String appImagesSplash = 'assets/app_images/Splash.svg';
@@ -119,6 +121,7 @@ class Assets {
   static const String appImagesSquareDouble = 'assets/app_images/SquareDouble.svg';
   static const String appImagesStartDate = 'assets/app_images/startDate.svg';
   static const String appImagesTerminated = 'assets/app_images/terminated.svg';
+  static const String appImagesTiktok = 'assets/app_images/tiktok.png';
   static const String appImagesUploadeFilesIcon = 'assets/app_images/uploadeFilesIcon.svg';
   static const String appImagesUserCheckRounded = 'assets/app_images/UserCheckRounded.svg';
   static const String appImagesUserCircle = 'assets/app_images/user-circle.png';

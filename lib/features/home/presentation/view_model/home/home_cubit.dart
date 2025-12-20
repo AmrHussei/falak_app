@@ -259,24 +259,15 @@ class HomeCubit extends Cubit<HomeState> {
       },
       (right) async {
         boardAuctionData = right.data;
-        if (state.topBid == 0 || state.topBid == null) {
-          emit(
-            state.copyWith(
-              topBid: (boardAuctionData.isEmpty
-                  ? auctionOrigin!.openingPrice
-                  : boardAuctionData.first.bidAmount),
-              getAuctionBoardRequestState: RequestState.loaded,
-              getAuctionBoardModel: right,
-            ),
-          );
-        } else {
-          emit(
-            state.copyWith(
-              getAuctionBoardRequestState: RequestState.loaded,
-              getAuctionBoardModel: right,
-            ),
-          );
-        }
+        emit(
+          state.copyWith(
+            topBid: boardAuctionData.isNotEmpty
+                ? boardAuctionData.first.bidAmount
+                : 0,
+            getAuctionBoardRequestState: RequestState.loaded,
+            getAuctionBoardModel: right,
+          ),
+        );
 
         await auctionBoardSocket.listenEvents();
         newBider();
@@ -297,6 +288,9 @@ class HomeCubit extends Cubit<HomeState> {
         if (!isClosed)
           emit(
             state.copyWith(
+              topBid: boardAuctionData.isNotEmpty
+                  ? boardAuctionData.first.bidAmount
+                  : 0,
               getAuctionBoardRequestState: RequestState.loaded,
               getAuctionBoardModel: biders,
             ),

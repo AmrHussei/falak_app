@@ -20,7 +20,7 @@ class ProfileRemoteDataSource {
   }
 
   Future<Response> changeProfileImage(
-      File? imageFile, String? countryID) async {
+      File? imageFile, String? countryID,String? date) async {
     String? extensionName;
     extensionName = imageFile?.path.split('.').last;
 
@@ -34,7 +34,8 @@ class ProfileRemoteDataSource {
             extensionName!,
           ).change(mimeType: 'image/$extensionName', parameters: {}),
         ),
-      if (countryID != null) "country": countryID
+      if (countryID != null) "country": countryID,
+      if (date != null) "birthDate": date,
     });
     final response = await apiConsumer.patch(
       EndPoint.changeProfileImage,

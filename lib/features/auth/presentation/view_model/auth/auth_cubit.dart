@@ -53,6 +53,7 @@ class AuthCubit extends Cubit<AuthState> {
   final completeSignUpNationalIDController = TextEditingController();
   final completeSignUpPasswordController = TextEditingController();
   final completeSignUpConfirmPasswordController = TextEditingController();
+  final dateController = TextEditingController();
   String? completeSignUpCountryID;
   final completeSignUpPhoneController = TextEditingController();
 
@@ -240,6 +241,7 @@ class AuthCubit extends Cubit<AuthState> {
     completeSignUpPhoneController.clear();
     completeSignUpPasswordController.clear();
     completeSignUpConfirmPasswordController.clear();
+    dateController.clear();
   }
 
   // Forget Password Function

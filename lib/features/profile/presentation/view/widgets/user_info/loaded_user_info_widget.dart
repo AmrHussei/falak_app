@@ -1,5 +1,7 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/features/auth/presentation/view/widgets/sign_up/complete_sign_up_mobile_layout_widget.dart';
+import 'package:falak/features/auth/presentation/view/widgets/sign_up/date_picker_widegt.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -124,11 +126,13 @@ class LoadedUserInfoWidget extends StatelessWidget {
             keyboardType: TextInputType.text,
           ),
           8.verticalSpace,
-          TextFormFieldWithTitleWidget(
-            title: 'المدينه',
-            controller: profileCubit.countryController,
-            enabled: false,
-            keyboardType: TextInputType.text,
+          CitiesDropdownButtonFormFieldWidget(
+            selectedValue: profileCubit.countryController.text,
+          ),
+          8.verticalSpace,
+          DatePickerWidegt(
+            text: 'تاريخ الميلاد',
+            controller: profileCubit.dateController,
           ),
           8.verticalSpace,
           TextFormFieldWithTitleWidget(

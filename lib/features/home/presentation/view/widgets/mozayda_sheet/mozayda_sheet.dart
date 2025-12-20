@@ -68,7 +68,7 @@ class _mozaydaSheetBottomSheetBodyWidgetState
           action: () {
             context.pop();
           },
-          height: 610.h,
+          height: 635.h,
           child: Expanded(
             child: Column(
               children: [
@@ -139,22 +139,17 @@ class TopMozaydaWidget extends StatelessWidget {
                           context,
                         ).copyWith(color: AppColors.white(context)),
                       ),
-                      BlocBuilder<HomeCubit,HomeState>(
-                        builder: (_,_) {
+                      BlocBuilder<HomeCubit, HomeState>(
+                        builder: (_, state) {
                           return Row(
                             children: [
                               Flexible(
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Text(
-                                    homeCubit.boardAuctionData.isEmpty
+                                    state.topBid==0
                                         ? 'لا يوجد مزايدين بعد'
-                                        : formatNumber(
-                                            homeCubit
-                                                .boardAuctionData
-                                                .first
-                                                .bidAmount,
-                                          ),
+                                        : formatNumber(state.topBid),
                                     style: AppStyles.styleBold18(
                                       context,
                                     ).copyWith(color: AppColors.white(context)),
@@ -169,7 +164,7 @@ class TopMozaydaWidget extends StatelessWidget {
                               ),
                             ],
                           );
-                        }
+                        },
                       ),
                     ],
                   ),

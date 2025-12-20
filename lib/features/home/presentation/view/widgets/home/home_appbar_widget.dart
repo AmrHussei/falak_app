@@ -33,7 +33,7 @@ class HomeAppBarWidget extends StatelessWidget implements PreferredSizeWidget {
     return AppBar(
       bottom: CustomTabBar(
         controller: tabController,
-        tabs: ['مستقبلي', 'قائم', 'منتهية'],
+        tabs: ['قادمة', 'حالية', 'منتهية'],
       ),
       elevation: 0,
       centerTitle: true,

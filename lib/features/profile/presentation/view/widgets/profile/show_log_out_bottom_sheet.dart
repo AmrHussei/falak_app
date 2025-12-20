@@ -1,6 +1,7 @@
 import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
 import 'package:falak/config/routes/app_routes.dart';
@@ -82,7 +83,7 @@ Future<void> showLogOutBottomSheet(BuildContext context) async {
                               backgroundColor: AppColors.white(context)),
                         ),
                       ),
-                      SizedBox(width: 15),
+                     8.horizontalSpace,
                       Expanded(
                         child: Builder(builder: (context) {
                           return ElevatedButton(
@@ -129,7 +130,6 @@ Future<void> showLogOutBottomSheet(BuildContext context) async {
                                         Assets.imagesLogout,
                                         color: AppColors.white(context),
                                       ),
-                                      SizedBox(width: 4),
                                       Text(
                                         'تسجيل الخروج', // Format DateTime
                                         style: AppStyles.styleMedium16(context)

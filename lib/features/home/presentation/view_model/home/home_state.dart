@@ -7,6 +7,7 @@ class HomeState extends Equatable {
     this.auctionBrochureRequestState = RequestState.ideal,
     this.auctionBrochureError,
     this.auctionBrochureMsg,
+    this.getAuctionBoardModel,
     this.privacyPolicyRequestState = RequestState.ideal,
     this.privacyPolicyError,
     this.privacyPolicyModel,
@@ -78,6 +79,7 @@ class HomeState extends Equatable {
   final double total;
   final dynamic topBid;
   final String shareAs;
+  final AuctionBoardModel? getAuctionBoardModel;
 
   @override
   List<Object?> get props => [
@@ -111,6 +113,7 @@ class HomeState extends Equatable {
         addAuctionBidRequestState,
         addAuctionBidError,
         addAuctionBidMsg,
+    getAuctionBoardModel,
         shareAs,
       ];
 
@@ -200,6 +203,7 @@ class HomeState extends Equatable {
       topBid: topBid ?? this.topBid,
       shareAs: shareAs ?? this.shareAs,
       searchState: searchState ?? this.searchState,
+      getAuctionBoardModel: getAuctionBoardModel ?? this.getAuctionBoardModel,
     );
   }
 }

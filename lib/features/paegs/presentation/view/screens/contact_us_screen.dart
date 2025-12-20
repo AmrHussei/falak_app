@@ -138,8 +138,10 @@ class _ContactUsScreenState extends State<ContactUsScreen> {
                                     state.socialModel!.data!.twitter,
                                 Assets.appImagesLinkedin:
                                     state.socialModel!.data!.linkedin,
-                                Assets.appImagesYoutube:
+                                Assets.appImagesFacebook:
                                     state.socialModel!.data!.facebook,
+                                Assets.appImagesTiktok:
+                                    state.socialModel!.data!.tiktok,
                                 Assets.appImagesInsta:
                                     state.socialModel!.data!.instagram,
                               },

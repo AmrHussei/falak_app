@@ -37,6 +37,7 @@ class UserData {
   final Country country;
   final String? email;
   final String? profileImage;
+  final String birthDate;
   final Role role;
   final int agencyCount;
   final int successAuctionsCount;
@@ -56,6 +57,7 @@ class UserData {
     required this.profileImage,
     required this.role,
     required this.agencyCount,
+    required this.birthDate,
     required this.successAuctionsCount,
   });
 
@@ -74,6 +76,7 @@ class UserData {
           : throw Exception('Blocked status is required'),
       createdAt: json['createdAt'] ?? '',
       updatedAt: json['updatedAt'] ?? '',
+      birthDate: json['birthDate'] ?? '',
       country: json['country'] != null
           ? Country.fromJson(json['country'])
           : Country(id: '', name: ''),
@@ -103,6 +106,7 @@ class UserData {
       'profileImage': profileImage,
       'role': role.toJson(),
       'agencyCount': agencyCount,
+      'birthDate': birthDate,
       'successAuctionsCount': successAuctionsCount,
     };
   }

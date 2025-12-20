@@ -26,6 +26,7 @@ class ContactData {
   final String? email;
   final String? instagram;
   final String? facebook;
+  final String? tiktok;
   final String? twitter;
   final String? linkedin;
   final String? createdAt;
@@ -46,6 +47,7 @@ class ContactData {
     this.updatedAt,
     this.v,
     this.ourOffice,
+    this.tiktok,
   });
 
   factory ContactData.fromJson(Map<String, dynamic> json) {
@@ -60,6 +62,7 @@ class ContactData {
       email: json['email'] as String?,
       instagram: json['instagram'] as String?,
       facebook: json['facebook'] as String?,
+      tiktok: json['tiktok'] as String?,
       twitter: json['twitter'] as String?,
       linkedin: json['linkedin'] as String?,
       createdAt: json['createdAt'] as String?,

@@ -46,9 +46,9 @@ class TopBiddersWidget extends StatelessWidget {
               BlocBuilder<HomeCubit, HomeState>(
                 builder: (context, state) {
                   return Text(
-                    homeCubit.boardAuctionData.isEmpty
+                    (state.getAuctionBoardModel?.data??[]).isEmpty
                         ? '0 مزايدين'
-                        : '${homeCubit.boardAuctionData.length} مزايدين',
+                        : '${(state.getAuctionBoardModel?.data??[]).length} مزايدين',
                     style: AppStyles.styleBold16(
                       context,
                     ).copyWith(color: AppColors.typographyHeading(context)),
@@ -73,7 +73,7 @@ class TopBiddersWidget extends StatelessWidget {
                       },
                     );
                   case RequestState.loaded:
-                    return homeCubit.boardAuctionData.isEmpty
+                    return (state.getAuctionBoardModel?.data??[]).isEmpty
                         ? Column(
                             children: [
                               SizedBox(height: 40),
@@ -86,12 +86,12 @@ class TopBiddersWidget extends StatelessWidget {
                             ],
                           )
                         : ListView.separated(
-                            itemCount: homeCubit.boardAuctionData.length,
+                            itemCount: (state.getAuctionBoardModel?.data??[]).length,
                             padding: EdgeInsets.zero,
                             itemBuilder: (context, index) {
                               return TopBiddersCardWidget(
                                 index: index,
-                                boardAuctionData: homeCubit.boardAuctionData,
+                                boardAuctionData: (state.getAuctionBoardModel?.data??[]),
                               );
                             },
                             separatorBuilder: (_, __) => 8.verticalSpace,

@@ -1,6 +1,4 @@
-import 'dart:io';
 
-import 'package:dio/dio.dart' show Dio, Options, ResponseType;
 import 'package:falak/app/app.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
@@ -13,7 +11,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:path_provider/path_provider.dart';
 import 'package:share_plus/share_plus.dart';
 
 class MazadImageWidget extends StatelessWidget {
@@ -95,25 +92,23 @@ class MazadImageWidget extends StatelessWidget {
             child: InkWell(
               onTap: () async {
                 try {
-                  final tempDir = await getTemporaryDirectory();
-
-                  final imageUrl = model.cover;
-                  if (imageUrl == null || imageUrl.isEmpty) return;
-
-                  // Download image
-                  final response = await Dio().get<List<int>>(
-                    imageUrl,
-                    options: Options(responseType: ResponseType.bytes),
-                  );
-
-                  // Save to temp file
-                  final file = File('${tempDir.path}/shared_image.jpg');
-                  await file.writeAsBytes(response.data!);
-
-                  // ✅ SHARE (correct API)
-                  await Share.shareXFiles(
-                    [XFile(file.path)],
-                    text:
+                  // final tempDir = await getTemporaryDirectory();
+                  //
+                  // final imageUrl = model.cover;
+                  // if (imageUrl == null || imageUrl.isEmpty) return;
+                  //
+                  // // Download image
+                  // final response = await Dio().get<List<int>>(
+                  //   imageUrl,
+                  //   options: Options(responseType: ResponseType.bytes),
+                  // );
+                  //
+                  // // Save to temp file
+                  // final file = File('${tempDir.path}/shared_image.jpg');
+                  // await file.writeAsBytes(response.data!);
+                  //
+                  // // ✅ SHARE (correct API)
+                  await Share.share(
                         '''
 لا تفوتك فرصة المشاركة في مزاد ${model.title ?? ''}
 عبر الرابط التالي

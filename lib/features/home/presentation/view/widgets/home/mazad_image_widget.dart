@@ -37,9 +37,9 @@ class MazadImageWidget extends StatelessWidget {
             borderRadius: fromDetails
                 ? null
                 : BorderRadius.only(
-              topLeft: Radius.circular(12.r),
-              topRight: Radius.circular(12.r),
-            ),
+                    topLeft: Radius.circular(12.r),
+                    topRight: Radius.circular(12.r),
+                  ),
           ),
           clipBehavior: Clip.antiAlias,
           child: CachedNetworkImageWidegt(
@@ -114,7 +114,7 @@ class MazadImageWidget extends StatelessWidget {
                   await Share.shareXFiles(
                     [XFile(file.path)],
                     text:
-                    '''
+                        '''
 لا تفوتك فرصة المشاركة في مزاد ${model.title ?? ''}
 عبر الرابط التالي
 https://falak-website-lac.vercel.app/auctions/${model.id}

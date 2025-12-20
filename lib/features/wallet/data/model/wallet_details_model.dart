@@ -1,5 +1,4 @@
 import 'package:equatable/equatable.dart';
-import 'package:falak/core/extensions/enums_extensions.dart';
 import 'package:falak/core/extensions/string_sxtensions.dart';
 import 'package:intl/intl.dart';
 
@@ -39,7 +38,7 @@ class WalletDetailsModel extends Equatable {
       refNumber: json['_id'],
       transactionDate: '${DateFormat('dd, MMMM, yyyy').format(date.toLocal())}',
       transactionTime: '${DateFormat('hh:mm a').format(date.toLocal())}',
-      amount: json['amount'],
+      amount: json['amount'].toString(),
       status: json['status'].toString().fromType(WalletType.withdraw),
     );
   }
@@ -48,7 +47,7 @@ class WalletDetailsModel extends Equatable {
     final date = DateTime.parse(json['createdAt']);
     final status = json['status'].toString().fromType(WalletType.other);
     return WalletDetailsModel(
-      amount: json['amount'] ?? 0,
+      amount: json['amount'].toString(),
       status: status,
       title: 'حجز عربون ${json['enrollment']?['auction']?['title']??''}',
       refNumber: json['_id'],

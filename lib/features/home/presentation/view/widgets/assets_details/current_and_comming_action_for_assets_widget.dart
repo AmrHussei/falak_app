@@ -29,7 +29,8 @@ class CurrentAndCommingActionForAssetsWidget extends StatelessWidget {
                       AppPrimaryButton(
                         color: origin.isEnrolled! ? Color(0xff008043) : null,
                         onPressed: () {
-                          if (origin.isEnrolled!) {
+                          context.read<HomeCubit>().auctionOrigin = origin;
+                          KoriginId = origin.id;if (origin.isEnrolled!) {
                             return;
                           } else {
                             registerAuctionSheet(context);

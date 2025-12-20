@@ -14,6 +14,7 @@ class GlobalBottomSheet extends StatelessWidget {
     required this.child,
     this.color,
     this.padding,
+    this.bottomPadding,
   });
 
   final String title;
@@ -22,6 +23,7 @@ class GlobalBottomSheet extends StatelessWidget {
   final Widget child;
   final Color? color;
   final double? padding;
+  final double? bottomPadding;
 
   @override
   Widget build(BuildContext context) {
@@ -29,7 +31,7 @@ class GlobalBottomSheet extends StatelessWidget {
       padding: EdgeInsets.only(
         right: padding??15.5.w,
         left: padding??15.5.w,
-        bottom: context.bottomPadding + 8.h,
+        bottom: bottomPadding??context.bottomPadding + 8.h,
       ),
       child: Container(
         height: height ?? 387.h,

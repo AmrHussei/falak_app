@@ -40,6 +40,7 @@ class TextFormFieldWithTitleWidget extends StatefulWidget {
     this.hint,
     this.title,
     this.hintStyle,
+    this.isPhone = false
   });
   final TextEditingController? controller;
   final double? prefixIconSize;
@@ -69,6 +70,7 @@ class TextFormFieldWithTitleWidget extends StatefulWidget {
   final VoidCallback? onTap;
   final String? title;
   final TextStyle? hintStyle;
+  final bool isPhone;
 
   @override
   State<TextFormFieldWithTitleWidget> createState() =>
@@ -170,7 +172,7 @@ class _TextFormFieldWithTitleWidgetState
                   : AppColors.iconsPrimary(context),
               prefixIcon: widget.prefix,
               suffixIcon: widget.suffix != null
-                  ? (_isFocused
+                  ? (_isFocused&&!widget.isPhone
                         ? ColorFiltered(
                             colorFilter: ColorFilter.mode(
                               AppColors.secondColor(context),

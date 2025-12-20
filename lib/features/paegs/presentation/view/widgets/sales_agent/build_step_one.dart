@@ -219,7 +219,7 @@ class _BuildStepOneWidgetState extends State<BuildStepOneWidget> {
               return null;
             },
           ),
-         16.verticalSpace,
+          16.verticalSpace,
           TextFormFieldWithTitleWidget(
             filled: true,
             fillColor: AppColors.white(context),
@@ -238,9 +238,11 @@ class _BuildStepOneWidgetState extends State<BuildStepOneWidget> {
             inputFormatters: [LengthLimitingTextInputFormatter(9)],
             keyboardType: TextInputType.number,
             suffixIconSize: 66.w,
+            isPhone: true,
+
             suffix: const PhoneSuffixWidget(),
           ),
-         16.verticalSpace,
+          16.verticalSpace,
           TextFormFieldWithTitleWidget(
             filled: true,
             fillColor: AppColors.white(context),
@@ -258,7 +260,6 @@ class _BuildStepOneWidgetState extends State<BuildStepOneWidget> {
               return null;
             },
           ),
-
         ],
       ),
     );

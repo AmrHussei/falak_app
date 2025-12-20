@@ -35,6 +35,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   TextEditingController SecondNameController = TextEditingController();
   TextEditingController thirdNameController = TextEditingController();
   TextEditingController lastNameController = TextEditingController();
+  TextEditingController countryController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
   TextEditingController identityNumberController = TextEditingController();
   TextEditingController editablePhoneController = TextEditingController();
@@ -105,6 +106,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     SecondNameController.text = userName[1];
     thirdNameController.text = userName[2];
     lastNameController.text = userName[3];
+    countryController.text = profileModel.data.country.name;
     phoneController.text =
         '${profileModel.data.phoneNumber.key.replaceAll('+', '')}${profileModel.data.phoneNumber.number}+';
     emailController.text = profileModel.data.email ?? '';
@@ -302,7 +304,9 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void changePassword() async {
-    if (!changePasswordeKey.currentState!.validate())
+    if (!changePasswordeKey.currentState!.validate()){
+      return;
+    }
       emit(state.copyWith(changePasswordRequestState: RequestState.loading));
     ChangePasswordParams changePasswordParams = ChangePasswordParams(
       newPassword: newPasswordController.text.trim(),
@@ -364,7 +368,6 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void getAgencies() async {
-    print('status  $status');
     agenciesLength = 0;
     emit(state.copyWith(getAgenciesRequestState: RequestState.loading));
 

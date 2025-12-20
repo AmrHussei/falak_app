@@ -11,9 +11,6 @@ class HomeState extends Equatable {
     this.privacyPolicyError,
     this.privacyPolicyModel,
     this.favoriteRequestState = RequestState.ideal,
-    this.getWalletRequestState = RequestState.ideal,
-    this.getWalletError,
-    this.getWalletModel,
     this.addWalletBalanceRequestState = RequestState.ideal,
     this.addWalletBalanceError,
     this.addWalletBalanceMsg,
@@ -62,10 +59,6 @@ class HomeState extends Equatable {
   final Failure? addAuctionBidError;
   final String? addAuctionBidMsg;
   //
-  final RequestState getWalletRequestState;
-  final Failure? getWalletError;
-  final WalletModel? getWalletModel;
-  //
   final RequestState privacyPolicyRequestState;
   final Failure? privacyPolicyError;
   final PrivacyModel? privacyPolicyModel;
@@ -95,9 +88,6 @@ class HomeState extends Equatable {
         privacyPolicyRequestState,
         privacyPolicyError,
         privacyPolicyModel,
-        getWalletRequestState,
-        getWalletError,
-        getWalletModel,
         addWalletBalanceRequestState,
         addWalletBalanceError,
         addWalletBalanceMsg,
@@ -189,10 +179,6 @@ class HomeState extends Equatable {
           addAuctionBidRequestState ?? this.addAuctionBidRequestState,
       addAuctionBidError: addAuctionBidError ?? this.addAuctionBidError,
       addAuctionBidMsg: addAuctionBidMsg ?? this.addAuctionBidMsg,
-      getWalletRequestState:
-          getWalletRequestState ?? this.getWalletRequestState,
-      getWalletError: getWalletError ?? this.getWalletError,
-      getWalletModel: getWalletModel ?? this.getWalletModel,
       privacyPolicyRequestState:
           privacyPolicyRequestState ?? this.privacyPolicyRequestState,
       privacyPolicyError: privacyPolicyError ?? this.privacyPolicyError,

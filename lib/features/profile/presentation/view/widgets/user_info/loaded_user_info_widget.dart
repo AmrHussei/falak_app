@@ -1,6 +1,5 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:falak/core/widgets/app_buttons.dart';
-import 'package:falak/core/widgets/phone_suffix_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -119,7 +118,15 @@ class LoadedUserInfoWidget extends StatelessWidget {
           8.verticalSpace,
           TextFormFieldWithTitleWidget(
             title: 'الإسم الاخير',
+            enabled: false,
             controller: profileCubit.lastNameController,
+
+            keyboardType: TextInputType.text,
+          ),
+          8.verticalSpace,
+          TextFormFieldWithTitleWidget(
+            title: 'المدينه',
+            controller: profileCubit.countryController,
             enabled: false,
             keyboardType: TextInputType.text,
           ),
@@ -132,14 +139,58 @@ class LoadedUserInfoWidget extends StatelessWidget {
             keyboardType: TextInputType.number,
           ),
           8.verticalSpace,
-          TextFormFieldWithTitleWidget(
-            title: 'رقم الجوال',
-            controller: profileCubit.phoneController,
-            enabled: false,
-            inputFormatters: [LengthLimitingTextInputFormatter(9)],
-            keyboardType: TextInputType.number,
-            suffixIconSize: 66.w,
-            suffix: const PhoneSuffixWidget(),
+          BlocListener<ProfileCubit, ProfileState>(
+            listenWhen: (previous, current) =>
+            previous.askEditPhoneRequestState !=
+                current.askEditPhoneRequestState,
+            listener: (context, state) {
+              if (state.askEditPhoneRequestState == RequestState.loaded) {
+                context.navigateToWithArguments(Routes.oTPScreen, {
+                  'nextRoute': Routes.changePhoneNumberScreen,
+                  'totalSteps': 3,
+                  'currentStep': 0,
+                  'width': 95.0,
+                });
+                mySnackBar(
+                  state.askEditPhoneMsg ?? 'تم ',
+                  context,
+                  isError: false,
+                );
+                context.read<AuthCubit>().identityNumberController.text =
+                    profileModel.data.identityNumber;
+              } else if (state.askEditPhoneRequestState == RequestState.error) {
+                mySnackBar(
+                  state.askEditPhoneError?.message ??
+                      'هناك شئ ما خطأ حاول مجددا',
+                  context,
+                  isError: true,
+                );
+              }
+            },
+            child: InkWell(
+              onTap: () {
+                profileCubit.askEditPhone();
+              },
+              child: TextFormFieldWithTitleWidget(
+                title: 'رقم الجوال',
+                controller: profileCubit.phoneController,
+                enabled: false,
+                inputFormatters: [LengthLimitingTextInputFormatter(9)],
+                keyboardType: TextInputType.number,
+                suffix: Padding(
+                  padding: EdgeInsets.symmetric(vertical: 15, horizontal: 12),
+                  child: Text(
+                    'تغير الجوال',
+                    style: AppStyles.styleSemiBold14(context).copyWith(
+                      color: AppColors.primary(context),
+                      decoration: TextDecoration.underline,
+                      decorationColor: AppColors.secondColor(context),
+                      decorationThickness: 1,
+                    ),
+                  ),
+                ),
+              ),
+            ),
           ),
           8.verticalSpace,
           BlocListener<ProfileCubit, ProfileState>(

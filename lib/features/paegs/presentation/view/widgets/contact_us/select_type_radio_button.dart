@@ -68,7 +68,7 @@ class _SelectTypeRadioButtonState extends State<SelectTypeRadioButton> {
           8.verticalSpace,
           RadioItem(
             label: 'تغير بيانات شخصية',
-            value: 'changeProfile',
+            value: 'changePersonalInformation',
             groupValue: _selectedValue,
             onChanged: _handleRadioValueChange,
             context: context,

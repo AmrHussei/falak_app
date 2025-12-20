@@ -203,9 +203,6 @@ class AuthCubit extends Cubit<AuthState> {
   void verifyOtp() async {
     emit(state.copyWith(verifyRequestState: RequestState.loading));
     final identityNumber =
-        serviceLocator<IAppLocalStorage>().getValue(
-          AppStrings.userIdentityNumber,
-        ) ??
         identityNumberController.text.trim();
     log('identityNumber: $identityNumber');
 
@@ -226,16 +223,13 @@ class AuthCubit extends Cubit<AuthState> {
         log(failure.toString());
       },
       (message) {
-        //clear the controllers
-        _cleareControllers();
-
         emit(state.copyWith(verifyRequestState: RequestState.loaded));
         KisGuest = false;
       },
     );
   }
 
-  void _cleareControllers() {
+  void cleareControllers() {
     identityNumberController.clear();
     loginPasswordController.clear();
     verifyController.clear();

@@ -56,7 +56,8 @@ class ContactUsFormWidget extends StatelessWidget {
           },
           inputFormatters: [LengthLimitingTextInputFormatter(9)],
           keyboardType: TextInputType.number,
-          suffixIconSize: 66.w,
+          suffixIconSize: 66.w,              isPhone: true,
+
           suffix: const PhoneSuffixWidget(),
         ),
         16.verticalSpace,

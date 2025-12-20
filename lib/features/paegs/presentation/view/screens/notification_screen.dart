@@ -55,7 +55,8 @@ class _NotificationScreenState extends State<NotificationScreen> {
               builder: (context, state) {
                 final notifications = state.notifications ?? [];
                 if (notifications.isNotEmpty) {
-                  return ListView.builder(
+                  return ListView.separated(
+                    separatorBuilder: (_,__)=>16.verticalSpace,
                     padding: EdgeInsets.symmetric(
                       horizontal: 12.w,
                       vertical: 16.h,

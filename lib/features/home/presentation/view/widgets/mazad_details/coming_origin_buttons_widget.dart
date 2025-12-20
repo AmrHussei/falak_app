@@ -33,16 +33,17 @@ class ComingOriginButtonsWidget extends StatelessWidget {
         Expanded(
           child: AppPrimaryButton(
             onPressed: () {
+              context.read<HomeCubit>().auctionOrigin = origin;
+              KoriginId = origin.id;
               if (origin.isEnrolled == true) {
                 LogOutFromAuctionSheetBottomSheet(context);
               } else {
                 registerAuctionSheet(context);
               }
             },
-            text:
-                origin.isEnrolled == true
-                    ? 'الخروج من المزاد'
-                    : 'سجل في المزاد',
+            text: origin.isEnrolled == true
+                ? 'الخروج من المزاد'
+                : 'سجل في المزاد',
           ),
         ),
       ],

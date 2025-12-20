@@ -56,6 +56,7 @@ class _FilterSheetBottomSheetBodyWidgetState
     HomeCubit homeCubit = context.read<HomeCubit>();
     return GlobalBottomSheet(
       height: 350.h,
+      bottomPadding: MediaQuery.viewPaddingOf(context).bottom,
       title: 'البحث',
       action: () {
         context.pop();

@@ -88,7 +88,8 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                   }
                   return null;
                 },
-                suffixIconSize: 66.w,
+                suffixIconSize: 66.w,              isPhone: true,
+
                 suffix: const PhoneSuffixWidget(),
               ),
               16.verticalSpace,

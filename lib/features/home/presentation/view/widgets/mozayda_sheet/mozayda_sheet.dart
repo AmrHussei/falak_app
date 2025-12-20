@@ -1,5 +1,6 @@
 import 'package:falak/core/widgets/custom_tab_bar.dart';
 import 'package:falak/core/widgets/global_bottom_sheet.dart';
+import 'package:falak/features/wallet/presentation/view_model/wallet/wallet_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -47,7 +48,7 @@ class _mozaydaSheetBottomSheetBodyWidgetState
   void initState() {
     super.initState();
     context.read<ProfileCubit>().getAgencies();
-    context.read<HomeCubit>().getWallet();
+    context.read<WalletCubit>().getWallet();
     _tabController = TabController(vsync: this, length: 2);
   }
 

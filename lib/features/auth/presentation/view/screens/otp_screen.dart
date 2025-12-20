@@ -166,7 +166,7 @@ class VerifyButtonWidget extends StatelessWidget {
         if (state.verifyRequestState == RequestState.loaded) {
           if (isEmail) {
             await showModalBottomSheet(
-              isDismissible: false,
+              isDismissible: true,
               isScrollControlled: true,
               enableDrag: false,
               context: context,

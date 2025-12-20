@@ -74,7 +74,7 @@ class _EnrollmentSheetBottomSheetBodyWidgetState
         return GlobalBottomSheet(
           title: 'التسجيل فى المزاد',
           height:
-              (state.shareAs == AppStrings.enrollShareAsAgent ? 460.h : 400.h) +
+              (state.shareAs == AppStrings.enrollShareAsAgent ? 466.h : 406.h) +
               (KisGuest ? 60.h : 0),
           action: () {
             context.pop();
@@ -181,7 +181,6 @@ class EnrollMentCallToAction extends StatelessWidget {
                   );
                   return;
                 } else {
-                  homeCubit.type = AppStrings.enrolltypeOnline;
                   homeCubit.originId = homeCubit.auctionOrigin!.id;
                   homeCubit.auctionId = homeCubit.auctionData!.id;
                   homeCubit.auctionEnrollment();

@@ -65,7 +65,7 @@ class ContactData {
       createdAt: json['createdAt'] as String?,
       updatedAt: json['updatedAt'] as String?,
       v: json['__v'] as int?,
-      ourOffice: (json['ourOffice'] as List<dynamic>?)
+      ourOffice: (json['address'] as List<dynamic>?)
           ?.map((e) => Office.fromJson(e))
           .toList(),
     );
@@ -143,7 +143,7 @@ class Office {
 
   factory Office.fromJson(Map<String, dynamic> json) {
     return Office(
-      name: json['name'] as String?,
+      name: json['title'] as String?,
       link: json['link'] as String?,
       id: json['_id'] as String?,
     );

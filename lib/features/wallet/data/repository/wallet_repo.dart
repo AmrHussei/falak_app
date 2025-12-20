@@ -2,8 +2,6 @@ import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
 import 'package:falak/features/wallet/data/data_source/wallet_data_source.dart';
-import 'package:falak/features/wallet/data/model/wallet_details_model.dart';
-import 'package:flutter/foundation.dart';
 
 import '../../../../core/error/failure.dart';
 import '../../../../core/params/wallet/psot_withdraw_params.dart';
@@ -57,46 +55,6 @@ class WalletRepository {
   }
 
   Future<Either<Failure, WithdrawModel>> getWithdraw() async {
-    if (kDebugMode) {
-      return Right(
-        WithdrawModel(
-          data: [
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.pending,
-            ),
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.confirmed,
-            ),
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.success,
-            ),
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.failed,
-            ),
-          ],
-        ),
-      );
-    }
     try {
       final response = await remoteDataSource.getWithdraw();
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -116,47 +74,6 @@ class WalletRepository {
   }
 
   Future<Either<Failure, InvoiceModel>> getUserInvoices() async {
-    if (kDebugMode) {
-      return Right(
-        InvoiceModel(
-          data: [
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.pending,
-            ),
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.confirmed,
-            ),
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.success,
-            ),
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.failed,
-            ),
-          ],
-
-        ),
-      );
-    }
     try {
       final response = await remoteDataSource.getUserInvoices();
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -176,47 +93,6 @@ class WalletRepository {
   }
 
   Future<Either<Failure, HeldModel>> getHeldFunds() async {
-    if (kDebugMode) {
-      return Right(
-        HeldModel(
-          data: [
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.pending,
-            ),
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.confirmed,
-            ),
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.success,
-            ),
-            WalletDetailsModel(
-              title: '',
-              refNumber: '1',
-              transactionTime: '',
-              transactionDate: '',
-              amount: '1000',
-              status: TransactionStatus.failed,
-            ),
-          ],
-
-        ),
-      );
-    }
     try {
       final response = await remoteDataSource.getHeldFunds();
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {

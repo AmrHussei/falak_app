@@ -177,8 +177,7 @@ class ListItems extends StatelessWidget {
             iconAsset: AppAssets.app_imagesAddSales,
             title: 'إنشاء حساب (وكلاء البيع)',
             onTap: () {
-              context.navigateTo(Routes.SalesAgentIntroScreen);
-              // Your action conthere
+              context.navigateTo(Routes.addSalesAgent);
             },
           ),
         ],

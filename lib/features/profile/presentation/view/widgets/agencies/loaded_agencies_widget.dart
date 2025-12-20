@@ -50,7 +50,7 @@ class LoadedAgenciesWidget extends StatelessWidget {
                           profileCubit.status == AppStrings.blocked)
                       ? () {
                         showModalBottomSheet(
-                          isDismissible: false,
+                          isDismissible: true,
                           isScrollControlled: true,
                           enableDrag: false,
                           context: context,

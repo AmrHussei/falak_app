@@ -25,7 +25,7 @@ class ChangePasswordButtonWidget extends StatelessWidget {
           listener: (context, state) {
             if (state.changePasswordRequestState == RequestState.loaded) {
               showModalBottomSheet(
-                isDismissible: false,
+                isDismissible: true,
                 isScrollControlled: true,
                 enableDrag: false,
                 context: context,

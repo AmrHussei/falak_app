@@ -41,6 +41,13 @@ class _PolicyScreenState extends State<PolicyScreen> {
                 ),
                 child:Html(
                   data: state.privacyPolicyModel!.data.content,
+                  style: {
+                    "body": Style(
+                      fontFamily: 'Lama Sans',
+                      lineHeight: LineHeight(1.7),
+                      fontSize: FontSize(16),
+                    ),
+                  },
                 ),
               );
             case RequestState.error:

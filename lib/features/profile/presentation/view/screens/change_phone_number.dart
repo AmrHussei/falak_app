@@ -1,3 +1,6 @@
+import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/core/widgets/phone_suffix_widget.dart';
+import 'package:falak/features/auth/presentation/view/widgets/steps_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -40,7 +43,11 @@ class _ChangePhoneNumberScreenState extends State<ChangePhoneNumberScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: CoustomAppBarWidget(
-        title: '',
+        title: 'رقم الجوال',
+        actions: [
+          StepsWidget(currentStep: 1, totalSteps: 3, width: 17.w),
+          8.horizontalSpace,
+        ],
       ),
       body: AdaptiveLayout(
         mobileLayout: (context) => ChangePhoneNumberMobileLayoutWidget(),
@@ -57,9 +64,7 @@ class _ChangePhoneNumberScreenState extends State<ChangePhoneNumberScreen> {
 }
 
 class ChangePhoneNumberMobileLayoutWidget extends StatelessWidget {
-  const ChangePhoneNumberMobileLayoutWidget({
-    super.key,
-  });
+  const ChangePhoneNumberMobileLayoutWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -67,93 +72,34 @@ class ChangePhoneNumberMobileLayoutWidget extends StatelessWidget {
     return Form(
       key: cubit.editphoneKey,
       child: SingleChildScrollView(
-        child: Center(
-          child: Padding(
-            padding: EdgeInsets.symmetric(horizontal: 24),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                40.verticalSpace,
-                Row(
-                  children: [
-                    Text(
-                      'ادخل رقم الجوال',
-                      style: AppStyles.styleBold24(context).copyWith(
-                        color: AppColors.typographyHeading(context),
-                      ),
-                    ),
-                  ],
-                ),
-                40.verticalSpace,
-                TextFormFieldWithTitleWidget(
-                  controller: cubit.editablePhoneController,
-                  label: 'رقم الجوال',
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'يرجى ادخال رقم الجوال';
-                    }
-                    if (!RegExp(r'^5\d{8}$').hasMatch(value)) {
-                      return 'يجب أن يبدأ رقم الجوال ب 5 ويتكون من 9 أرقام';
-                    }
-                    return null;
-                  },
-                  inputFormatters: [
-                    LengthLimitingTextInputFormatter(9),
-                  ],
-                  keyboardType: TextInputType.number,
-                  suffixIconSize: 70,
-                  suffix: Row(
-                    children: [
-                      Container(
-                        height: 50.h,
-                        width: 1.w,
-                        color: AppColors.separatingBorder(context),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.symmetric(
-                          vertical: 12.h,
-                          horizontal: 0.w,
-                        ),
-                        child: Container(
-                          alignment: Alignment.center,
-                          padding: EdgeInsets.symmetric(horizontal: 16.w),
-                          height: 24.h,
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(6.r),
-                          ),
-                          child: Text(
-                            '966+',
-                            style: AppStyles.styleBold16(context).copyWith(
-                              color: AppColors.typographyHeading(context),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
-                  ),
-                  prefix: Padding(
-                    padding: EdgeInsets.symmetric(
-                      vertical: 12,
-                      horizontal: 16,
-                    ),
-                    child: ConstrainedBox(
-                      constraints: BoxConstraints(
-                        maxWidth: 24,
-                        maxHeight: 24,
-                      ),
-                      child: SvgPicture.asset(
-                        AppAssets.app_imagesPhone,
-                        fit: BoxFit.fill,
-                      ),
-                    ),
-                  ),
-                ),
-                31.verticalSpace,
-                ChangePhoneNumberButtonWidget(),
-                31.verticalSpace,
-              ],
+        padding: EdgeInsets.symmetric(horizontal: 31.5.w, vertical: 32.h),
+
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            TextFormFieldWithTitleWidget(
+              controller: cubit.editablePhoneController,
+              title: 'رقم الجوال الجديد',
+              hint: 'رقم الجوال الجديد',
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'يرجى ادخال رقم الجوال';
+                }
+                if (!RegExp(r'^5\d{8}$').hasMatch(value)) {
+                  return 'يجب أن يبدأ رقم الجوال ب 5 ويتكون من 9 أرقام';
+                }
+                return null;
+              },
+              inputFormatters: [LengthLimitingTextInputFormatter(9)],
+              keyboardType: TextInputType.number,
+              suffixIconSize: 66.w,              isPhone: true,
+
+              suffix: PhoneSuffixWidget(),
             ),
-          ),
+            16.verticalSpace,
+            ChangePhoneNumberButtonWidget(),
+            31.verticalSpace,
+          ],
         ),
       ),
     );
@@ -161,57 +107,42 @@ class ChangePhoneNumberMobileLayoutWidget extends StatelessWidget {
 }
 
 class ChangePhoneNumberButtonWidget extends StatelessWidget {
-  const ChangePhoneNumberButtonWidget({
-    super.key,
-  });
+  const ChangePhoneNumberButtonWidget({super.key});
 
   @override
   Widget build(BuildContext context) {
     ProfileCubit cubit = context.read<ProfileCubit>();
 
-    return ElevatedButton(
-      onPressed: () {
-        cubit.addPhone();
+    return BlocConsumer<ProfileCubit, ProfileState>(
+      listenWhen: (previous, current) =>
+          previous.addPhoneRequestState != current.addPhoneRequestState,
+      listener: (context, state) {
+        if (state.addPhoneRequestState == RequestState.loaded) {
+          context.navigateToWithArguments(Routes.oTPScreen, {
+            'nextRoute': Routes.userInfoScreen,
+            'totalSteps': 3,
+            'currentStep': 3,
+            'width': 95.0,
+            'title': 'فضلا ادخل الرمز  المرسل الي بريدك الاليكتروني',
+          });
+          mySnackBar(state.addPhoneModelMsg ?? 'تم', context, isError: false);
+        } else if (state.addPhoneRequestState == RequestState.error) {
+          mySnackBar(
+            state.addPhoneError?.message ?? 'هناك شئ ما خطأ حاول مجددا',
+            context,
+            isError: true,
+          );
+        }
       },
-      child: BlocConsumer<ProfileCubit, ProfileState>(
-        listenWhen: (previous, current) =>
-            previous.addPhoneRequestState != current.addPhoneRequestState,
-        listener: (context, state) {
-          if (state.addPhoneRequestState == RequestState.loaded) {
-            context.navigateToWithArguments(Routes.oTPScreen, {
-              'nextRoute': Routes.userInfoScreen,
-              'totalSteps': 3,
-              'currentStep': 3,
-              'width': 95.0,
-              'title': 'فضلا ادخل الرمز  المرسل الي بريدك الاليكتروني'
-            });
-            mySnackBar(
-              state.addPhoneModelMsg ?? 'تم',
-              context,
-              isError: false,
-            );
-          } else if (state.addPhoneRequestState == RequestState.error) {
-            mySnackBar(
-              state.addPhoneError?.message ?? 'هناك شئ ما خطأ حاول مجددا',
-              context,
-              isError: true,
-            );
-          }
-        },
-        builder: (context, state) {
-          if (state.addPhoneRequestState == RequestState.loading) {
-            return Lottie.asset(
-              AppAnimationAssets.loading,
-            );
-          } else {
-            return Text(
-              'التالي',
-              style: AppStyles.styleBold18(context)
-                  .copyWith(color: AppColors.white(context)),
-            );
-          }
-        },
-      ),
+      builder: (context, state) {
+        return AppPrimaryButton(
+          onPressed: () {
+            cubit.addPhone();
+          },
+          text: 'التالي',
+          isLoading: state.addPhoneRequestState == RequestState.loading,
+        );
+      },
     );
   }
 }

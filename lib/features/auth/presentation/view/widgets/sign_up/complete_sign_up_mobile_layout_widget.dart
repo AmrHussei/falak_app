@@ -86,6 +86,7 @@ class _CompleteSignUpMobileLayoutWidgetState
               inputFormatters: [LengthLimitingTextInputFormatter(9)],
               keyboardType: TextInputType.number,
               suffixIconSize: 66.w,
+              isPhone: true,
               suffix: const PhoneSuffixWidget(),
             ),
             24.verticalSpace,

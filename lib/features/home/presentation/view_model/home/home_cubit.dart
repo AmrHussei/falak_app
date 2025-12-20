@@ -353,7 +353,7 @@ class HomeCubit extends Cubit<HomeState> {
     bool isUserInList = boardAuctionData.any((bid) => bid.user.id == userId);
 
     if (boardAuctionData.isEmpty) {
-      dynamic amount = garlicDifferencetotalAmount;
+      dynamic amount = state.total;
       return amount;
     } else if (!isUserInList) {
       dynamic amount =
@@ -378,34 +378,6 @@ class HomeCubit extends Cubit<HomeState> {
 
       return amount;
     }
-  }
-
-  ///(506-471) + (611 -506 )
-
-  Future<void> getWallet() async {
-    emit(state.copyWith(getWalletRequestState: RequestState.loading));
-
-    final result = await _homeRepository.getWallet();
-
-    result.fold(
-      (failure) {
-        emit(
-          state.copyWith(
-            getWalletRequestState: RequestState.error,
-            getWalletError: failure,
-          ),
-        );
-        log(failure.toString());
-      },
-      (right) {
-        emit(
-          state.copyWith(
-            getWalletRequestState: RequestState.loaded,
-            getWalletModel: right,
-          ),
-        );
-      },
-    );
   }
 
   Future<void> privacyPolicy() async {
@@ -480,7 +452,6 @@ class HomeCubit extends Cubit<HomeState> {
         log(failure.toString());
       },
       (right) async {
-        await getWallet();
         emit(
           state.copyWith(
             addWalletBalanceRequestState: RequestState.loaded,

@@ -1,3 +1,4 @@
+import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/flutter_svg.dart';
@@ -86,6 +87,7 @@ Future<void> showLogOutBottomSheet(BuildContext context) async {
                         child: Builder(builder: (context) {
                           return ElevatedButton(
                             onPressed: () {
+                              context.read<AuthCubit>().cleareControllers();
                               context.read<ProfileCubit>().logOut();
                             },
                             style: ElevatedButton.styleFrom(

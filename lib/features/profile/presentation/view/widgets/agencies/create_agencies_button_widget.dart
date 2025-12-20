@@ -37,7 +37,7 @@ class CreateAgenciesButtonWidget extends StatelessWidget {
               if (state.createAgencyRequestState == RequestState.loaded) {
                 context.pop();
                 showModalBottomSheet(
-                  isDismissible: false,
+                  isDismissible: true,
                   isScrollControlled: true,
                   enableDrag: false,
                   context: context,

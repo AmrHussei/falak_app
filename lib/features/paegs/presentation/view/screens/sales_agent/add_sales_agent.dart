@@ -52,7 +52,7 @@ class CustomBottomNavigationBar extends StatelessWidget {
                 context.pop();
                 context.pop();
                 showModalBottomSheet(
-                  isDismissible: false,
+                  isDismissible: true,
                   isScrollControlled: true,
                   enableDrag: false,
                   context: context,

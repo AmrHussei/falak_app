@@ -1,5 +1,6 @@
 import 'package:falak/features/home/presentation/view/widgets/home/guest_drawer_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/user_drawer_widget.dart';
+import 'package:falak/features/wallet/presentation/view_model/wallet/wallet_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -12,7 +13,6 @@ import 'package:falak/core/utils/media_query_values.dart';
 import '../../../../../../app/app.dart';
 import '../../../../../../config/routes/app_routes.dart';
 import '../../../../../../core/utils/app_colors.dart';
-import '../../../view_model/home/home_cubit.dart';
 
 class DrawerWidget extends StatefulWidget {
   DrawerWidget({super.key, required this.toggleDrawer});
@@ -27,7 +27,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   @override
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      context.read<HomeCubit>().getWallet();
+      context.read<WalletCubit>().getWallet();
     });
     super.initState();
   }

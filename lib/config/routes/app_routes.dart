@@ -51,7 +51,6 @@ class Routes {
   static const String qustionScreen = '/QustionScreen';
   static const String contactUsScreen = '/ContactUsScreen';
   static const String addSalesAgent = '/SalesAgent';
-  static const String SalesAgentIntroScreen = '/SalesAgentIntroScreen';
   static const String notificationScreen = '/NotificationScreen';
   static const String mazadatMenuScreen = '/MazadatMenuScreen';
   static const String changeEmailScreen = '/ChangeEmailScreen';
@@ -135,8 +134,6 @@ class AppRoutes {
         return MaterialPageRoute(builder: (_) => ContactUsScreen());
       case Routes.addSalesAgent:
         return MaterialPageRoute(builder: (_) => AddSalesAgentScreen());
-      case Routes.SalesAgentIntroScreen:
-        return MaterialPageRoute(builder: (_) => SalesAgentIntroScreen());
       case Routes.notificationScreen:
         return MaterialPageRoute(builder: (_) => NotificationScreen());
       case Routes.mazadatMenuScreen:

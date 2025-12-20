@@ -10,7 +10,7 @@ Future<void> showSuccessBottomSheet({
   bool? showHomeButton,
 }) async {
   await showModalBottomSheet(
-    isDismissible: false,
+    isDismissible: true,
     isScrollControlled: true,
     enableDrag: false,
     context: context,

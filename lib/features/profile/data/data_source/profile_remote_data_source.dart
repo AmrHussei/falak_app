@@ -97,7 +97,7 @@ class ProfileRemoteDataSource {
 
   Future<Response> getAgencies(String status) async {
     final response = await apiConsumer.get(
-      EndPoint.agencies + '?status=$status',
+     status=='expired'?EndPoint.agencies + '?expired=true': EndPoint.agencies + '?status=$status&expired=false',
     );
     return response;
   }

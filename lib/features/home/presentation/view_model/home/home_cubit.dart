@@ -82,8 +82,8 @@ class HomeCubit extends Cubit<HomeState> {
       final list = type.split('_');
 
       userAuctionsParams = UserAuctionsParams(
-        loss: bool.parse(list.first),
-        winner: bool.parse(list[1]),
+        loss: bool.parse(list[1]),
+        winner:bool.parse(list.first) ,
       );
     }
     final result = type == AppConstant.favorite

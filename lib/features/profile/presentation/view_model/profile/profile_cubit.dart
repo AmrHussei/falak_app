@@ -47,7 +47,8 @@ class ProfileCubit extends Cubit<ProfileState> {
   TextEditingController oldPasswordController = TextEditingController();
   TextEditingController agencyNameController = TextEditingController();
   TextEditingController agencyNumberController = TextEditingController();
-  TextEditingController agencyIdentityNumberController = TextEditingController();
+  TextEditingController agencyIdentityNumberController =
+      TextEditingController();
   bool isAcceptAgencyPolicy = true;
   TextEditingController agencyIssuedDateController = TextEditingController();
   final editEmaileKey = GlobalKey<FormState>();
@@ -120,7 +121,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     final result = await _profileRepository.changeProfileImage(
       imageFile,
       editUserInfoCountryID,
-      dateController.text.isEmpty?null:dateController.text,
+      dateController.text.isEmpty ? null : dateController.text,
     );
 
     result.fold(
@@ -306,10 +307,10 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   void changePassword() async {
-    if (!changePasswordeKey.currentState!.validate()){
+    if (!changePasswordeKey.currentState!.validate()) {
       return;
     }
-      emit(state.copyWith(changePasswordRequestState: RequestState.loading));
+    emit(state.copyWith(changePasswordRequestState: RequestState.loading));
     ChangePasswordParams changePasswordParams = ChangePasswordParams(
       newPassword: newPasswordController.text.trim(),
       oldPassword: oldPasswordController.text.trim(),
@@ -522,29 +523,13 @@ class ProfileCubit extends Cubit<ProfileState> {
   void logOut() async {
     emit(state.copyWith(logOutRequestState: RequestState.loading));
 
-    final result = await _profileRepository.logOut();
+    _profileRepository.logOut();
 
-    result.fold(
-      (failure) {
-        emit(
-          state.copyWith(
-            logOutRequestState: RequestState.error,
-            logOutError: failure,
-          ),
-        );
-        log(failure.toString());
-      },
-      (msg) async {
-        emit(
-          state.copyWith(
-            logOutRequestState: RequestState.loaded,
-            logOutMsg: msg,
-          ),
-        );
-        await SecureStorageServices().deleteCookie().then((value) => value);
-        serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userImage);
-        serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userName);
-      },
+    emit(
+      state.copyWith(logOutRequestState: RequestState.loaded, logOutMsg: null),
     );
+    SecureStorageServices().deleteCookie();
+    serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userImage);
+    serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userName);
   }
 }

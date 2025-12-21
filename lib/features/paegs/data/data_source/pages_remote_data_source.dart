@@ -30,38 +30,37 @@ class PagesRemoteDataSource {
   }
 
   Future<Response> getQuestions(GetQuestionsParams params) async {
-    final response = await apiConsumer.get(EndPoint.getQuestions, query: {
-      if (params.categoryId != null) 'category': params.categoryId,
-      if (params.search != null || params.search != '') 'search': params.search,
-    });
-    return response;
-  }
-
-  Future<Response> getCategories() async {
     final response = await apiConsumer.get(
-      EndPoint.getCategories,
+      EndPoint.getQuestions,
+      query: {
+        if (params.categoryId != null) 'category': params.categoryId,
+        if (params.search != null || params.search != '')
+          'search': params.search,
+      },
     );
     return response;
   }
 
-  Future<Response> getNotifications() async {
+  Future<Response> getCategories() async {
+    final response = await apiConsumer.get(EndPoint.getCategories);
+    return response;
+  }
+
+  Future<Response> getNotifications({int page = 1}) async {
     final response = await apiConsumer.get(
       EndPoint.notifications,
+      query: {'page': page},
     );
     return response;
   }
 
   Future<Response> deleteNotifications() async {
-    final response = await apiConsumer.delete(
-      EndPoint.notifications,
-    );
+    final response = await apiConsumer.delete(EndPoint.notifications);
     return response;
   }
 
   Future<Response> getSocial() async {
-    final response = await apiConsumer.get(
-      EndPoint.getSocial,
-    );
+    final response = await apiConsumer.get(EndPoint.getSocial);
     return response;
   }
 

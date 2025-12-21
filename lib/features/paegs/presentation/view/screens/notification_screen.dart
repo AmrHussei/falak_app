@@ -25,11 +25,34 @@ class NotificationScreen extends StatefulWidget {
 }
 
 class _NotificationScreenState extends State<NotificationScreen> {
+  final ScrollController _scrollController = ScrollController();
+
   @override
   void initState() {
     super.initState();
     context.read<PagesCubit>().getNotifications();
     context.read<PagesCubit>().newNotifications();
+    _scrollController.addListener(_onScroll);
+  }
+
+  @override
+  void dispose() {
+    _scrollController.removeListener(_onScroll);
+    _scrollController.dispose();
+    super.dispose();
+  }
+
+  void _onScroll() {
+    if (_isBottom) {
+      context.read<PagesCubit>().loadMoreNotifications();
+    }
+  }
+
+  bool get _isBottom {
+    if (!_scrollController.hasClients) return false;
+    final maxScroll = _scrollController.position.maxScrollExtent;
+    final currentScroll = _scrollController.offset;
+    return currentScroll >= (maxScroll - 200);
   }
 
   @override
@@ -55,18 +78,44 @@ class _NotificationScreenState extends State<NotificationScreen> {
               builder: (context, state) {
                 final notifications = state.notifications ?? [];
                 if (notifications.isNotEmpty) {
-                  return ListView.separated(
-                    separatorBuilder: (_,__)=>16.verticalSpace,
-                    padding: EdgeInsets.symmetric(
-                      horizontal: 12.w,
-                      vertical: 16.h,
-                    ),
-                    itemCount: notifications.length,
-                    itemBuilder: (context, index) {
-                      return NotificationCard(
-                        notification: notifications[index],
-                      );
-                    },
+                  return Column(
+                    children: [
+                      Expanded(
+                        child: RefreshIndicator(
+                          onRefresh: () async {
+                            context.read<PagesCubit>().getNotifications();
+                          },
+                          child: ListView.separated(
+                            controller: _scrollController,
+                            separatorBuilder: (_, __) => 16.verticalSpace,
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 12.w,
+                              vertical: 16.h,
+                            ),
+                            itemCount:
+                                notifications.length +
+                                (state.hasMoreNotifications ? 1 : 0),
+                            itemBuilder: (context, index) {
+                              if (index >= notifications.length) {
+                                return Center(
+                                  child: Padding(
+                                    padding: EdgeInsets.symmetric(
+                                      vertical: 16.h,
+                                    ),
+                                    child: state.isLoadingMoreNotifications
+                                        ? CircularProgressIndicator()
+                                        : SizedBox.shrink(),
+                                  ),
+                                );
+                              }
+                              return NotificationCard(
+                                notification: notifications[index],
+                              );
+                            },
+                          ),
+                        ),
+                      ),
+                    ],
                   );
                 }
                 switch (state.getNotificationsRequestState) {
@@ -199,63 +248,70 @@ class NotificationCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final isRead = notification.readAt != null;
-    return Container(
-      padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
-      decoration: BoxDecoration(
-        color: isRead ? Colors.white : AppColors.backgroundPrimary(context),
-        borderRadius: BorderRadius.circular(16.r),
-        border: Border.all(
-          color: isRead
-              ? AppColors.containerGray2Color(context)
-              : AppColors.containerGrayColor(context),
+    return InkWell(
+      onTap: () {
+        if (!isRead) {
+          context.read<PagesCubit>().readNotification(notification.id ?? '');
+        }
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 12.h),
+        decoration: BoxDecoration(
+          color: isRead ? Colors.white : AppColors.backgroundPrimary(context),
+          borderRadius: BorderRadius.circular(16.r),
+          border: Border.all(
+            color: isRead
+                ? AppColors.containerGray2Color(context)
+                : AppColors.containerGrayColor(context),
+          ),
         ),
-      ),
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          SvgPicture.asset(
-            isRead ? Assets.imagesReaded : Assets.imagesUnread,
-            height: 40.h,
-            width: 40.w,
-          ),
-          12.horizontalSpace,
-          Expanded(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Text(
-                  notification.title ?? "No Title",
-                  maxLines: 1,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                  style: AppStyles.styleSemiBold14(
-                    context,
-                  ).copyWith(color: AppColors.typographyHeading(context)),
-                ),
-                8.verticalSpace,
-                Text(
-                  notification.message ?? "NO Desc",
-                  maxLines: 3,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.start,
-                  style: AppStyles.styleRegular14(
-                    context,
-                  ).copyWith(color: Color(0xff666E6D)),
-                ),
-                12.verticalSpace,
-                Text(
-                  calculateTimeDifference(
-                    notification.createdAt ?? '',
-                  ), // Format DateTime
-                  style: AppStyles.styleRegular12(
-                    context,
-                  ).copyWith(color: AppColors.grayText(context)),
-                ),
-              ],
+        child: Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            SvgPicture.asset(
+              isRead ? Assets.imagesReaded : Assets.imagesUnread,
+              height: 40.h,
+              width: 40.w,
             ),
-          ),
-        ],
+            12.horizontalSpace,
+            Expanded(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    notification.title ?? "No Title",
+                    maxLines: 1,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                    style: AppStyles.styleSemiBold14(
+                      context,
+                    ).copyWith(color: AppColors.typographyHeading(context)),
+                  ),
+                  8.verticalSpace,
+                  Text(
+                    notification.message ?? "NO Desc",
+                    maxLines: 3,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.start,
+                    style: AppStyles.styleRegular14(
+                      context,
+                    ).copyWith(color: Color(0xff666E6D)),
+                  ),
+                  12.verticalSpace,
+                  Text(
+                    calculateTimeDifference(
+                      notification.createdAt ?? '',
+                    ), // Format DateTime
+                    style: AppStyles.styleRegular12(
+                      context,
+                    ).copyWith(color: AppColors.grayText(context)),
+                  ),
+                ],
+              ),
+            ),
+          ],
+        ),
       ),
     );
   }

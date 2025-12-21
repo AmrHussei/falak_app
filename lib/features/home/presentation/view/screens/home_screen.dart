@@ -48,7 +48,7 @@ class _HomeScreenState extends State<HomeScreen>
     WidgetsBinding.instance.addPostFrameCallback((_) {
       Future.wait([
         context.read<PagesCubit>().getUnReadCount(),
-        context.read<HomeCubit>().getAuctions(),
+        context.read<HomeCubit>().getAuctions(refresh: true),
       ]);
     });
   }

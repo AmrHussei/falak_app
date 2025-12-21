@@ -190,6 +190,7 @@ class ProfileRepository {
   }
 
   Future<Either<Failure, AgenciesModel>> getAgencies(String status) async {
+    try{
     final response = await remoteDataSource.getAgencies(status);
     if (response.statusCode! >= 200 && response.statusCode! <= 204) {
       var data = AgenciesModel.fromJson(response.data);
@@ -200,6 +201,9 @@ class ProfileRepository {
     } else {
       log('getAgencies Status code is 422');
       return Left(AppFailure(message: response.data['errors'][0]['message']));
+    }}catch(e){
+      return Left(AppFailure(message: e.toString()));
+
     }
   }
 
@@ -265,11 +269,10 @@ class ProfileRepository {
         return Right('تم تسجيل الخروج بنجاح');
       } else {
         log('Register Status code is 422');
-        return Left(AppFailure(message: response.data['errors'][0]['message']));
+        return Right('تم تسجيل الخروج بنجاح');
       }
     } catch (e) {
-      log('Register Repository Exception Error: $e');
-      return Left(ServerFailure(message: e.toString()));
+      return Right('تم تسجيل الخروج بنجاح');
     }
   }
 }

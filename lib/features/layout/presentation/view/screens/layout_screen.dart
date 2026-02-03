@@ -1,9 +1,9 @@
+import 'package:falak/app/app.dart';
 import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:falak/app/app.dart';
 
 import '../../../../../config/routes/app_routes.dart';
 import '../../../../../core/utils/app_colors.dart';
@@ -55,7 +55,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                 context,
                 iconPath: Assets.imagesHome,
                 activeIconPath: Assets.imagesHomeActive,
-                label: 'الرئيسية',
+                label: 'dfffffff', //to do
                 index: 0,
               ),
               _buildNavItem(

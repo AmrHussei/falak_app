@@ -13,14 +13,15 @@ class ProfileRemoteDataSource {
   ProfileRemoteDataSource({required this.apiConsumer});
 
   Future<Response> getProfile() async {
-    final response = await apiConsumer.get(
-      EndPoint.profile,
-    );
+    final response = await apiConsumer.get(EndPoint.profile);
     return response;
   }
 
   Future<Response> changeProfileImage(
-      File? imageFile, String? countryID,String? date) async {
+    File? imageFile,
+    String? countryID,
+    String? date,
+  ) async {
     String? extensionName;
     extensionName = imageFile?.path.split('.').last;
 
@@ -45,26 +46,20 @@ class ProfileRemoteDataSource {
   }
 
   Future<Response> askAddEmail() async {
-    final response = await apiConsumer.post(
-      EndPoint.email,
-    );
+    final response = await apiConsumer.post(EndPoint.email);
     return response;
   }
 
   Future<Response> addEmail(String email) async {
     final response = await apiConsumer.patch(
       EndPoint.email,
-      body: {
-        'email': email,
-      },
+      body: {'email': email},
     );
     return response;
   }
 
   Future<Response> askEditPhone() async {
-    final response = await apiConsumer.post(
-      EndPoint.phone,
-    );
+    final response = await apiConsumer.post(EndPoint.phone);
     return response;
   }
 
@@ -72,10 +67,7 @@ class ProfileRemoteDataSource {
     final response = await apiConsumer.patch(
       EndPoint.phone,
       body: {
-        "phoneNumber": {
-          "number": phone,
-          "key": "+966",
-        }
+        "phoneNumber": {"number": phone, "key": "+966"},
       },
     );
     return response;
@@ -90,46 +82,37 @@ class ProfileRemoteDataSource {
   }
 
   Future<Response> deleteAccount() async {
-    final response = await apiConsumer.delete(
-      EndPoint.profile,
-    );
+    final response = await apiConsumer.delete(EndPoint.profile);
     return response;
   }
 
   Future<Response> getAgencies(String status) async {
     final response = await apiConsumer.get(
-     status=='expired'?EndPoint.agencies + '?expired=true': EndPoint.agencies + '?status=$status&expired=false',
+      status == 'expired'
+          ? EndPoint.agencies + '?expired=true'
+          : EndPoint.agencies + '?status=$status&expired=false',
     );
     return response;
   }
 
   Future<Response> createAgency(CreateAgencyParams params) async {
     final formData = await params.toFormData();
-    final response = await apiConsumer.post(
-      EndPoint.agencies,
-      body: formData,
-    );
+    final response = await apiConsumer.post(EndPoint.agencies, body: formData);
     return response;
   }
 
   Future<Response> deleteAgencies(String agencyId) async {
-    final response = await apiConsumer.delete(
-      EndPoint.agencies + '/$agencyId',
-    );
+    final response = await apiConsumer.delete(EndPoint.agencies + '/$agencyId');
     return response;
   }
 
   Future<Response> activeAgencies(String agencyId) async {
-    final response = await apiConsumer.patch(
-      EndPoint.agencies + '/$agencyId',
-    );
+    final response = await apiConsumer.patch(EndPoint.agencies + '/$agencyId');
     return response;
   }
 
   Future<Response> logOut() async {
-    final response = await apiConsumer.post(
-      EndPoint.logOut,
-    );
+    final response = await apiConsumer.post(EndPoint.logOut);
     return response;
   }
 }

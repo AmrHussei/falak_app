@@ -1,15 +1,15 @@
+import 'package:falak/core/utils/app_colors.dart';
+import 'package:falak/core/utils/app_images.dart';
+import 'package:falak/core/utils/app_styles.dart';
+import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:lottie/lottie.dart';
-import 'package:falak/config/routes/app_routes.dart';
-import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/app_images.dart';
-import 'package:falak/core/utils/app_styles.dart';
-import 'package:falak/core/utils/media_query_values.dart';
 
+import '../../../../../../config/routes/app_routes.dart';
 import '../../../../../../core/utils/app_animations.dart';
 import '../../../../../../core/utils/enums.dart';
 import '../../../../../../core/utils/images.dart';
@@ -47,11 +47,13 @@ Future<void> showLogOutBottomSheet(BuildContext context) async {
                 SizedBox(
                   width: 340,
                   height: 64,
-                  child: Text('هل ترغب بتسجيل الخروج ؟',
-                      textAlign: TextAlign.center, // Format DateTime
-                      style: AppStyles.styleMedium20(context).copyWith(
-                        color: AppColors.typographyHeading(context),
-                      )),
+                  child: Text(
+                    'هل ترغب بتسجيل الخروج ؟',
+                    textAlign: TextAlign.center, // Format DateTime
+                    style: AppStyles.styleMedium20(
+                      context,
+                    ).copyWith(color: AppColors.typographyHeading(context)),
+                  ),
                 ),
                 SizedBox(height: 8),
                 SizedBox(
@@ -65,89 +67,94 @@ Future<void> showLogOutBottomSheet(BuildContext context) async {
                           },
                           label: Text(
                             'إلغاء',
-                            style: AppStyles.styleMedium16(context).copyWith(
-                                color: AppColors.iconsTertiary(context)),
+                            style: AppStyles.styleMedium16(
+                              context,
+                            ).copyWith(color: AppColors.iconsTertiary(context)),
                           ),
-                          icon: SvgPicture.asset(
-                            Assets.imagesClose,
-                          ),
+                          icon: SvgPicture.asset(Assets.imagesClose),
                           style: OutlinedButton.styleFrom(
-                              minimumSize: Size(double.infinity, 46),
-                              side: BorderSide(
-                                color: AppColors.iconsTertiary(context),
-                              ),
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(12),
-                              ),
-                              foregroundColor: AppColors.iconsTertiary(context),
-                              backgroundColor: AppColors.white(context)),
+                            minimumSize: Size(double.infinity, 46),
+                            side: BorderSide(
+                              color: AppColors.iconsTertiary(context),
+                            ),
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(12),
+                            ),
+                            foregroundColor: AppColors.iconsTertiary(context),
+                            backgroundColor: AppColors.white(context),
+                          ),
                         ),
                       ),
-                     8.horizontalSpace,
+                      8.horizontalSpace,
                       Expanded(
-                        child: Builder(builder: (context) {
-                          return ElevatedButton(
-                            onPressed: () {
-                              context.read<AuthCubit>().cleareControllers();
-                              context.read<ProfileCubit>().logOut();
-                            },
-                            style: ElevatedButton.styleFrom(
-                                backgroundColor: AppColors.danger(context)),
-                            child: BlocConsumer<ProfileCubit, ProfileState>(
-                              listener: (context, state) {
-                                if (state.logOutRequestState ==
-                                    RequestState.loaded) {
-                                  context
-                                      .navigateToWithReplacementAndClearStack(
-                                    Routes.login,
-                                  );
-                                  mySnackBar(
-                                    state.logOutMsg ?? 'تم تسجيل الخروج بنجاح',
-                                    context,
-                                    isError: false,
-                                  );
-                                } else if (state.logOutRequestState ==
-                                    RequestState.error) {
-                                  mySnackBar(
-                                    state.logOutError?.message ??
-                                        'هناك شئ ما خطأ حاول مجددا',
-                                    context,
-                                    isError: true,
-                                  );
-                                }
+                        child: Builder(
+                          builder: (context) {
+                            return ElevatedButton(
+                              onPressed: () {
+                                context.navigateToWithReplacementAndClearStack(
+                                  Routes.login,
+                                );
+                                context.read<ProfileCubit>().logOut();
+                                context.read<AuthCubit>().cleareControllers();
                               },
-                              builder: (context, state) {
-                                if (state.logOutRequestState ==
-                                    RequestState.loading) {
-                                  return Lottie.asset(
-                                    AppAnimationAssets.loading,
-                                  );
-                                } else {
-                                  return Row(
-                                    mainAxisAlignment: MainAxisAlignment.center,
-                                    children: [
-                                      SvgPicture.asset(
-                                        Assets.imagesLogout,
-                                        color: AppColors.white(context),
-                                      ),
-                                      Text(
-                                        'تسجيل الخروج', // Format DateTime
-                                        style: AppStyles.styleMedium16(context)
-                                            .copyWith(
+                              style: ElevatedButton.styleFrom(
+                                backgroundColor: AppColors.danger(context),
+                              ),
+                              child: BlocConsumer<ProfileCubit, ProfileState>(
+                                listener: (context, state) {
+                                  if (state.logOutRequestState ==
+                                      RequestState.loaded) {
+                                    // mySnackBar(
+                                    //   state.logOutMsg ?? 'تم تسجيل الخروج بنجاح',
+                                    //   context,
+                                    //   isError: false,
+                                    // );
+                                  } else if (state.logOutRequestState ==
+                                      RequestState.error) {
+                                    mySnackBar(
+                                      state.logOutError?.message ??
+                                          'هناك شئ ما خطأ حاول مجددا',
+                                      context,
+                                      isError: true,
+                                    );
+                                  }
+                                },
+                                builder: (context, state) {
+                                  if (state.logOutRequestState ==
+                                      RequestState.loading) {
+                                    return Lottie.asset(
+                                      AppAnimationAssets.loading,
+                                    );
+                                  } else {
+                                    return Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.center,
+                                      children: [
+                                        SvgPicture.asset(
+                                          Assets.imagesLogout,
                                           color: AppColors.white(context),
                                         ),
-                                      ),
-                                    ],
-                                  );
-                                }
-                              },
-                            ),
-                          );
-                        }),
-                      )
+                                        Text(
+                                          'تسجيل الخروج', // Format DateTime
+                                          style:
+                                              AppStyles.styleMedium16(
+                                                context,
+                                              ).copyWith(
+                                                color: AppColors.white(context),
+                                              ),
+                                        ),
+                                      ],
+                                    );
+                                  }
+                                },
+                              ),
+                            );
+                          },
+                        ),
+                      ),
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

@@ -1,7 +1,6 @@
-
 class EndPoint {
   // static const String baseUrl = 'https://api.ittlt.com';
-  static const String baseUrl = 'https://srv1066914.hstgr.cloud';
+  static const String baseUrl = 'https://api.falakalkhayer.sa';
 
   // static const String baseUrl = 'https://api.falak.sa.com';
   //! Auth

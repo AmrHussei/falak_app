@@ -546,5 +546,8 @@ class ProfileCubit extends Cubit<ProfileState> {
         );
       },
     );
+    SecureStorageServices().deleteCookie();
+    serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userImage);
+    serviceLocator<IAppLocalStorage>().deleteValue(AppStrings.userName);
   }
 }

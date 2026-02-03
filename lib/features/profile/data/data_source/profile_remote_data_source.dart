@@ -36,7 +36,7 @@ class ProfileRemoteDataSource {
           ).change(mimeType: 'image/$extensionName', parameters: {}),
         ),
       if (countryID != null) "country": countryID,
-      if (date != null) "birthDate": date,
+      if (date != null) "birthDay": date,
     });
     final response = await apiConsumer.patch(
       EndPoint.changeProfileImage,
@@ -90,7 +90,7 @@ class ProfileRemoteDataSource {
     final response = await apiConsumer.get(
       status == 'expired'
           ? EndPoint.agencies + '?expired=true'
-          : EndPoint.agencies + '?status=$status&expired=false',
+          : EndPoint.agencies + '?status=$status',
     );
     return response;
   }

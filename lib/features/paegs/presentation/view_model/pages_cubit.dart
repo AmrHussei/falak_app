@@ -241,9 +241,18 @@ class PagesCubit extends Cubit<PagesState> {
     });
   }
 
-  void getNotifications() async {
-    emit(state.copyWith(getNotificationsRequestState: RequestState.loading));
-    final result = await _pageRepository.getNotifications();
+  void getNotifications({bool refresh = true}) async {
+    if (refresh) {
+      emit(
+        state.copyWith(
+          getNotificationsRequestState: RequestState.loading,
+          currentNotificationPage: 1,
+          hasMoreNotifications: true,
+        ),
+      );
+    }
+
+    final result = await _pageRepository.getNotifications(page: 1);
 
     result.fold(
       (failure) {
@@ -254,15 +263,86 @@ class PagesCubit extends Cubit<PagesState> {
           ),
         );
       },
-      (r) {
+      (response) {
         emit(
           state.copyWith(
             getNotificationsRequestState: RequestState.loaded,
-            notifications: r,
+            notifications: response.data,
+            currentNotificationPage: response.pagination.currentPage,
+            totalNotificationPages: response.pagination.totalPages,
+            hasMoreNotifications: response.pagination.hasMorePages,
           ),
         );
       },
     );
+  }
+
+  void loadMoreNotifications() async {
+    if (state.isLoadingMoreNotifications || !state.hasMoreNotifications) {
+      return;
+    }
+
+    final nextPage = state.currentNotificationPage + 1;
+
+    emit(state.copyWith(isLoadingMoreNotifications: true));
+
+    final result = await _pageRepository.getNotifications(page: nextPage);
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            isLoadingMoreNotifications: false,
+            notificationsError: failure,
+          ),
+        );
+      },
+      (response) {
+        final existingNotifications = List<NotificationModel>.from(
+          state.notifications ?? [],
+        );
+        existingNotifications.addAll(response.data);
+
+        emit(
+          state.copyWith(
+            isLoadingMoreNotifications: false,
+            notifications: existingNotifications,
+            currentNotificationPage: response.pagination.currentPage,
+            totalNotificationPages: response.pagination.totalPages,
+            hasMoreNotifications: response.pagination.hasMorePages,
+          ),
+        );
+      },
+    );
+  }
+
+  void readNotification(String id) async {
+    final notificationIndex = state.notifications?.indexWhere(
+      (notification) => notification.id == id,
+    );
+    if (notificationIndex == null || notificationIndex == -1) {
+      return;
+    }
+
+    final notifications = List<NotificationModel>.from(
+      state.notifications ?? [],
+    );
+    final notification = state.notifications![notificationIndex].copyWith(
+      readAt: DateTime.now().toString(),
+    );
+    notifications.removeAt(notificationIndex);
+
+    notifications.insert(notificationIndex, notification);
+
+    emit(
+      state.copyWith(
+        readNotificationRequestState: RequestState.loading,
+        notifications: notifications,
+      ),
+    );
+
+    await notificationsSocket.readNotification(id);
+    emit(state.copyWith(readNotificationRequestState: RequestState.loaded));
   }
 
   void deleteNotifications() async {

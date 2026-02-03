@@ -16,9 +16,7 @@ import '../models/agencies_model.dart';
 class ProfileRepository {
   final ProfileRemoteDataSource remoteDataSource;
 
-  ProfileRepository({
-    required this.remoteDataSource,
-  });
+  ProfileRepository({required this.remoteDataSource});
 
   Future<Either<Failure, ProfileModel>> getProfile() async {
     try {
@@ -54,11 +52,7 @@ class ProfileRepository {
         return Right(data);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -67,21 +61,23 @@ class ProfileRepository {
   }
 
   Future<Either<Failure, String>> changeProfileImage(
-      File? imageFile, String? countryID, String? date) async {
+    File? imageFile,
+    String? countryID,
+    String? date,
+  ) async {
     try {
-      final response =
-          await remoteDataSource.changeProfileImage(imageFile, countryID,date);
+      final response = await remoteDataSource.changeProfileImage(
+        imageFile,
+        countryID,
+        date,
+      );
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         log('Register Status code is 200');
 
         return Right(response.data['message']);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -98,11 +94,7 @@ class ProfileRepository {
         return Right(response.data['data']['code']); //TODO : replase with msg
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -119,11 +111,7 @@ class ProfileRepository {
         return Right(response.data['data']['code']);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -140,11 +128,7 @@ class ProfileRepository {
         return Right(response.data['data']['code']); //TODO : replase with msg
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -161,11 +145,7 @@ class ProfileRepository {
         return Right(response.data['data']['code']);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -174,7 +154,8 @@ class ProfileRepository {
   }
 
   Future<Either<Failure, String>> changePassword(
-      ChangePasswordParams params) async {
+    ChangePasswordParams params,
+  ) async {
     try {
       final response = await remoteDataSource.changePassword(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -183,11 +164,7 @@ class ProfileRepository {
         return Right(response.data['message']);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -204,11 +181,7 @@ class ProfileRepository {
         return Right('تم حذف الحساب بنجاح');
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -217,30 +190,26 @@ class ProfileRepository {
   }
 
   Future<Either<Failure, AgenciesModel>> getAgencies(String status) async {
-    try {
-      final response = await remoteDataSource.getAgencies(status);
-      if (response.statusCode! >= 200 && response.statusCode! <= 204) {
-        var data = AgenciesModel.fromJson(response.data);
+    try{
+    final response = await remoteDataSource.getAgencies(status);
+    if (response.statusCode! >= 200 && response.statusCode! <= 204) {
+      var data = AgenciesModel.fromJson(response.data);
 
-        log('getAgencies Status code is 200');
+      log('getAgencies Status code is 200');
 
-        return Right(data);
-      } else {
-        log('getAgencies Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
-      }
-    } catch (e) {
-      log('getAgencies Repository Exception Error: $e');
-      return Left(ServerFailure(message: e.toString()));
+      return Right(data);
+    } else {
+      log('getAgencies Status code is 422');
+      return Left(AppFailure(message: response.data['errors'][0]['message']));
+    }}catch(e){
+      return Left(AppFailure(message: e.toString()));
+
     }
   }
 
   Future<Either<Failure, String>> createAgency(
-      CreateAgencyParams params) async {
+    CreateAgencyParams params,
+  ) async {
     try {
       final response = await remoteDataSource.createAgency(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -249,11 +218,7 @@ class ProfileRepository {
         return Right(response.data['message']);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -270,11 +235,7 @@ class ProfileRepository {
         return Right(response.data['message']);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -291,11 +252,7 @@ class ProfileRepository {
         return Right(response.data['message']);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -312,15 +269,10 @@ class ProfileRepository {
         return Right('تم تسجيل الخروج بنجاح');
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Right('تم تسجيل الخروج بنجاح');
       }
     } catch (e) {
-      log('Register Repository Exception Error: $e');
-      return Left(ServerFailure(message: e.toString()));
+      return Right('تم تسجيل الخروج بنجاح');
     }
   }
 }

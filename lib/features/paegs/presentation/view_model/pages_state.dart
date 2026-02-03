@@ -14,6 +14,11 @@ class PagesState extends Equatable {
     this.deleteNotificationsMessage,
     this.notificationCount = 0,
     this.getNotificationsRequestState = RequestState.ideal,
+    this.readNotificationRequestState = RequestState.ideal,
+    this.currentNotificationPage = 1,
+    this.totalNotificationPages = 1,
+    this.isLoadingMoreNotifications = false,
+    this.hasMoreNotifications = true,
     this.createSalesAgentRequestState = RequestState.ideal,
     this.createSalesAgentError,
     this.createSalesAgentMessage,
@@ -33,39 +38,53 @@ class PagesState extends Equatable {
     this.notifications,
     this.selectedCategory,
   });
+
   final RequestState addRealStateRequestState;
   final Failure? addRealStateError;
   final String? addRealStateMessage;
+
   //
   final RequestState properityManagmentRequestState;
   final Failure? properityManagmentError;
   final String? properityManagmentMessage;
+
   //
-  final Map<String,RequestState> qestionsRequestState;
+  final Map<String, RequestState> qestionsRequestState;
   final Failure? qestionsError;
-  final Map<String,QuestionsModel> qestionsModel;
+  final Map<String, QuestionsModel> qestionsModel;
+
   //
   final RequestState qestionsCategoriesRequestState;
   final Failure? qestionsCategoriesError;
   final QestionsCategoriesModel? qestionsCategoriesModel;
+
   //
   final RequestState getsocialRequestState;
   final Failure? socialError;
   final SocialModel? socialModel;
+
   //
   final RequestState postcontactUsRequestState;
   final Failure? postcontactUsError;
   final String? postcontactUMessage;
+
   //
   //
   final RequestState createSalesAgentRequestState;
   final Failure? createSalesAgentError;
   final String? createSalesAgentMessage;
+
   //
   final List<NotificationModel>? notifications;
   final RequestState? getNotificationsRequestState;
+  final RequestState? readNotificationRequestState;
   final int? notificationCount;
   final Failure? notificationsError;
+  final int currentNotificationPage;
+  final int totalNotificationPages;
+  final bool isLoadingMoreNotifications;
+  final bool hasMoreNotifications;
+
   //
   final RequestState deleteNotificationsRequestState;
   final Failure? deleteNotificationsError;
@@ -75,35 +94,40 @@ class PagesState extends Equatable {
   @override
   List<Object?> get props => [
     selectedCategory,
-        properityManagmentRequestState,
-        properityManagmentError,
-        properityManagmentMessage,
-        addRealStateRequestState,
-        addRealStateError,
-        addRealStateMessage,
-        deleteNotificationsRequestState,
-        deleteNotificationsError,
-        deleteNotificationsMessage,
-        notificationCount,
-        notifications,
-        notificationsError,
-        createSalesAgentError,
-        createSalesAgentMessage,
-        createSalesAgentRequestState,
-        getNotificationsRequestState,
-        qestionsRequestState,
-        qestionsError,
-        qestionsModel,
-        qestionsCategoriesError,
-        qestionsCategoriesModel,
-        qestionsCategoriesRequestState,
-        socialError,
-        socialModel,
-        getsocialRequestState,
-        postcontactUMessage,
-        postcontactUsError,
-        postcontactUsRequestState,
-      ];
+    properityManagmentRequestState,
+    properityManagmentError,
+    properityManagmentMessage,
+    addRealStateRequestState,
+    addRealStateError,
+    addRealStateMessage,
+    deleteNotificationsRequestState,
+    deleteNotificationsError,
+    deleteNotificationsMessage,
+    notificationCount,
+    notifications,
+    notificationsError,
+    currentNotificationPage,
+    totalNotificationPages,
+    isLoadingMoreNotifications,
+    hasMoreNotifications,
+    createSalesAgentError,
+    createSalesAgentMessage,
+    createSalesAgentRequestState,
+    getNotificationsRequestState,
+    readNotificationRequestState,
+    qestionsRequestState,
+    qestionsError,
+    qestionsModel,
+    qestionsCategoriesError,
+    qestionsCategoriesModel,
+    qestionsCategoriesRequestState,
+    socialError,
+    socialModel,
+    getsocialRequestState,
+    postcontactUMessage,
+    postcontactUsError,
+    postcontactUsRequestState,
+  ];
 
   PagesState copyWith({
     RequestState? addRealStateRequestState,
@@ -112,9 +136,9 @@ class PagesState extends Equatable {
     RequestState? properityManagmentRequestState,
     Failure? properityManagmentError,
     String? properityManagmentMessage,
-    Map<String,RequestState>? qestionsRequestState,
+    Map<String, RequestState>? qestionsRequestState,
     Failure? qestionsError,
-    Map<String,QuestionsModel>? qestionsModel,
+    Map<String, QuestionsModel>? qestionsModel,
     RequestState? qestionsCategoriesRequestState,
     Failure? qestionsCategoriesError,
     QestionsCategoriesModel? qestionsCategoriesModel,
@@ -129,12 +153,17 @@ class PagesState extends Equatable {
     String? createSalesAgentMessage,
     List<NotificationModel>? notifications,
     RequestState? getNotificationsRequestState,
+    RequestState? readNotificationRequestState,
     int? notificationCount,
     Failure? notificationsError,
+    int? currentNotificationPage,
+    int? totalNotificationPages,
+    bool? isLoadingMoreNotifications,
+    bool? hasMoreNotifications,
     RequestState? deleteNotificationsRequestState,
     Failure? deleteNotificationsError,
     String? deleteNotificationsMessage,
-    QestionsCategory? selectedCategory
+    QestionsCategory? selectedCategory,
   }) {
     return PagesState(
       addRealStateRequestState:
@@ -173,16 +202,25 @@ class PagesState extends Equatable {
       notifications: notifications ?? this.notifications,
       getNotificationsRequestState:
           getNotificationsRequestState ?? this.getNotificationsRequestState,
+      readNotificationRequestState:
+          readNotificationRequestState ?? this.readNotificationRequestState,
       notificationCount: notificationCount ?? this.notificationCount,
       notificationsError: notificationsError ?? this.notificationsError,
-      deleteNotificationsRequestState: deleteNotificationsRequestState ??
+      currentNotificationPage:
+          currentNotificationPage ?? this.currentNotificationPage,
+      totalNotificationPages:
+          totalNotificationPages ?? this.totalNotificationPages,
+      isLoadingMoreNotifications:
+          isLoadingMoreNotifications ?? this.isLoadingMoreNotifications,
+      hasMoreNotifications: hasMoreNotifications ?? this.hasMoreNotifications,
+      deleteNotificationsRequestState:
+          deleteNotificationsRequestState ??
           this.deleteNotificationsRequestState,
       deleteNotificationsError:
           deleteNotificationsError ?? this.deleteNotificationsError,
       deleteNotificationsMessage:
           deleteNotificationsMessage ?? this.deleteNotificationsMessage,
-      selectedCategory:
-          selectedCategory ?? this.selectedCategory,
+      selectedCategory: selectedCategory ?? this.selectedCategory,
     );
   }
 }

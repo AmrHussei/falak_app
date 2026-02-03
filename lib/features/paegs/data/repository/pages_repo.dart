@@ -1,7 +1,7 @@
 import 'dart:developer';
 
 import 'package:dartz/dartz.dart';
-import 'package:falak/features/paegs/data/models/notification_model.dart';
+import 'package:falak/features/paegs/data/models/notifications_response_model.dart';
 import 'package:falak/features/paegs/data/models/question_model.dart';
 
 import '../../../../core/error/failure.dart';
@@ -17,12 +17,11 @@ import '../models/social_model.dart';
 class PagesRepository {
   final PagesRemoteDataSource remoteDataSource;
 
-  PagesRepository({
-    required this.remoteDataSource,
-  });
+  PagesRepository({required this.remoteDataSource});
 
   Future<Either<Failure, String>> addRealState(
-      AddRealStateParams params) async {
+    AddRealStateParams params,
+  ) async {
     try {
       final response = await remoteDataSource.addRealState(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -31,11 +30,7 @@ class PagesRepository {
         return Right('تم تقديم الطلب بنجاح');
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -44,7 +39,8 @@ class PagesRepository {
   }
 
   Future<Either<Failure, String>> properityManagment(
-      ProperityManagment params) async {
+    ProperityManagment params,
+  ) async {
     try {
       final response = await remoteDataSource.properityManagment(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -53,11 +49,7 @@ class PagesRepository {
         return Right('تم تقديم الطلب بنجاح');
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -66,7 +58,8 @@ class PagesRepository {
   }
 
   Future<Either<Failure, QuestionsModel>> getQuestions(
-      GetQuestionsParams params) async {
+    GetQuestionsParams params,
+  ) async {
     try {
       final response = await remoteDataSource.getQuestions(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -76,11 +69,7 @@ class PagesRepository {
         return Right(data);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -89,7 +78,7 @@ class PagesRepository {
   }
 
   Future<Either<Failure, QestionsCategoriesModel>>
-      getQestionsCategories() async {
+  getQestionsCategories() async {
     try {
       final response = await remoteDataSource.getCategories();
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -99,11 +88,7 @@ class PagesRepository {
         return Right(data);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -121,11 +106,7 @@ class PagesRepository {
         return Right(data);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -142,11 +123,7 @@ class PagesRepository {
         return Right(response.data['message']);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -155,7 +132,8 @@ class PagesRepository {
   }
 
   Future<Either<Failure, String>> createSalesAgent(
-      SalesAgentParams params) async {
+    SalesAgentParams params,
+  ) async {
     try {
       final response = await remoteDataSource.createSalesAgent(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -164,11 +142,7 @@ class PagesRepository {
         return Right(response.data['message']);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -176,23 +150,20 @@ class PagesRepository {
     }
   }
 
-  Future<Either<Failure, List<NotificationModel>>> getNotifications() async {
+  Future<Either<Failure, NotificationsResponseModel>> getNotifications({
+    int page = 1,
+  }) async {
     try {
-      final response = await remoteDataSource.getNotifications();
+      final response = await remoteDataSource.getNotifications(page: page);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
-        log('Register Status code is 200');
+        log('getNotifications Status code is 200');
 
-        return Right(
-            NotificationModel.notificationListFromJson(response.data["data"]));
+        return Right(NotificationsResponseModel.fromJson(response.data));
       } else {
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
-      log('Register Repository Exception Error: $e');
+      log('getNotifications Repository Exception Error: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }
@@ -205,11 +176,7 @@ class PagesRepository {
 
         return Right('تم حذف جميع الاشعارات بنجاح');
       } else {
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');

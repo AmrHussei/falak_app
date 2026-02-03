@@ -22,6 +22,8 @@ class TopBiddersCardWidget extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final names = boardAuctionData[index].user.name.split(' ');
+    final name = names.length > 1 ? names.first : names.join(' ');
     final isTop = index == 0;
     return Container(
       height: 62.h,
@@ -62,7 +64,7 @@ class TopBiddersCardWidget extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
                 Text(
-                  boardAuctionData[index].user.name,
+                  name,
                   maxLines: 1,
                   style: AppStyles.styleMedium16(context).copyWith(
                     color: isTop
@@ -93,15 +95,41 @@ class TopBiddersCardWidget extends StatelessWidget {
               ],
             ),
           ),
-          Text(
-            calculateTimeDifference(boardAuctionData[index].bidAt),
-            overflow: TextOverflow.ellipsis,
-            maxLines: 1,
-            style: AppStyles.styleMedium13(context).copyWith(
-              color: isTop
-                  ? AppColors.white(context)
-                  : AppColors.inputsPlaceholder(context),
-            ),
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+            children: [
+              Text(
+                calculateTimeDifference(boardAuctionData[index].bidAt),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+                style: AppStyles.styleMedium13(context).copyWith(
+                  color: isTop
+                      ? AppColors.white(context)
+                      : AppColors.inputsPlaceholder(context),
+                ),
+              ),
+
+              Container(
+                padding: EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(2),
+                  color: isTop
+                      ? AppColors.white(context)
+                      : AppColors.secondColor(context),
+                ),
+                child: Text(
+                  boardAuctionData[index].participantNumber,
+                  overflow: TextOverflow.ellipsis,
+                  maxLines: 1,
+                  style: AppStyles.styleBold12(context).copyWith(
+                    color: isTop
+                        ? AppColors.black(context)
+                        : AppColors.white(context),
+                  ),
+                ),
+              ),
+            ],
           ),
         ],
       ),

@@ -1,10 +1,10 @@
+import 'package:falak/core/utils/app_colors.dart';
+import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/images.dart';
 
 import '../../../../../../core/functions/url_luncher.dart';
 import '../../../../../../core/utils/app_styles.dart';
@@ -64,8 +64,7 @@ class RealEstateOrganizationWidget extends StatelessWidget {
               ).copyWith(color: AppColors.inputsPlaceholder(context)),
             ),
             Text(
-              homeCubit.auctionData?.provider?.companyName ??
-                  'السعودية للمزادات',
+              homeCubit.auctionData?.provider?.companyName ?? 'فلك الخير',
               style: AppStyles.styleMedium14(
                 context,
               ).copyWith(color: AppColors.typographyHeading(context)),
@@ -83,8 +82,7 @@ class RealEstateOrganizationWidget extends StatelessWidget {
               ).copyWith(color: AppColors.inputsPlaceholder(context)),
             ),
             Text(
-              homeCubit.auctionData?.provider?.valAuctionsLicenseNumber ??
-                  '',
+              homeCubit.auctionData?.provider?.valAuctionsLicenseNumber ?? '',
               style: AppStyles.styleMedium14(
                 context,
               ).copyWith(color: AppColors.typographyHeading(context)),
@@ -102,8 +100,7 @@ class RealEstateOrganizationWidget extends StatelessWidget {
               ).copyWith(color: AppColors.inputsPlaceholder(context)),
             ),
             Text(
-              homeCubit.auctionData?.auctionApprovalNumber??
-                  '',
+              homeCubit.auctionData?.auctionApprovalNumber ?? '',
               style: AppStyles.styleMedium14(
                 context,
               ).copyWith(color: AppColors.typographyHeading(context)),
@@ -151,8 +148,8 @@ class WhatsAppAndCallButtonWidget extends StatelessWidget {
                 FloatingSnackBar.show(context, 'عذرا لا يوجد رقم حاليا');
               }
             },
-            text:  'مراسلة عبر الواتساب',
-            icon:   AppAssets.app_imagesWhatsappinfathCard,
+            text: 'مراسلة عبر الواتساب',
+            icon: AppAssets.app_imagesWhatsappinfathCard,
           ),
         ),
         8.horizontalSpace,

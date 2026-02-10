@@ -26,7 +26,7 @@ class _MyMazadatScreenState extends State<MyMazadatScreen>
   void initState() {
     super.initState();
     HomeCubit homeCubit = context.read<HomeCubit>();
-    homeCubit.getAuctions(type:'false_false');
+    homeCubit.getAuctions(type: 'false_false');
 
     _tabController = TabController(vsync: this, length: 3);
 
@@ -44,7 +44,7 @@ class _MyMazadatScreenState extends State<MyMazadatScreen>
         loss = true;
       }
 
-      homeCubit.getAuctions(type:'${winner}_$loss');
+      homeCubit.getAuctions(type: '${winner}_$loss');
     });
   }
 
@@ -75,7 +75,7 @@ class _MyMazadatScreenState extends State<MyMazadatScreen>
                 CustomTabBar(
                   controller: _tabController,
                   haveWidth: false,
-                  tabs: ['إشتراكاتي', 'مزاداتي الرابحة', 'مزاداتي الخاسرة'],
+                  tabs: ['إشتراكاتي', 'مزاداتي الرابحة', 'مزاداتي المنتهية'],
                 ),
                 Expanded(
                   child: TabBarView(

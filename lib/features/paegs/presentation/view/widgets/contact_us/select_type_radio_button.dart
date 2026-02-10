@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/features/paegs/presentation/view_model/pages_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class SelectTypeRadioButton extends StatefulWidget {
@@ -40,7 +40,7 @@ class _SelectTypeRadioButtonState extends State<SelectTypeRadioButton> {
               ),
               8.horizontalSpace,
               RadioItem(
-                label: 'سؤال',
+                label: 'شكوى',
                 value: 'question',
                 groupValue: _selectedValue,
                 onChanged: _handleRadioValueChange,
@@ -117,7 +117,9 @@ Widget RadioItem({
         },
         child: Card(
           elevation: 2,
-          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8.r)),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(8.r),
+          ),
           margin: EdgeInsets.zero,
           color: value == groupValue
               ? AppColors.secondColor(context)

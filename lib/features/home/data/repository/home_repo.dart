@@ -15,12 +15,11 @@ import '../models/enrolle/auction_board_model.dart';
 class HomeRepository {
   final HomeRemoteDataSource remoteDataSource;
 
-  HomeRepository({
-    required this.remoteDataSource,
-  });
+  HomeRepository({required this.remoteDataSource});
 
   Future<Either<Failure, AuctionsModel>> getAuctions(
-      AuctionsParams params) async {
+    AuctionsParams params,
+  ) async {
     try {
       final response = await remoteDataSource.getAuctions(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -31,11 +30,7 @@ class HomeRepository {
         return Right(data);
       } else {
         log('getAuctions Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getAuctions Repository Exception Error: $e');
@@ -44,7 +39,8 @@ class HomeRepository {
   }
 
   Future<Either<Failure, AuctionsModel>> getUserAuctions(
-      UserAuctionsParams params) async {
+    UserAuctionsParams params,
+  ) async {
     try {
       final response = await remoteDataSource.getUserAuctions(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -55,11 +51,7 @@ class HomeRepository {
         return Right(data);
       } else {
         log('getUserAuctions Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getUserAuctions Repository Exception Error: $e');
@@ -78,11 +70,7 @@ class HomeRepository {
         return Right(data);
       } else {
         log('getAuctions Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getAuctions Repository Exception Error: $e');
@@ -91,21 +79,18 @@ class HomeRepository {
   }
 
   Future<Either<Failure, String>> addFavorite(
-      GeneralAuctionParams params) async {
+    GeneralAuctionParams params,
+  ) async {
     try {
       final response = await remoteDataSource.addFavorite(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         log('addFavorite Status code is 200');
         // log(response.data);
 
-        return Right("تم إضافة المزاد إلى المفضلة");
+        return Right("تم إضافة المزاد إلى المزادات المحفوظة");
       } else {
         log('addFavorite Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('addFavorite Repository Exception Error: $e');
@@ -114,21 +99,18 @@ class HomeRepository {
   }
 
   Future<Either<Failure, String>> deleteAuctionFavorite(
-      String auctionId) async {
+    String auctionId,
+  ) async {
     try {
       final response = await remoteDataSource.deleteAuctionFavorite(auctionId);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         log('addFavorite Status code is 200');
         // log(response.data);
 
-        return Right("تم ازالة المزاد من المفضلة");
+        return Right("تم ازالة المزاد من المزادات المحفوظة");
       } else {
         log('addFavorite Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('addFavorite Repository Exception Error: $e');
@@ -137,7 +119,8 @@ class HomeRepository {
   }
 
   Future<Either<Failure, String>> auctionEnrollment(
-      AuctionEnrollmentParams params) async {
+    AuctionEnrollmentParams params,
+  ) async {
     try {
       final response = await remoteDataSource.auctionEnrollment(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -147,11 +130,7 @@ class HomeRepository {
         return Right('تم التسجيل في المزاد بنجاح');
       } else {
         log('auctionEnrollment Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('auctionEnrollment Repository Exception Error: $e');
@@ -160,7 +139,8 @@ class HomeRepository {
   }
 
   Future<Either<Failure, String>> deleteAuctionEnrollment(
-      GeneralAuctionParams params) async {
+    GeneralAuctionParams params,
+  ) async {
     try {
       final response = await remoteDataSource.deleteAuctionEnrollment(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -170,11 +150,7 @@ class HomeRepository {
         return Right('تم الغاء تسجيلك في المزاد');
       } else {
         log('deleteAuctionEnrollment Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('deleteAuctionEnrollment Repository Exception Error: $e');
@@ -183,7 +159,8 @@ class HomeRepository {
   }
 
   Future<Either<Failure, AuctionBoardModel>> getAuctionBoard(
-      GeneralAuctionParams params) async {
+    GeneralAuctionParams params,
+  ) async {
     try {
       final response = await remoteDataSource.getAuctionBoard(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -193,11 +170,7 @@ class HomeRepository {
         return Right(data);
       } else {
         log('getAuctionBoard Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getAuctionBoard Repository Exception Error: $e');
@@ -206,7 +179,8 @@ class HomeRepository {
   }
 
   Future<Either<Failure, String>> addAuctionBid(
-      GeneralAuctionParams params) async {
+    GeneralAuctionParams params,
+  ) async {
     try {
       final response = await remoteDataSource.addAuctionBid(params);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -216,11 +190,7 @@ class HomeRepository {
         return Right('تم اضافة مزايدتك بنجاح');
       } else {
         log('addAuctionBid Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('addAuctionBid Repository Exception Error: $e');
@@ -239,11 +209,7 @@ class HomeRepository {
         return Right(data);
       } else {
         log('getWallet Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getWallet Repository Exception Error: $e');
@@ -262,11 +228,7 @@ class HomeRepository {
         return Right(data);
       } else {
         log('getWallet Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('getWallet Repository Exception Error: $e');
@@ -274,9 +236,7 @@ class HomeRepository {
     }
   }
 
-  Future<Either<Failure, String>> addWalletBalance(
-    dynamic balance,
-  ) async {
+  Future<Either<Failure, String>> addWalletBalance(dynamic balance) async {
     try {
       final response = await remoteDataSource.addWalletBalance(balance);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
@@ -286,11 +246,7 @@ class HomeRepository {
         return Right(response.data['message']);
       } else {
         log('addWalletBalance Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('addWalletBalance Repository Exception Error: $e');

@@ -280,7 +280,7 @@ class LoadedUserInfoWidget extends StatelessWidget {
                           state.changeProfileImageRequestState ==
                           RequestState.loading,
                       onPressed: () {
-                        profileCubit.changeProfileImage();
+                        profileCubit.editProfile();
                       },
                       text: 'حفظ التعديلات',
                     );

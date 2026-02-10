@@ -17,7 +17,7 @@ class ProfileRemoteDataSource {
     return response;
   }
 
-  Future<Response> changeProfileImage(
+  Future<Response> editProfile(
     File? imageFile,
     String? countryID,
     String? date,

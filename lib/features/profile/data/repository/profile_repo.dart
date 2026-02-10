@@ -60,13 +60,13 @@ class ProfileRepository {
     }
   }
 
-  Future<Either<Failure, String>> changeProfileImage(
+  Future<Either<Failure, String>> editProfile(
     File? imageFile,
     String? countryID,
     String? date,
   ) async {
     try {
-      final response = await remoteDataSource.changeProfileImage(
+      final response = await remoteDataSource.editProfile(
         imageFile,
         countryID,
         date,
@@ -190,20 +190,20 @@ class ProfileRepository {
   }
 
   Future<Either<Failure, AgenciesModel>> getAgencies(String status) async {
-    try{
-    final response = await remoteDataSource.getAgencies(status);
-    if (response.statusCode! >= 200 && response.statusCode! <= 204) {
-      var data = AgenciesModel.fromJson(response.data);
+    try {
+      final response = await remoteDataSource.getAgencies(status);
+      if (response.statusCode! >= 200 && response.statusCode! <= 204) {
+        var data = AgenciesModel.fromJson(response.data);
 
-      log('getAgencies Status code is 200');
+        log('getAgencies Status code is 200');
 
-      return Right(data);
-    } else {
-      log('getAgencies Status code is 422');
-      return Left(AppFailure(message: response.data['errors'][0]['message']));
-    }}catch(e){
+        return Right(data);
+      } else {
+        log('getAgencies Status code is 422');
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
+      }
+    } catch (e) {
       return Left(AppFailure(message: e.toString()));
-
     }
   }
 

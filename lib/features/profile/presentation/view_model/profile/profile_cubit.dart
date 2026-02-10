@@ -104,10 +104,10 @@ class ProfileCubit extends Cubit<ProfileState> {
     identityNumberController.text = profileModel.data.identityNumber;
   }
 
-  void changeProfileImage() async {
+  void editProfile() async {
     emit(state.copyWith(changeProfileImageRequestState: RequestState.loading));
 
-    final result = await _profileRepository.changeProfileImage(
+    final result = await _profileRepository.editProfile(
       imageFile,
       editUserInfoCountryID,
       dateController.text.isEmpty ? null : dateController.text,

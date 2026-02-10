@@ -2,19 +2,16 @@ import 'dart:developer';
 
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:flutter/material.dart';
 import 'package:falak/features/auth/data/models/auth_model.dart';
 import 'package:falak/features/auth/data/models/sign_up_model.dart';
+import 'package:flutter/material.dart';
 
 import '../../../../../app/app.dart';
-import '../../../../../app/injector.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/params/auth/complete_sign_up.dart';
 import '../../../../../core/params/auth/login.dart';
 import '../../../../../core/params/auth/reset_password.dart';
 import '../../../../../core/params/auth/verify_params.dart';
-import '../../../../../core/storage/i_app_local_storage.dart';
-import '../../../../../core/utils/app_strings.dart';
 import '../../../../../core/utils/enums.dart';
 import '../../../data/models/countries_model.dart';
 import '../../../data/repository/auth_repo.dart';
@@ -159,7 +156,7 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   void assginCompleteSignUPControllers(SignUpModel signUpModel) {
-    completeSignUpNameController.text = signUpModel.data.name;
+    // completeSignUpNameController.text = signUpModel.data.name;
     completeSignUpNationalIDController.text = signUpModel.data.identityNumber;
     identityNumberController.text = signUpModel.data.identityNumber;
   }
@@ -171,6 +168,7 @@ class AuthCubit extends Cubit<AuthState> {
     emit(state.copyWith(completeSignUpRequestState: RequestState.loading));
 
     final params = CompleteSignUpParams(
+      name: completeSignUpNameController.text.trim(),
       password: completeSignUpPasswordController.text.trim(),
       country: completeSignUpCountryID ?? '',
       phoneNumber: completeSignUpPhoneController.text.trim(),
@@ -203,8 +201,7 @@ class AuthCubit extends Cubit<AuthState> {
   // Verify OTP Function
   void verifyOtp() async {
     emit(state.copyWith(verifyRequestState: RequestState.loading));
-    final identityNumber =
-        identityNumberController.text.trim();
+    final identityNumber = identityNumberController.text.trim();
     log('identityNumber: $identityNumber');
 
     final params = VerifyParams(

@@ -4,11 +4,13 @@ class CompleteSignUpParams extends Equatable {
   final String country;
   final String password;
   final String phoneNumber;
+  final String name;
 
   const CompleteSignUpParams({
     required this.country,
     required this.password,
     required this.phoneNumber,
+    required this.name,
   });
 
   @override
@@ -30,7 +32,8 @@ class CompleteSignUpParams extends Equatable {
     return <String, dynamic>{
       'country': country,
       'password': password,
-      "phoneNumber": {"number": sanitizedPhoneNumber, "key": "+966"}
+      "phoneNumber": {"number": sanitizedPhoneNumber, "key": "+966"},
+      "name": name,
     };
   }
 }

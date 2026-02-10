@@ -108,6 +108,7 @@ class ProfileCubit extends Cubit<ProfileState> {
     emit(state.copyWith(changeProfileImageRequestState: RequestState.loading));
 
     final result = await _profileRepository.editProfile(
+      profileNameController.text.trim(),
       imageFile,
       editUserInfoCountryID,
       dateController.text.isEmpty ? null : dateController.text,

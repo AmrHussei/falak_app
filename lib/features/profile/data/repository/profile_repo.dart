@@ -61,12 +61,14 @@ class ProfileRepository {
   }
 
   Future<Either<Failure, String>> editProfile(
+    String name,
     File? imageFile,
     String? countryID,
     String? date,
   ) async {
     try {
       final response = await remoteDataSource.editProfile(
+        name,
         imageFile,
         countryID,
         date,

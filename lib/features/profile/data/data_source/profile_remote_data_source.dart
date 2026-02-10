@@ -18,6 +18,7 @@ class ProfileRemoteDataSource {
   }
 
   Future<Response> editProfile(
+    String? name,
     File? imageFile,
     String? countryID,
     String? date,
@@ -28,6 +29,7 @@ class ProfileRemoteDataSource {
     print('imageFile: ${imageFile?.path}');
     print('countryID: $countryID');
     print('date: $date');
+    print('name: $name');
 
     FormData formData = FormData.fromMap({
       if (imageFile != null)
@@ -41,6 +43,7 @@ class ProfileRemoteDataSource {
         ),
       if (countryID != null) "country": countryID,
       if (date != null) "birthDay": date,
+      if (name != null) "name": name,
     });
     final response = await apiConsumer.patch(
       EndPoint.changeProfileImage,

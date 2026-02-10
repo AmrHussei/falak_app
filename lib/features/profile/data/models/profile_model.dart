@@ -2,10 +2,7 @@ class ProfileModel {
   final String message;
   final UserData data;
 
-  ProfileModel({
-    required this.message,
-    required this.data,
-  });
+  ProfileModel({required this.message, required this.data});
 
   factory ProfileModel.fromJson(Map<String, dynamic> json) {
     return ProfileModel(
@@ -17,10 +14,7 @@ class ProfileModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'message': message,
-      'data': data.toJson(),
-    };
+    return {'message': message, 'data': data.toJson()};
   }
 }
 
@@ -76,7 +70,7 @@ class UserData {
           : throw Exception('Blocked status is required'),
       createdAt: json['createdAt'] ?? '',
       updatedAt: json['updatedAt'] ?? '',
-      birthDate: json['birthDate'] ?? '',
+      birthDate: json['birthDay'] ?? '',
       country: json['country'] != null
           ? Country.fromJson(json['country'])
           : Country(id: '', name: ''),
@@ -106,7 +100,7 @@ class UserData {
       'profileImage': profileImage,
       'role': role.toJson(),
       'agencyCount': agencyCount,
-      'birthDate': birthDate,
+      'birthDay': birthDate,
       'successAuctionsCount': successAuctionsCount,
     };
   }
@@ -116,23 +110,14 @@ class PhoneNumber {
   final String number;
   final String key;
 
-  PhoneNumber({
-    required this.number,
-    required this.key,
-  });
+  PhoneNumber({required this.number, required this.key});
 
   factory PhoneNumber.fromJson(Map<String, dynamic> json) {
-    return PhoneNumber(
-      number: json['number'],
-      key: json['key'],
-    );
+    return PhoneNumber(number: json['number'], key: json['key']);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'number': number,
-      'key': key,
-    };
+    return {'number': number, 'key': key};
   }
 }
 
@@ -142,12 +127,7 @@ class Blocked {
   final String? blockedBy;
   final String? unblockedBy;
 
-  Blocked({
-    required this.value,
-    this.reason,
-    this.blockedBy,
-    this.unblockedBy,
-  });
+  Blocked({required this.value, this.reason, this.blockedBy, this.unblockedBy});
 
   factory Blocked.fromJson(Map<String, dynamic> json) {
     return Blocked(
@@ -172,16 +152,10 @@ class Country {
   final String id;
   final String name;
 
-  Country({
-    required this.id,
-    required this.name,
-  });
+  Country({required this.id, required this.name});
 
   factory Country.fromJson(Map<String, dynamic> json) {
-    return Country(
-      id: json['_id'].toString(),
-      name: json['name'].toString(),
-    );
+    return Country(id: json['_id'].toString(), name: json['name'].toString());
   }
 
   ///"country":{"_id":"67c9982376d66d04f225129a","name":"المنوفية"},
@@ -190,10 +164,7 @@ class Country {
   ///
 
   Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'name': name,
-    };
+    return {'_id': id, 'name': name};
   }
 }
 
@@ -202,11 +173,7 @@ class Role {
   final String name;
   final List<dynamic> permissions;
 
-  Role({
-    required this.id,
-    required this.name,
-    required this.permissions,
-  });
+  Role({required this.id, required this.name, required this.permissions});
 
   factory Role.fromJson(Map<String, dynamic> json) {
     return Role(
@@ -217,10 +184,6 @@ class Role {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      '_id': id,
-      'name': name,
-      'permissions': permissions,
-    };
+    return {'_id': id, 'name': name, 'permissions': permissions};
   }
 }

@@ -31,10 +31,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   File? agencyAttachment;
 
   //
-  TextEditingController firstNameController = TextEditingController();
-  TextEditingController SecondNameController = TextEditingController();
-  TextEditingController thirdNameController = TextEditingController();
-  TextEditingController lastNameController = TextEditingController();
+  TextEditingController profileNameController = TextEditingController();
   TextEditingController countryController = TextEditingController();
   TextEditingController dateController = TextEditingController();
   TextEditingController phoneController = TextEditingController();
@@ -98,15 +95,7 @@ class ProfileCubit extends Cubit<ProfileState> {
   }
 
   setProfileControllers(ProfileModel profileModel) {
-    List<String> userName = profileModel.data.name.split(' ');
-    if (userName.length < 4) {
-      userName.addAll(['', '', '', '']);
-    }
-
-    firstNameController.text = userName[0];
-    SecondNameController.text = userName[1];
-    thirdNameController.text = userName[2];
-    lastNameController.text = userName[3];
+    profileNameController.text = profileModel.data.name;
     countryController.text = profileModel.data.country.name;
     dateController.text = profileModel.data.birthDate;
     phoneController.text =

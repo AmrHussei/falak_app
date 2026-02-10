@@ -1,20 +1,20 @@
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:falak/core/widgets/app_buttons.dart';
-import 'package:falak/features/auth/presentation/view/widgets/sign_up/complete_sign_up_mobile_layout_widget.dart';
-import 'package:falak/features/auth/presentation/view/widgets/sign_up/date_picker_widegt.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:falak/config/routes/app_routes.dart';
 import 'package:falak/core/utils/app_styles.dart';
 import 'package:falak/core/utils/enums.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
+import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:falak/core/widgets/my_snackbar.dart';
+import 'package:falak/features/auth/presentation/view/widgets/sign_up/complete_sign_up_mobile_layout_widget.dart';
+import 'package:falak/features/auth/presentation/view/widgets/sign_up/date_picker_widegt.dart';
 import 'package:falak/features/auth/presentation/view_model/auth/auth_cubit.dart';
 import 'package:falak/features/profile/data/models/profile_model.dart';
 import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/widgets/text_form_field_with_title_widget.dart';
@@ -98,33 +98,25 @@ class LoadedUserInfoWidget extends StatelessWidget {
           ),
           8.verticalSpace,
           TextFormFieldWithTitleWidget(
-            title: 'الإسم الأول',
-            controller: profileCubit.firstNameController,
-            enabled: false,
+            title: ' الاسم بالكامل',
+            controller: profileCubit.profileNameController,
+            enabled: true,
             keyboardType: TextInputType.text,
+            validator: (value) {
+              if (value == null || value.isEmpty) {
+                return 'يرجى ادخال الاسم بالكامل';
+              }
+              // check if the name is arabic and is contain 4 words
+              if (!value.contains(RegExp(r'[أ-ي]'))) {
+                return 'يرجى ادخال الاسم باللغة العربية';
+              }
+              if (value.trim().split(' ').length != 4) {
+                return 'يرجى ادخال الاسم بالكامل';
+              }
+              return null;
+            },
           ),
-          8.verticalSpace,
-          TextFormFieldWithTitleWidget(
-            title: 'الإسم الثاني',
-            controller: profileCubit.SecondNameController,
-            enabled: false,
-            keyboardType: TextInputType.text,
-          ),
-          8.verticalSpace,
-          TextFormFieldWithTitleWidget(
-            title: 'الإسم الثالث',
-            controller: profileCubit.thirdNameController,
-            enabled: false,
-            keyboardType: TextInputType.text,
-          ),
-          8.verticalSpace,
-          TextFormFieldWithTitleWidget(
-            title: 'الإسم الاخير',
-            enabled: false,
-            controller: profileCubit.lastNameController,
 
-            keyboardType: TextInputType.text,
-          ),
           8.verticalSpace,
           CitiesDropdownButtonFormFieldWidget(
             selectedValue: profileCubit.countryController.text,
@@ -145,7 +137,7 @@ class LoadedUserInfoWidget extends StatelessWidget {
           8.verticalSpace,
           BlocListener<ProfileCubit, ProfileState>(
             listenWhen: (previous, current) =>
-            previous.askEditPhoneRequestState !=
+                previous.askEditPhoneRequestState !=
                 current.askEditPhoneRequestState,
             listener: (context, state) {
               if (state.askEditPhoneRequestState == RequestState.loaded) {

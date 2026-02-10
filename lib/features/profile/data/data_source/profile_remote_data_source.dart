@@ -24,6 +24,10 @@ class ProfileRemoteDataSource {
   ) async {
     String? extensionName;
     extensionName = imageFile?.path.split('.').last;
+    print('extensionName: $extensionName');
+    print('imageFile: ${imageFile?.path}');
+    print('countryID: $countryID');
+    print('date: $date');
 
     FormData formData = FormData.fromMap({
       if (imageFile != null)

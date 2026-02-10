@@ -55,7 +55,7 @@ class _LayoutScreenState extends State<LayoutScreen> {
                 context,
                 iconPath: Assets.imagesHome,
                 activeIconPath: Assets.imagesHomeActive,
-                label: 'dfffffff', //to do
+                label: 'الرئيسية', //to do
                 index: 0,
               ),
               _buildNavItem(

@@ -1,17 +1,16 @@
+import 'package:falak/core/utils/app_colors.dart';
+import 'package:falak/core/utils/app_styles.dart';
+import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:falak/core/widgets/custom_dropdown_widget.dart';
+import 'package:falak/core/widgets/error_app_widget.dart';
 import 'package:falak/core/widgets/phone_suffix_widget.dart';
-import 'package:falak/features/auth/presentation/view/widgets/sign_up/date_picker_widegt.dart';
+import 'package:falak/features/auth/presentation/view/widgets/sign_up/sign_up_password_widget.dart';
+import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/app_styles.dart';
-import 'package:falak/core/utils/media_query_values.dart';
-import 'package:falak/core/widgets/error_app_widget.dart';
-import 'package:falak/features/auth/presentation/view/widgets/sign_up/sign_up_password_widget.dart';
-import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
 
 import '../../../../../../config/routes/app_routes.dart';
 import '../../../../../../core/utils/enums.dart';
@@ -46,31 +45,6 @@ class _CompleteSignUpMobileLayoutWidgetState
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            SignUpPasswordWidget(),
-            24.verticalSpace,
-            CitiesDropdownButtonFormFieldWidget(),
-            32.verticalSpace,
-            Divider(
-              color: AppColors.disabled(context),
-              thickness: 1,
-              height: 1,
-            ),
-            32.verticalSpace,
-            TextFormFieldWithTitleWidget(
-              title: 'الاسم بالكامل',
-              hint: 'ادخل الاسم بالكامل ',
-              controller: cubit.completeSignUpNameController,
-              enabled: false,
-            ),
-            24.verticalSpace,
-            TextFormFieldWithTitleWidget(
-              title: 'الهوية الوطنة / رقم الاقامة',
-              hint: 'ادخل الهوية الوطنة / رقم الاقامة',
-              controller: cubit.completeSignUpNationalIDController,
-              enabled: false,
-            ),
-
-            24.verticalSpace,
             TextFormFieldWithTitleWidget(
               controller: cubit.completeSignUpPhoneController,
               title: 'رقم الجوال',
@@ -90,6 +64,46 @@ class _CompleteSignUpMobileLayoutWidgetState
               isPhone: true,
               suffix: const PhoneSuffixWidget(),
             ),
+            16.verticalSpace,
+            TextFormFieldWithTitleWidget(
+              title: 'الاسم بالكامل',
+              hint: 'ادخل الاسم بالكامل ',
+              controller: cubit.completeSignUpNameController,
+              enabled: true,
+              validator: (value) {
+                if (value == null || value.isEmpty) {
+                  return 'يرجى ادخال الاسم بالكامل';
+                }
+                // check if the name is arabic and is contain 4 words
+                if (!value.contains(RegExp(r'[أ-ي]'))) {
+                  return 'يرجى ادخال الاسم باللغة العربية';
+                }
+                if (value.trim().split(' ').length != 4) {
+                  return 'يرجى ادخال الاسم بالكامل';
+                }
+                return null;
+              },
+              keyboardType: TextInputType.text,
+            ),
+            16.verticalSpace,
+            SignUpPasswordWidget(),
+            24.verticalSpace,
+            CitiesDropdownButtonFormFieldWidget(),
+            32.verticalSpace,
+            Divider(
+              color: AppColors.disabled(context),
+              thickness: 1,
+              height: 1,
+            ),
+            32.verticalSpace,
+
+            TextFormFieldWithTitleWidget(
+              title: 'الهوية الوطنة / رقم الاقامة',
+              hint: 'ادخل الهوية الوطنة / رقم الاقامة',
+              controller: cubit.completeSignUpNationalIDController,
+              enabled: false,
+            ),
+
             24.verticalSpace,
             CompleteSignUpButtonWidget(),
           ],

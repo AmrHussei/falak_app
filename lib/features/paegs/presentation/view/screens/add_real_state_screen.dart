@@ -17,6 +17,38 @@ import '../../view_model/pages_cubit.dart';
 class AddRealStateScreen extends HookWidget {
   const AddRealStateScreen({super.key});
 
+  Widget _buildWorkStep(BuildContext context, String number, String text) {
+    return Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Container(
+          width: 32.w,
+          height: 32.h,
+          decoration: BoxDecoration(
+            color: AppColors.primary(context),
+            shape: BoxShape.circle,
+          ),
+          child: Center(
+            child: Text(
+              number,
+              style: AppStyles.styleBold16(
+                context,
+              ).copyWith(color: Colors.white),
+            ),
+          ),
+        ),
+        12.horizontalSpace,
+        Expanded(
+          child: Text(
+            text,
+            style: AppStyles.styleMedium16(context),
+            textAlign: TextAlign.start,
+          ),
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     final isRated = useState(true);
@@ -30,7 +62,17 @@ class AddRealStateScreen extends HookWidget {
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Text('ادخل تفاصيل عقارك', style: AppStyles.styleBold18(context)),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                    'ادخل تفاصيل عقارك',
+                    style: AppStyles.styleBold18(context),
+                  ),
+
+                  ourWorkFlowWidget(context),
+                ],
+              ),
               24.verticalSpace,
               TextFormFieldWithTitleWidget(
                 controller: cubit.realStateNameController,
@@ -60,7 +102,8 @@ class AddRealStateScreen extends HookWidget {
                   return null;
                 },
                 keyboardType: TextInputType.number,
-                suffixIconSize: 66.w,              isPhone: true,
+                suffixIconSize: 66.w,
+                isPhone: true,
 
                 suffix: const PhoneSuffixWidget(),
               ),
@@ -142,6 +185,77 @@ class AddRealStateScreen extends HookWidget {
               AddRealStateButtonWidget(isRated: isRated.value),
             ],
           ),
+        ),
+      ),
+    );
+  }
+
+  InkWell ourWorkFlowWidget(BuildContext context) {
+    return InkWell(
+      onTap: () {
+        showModalBottomSheet(
+          context: context,
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(top: Radius.circular(20.r)),
+          ),
+          builder: (context) => Container(
+            padding: EdgeInsets.symmetric(horizontal: 24.w, vertical: 24.h),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40.w,
+                    height: 4.h,
+                    decoration: BoxDecoration(
+                      color: AppColors.veryGrayColor(context),
+                      borderRadius: BorderRadius.circular(2.r),
+                    ),
+                  ),
+                ),
+                24.verticalSpace,
+                Text(
+                  'منهجية العمل',
+                  style: AppStyles.styleBold20(
+                    context,
+                  ).copyWith(color: AppColors.typographyHeading(context)),
+                ),
+                24.verticalSpace,
+                _buildWorkStep(
+                  context,
+                  '1',
+                  'أرسل تفاصيل عقارك، وفريق فلك الخير يتأكد من جاهزيته ويتواصل معك مباشرة.',
+                ),
+                16.verticalSpace,
+                _buildWorkStep(
+                  context,
+                  '2',
+                  'نعد لك خطة تسويقية متكاملة ونستوفي كل التراخيص المطلوبة عشان ينطلق المزاد مع فلك الخير.',
+                ),
+                16.verticalSpace,
+                _buildWorkStep(
+                  context,
+                  '3',
+                  'نطلق المزاد ونتابع معك خطوة بخطوة مع فلك الخير لين توصل لأفضل سعر.',
+                ),
+                24.verticalSpace,
+              ],
+            ),
+          ),
+        );
+      },
+      child: Container(
+        padding: EdgeInsets.symmetric(horizontal: 12.w, vertical: 8.h),
+        decoration: BoxDecoration(
+          color: AppColors.veryPrimaryColor(context).withValues(alpha: 0.1),
+          borderRadius: BorderRadius.circular(10.r),
+        ),
+        child: Text(
+          'منهجية العمل',
+          style: AppStyles.styleBold16(
+            context,
+          ).copyWith(color: AppColors.veryPrimaryColor(context)),
         ),
       ),
     );

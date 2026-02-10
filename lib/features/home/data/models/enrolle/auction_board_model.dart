@@ -16,7 +16,8 @@ class AuctionBoardModel {
           ? null
           : Pagination.fromJson(json['pagination']),
       data: List<BiderAuctionData>.from(
-          json['data'].map((x) => BiderAuctionData.fromJson(x))),
+        json['data'].map((x) => BiderAuctionData.fromJson(x)),
+      ),
     );
   }
 
@@ -104,7 +105,7 @@ class BiderAuctionData {
 class User {
   final String id;
   final String name;
-  final String profileImage;
+  final String? profileImage;
   final String identityNumber;
 
   User({
@@ -118,7 +119,7 @@ class User {
     return User(
       id: json['_id'],
       name: json['name'],
-      profileImage: json['profileImage'],
+      profileImage: json['profileImage'] ?? '',
       identityNumber: json['identityNumber'],
     );
   }
@@ -127,7 +128,7 @@ class User {
     return {
       '_id': id,
       'name': name,
-      'profileImage': profileImage,
+      'profileImage': profileImage ?? '',
       'identityNumber': identityNumber,
     };
   }

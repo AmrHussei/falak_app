@@ -1,5 +1,10 @@
 # إعدادات Build للتطبيق
 
+## معلومات التطبيق
+- **Package Name**: com.app.falak
+- **App Name**: Falak
+- **Version**: 1.0.0+2 (versionName: 1.0.0, versionCode: 2)
+
 ## إعدادات Android
 
 ### 1. إنشاء Keystore للتوقيع

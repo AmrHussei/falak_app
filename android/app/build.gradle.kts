@@ -48,9 +48,10 @@ android {
             if (keystorePropertiesFile.exists()) {
                 val storeFileProperty = keystoreProperties["storeFile"] as String?
                 storeFile = if (storeFileProperty != null) {
+                    // المسار نسبي من مجلد app
                     file(storeFileProperty)
                 } else {
-                    file("${project.rootDir}/app/upload-keystore.jks")
+                    file("upload-keystore.jks")
                 }
                 storePassword = keystoreProperties["storePassword"] as String? ?: ""
                 keyAlias = keystoreProperties["keyAlias"] as String? ?: "upload"

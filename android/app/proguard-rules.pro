@@ -14,15 +14,6 @@
 -keep class com.google.firebase.** { *; }
 -keep class com.google.android.gms.** { *; }
 
-# Keep Google Play Core classes (required by Flutter deferred components)
--keep class com.google.android.play.core.** { *; }
--dontwarn com.google.android.play.core.**
-
-# Keep Flutter deferred components (Play Store)
--keep class io.flutter.embedding.engine.deferredcomponents.** { *; }
--keep class io.flutter.embedding.android.FlutterPlayStoreSplitApplication { *; }
--dontwarn io.flutter.embedding.engine.deferredcomponents.**
-
 # Keep your app's model classes
 -keep class com.app.falak.** { *; }
 

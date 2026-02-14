@@ -90,9 +90,6 @@ android {
 dependencies {
     // Add the desugaring library for Java 8+ features
     coreLibraryDesugaring("com.android.tools:desugar_jdk_libs:2.0.4")
-    
-    // Google Play Core library (required for Flutter deferred components)
-    implementation("com.google.android.play:core:1.10.3")
 }
 
 flutter {

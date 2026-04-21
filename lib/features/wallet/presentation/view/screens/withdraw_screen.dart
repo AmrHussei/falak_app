@@ -1,20 +1,21 @@
+import 'package:falak/core/utils/app_colors.dart';
 import 'package:falak/core/utils/images.dart';
+import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/core/widgets/app_buttons.dart';
+import 'package:falak/core/widgets/coustom_app_bar_widget.dart';
 import 'package:falak/core/widgets/phone_suffix_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/media_query_values.dart';
-import 'package:falak/core/widgets/coustom_app_bar_widget.dart';
 
 import '../../../../../../core/utils/enums.dart';
 import '../../../../../../core/widgets/my_snackbar.dart';
 import '../../../../../../core/widgets/show_success_bottom_sheet.dart';
 import '../../../../../../core/widgets/text_form_field_with_title_widget.dart';
 import '../../../../../core/functions/format_number.dart';
+import '../../../../../core/utils/app_styles.dart';
 import '../../../../auth/presentation/view/widgets/auth_app_logo_widget.dart';
 import '../../../../paegs/presentation/view/widgets/sales_agent/bank_names_dropdown_button_form_field_widget.dart';
 import '../../view_model/wallet/wallet_cubit.dart';
@@ -88,7 +89,8 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                   }
                   return null;
                 },
-                suffixIconSize: 66.w,              isPhone: true,
+                suffixIconSize: 66.w,
+                isPhone: true,
 
                 suffix: const PhoneSuffixWidget(),
               ),
@@ -186,7 +188,14 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
                   ),
                 ),
               ),
-              116.verticalSpace,
+              16.verticalSpace,
+              Text(
+                'تتم عملية السحب في خلال 24 ساعة بعد تقديم الطلب',
+                style: AppStyles.styleSemiBold16(
+                  context,
+                ).copyWith(color: AppColors.primary(context)),
+              ),
+              70.verticalSpace,
               SubmitWithdrawButtonWidget(),
             ],
           ),

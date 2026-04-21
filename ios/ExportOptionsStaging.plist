@@ -14,7 +14,7 @@
     <false/>
     <key>provisioningProfiles</key>
     <dict>
-        <key>com.app.falak.staging</key>
+        <key>sa.falakalkhayer.app.staging</key>
         <string>YOUR_STAGING_PROVISIONING_PROFILE_NAME</string>
     </dict>
 </dict>

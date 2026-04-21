@@ -3,7 +3,7 @@
 </dict>
     </dict>
         <string>YOUR_PROVISIONING_PROFILE_NAME</string>
-        <key>com.app.falak</key>
+        <key>sa.falakalkhayer.app</key>
     <dict>
     <key>provisioningProfiles</key>
     <false/>

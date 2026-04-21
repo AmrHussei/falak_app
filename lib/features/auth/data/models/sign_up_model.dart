@@ -12,33 +12,20 @@ class SignUpModel {
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'message': message,
-      'data': data.toJson(),
-    };
+    return {'message': message, 'data': data.toJson()};
   }
 }
 
 class AuthData {
-  final String name;
   final String identityNumber;
 
-  AuthData({
-    required this.name,
-    required this.identityNumber,
-  });
+  AuthData({required this.identityNumber});
 
   factory AuthData.fromJson(Map<String, dynamic> json) {
-    return AuthData(
-      name: json['name'],
-      identityNumber: json['identityNumber'],
-    );
+    return AuthData(identityNumber: json['identityNumber']);
   }
 
   Map<String, dynamic> toJson() {
-    return {
-      'name': name,
-      'identityNumber': identityNumber,
-    };
+    return {'identityNumber': identityNumber};
   }
 }

@@ -11,7 +11,7 @@ plugins {
 import java.util.Properties
 
 android {
-    namespace = "com.app.falak"
+    namespace = "sa.falakalkhayer.app"
     compileSdk = flutter.compileSdkVersion
 
     compileOptions {
@@ -26,7 +26,7 @@ android {
     }
 
     defaultConfig {
-        applicationId = "com.app.falak"
+        applicationId = "sa.falakalkhayer.app"
         minSdk = flutter.minSdkVersion
         targetSdk = flutter.targetSdkVersion
         versionCode = flutter.versionCode

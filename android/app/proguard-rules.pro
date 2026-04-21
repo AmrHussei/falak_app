@@ -34,7 +34,7 @@
 -dontwarn io.flutter.embedding.engine.deferredcomponents.**
 
 # Keep your app's model classes
--keep class com.app.falak.** { *; }
+-keep class sa.falakalkhayer.app.** { *; }
 
 # Keep native methods
 -keepclasseswithmembernames class * {

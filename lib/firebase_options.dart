@@ -63,6 +63,6 @@ class DefaultFirebaseOptions {
     messagingSenderId: '66980351270',
     projectId: 'falak-d50b7',
     storageBucket: 'falak-d50b7.firebasestorage.app',
-    iosBundleId: 'com.app.falak',
+    iosBundleId: 'sa.falakalkhayer.app',
   );
 }

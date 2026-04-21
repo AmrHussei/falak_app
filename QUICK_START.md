@@ -37,7 +37,7 @@ flutter build appbundle --release
 
 ## معلومات التطبيق
 
-- **Package Name**: `com.app.falak`
+- **Package Name**: `sa.falakalkhayer.app`
 - **Version**: `1.0.0+2`
 - **App Name**: Falak
 

@@ -1,7 +1,7 @@
 # إعدادات Build للتطبيق
 
 ## معلومات التطبيق
-- **Package Name**: com.app.falak
+- **Package Name**: sa.falakalkhayer.app
 - **App Name**: Falak
 - **Version**: 1.0.0+2 (versionName: 1.0.0, versionCode: 2)
 
@@ -63,7 +63,7 @@ open ios/Runner.xcodeproj
    - اختر Target: Runner
    - اذهب إلى Signing & Capabilities
    - اختر Team الخاص بك
-   - تأكد من أن Bundle Identifier هو: `com.app.falak`
+   - تأكد من أن Bundle Identifier هو: `sa.falakalkhayer.app`
 
 ### 2. بناء App للرفع
 

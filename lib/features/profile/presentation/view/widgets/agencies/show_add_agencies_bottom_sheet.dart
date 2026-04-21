@@ -1,12 +1,12 @@
-import 'package:flutter/material.dart';
-import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:flutter_svg/flutter_svg.dart';
 import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/profile/presentation/view/widgets/agencies/create_agencies_button_widget.dart';
 import 'package:falak/features/profile/presentation/view/widgets/agencies/picked_agency_attachment_widget.dart';
 import 'package:falak/features/profile/presentation/view_model/profile/profile_cubit.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../../../core/utils/app_colors.dart';
 import '../../../../../../core/utils/app_styles.dart';
@@ -119,6 +119,13 @@ Future<void> showAddAgenciesBottomSheet(BuildContext context) async {
                     ),
                     16.verticalSpace,
                     PickedAgencyAttachmentWidget(),
+                    16.verticalSpace,
+                    Text(
+                      'الشركة تخلي مسؤليتها في حالة إلغاء الوكالة أثناء المزاد وفي حالة إلغاء الوكالة يجب علي الوكيل حذفها من النظام',
+                      style: AppStyles.styleSemiBold16(
+                        context,
+                      ).copyWith(color: AppColors.primary(context)),
+                    ),
                     16.verticalSpace,
 
                     CreateAgenciesButtonWidget(

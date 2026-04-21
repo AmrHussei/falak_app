@@ -11,7 +11,7 @@
 
 #### معلومات التطبيق المطلوبة:
 - ✅ اسم التطبيق: **Falak**
-- ✅ Package Name: **com.app.falak**
+- ✅ Package Name: **sa.falakalkhayer.app**
 - ✅ Version: **1.0.0** (versionName)
 - ✅ Version Code: **1** (versionCode)
 

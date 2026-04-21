@@ -29,17 +29,13 @@ class AuthRepository {
       final response = await remoteDataSource.signUp(nationalID);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         log('Register Status code is 200');
-        serviceLocator<IAppLocalStorage>()
-            .setValue(AppStrings.userName, response.data['data']['name']);
+        // serviceLocator<IAppLocalStorage>()
+        //     .setValue(AppStrings.userName, response.data['data']['name']);
         var data = SignUpModel.fromJson(response.data);
         return Right(data);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -55,11 +51,7 @@ class AuthRepository {
         return Right(data);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -81,11 +73,7 @@ class AuthRepository {
         return Right(code);
       } else {
         log('Register Status code is 422');
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       log('Register Repository Exception Error: $e');
@@ -99,26 +87,22 @@ class AuthRepository {
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         String code =
             response.data['data']['code']; //TODO : return msg at production
-        serviceLocator<IAppLocalStorage>()
-            .setValue(AppStrings.userName, response.data['data']?['name']??'');
-        serviceLocator<IAppLocalStorage>()
-            .setValue(AppStrings.userMoney, response.data['data']?['name']??'');
+        serviceLocator<IAppLocalStorage>().setValue(
+          AppStrings.userName,
+          response.data['data']?['name'] ?? '',
+        );
+        serviceLocator<IAppLocalStorage>().setValue(
+          AppStrings.userMoney,
+          response.data['data']?['name'] ?? '',
+        );
 
         return Right(code);
       } else if (response.statusCode == 401) {
-        return Left(AppFailure(
-          message: response.data['errors'][0]['message'],
-        ));
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       } else if (response.statusCode == 422) {
-        return Left(
-          AppFailure(
-            message: response.data['errors'][0]['message'],
-          ),
-        );
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
-      return Left(AppFailure(
-        message: response.data['errors'][0]['message'],
-      ));
+      return Left(AppFailure(message: response.data['errors'][0]['message']));
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
     }
@@ -133,9 +117,7 @@ class AuthRepository {
 
         return Right(code);
       } else {
-        return Left(AppFailure(
-          message: response.data['errors'][0]['message'],
-        ));
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -143,7 +125,8 @@ class AuthRepository {
   }
 
   Future<Either<Failure, String>> resetPassword(
-      ResetPasswordParams params) async {
+    ResetPasswordParams params,
+  ) async {
     try {
       final response = await remoteDataSource.resetPassword(params);
       if (response.statusCode == 200) {
@@ -154,9 +137,7 @@ class AuthRepository {
 
         return Right(message);
       } else {
-        return Left(AppFailure(
-          message: response.data['errors'][0]['message'],
-        ));
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -170,9 +151,7 @@ class AuthRepository {
         //TODO cash cokkiy if it contain cookiy
         return Right(response.data['message'] ?? 'Verification successful');
       } else {
-        return Left(AppFailure(
-          message: response.data['errors'][0]['message'],
-        ));
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));
@@ -187,9 +166,7 @@ class AuthRepository {
             response.data['data']['code']; //TODO : return msg at production
         return Right(code);
       } else {
-        return Left(AppFailure(
-          message: response.data['errors'][0]['message'],
-        ));
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
       return Left(ServerFailure(message: e.toString()));

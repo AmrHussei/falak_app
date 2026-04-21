@@ -1,4 +1,4 @@
-package com.app.falak
+package sa.falakalkhayer.app
 
 import io.flutter.embedding.android.FlutterFragmentActivity
 

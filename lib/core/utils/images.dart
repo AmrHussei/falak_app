@@ -3,6 +3,7 @@ class AppAssets {
   AppAssets._();
 
   static const String app_imagesActiveSvg = "assets/app_images/activeSvg.svg";
+  static const String imagesSave = "assets/app_images/save.svg";
 
   static const String app_imagesAddButtonMoneyIcon =
       "assets/app_images/AddButtonMoneyIcon.svg";
@@ -254,7 +255,6 @@ class AppAssets {
       "assets/app_images/SquareDoublAltArrowUp.svg";
 
   static const String app_imagesTerminated = "assets/app_images/terminated.svg";
-
 
   static const String app_imagesUploadeFilesIcon =
       "assets/app_images/uploadeFilesIcon.svg";

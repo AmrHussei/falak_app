@@ -1,15 +1,15 @@
+import 'package:falak/core/utils/app_colors.dart';
+import 'package:falak/core/utils/app_styles.dart';
+import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/core/widgets/custom_tab_bar.dart';
 import 'package:falak/core/widgets/global_bottom_sheet.dart';
+import 'package:falak/features/home/presentation/view/widgets/assets_details/top_bidders_widget.dart';
+import 'package:falak/features/home/presentation/view/widgets/mozayda_sheet/mozayda_board_widget.dart';
 import 'package:falak/features/wallet/presentation/view_model/wallet/wallet_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:falak/core/utils/app_colors.dart';
-import 'package:falak/core/utils/app_styles.dart';
-import 'package:falak/core/utils/media_query_values.dart';
-import 'package:falak/features/home/presentation/view/widgets/assets_details/top_bidders_widget.dart';
-import 'package:falak/features/home/presentation/view/widgets/mozayda_sheet/mozayda_board_widget.dart';
 
 import '../../../../../../core/functions/format_number.dart';
 import '../../../../../../generated/assets.dart';
@@ -64,7 +64,7 @@ class _mozaydaSheetBottomSheetBodyWidgetState
       builder: (context, state) {
         return GlobalBottomSheet(
           padding: 8.w,
-          title: 'لوحة المزايدة',
+          title: 'لوحة المزاد',
           action: () {
             context.pop();
           },
@@ -74,7 +74,7 @@ class _mozaydaSheetBottomSheetBodyWidgetState
               children: [
                 CustomTabBar(
                   controller: _tabController,
-                  tabs: ['لوحة المزايدة', 'المزايدين'],
+                  tabs: ['لوحة المزاد', 'المزايدين'],
                   haveWidth: false,
                 ),
                 12.verticalSpace,
@@ -147,7 +147,7 @@ class TopMozaydaWidget extends StatelessWidget {
                                 child: FittedBox(
                                   fit: BoxFit.scaleDown,
                                   child: Text(
-                                    state.topBid==0
+                                    state.topBid == 0
                                         ? 'لا يوجد مزايدين بعد'
                                         : formatNumber(state.topBid),
                                     style: AppStyles.styleBold18(

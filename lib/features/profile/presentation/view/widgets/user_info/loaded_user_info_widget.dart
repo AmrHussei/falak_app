@@ -98,20 +98,20 @@ class LoadedUserInfoWidget extends StatelessWidget {
           ),
           8.verticalSpace,
           TextFormFieldWithTitleWidget(
-            title: ' الاسم بالكامل',
+            title: ' الاسم الرباعى',
             controller: profileCubit.profileNameController,
             enabled: true,
             keyboardType: TextInputType.text,
             validator: (value) {
               if (value == null || value.isEmpty) {
-                return 'يرجى ادخال الاسم بالكامل';
+                return 'يرجى ادخال الاسم الرباعى';
               }
               // check if the name is arabic and is contain 4 words
               if (!value.contains(RegExp(r'[أ-ي]'))) {
                 return 'يرجى ادخال الاسم باللغة العربية';
               }
               if (value.trim().split(' ').length != 4) {
-                return 'يرجى ادخال الاسم بالكامل';
+                return 'يرجى ادخال الاسم الرباعى';
               }
               return null;
             },

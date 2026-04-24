@@ -6,8 +6,8 @@ import 'package:falak/features/home/presentation/view/widgets/mozayda_sheet/moza
 import 'package:falak/features/home/presentation/view_model/home/home_cubit.dart';
 import 'package:falak/generated/assets.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 class OnGoingOriginButtonsWidget extends StatelessWidget {
   const OnGoingOriginButtonsWidget({super.key, required this.origin});
@@ -31,7 +31,7 @@ class OnGoingOriginButtonsWidget extends StatelessWidget {
         Expanded(
           child: AppPrimaryButton(
             icon: Assets.appImagesLeaflet,
-            onPressed: () async{
+            onPressed: () async {
               HomeCubit homeCubit = context.read<HomeCubit>();
               homeCubit.auctionOrigin = origin;
               KoriginId = origin.id;
@@ -42,7 +42,7 @@ class OnGoingOriginButtonsWidget extends StatelessWidget {
               context.read<HomeCubit>().addNewBidValue();
               mozaydaSheetBottomSheet(context);
             },
-            text: 'لوحة المزايدة',
+            text: 'لوحة المزاد',
           ),
         ),
       ],

@@ -190,7 +190,7 @@ class _WithdrawScreenState extends State<WithdrawScreen> {
               ),
               16.verticalSpace,
               Text(
-                'تتم عملية السحب في خلال 24 ساعة بعد تقديم الطلب',
+                'السحب يتم خلال ثلاثة ايام عمل بعد تقديم الطلب',
                 style: AppStyles.styleSemiBold16(
                   context,
                 ).copyWith(color: AppColors.primary(context)),

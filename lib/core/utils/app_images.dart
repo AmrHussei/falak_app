@@ -3,6 +3,7 @@ class Assets {
   Assets._();
 
   static const String imagesActiveMazad = "assets/images/activeMazad.svg";
+  static const String imagesSave = "assets/app_images/save.svg";
 
   static const String imagesAgencies = "assets/images/agencies.svg";
 

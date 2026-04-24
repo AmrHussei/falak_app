@@ -1,3 +1,7 @@
+import 'package:falak/core/utils/app_images.dart';
+import 'package:falak/core/utils/app_styles.dart';
+import 'package:falak/core/utils/images.dart';
+import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/guest_drawer_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/user_drawer_widget.dart';
 import 'package:falak/features/wallet/presentation/view_model/wallet/wallet_cubit.dart';
@@ -5,10 +9,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
-import 'package:falak/core/utils/app_images.dart';
-import 'package:falak/core/utils/app_styles.dart';
-import 'package:falak/core/utils/images.dart';
-import 'package:falak/core/utils/media_query_values.dart';
 
 import '../../../../../../app/app.dart';
 import '../../../../../../config/routes/app_routes.dart';
@@ -45,7 +45,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
       if (!KisGuest)
         {
           'text': 'المزادات المحفوظة',
-          'image': AppAssets.app_imagesFavoriteAuction,
+          'image': AppAssets.imagesSave,
           'onTap': () {
             context.navigateTo(Routes.savedMazadeScreen);
           },

@@ -41,7 +41,7 @@ class ProfileScreen extends StatelessWidget {
                       ),
                       8.verticalSpace,
                       ProfileCartWidget(
-                        image: AppAssets.app_imagesHeart,
+                        image: AppAssets.imagesSave,
                         onTap: () {
                           context.navigateTo(Routes.savedMazadeScreen);
                         },

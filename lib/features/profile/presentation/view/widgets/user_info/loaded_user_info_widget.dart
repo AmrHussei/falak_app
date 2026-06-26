@@ -28,11 +28,14 @@ class LoadedUserInfoWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     ProfileCubit profileCubit = context.read<ProfileCubit>();
 
-    return SingleChildScrollView(
-      padding: EdgeInsets.symmetric(horizontal: 31.5.w, vertical: 8.h),
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
+    return Column(
+      children: [
+        Expanded(
+          child: SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 31.5.w, vertical: 8.h),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
           BlocBuilder<ProfileCubit, ProfileState>(
             builder: (context, state) {
               return Row(
@@ -117,10 +120,6 @@ class LoadedUserInfoWidget extends StatelessWidget {
             },
           ),
 
-          8.verticalSpace,
-          WhatsappSubscriptionButtonWidget(
-            isSubscribed: profileModel.data.isSubscribedToWhatsapp,
-          ),
           8.verticalSpace,
           CitiesDropdownButtonFormFieldWidget(
             selectedValue: profileCubit.countryController.text,
@@ -290,8 +289,17 @@ class LoadedUserInfoWidget extends StatelessWidget {
                     );
             },
           ),
-        ],
-      ),
+              ],
+            ),
+          ),
+        ),
+        Padding(
+          padding: EdgeInsets.fromLTRB(31.5.w, 8.h, 31.5.w, 24.h),
+          child: WhatsappSubscriptionButtonWidget(
+            isSubscribed: profileModel.data.isSubscribedToWhatsapp,
+          ),
+        ),
+      ],
     );
   }
 }
@@ -334,6 +342,8 @@ class WhatsappSubscriptionButtonWidget extends StatelessWidget {
             state.profileModel?.data.isSubscribedToWhatsapp ?? isSubscribed;
 
         return AppOutlinedButton(
+          width: double.infinity,
+          icon: AppAssets.app_imagesWhatsapp,
           isLoading:
               state.whatsappSubscriptionRequestState == RequestState.loading,
           onPressed: () {

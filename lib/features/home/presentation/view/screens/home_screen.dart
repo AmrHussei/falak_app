@@ -49,6 +49,7 @@ class _HomeScreenState extends State<HomeScreen>
       Future.wait([
         context.read<PagesCubit>().getUnReadCount(),
         context.read<HomeCubit>().getAuctions(refresh: true),
+        context.read<HomeCubit>().getSettings(),
       ]);
     });
   }

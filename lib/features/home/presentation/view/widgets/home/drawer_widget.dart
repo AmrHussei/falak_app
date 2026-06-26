@@ -4,6 +4,7 @@ import 'package:falak/core/utils/images.dart';
 import 'package:falak/core/utils/media_query_values.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/guest_drawer_widget.dart';
 import 'package:falak/features/home/presentation/view/widgets/home/user_drawer_widget.dart';
+import 'package:falak/features/home/presentation/view_model/home/home_cubit.dart';
 import 'package:falak/features/wallet/presentation/view_model/wallet/wallet_cubit.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -28,6 +29,7 @@ class _DrawerWidgetState extends State<DrawerWidget> {
   void initState() {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       context.read<WalletCubit>().getWallet();
+      context.read<HomeCubit>().getSettings();
     });
     super.initState();
   }
@@ -120,14 +122,30 @@ class _DrawerWidgetState extends State<DrawerWidget> {
           DrawerDividerWidget(),
 
           Expanded(
-            child: ListView.builder(
-              padding: EdgeInsets.zero,
-              itemCount: drawerList.length,
-              itemBuilder: (context, index) {
-                return ListTileWidget(
-                  image: drawerList[index]['image'],
-                  text: drawerList[index]['text'],
-                  onTap: drawerList[index]['onTap'],
+            child: BlocBuilder<HomeCubit, HomeState>(
+              buildWhen: (previous, current) =>
+                  previous.getSettingRequestState !=
+                  current.getSettingRequestState,
+              builder: (context, state) {
+                final isSalesAgentEnabled =
+                    state.getSettingModel?.data.acceptProviderRequests ?? true;
+
+                return ListView.builder(
+                  padding: EdgeInsets.zero,
+                  itemCount: drawerList.length,
+                  itemBuilder: (context, index) {
+                    final item = drawerList[index];
+                    final enabled = item['text'] == 'وكيل البيع'
+                        ? isSalesAgentEnabled
+                        : true;
+
+                    return ListTileWidget(
+                      image: item['image'],
+                      text: item['text'],
+                      onTap: item['onTap'],
+                      enabled: enabled,
+                    );
+                  },
                 );
               },
             ),
@@ -155,26 +173,39 @@ class ListTileWidget extends StatelessWidget {
     required this.text,
     required this.image,
     required this.onTap,
+    this.enabled = true,
   });
 
   final String text;
   final String image;
   final Function() onTap;
+  final bool enabled;
 
   @override
   Widget build(BuildContext context) {
+    final contentColor = enabled
+        ? AppColors.grayText(context)
+        : AppColors.inputsPlaceholder(context);
+
     return Column(
       children: [
         ListTile(
-          leading: SvgPicture.asset(image, width: 24.w, height: 24.h),
+          leading: SvgPicture.asset(
+            image,
+            width: 24.w,
+            height: 24.h,
+            colorFilter: enabled
+                ? null
+                : ColorFilter.mode(contentColor, BlendMode.srcIn),
+          ),
           title: Text(
             text,
             textAlign: TextAlign.start,
             style: AppStyles.styleRegular15(
               context,
-            ).copyWith(color: AppColors.grayText(context), height: 1.33),
+            ).copyWith(color: contentColor, height: 1.33),
           ),
-          onTap: onTap,
+          onTap: enabled ? onTap : null,
         ),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 18),

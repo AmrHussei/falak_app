@@ -510,6 +510,35 @@ class ProfileCubit extends Cubit<ProfileState> {
     );
   }
 
+  void updateWhatsappSubscription(bool isSubscribed) async {
+    emit(state.copyWith(whatsappSubscriptionRequestState: RequestState.loading));
+
+    final result = isSubscribed
+        ? await _profileRepository.whatsappUnsubscribe()
+        : await _profileRepository.whatsappOptIn();
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            whatsappSubscriptionRequestState: RequestState.error,
+            whatsappSubscriptionError: failure,
+          ),
+        );
+        log(failure.toString());
+      },
+      (msg) {
+        emit(
+          state.copyWith(
+            whatsappSubscriptionRequestState: RequestState.loaded,
+            whatsappSubscriptionMsg: msg,
+          ),
+        );
+        getProfile(false);
+      },
+    );
+  }
+
   void logOut() async {
     emit(state.copyWith(logOutRequestState: RequestState.loading));
     await SecureStorageServices().deleteCookie().then((value) => value);

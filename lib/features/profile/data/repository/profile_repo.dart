@@ -8,6 +8,7 @@ import 'package:falak/features/profile/data/models/profile_model.dart';
 import '../../../../app/injector.dart';
 import '../../../../core/error/failure.dart';
 import '../../../../core/params/profile/change_password_params.dart';
+import '../../../../core/params/profile/whatsapp_opt_in_params.dart';
 import '../../../../core/storage/i_app_local_storage.dart';
 import '../../../../core/utils/app_strings.dart';
 import '../data_source/profile_remote_data_source.dart';
@@ -275,6 +276,34 @@ class ProfileRepository {
       }
     } catch (e) {
       return Right('تم تسجيل الخروج بنجاح');
+    }
+  }
+
+  Future<Either<Failure, String>> whatsappUnsubscribe() async {
+    try {
+      final response = await remoteDataSource.whatsappUnsubscribe();
+      if (response.statusCode! >= 200 && response.statusCode! <= 202) {
+        return Right(response.data['message']);
+      } else {
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
+      }
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+
+  Future<Either<Failure, String>> whatsappOptIn() async {
+    try {
+      final response = await remoteDataSource.whatsappOptIn(
+        const WhatsappOptInParams(),
+      );
+      if (response.statusCode! >= 200 && response.statusCode! <= 202) {
+        return Right(response.data['message']);
+      } else {
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
+      }
+    } catch (e) {
+      return Left(ServerFailure(message: e.toString()));
     }
   }
 }

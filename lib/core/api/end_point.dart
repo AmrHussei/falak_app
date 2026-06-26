@@ -31,6 +31,10 @@ class EndPoint {
   static const String phone = '/api/users/phone-number';
   static const String agencies = '/api/users/agencies';
   static const String logOut = '/api/users/logout';
+  static const String whatsappUnsubscribe =
+      '/api/users/whatsapp-subscriptions/unsubscribe';
+  static const String whatsappOptIn =
+      '/api/users/whatsapp-subscriptions/opt-in';
 
   //home
   static const String getAuctions = '/api/users/auctions';

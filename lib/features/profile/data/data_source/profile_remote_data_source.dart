@@ -6,6 +6,7 @@ import '../../../../core/api/api_consumer.dart';
 import '../../../../core/api/end_point.dart';
 import '../../../../core/params/profile/change_password_params.dart';
 import '../../../../core/params/profile/create_agency_params.dart';
+import '../../../../core/params/profile/whatsapp_opt_in_params.dart';
 
 class ProfileRemoteDataSource {
   final ApiConsumer apiConsumer;
@@ -120,6 +121,19 @@ class ProfileRemoteDataSource {
 
   Future<Response> logOut() async {
     final response = await apiConsumer.post(EndPoint.logOut);
+    return response;
+  }
+
+  Future<Response> whatsappUnsubscribe() async {
+    final response = await apiConsumer.patch(EndPoint.whatsappUnsubscribe);
+    return response;
+  }
+
+  Future<Response> whatsappOptIn(WhatsappOptInParams params) async {
+    final response = await apiConsumer.post(
+      EndPoint.whatsappOptIn,
+      body: params.toMap(),
+    );
     return response;
   }
 }

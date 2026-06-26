@@ -45,11 +45,18 @@ class ProfileState extends Equatable {
     this.profileRequestState = RequestState.ideal,
     this.profileError,
     this.profileModel,
+    this.whatsappSubscriptionRequestState = RequestState.ideal,
+    this.whatsappSubscriptionError,
+    this.whatsappSubscriptionMsg,
   });
 
   final RequestState profileRequestState;
   final Failure? profileError;
   final ProfileModel? profileModel;
+  //
+  final RequestState whatsappSubscriptionRequestState;
+  final Failure? whatsappSubscriptionError;
+  final String? whatsappSubscriptionMsg;
   //
   final RequestState changeProfileImageRequestState;
   final Failure? changeProfileImageError;
@@ -138,6 +145,9 @@ class ProfileState extends Equatable {
         profileRequestState,
         profileError,
         profileModel,
+        whatsappSubscriptionRequestState,
+        whatsappSubscriptionError,
+        whatsappSubscriptionMsg,
         changeProfileImageError,
         changeProfileImageRequestState,
         changeProfileImageMsg,
@@ -161,6 +171,9 @@ class ProfileState extends Equatable {
     RequestState? profileRequestState,
     Failure? profileError,
     ProfileModel? profileModel,
+    RequestState? whatsappSubscriptionRequestState,
+    Failure? whatsappSubscriptionError,
+    String? whatsappSubscriptionMsg,
     RequestState? changeProfileImageRequestState,
     Failure? changeProfileImageError,
     String? changeProfileImageMsg,
@@ -205,6 +218,12 @@ class ProfileState extends Equatable {
       profileRequestState: profileRequestState ?? this.profileRequestState,
       profileError: profileError ?? this.profileError,
       profileModel: profileModel ?? this.profileModel,
+      whatsappSubscriptionRequestState: whatsappSubscriptionRequestState ??
+          this.whatsappSubscriptionRequestState,
+      whatsappSubscriptionError:
+          whatsappSubscriptionError ?? this.whatsappSubscriptionError,
+      whatsappSubscriptionMsg:
+          whatsappSubscriptionMsg ?? this.whatsappSubscriptionMsg,
       changeProfileImageRequestState:
           changeProfileImageRequestState ?? this.changeProfileImageRequestState,
       changeProfileImageError:

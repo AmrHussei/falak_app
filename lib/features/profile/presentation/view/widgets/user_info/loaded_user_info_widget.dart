@@ -118,6 +118,10 @@ class LoadedUserInfoWidget extends StatelessWidget {
           ),
 
           8.verticalSpace,
+          WhatsappSubscriptionButtonWidget(
+            isSubscribed: profileModel.data.isSubscribedToWhatsapp,
+          ),
+          8.verticalSpace,
           CitiesDropdownButtonFormFieldWidget(
             selectedValue: profileCubit.countryController.text,
           ),
@@ -288,6 +292,58 @@ class LoadedUserInfoWidget extends StatelessWidget {
           ),
         ],
       ),
+    );
+  }
+}
+
+class WhatsappSubscriptionButtonWidget extends StatelessWidget {
+  const WhatsappSubscriptionButtonWidget({
+    super.key,
+    required this.isSubscribed,
+  });
+
+  final bool isSubscribed;
+
+  @override
+  Widget build(BuildContext context) {
+    final profileCubit = context.read<ProfileCubit>();
+
+    return BlocConsumer<ProfileCubit, ProfileState>(
+      listenWhen: (previous, current) =>
+          previous.whatsappSubscriptionRequestState !=
+          current.whatsappSubscriptionRequestState,
+      listener: (context, state) {
+        if (state.whatsappSubscriptionRequestState == RequestState.loaded) {
+          mySnackBar(
+            state.whatsappSubscriptionMsg ?? 'تم',
+            context,
+            isError: false,
+          );
+        } else if (state.whatsappSubscriptionRequestState ==
+            RequestState.error) {
+          mySnackBar(
+            state.whatsappSubscriptionError?.message ??
+                'هناك شئ ما خطأ حاول مجددا',
+            context,
+            isError: true,
+          );
+        }
+      },
+      builder: (context, state) {
+        final isSubscribedToWhatsapp =
+            state.profileModel?.data.isSubscribedToWhatsapp ?? isSubscribed;
+
+        return AppOutlinedButton(
+          isLoading:
+              state.whatsappSubscriptionRequestState == RequestState.loading,
+          onPressed: () {
+            profileCubit.updateWhatsappSubscription(isSubscribedToWhatsapp);
+          },
+          text: isSubscribedToWhatsapp
+              ? 'إلغاء الاشتراك في خدمة واتساب'
+              : 'اشتراك في الواتساب',
+        );
+      },
     );
   }
 }

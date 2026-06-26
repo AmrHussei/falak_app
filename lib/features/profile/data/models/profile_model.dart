@@ -35,6 +35,7 @@ class UserData {
   final Role role;
   final int agencyCount;
   final int successAuctionsCount;
+  final bool isSubscribedToWhatsapp;
 
   UserData({
     required this.id,
@@ -53,6 +54,7 @@ class UserData {
     required this.agencyCount,
     required this.birthDate,
     required this.successAuctionsCount,
+    required this.isSubscribedToWhatsapp,
   });
 
   factory UserData.fromJson(Map<String, dynamic> json) {
@@ -81,6 +83,7 @@ class UserData {
           : throw Exception('Role is required'),
       agencyCount: json['agencyCount'] ?? 0,
       successAuctionsCount: json['successAuctionsCount'] ?? 0,
+      isSubscribedToWhatsapp: json['isSubscribedToWhatsapp'] ?? false,
     );
   }
 
@@ -102,6 +105,7 @@ class UserData {
       'agencyCount': agencyCount,
       'birthDay': birthDate,
       'successAuctionsCount': successAuctionsCount,
+      'isSubscribedToWhatsapp': isSubscribedToWhatsapp,
     };
   }
 }

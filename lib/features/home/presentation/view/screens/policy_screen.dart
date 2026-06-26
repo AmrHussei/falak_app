@@ -38,10 +38,9 @@ class _PolicyScreenState extends State<PolicyScreen>
   void initState() {
     super.initState();
     _tabController = TabController(length: _policyKeys.length, vsync: this);
-    final homeCubit = context.read<HomeCubit>();
-    for (final policyKey in _policyKeys) {
-      homeCubit.getPolicy(policyKey);
-    }
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      context.read<HomeCubit>().loadAllPolicies();
+    });
   }
 
   @override
@@ -85,7 +84,29 @@ class PolicyTabContent extends StatelessWidget {
     final homeCubit = context.read<HomeCubit>();
 
     return BlocBuilder<HomeCubit, HomeState>(
+      buildWhen: (previous, current) =>
+          previous.policiesRequestState != current.policiesRequestState ||
+          previous.policiesModel != current.policiesModel ||
+          previous.policiesError != current.policiesError,
       builder: (context, state) {
+        final policyModel = state.policiesModel[policyKey];
+
+        if (policyModel != null) {
+          return SingleChildScrollView(
+            padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+            child: Html(
+              data: policyModel.data.content,
+              style: {
+                "body": Style(
+                  fontFamily: 'Lama Sans',
+                  lineHeight: LineHeight(1.7),
+                  fontSize: FontSize(16),
+                ),
+              },
+            ),
+          );
+        }
+
         final requestState =
             state.policiesRequestState[policyKey] ?? RequestState.ideal;
 
@@ -94,19 +115,7 @@ class PolicyTabContent extends StatelessWidget {
           case RequestState.ideal:
             return const ShimmerPolicyContent();
           case RequestState.loaded:
-            return SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
-              child: Html(
-                data: state.policiesModel[policyKey]!.data.content,
-                style: {
-                  "body": Style(
-                    fontFamily: 'Lama Sans',
-                    lineHeight: LineHeight(1.7),
-                    fontSize: FontSize(16),
-                  ),
-                },
-              ),
-            );
+            return const ShimmerPolicyContent();
           case RequestState.error:
             return ErrorAppWidget(
               text: state.policiesError[policyKey]?.message ?? 'حدث شئ ما خطأ',

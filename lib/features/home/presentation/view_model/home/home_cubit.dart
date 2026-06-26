@@ -381,17 +381,27 @@ class HomeCubit extends Cubit<HomeState> {
     await getPolicy(AppStrings.policyPrivacy, refresh: true);
   }
 
-  Future<void> getPolicy(String policyKey, {bool refresh = false}) async {
-    final cachedModel = Map<String, PrivacyModel>.from(state.policiesModel);
-    final loadingStats = Map<String, RequestState>.from(
-      state.policiesRequestState,
-    );
-    final errors = Map<String, Failure>.from(state.policiesError);
+  Future<void> loadAllPolicies() async {
+    await getPolicy(AppStrings.policyPrivacy);
+    await getPolicy(AppStrings.policyRefund);
+    await getPolicy(AppStrings.policyIntellectual);
+  }
 
-    if (cachedModel[policyKey] != null && !refresh) {
+  Future<void> getPolicy(String policyKey, {bool refresh = false}) async {
+    if (state.policiesModel[policyKey] != null && !refresh) {
+      if (state.policiesRequestState[policyKey] != RequestState.loaded) {
+        final loadingStats = Map<String, RequestState>.from(
+          state.policiesRequestState,
+        );
+        loadingStats[policyKey] = RequestState.loaded;
+        emit(state.copyWith(policiesRequestState: loadingStats));
+      }
       return;
     }
 
+    final loadingStats = Map<String, RequestState>.from(
+      state.policiesRequestState,
+    );
     loadingStats[policyKey] = RequestState.loading;
     emit(state.copyWith(policiesRequestState: loadingStats));
 
@@ -401,23 +411,33 @@ class HomeCubit extends Cubit<HomeState> {
 
     result.fold(
       (failure) {
+        final errors = Map<String, Failure>.from(state.policiesError);
+        final updatedLoading = Map<String, RequestState>.from(
+          state.policiesRequestState,
+        );
         errors[policyKey] = failure;
-        loadingStats[policyKey] = RequestState.error;
+        updatedLoading[policyKey] = RequestState.error;
         emit(
           state.copyWith(
-            policiesRequestState: loadingStats,
+            policiesRequestState: updatedLoading,
             policiesError: errors,
           ),
         );
         log(failure.toString());
       },
       (model) {
-        loadingStats[policyKey] = RequestState.loaded;
-        cachedModel[policyKey] = model;
+        final updatedLoading = Map<String, RequestState>.from(
+          state.policiesRequestState,
+        );
+        final updatedModels = Map<String, PrivacyModel>.from(
+          state.policiesModel,
+        );
+        updatedLoading[policyKey] = RequestState.loaded;
+        updatedModels[policyKey] = model;
         emit(
           state.copyWith(
-            policiesRequestState: loadingStats,
-            policiesModel: cachedModel,
+            policiesRequestState: updatedLoading,
+            policiesModel: updatedModels,
           ),
         );
       },

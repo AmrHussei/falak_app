@@ -296,7 +296,7 @@ class _SelectSharAsRadioButtonState extends State<SelectSharAsRadioButton> {
   @override
   Widget build(BuildContext context) {
     final isAgentBidAllowed =
-        context.read<HomeCubit>().auctionData?.agencyBid ?? true;
+        context.read<HomeCubit>().auctionData?.agencyBid ?? false;
     return Column(
       children: [
         Row(

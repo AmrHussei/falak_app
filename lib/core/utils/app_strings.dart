@@ -48,6 +48,12 @@ class AppStrings {
   //enroll
   static const String enrollShareAsGenuine = 'genuine';
   static const String enrollShareAsAgent = 'agent';
+  static const String realEstateCapacityOwner = 'مالك';
+  static const String realEstateCapacityAgent = 'وكيل';
+  static const String realEstateCapacityBroker = 'وسيط عقاري';
+  // static const String realEstateCapacityOwner = 'owner';
+  // static const String realEstateCapacityAgent = 'agent';
+  // static const String realEstateCapacityBroker = 'broker';
   static const String enrolltypeOnline = 'online';
   static const String enrolltypeOffline = 'offline';
 

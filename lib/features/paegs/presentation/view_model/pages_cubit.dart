@@ -95,6 +95,10 @@ class PagesCubit extends Cubit<PagesState> {
   final areaController = TextEditingController();
   final neighborhoodController = TextEditingController();
   final descriptionController = TextEditingController();
+  final deedNumberController = TextEditingController();
+  String realEstateCapacity = AppStrings.realEstateCapacityOwner;
+  File? propertyEvaluation;
+  File? propertyDeed;
   bool certifiedNotifier = true;
   final addRealFormKey = GlobalKey<FormState>();
 
@@ -118,6 +122,10 @@ class PagesCubit extends Cubit<PagesState> {
       neighborhood: neighborhoodController.text.trim(),
       certified: isRated,
       description: descriptionController.text.trim(),
+      deedNumber: deedNumberController.text.trim(),
+      capacity: realEstateCapacity,
+      propertyEvaluation: propertyEvaluation!,
+      propertyDeed: propertyDeed!,
     );
     final result = await _pageRepository.addRealState(params);
 
@@ -193,6 +201,22 @@ class PagesCubit extends Cubit<PagesState> {
     areaController.clear();
     neighborhoodController.clear();
     descriptionController.clear();
+    deedNumberController.clear();
+    realEstateCapacity = AppStrings.realEstateCapacityOwner;
+    propertyEvaluation = null;
+    propertyDeed = null;
+  }
+
+  Future pickPropertyEvaluation() async {
+    propertyEvaluation = await pickFile();
+  }
+
+  Future pickPropertyDeed() async {
+    propertyDeed = await pickFile();
+  }
+
+  void changeRealEstateCapacity(String capacity) {
+    realEstateCapacity = capacity;
   }
 
   getUserCashedData() {

@@ -1,11 +1,16 @@
+import 'dart:io';
+
 import 'package:falak/core/widgets/app_buttons.dart';
 import 'package:falak/core/widgets/phone_suffix_widget.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_hooks/flutter_hooks.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
+import '../../../../../../../core/utils/app_strings.dart';
 import '../../../../../../../core/utils/enums.dart';
+import '../../../../../../../core/utils/images.dart';
 import '../../../../../../../core/widgets/coustom_app_bar_widget.dart';
 import '../../../../../../../core/widgets/my_snackbar.dart';
 import '../../../../../../../core/widgets/show_success_bottom_sheet.dart';
@@ -52,7 +57,10 @@ class AddRealStateScreen extends HookWidget {
   @override
   Widget build(BuildContext context) {
     final isRated = useState(true);
+    final capacity = useState(AppStrings.realEstateCapacityOwner);
+    final fileRebuild = useState(0);
     PagesCubit cubit = context.read<PagesCubit>();
+    final _ = fileRebuild.value;
     return Scaffold(
       appBar: CoustomAppBarWidget(title: 'أضف عقارك'),
       body: SingleChildScrollView(
@@ -170,6 +178,67 @@ class AddRealStateScreen extends HookWidget {
                   return null;
                 },
                 keyboardType: TextInputType.text,
+              ),
+              16.verticalSpace,
+              TextFormFieldWithTitleWidget(
+                controller: cubit.deedNumberController,
+                title: 'رقم الصك',
+                hint: 'رقم الصك',
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'برجاء ادخال رقم الصك';
+                  }
+                  return null;
+                },
+                keyboardType: TextInputType.text,
+              ),
+              16.verticalSpace,
+              Text(
+                'الصفة',
+                style: AppStyles.styleSemiBold16(
+                  context,
+                ).copyWith(color: AppColors.typographyHeading(context)),
+              ),
+              8.verticalSpace,
+              SelectRealEstateCapacityRadioButton(
+                capacity: capacity,
+                onChanged: (value) {
+                  cubit.changeRealEstateCapacity(value);
+                },
+              ),
+              16.verticalSpace,
+              RealEstateFilePickerField(
+                title: 'تقييم العقار',
+                hint: 'ملف التقييم للعقار',
+                file: cubit.propertyEvaluation,
+                onTap: () {
+                  cubit.pickPropertyEvaluation().then((_) {
+                    fileRebuild.value++;
+                  });
+                },
+                validator: () {
+                  if (cubit.propertyEvaluation == null) {
+                    return 'يرجى إرفاق ملف التقييم للعقار';
+                  }
+                  return null;
+                },
+              ),
+              16.verticalSpace,
+              RealEstateFilePickerField(
+                title: 'صك العقار',
+                hint: 'ملف الصك',
+                file: cubit.propertyDeed,
+                onTap: () {
+                  cubit.pickPropertyDeed().then((_) {
+                    fileRebuild.value++;
+                  });
+                },
+                validator: () {
+                  if (cubit.propertyDeed == null) {
+                    return 'يرجى إرفاق ملف الصك';
+                  }
+                  return null;
+                },
               ),
               16.verticalSpace,
               Text(
@@ -309,22 +378,142 @@ class SelectRealEstateStatusRadioButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Row(
-      children: [
-        InkWell(
-          onTap: () {
-            isRated.value = true;
-          },
-          child: SelectButton(isSelected: isRated.value == true, title: 'نعم'),
+    return ValueListenableBuilder<bool>(
+      valueListenable: isRated,
+      builder: (context, value, _) {
+        return Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  isRated.value = true;
+                },
+                child: SelectButton(
+                  isSelected: value,
+                  title: 'نعم',
+                  expand: true,
+                ),
+              ),
+            ),
+            11.horizontalSpace,
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  isRated.value = false;
+                },
+                child: SelectButton(
+                  isSelected: !value,
+                  title: 'لا',
+                  expand: true,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class SelectRealEstateCapacityRadioButton extends StatelessWidget {
+  const SelectRealEstateCapacityRadioButton({
+    super.key,
+    required this.capacity,
+    required this.onChanged,
+  });
+
+  final ValueNotifier<String> capacity;
+  final ValueChanged<String> onChanged;
+
+  @override
+  Widget build(BuildContext context) {
+    return ValueListenableBuilder<String>(
+      valueListenable: capacity,
+      builder: (context, value, _) {
+        return Row(
+          children: [
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  capacity.value = AppStrings.realEstateCapacityOwner;
+                  onChanged(AppStrings.realEstateCapacityOwner);
+                },
+                child: SelectButton(
+                  isSelected: value == AppStrings.realEstateCapacityOwner,
+                  title: 'مالك',
+                  expand: true,
+                ),
+              ),
+            ),
+            8.horizontalSpace,
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  capacity.value = AppStrings.realEstateCapacityAgent;
+                  onChanged(AppStrings.realEstateCapacityAgent);
+                },
+                child: SelectButton(
+                  isSelected: value == AppStrings.realEstateCapacityAgent,
+                  title: 'وكيل',
+                  expand: true,
+                ),
+              ),
+            ),
+            8.horizontalSpace,
+            Expanded(
+              child: InkWell(
+                onTap: () {
+                  capacity.value = AppStrings.realEstateCapacityBroker;
+                  onChanged(AppStrings.realEstateCapacityBroker);
+                },
+                child: SelectButton(
+                  isSelected: value == AppStrings.realEstateCapacityBroker,
+                  title: 'وسيط عقاري',
+                  expand: true,
+                ),
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
+}
+
+class RealEstateFilePickerField extends StatelessWidget {
+  const RealEstateFilePickerField({
+    super.key,
+    required this.title,
+    required this.hint,
+    required this.file,
+    required this.onTap,
+    required this.validator,
+  });
+
+  final String title;
+  final String hint;
+  final File? file;
+  final VoidCallback onTap;
+  final String? Function() validator;
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: onTap,
+      child: TextFormFieldWithTitleWidget(
+        title: file == null ? title : file!.path.split('/').last,
+        hint: hint,
+        validator: (_) => validator(),
+        filled: true,
+        fillColor: AppColors.white(context),
+        enabled: false,
+        keyboardType: TextInputType.text,
+        prefix: SvgPicture.asset(
+          AppAssets.app_imagesUploadeFilesIcon,
+          height: 32.h,
+          width: 32.w,
         ),
-        11.horizontalSpace,
-        InkWell(
-          onTap: () {
-            isRated.value = false;
-          },
-          child: SelectButton(isSelected: isRated.value == false, title: 'لا'),
-        ),
-      ],
+      ),
     );
   }
 }
@@ -334,17 +523,20 @@ class SelectButton extends StatelessWidget {
     super.key,
     required this.isSelected,
     required this.title,
+    this.expand = false,
   });
 
   final bool isSelected;
   final String title;
+  final bool expand;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       alignment: Alignment.center,
-      width: 158.w,
+      width: expand ? double.infinity : 158.w,
       height: 36.h,
+      padding: EdgeInsets.symmetric(horizontal: 4.w),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.all(Radius.circular(10.r)),
         border: Border.all(
@@ -358,6 +550,9 @@ class SelectButton extends StatelessWidget {
       ),
       child: Text(
         title,
+        textAlign: TextAlign.center,
+        maxLines: 2,
+        overflow: TextOverflow.ellipsis,
         style: AppStyles.styleMedium12(context).copyWith(
           color: isSelected ? AppColors.secondColor(context) : Colors.black,
         ),

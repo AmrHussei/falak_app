@@ -14,9 +14,10 @@ class PagesRemoteDataSource {
   PagesRemoteDataSource({required this.apiConsumer});
 
   Future<Response> addRealState(AddRealStateParams params) async {
+    final body = await params.toFormData();
     final response = await apiConsumer.post(
       EndPoint.addRealState,
-      body: params.toMap(),
+      body: body,
     );
     return response;
   }

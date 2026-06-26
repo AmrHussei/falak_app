@@ -25,6 +25,7 @@ class AuctionsModel extends Equatable {
 
 class AuctionData extends Equatable {
   final String id;
+  final bool? agencyBid;
   final Location? location;
   final String? startDate;
   final String? endDate;
@@ -43,6 +44,7 @@ class AuctionData extends Equatable {
 
   const AuctionData({
     required this.id,
+     this.agencyBid,
     this.location,
     this.startDate,
     this.endDate,
@@ -63,6 +65,7 @@ class AuctionData extends Equatable {
   factory AuctionData.fromJson(Map<String?, dynamic> json) {
     return AuctionData(
       id: json['_id'],
+      agencyBid: json['agencyBid'],
       location: Location.fromJson(json['location']),
       startDate: json['startDate'],
       endDate: json['endDate'],
@@ -87,6 +90,7 @@ class AuctionData extends Equatable {
 
   AuctionData copyWith({bool? isFavorite}) => AuctionData(
     id: id,
+    agencyBid: agencyBid,
     isFavorite: isFavorite ?? this.isFavorite,
     type: type,
     title: title,
@@ -105,7 +109,7 @@ class AuctionData extends Equatable {
   );
 
   @override
-  List<Object?> get props => [id, title, status, cover,isFavorite];
+  List<Object?> get props => [id, title, status, cover,isFavorite,agencyBid];
 }
 
 class Location {

@@ -107,21 +107,26 @@ Widget RadioItem({
   required String? groupValue,
   required ValueChanged<String?> onChanged,
   required BuildContext context,
+  bool enabled = true,
 }) {
   return Expanded(
     child: SizedBox(
       height: 41.h,
       child: InkWell(
-        onTap: () {
-          onChanged(value);
-        },
+        onTap: enabled
+            ? () {
+                onChanged(value);
+              }
+            : null,
         child: Card(
-          elevation: 2,
+          elevation: enabled ? 2 : 0,
           shape: RoundedRectangleBorder(
             borderRadius: BorderRadius.circular(8.r),
           ),
           margin: EdgeInsets.zero,
-          color: value == groupValue
+          color: !enabled
+              ? AppColors.inputsPlaceholder(context).withValues(alpha: 0.15)
+              : value == groupValue
               ? AppColors.secondColor(context)
               : Colors.white,
           child: Center(
@@ -129,7 +134,9 @@ Widget RadioItem({
               label,
               textAlign: TextAlign.center,
               style: AppStyles.styleMedium14(context).copyWith(
-                color: value == groupValue
+                color: !enabled
+                    ? AppColors.inputsPlaceholder(context)
+                    : value == groupValue
                     ? Colors.white
                     : AppColors.typographyHeading(context),
               ),

@@ -71,10 +71,14 @@ class _EnrollmentSheetBottomSheetBodyWidgetState
     HomeCubit homeCubit = context.read<HomeCubit>();
     return BlocBuilder<HomeCubit, HomeState>(
       builder: (_, state) {
+        final isAgentBidAllowed = homeCubit.auctionData?.agencyBid ?? true;
         return GlobalBottomSheet(
           title: 'التسجيل فى المزاد',
           height:
-              (state.shareAs == AppStrings.enrollShareAsAgent ? 466.h : 406.h) +
+              (state.shareAs == AppStrings.enrollShareAsAgent &&
+                      isAgentBidAllowed
+                  ? 466.h
+                  : 406.h) +
               (KisGuest ? 60.h : 0),
           action: () {
             context.pop();
@@ -291,6 +295,8 @@ class _SelectSharAsRadioButtonState extends State<SelectSharAsRadioButton> {
 
   @override
   Widget build(BuildContext context) {
+    final isAgentBidAllowed =
+        context.read<HomeCubit>().auctionData?.agencyBid ?? true;
     return Column(
       children: [
         Row(
@@ -309,13 +315,18 @@ class _SelectSharAsRadioButtonState extends State<SelectSharAsRadioButton> {
               groupValue: _selectedValue,
               onChanged: _handleRadioValueChange,
               context: context,
+              enabled: isAgentBidAllowed,
             ),
           ],
         ),
         SizedBox(
-          height: AppStrings.enrollShareAsAgent == _selectedValue ? 8.h : 0,
+          height:
+              isAgentBidAllowed &&
+                  AppStrings.enrollShareAsAgent == _selectedValue
+              ? 8.h
+              : 0,
         ),
-        AppStrings.enrollShareAsAgent == _selectedValue
+        isAgentBidAllowed && AppStrings.enrollShareAsAgent == _selectedValue
             ? ActiveAgenciesDropdownButtonFormFieldWidget()
             : SizedBox.shrink(),
       ],

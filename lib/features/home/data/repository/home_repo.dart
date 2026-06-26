@@ -11,6 +11,7 @@ import '../../../wallet/data/model/add_wallet_balance.dart';
 import '../data_source/home_remote_data_source.dart';
 import '../models/auctions_model/auctions_model.dart';
 import '../models/enrolle/auction_board_model.dart';
+import '../models/setting_model.dart';
 
 class HomeRepository {
   final HomeRemoteDataSource remoteDataSource;
@@ -222,6 +223,24 @@ class HomeRepository {
       final response = await remoteDataSource.privacyPolicy();
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         var data = PrivacyModel.fromJson(response.data);
+        log('getWallet Status code is 200');
+        // log(response.data);
+
+        return Right(data);
+      } else {
+        log('getWallet Status code is 422');
+        return Left(AppFailure(message: response.data['errors'][0]['message']));
+      }
+    } catch (e) {
+      log('getWallet Repository Exception Error: $e');
+      return Left(ServerFailure(message: e.toString()));
+    }
+  }
+  Future<Either<Failure, SettingsModel>> getSettings() async {
+    try {
+      final response = await remoteDataSource.getSettings();
+      if (response.statusCode! >= 200 && response.statusCode! <= 202) {
+        var data = SettingsModel.fromJson(response.data);
         log('getWallet Status code is 200');
         // log(response.data);
 

@@ -96,4 +96,8 @@ class HomeRemoteDataSource {
     final response = await apiConsumer.get(EndPoint.privacyPolicy);
     return response;
   }
+  Future<Response> getSettings() async {
+    final response = await apiConsumer.get(EndPoint.settings);
+    return response;
+  }
 }

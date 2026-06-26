@@ -3,6 +3,9 @@ part of 'home_cubit.dart';
 
 class HomeState extends Equatable {
   const HomeState({
+    this.getSettingRequestState = RequestState.ideal,
+    this.getSettingError,
+    this.getSettingModel,
     this.searchState = RequestState.ideal,
     this.auctionBrochureRequestState = RequestState.ideal,
     this.auctionBrochureError,
@@ -72,6 +75,10 @@ class HomeState extends Equatable {
   final Failure? addWalletBalanceError;
   final String? addWalletBalanceMsg;
   //
+  final RequestState getSettingRequestState;
+  final Failure? getSettingError;
+  final SettingsModel? getSettingModel;
+  //
   final double propertyPrice;
   final double transactionFee;
   final double commission;
@@ -83,6 +90,9 @@ class HomeState extends Equatable {
 
   @override
   List<Object?> get props => [
+    getSettingRequestState,
+    getSettingError,
+    getSettingModel,
     searchState,
         auctionBrochureRequestState,
         auctionBrochureError,
@@ -118,6 +128,9 @@ class HomeState extends Equatable {
       ];
 
   HomeState copyWith({
+    RequestState? getSettingRequestState,
+    Failure? getSettingError,
+    SettingsModel? getSettingModel,
      Map<String,RequestState>? auctionsRequestState,
      Map<String,Failure>? auctionsError,
      Map<String,AuctionsModel>? auctionsModel,
@@ -159,6 +172,9 @@ class HomeState extends Equatable {
     String? shareAs,
   }) {
     return HomeState(
+      getSettingRequestState: getSettingRequestState ?? this.getSettingRequestState,
+      getSettingError: getSettingError ?? this.getSettingError,
+      getSettingModel: getSettingModel ?? this.getSettingModel,
       favoriteRequestState:favoriteRequestState??this.favoriteRequestState,
       auctionsRequestState: auctionsRequestState ?? this.auctionsRequestState,
       auctionsError: auctionsError ?? this.auctionsError,

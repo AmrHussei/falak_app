@@ -44,6 +44,7 @@ class EndPoint {
   static const String getUserInvoices = '/api/users/wallet/invoices';
   static const String getWithdraw = '/api/users/withdraw';
   static const String posWithdraw = '/api/users/withdraw';
+  static const String settings = '/api/admin/setting';
 
   //
   static const String checkEmail = '/password/check-email';

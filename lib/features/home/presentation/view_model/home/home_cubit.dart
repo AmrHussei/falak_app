@@ -22,6 +22,7 @@ import '../../../../wallet/data/model/add_wallet_balance.dart';
 import '../../../data/models/auctions_model/auctions_model.dart';
 import '../../../data/models/enrolle/auction_board_model.dart' hide Pagination;
 import '../../../data/socket/auction_board_socket.dart';
+import '../../../data/models/setting_model.dart';
 
 part 'home_state.dart';
 
@@ -31,6 +32,7 @@ class HomeCubit extends Cubit<HomeState> {
   HomeCubit(this._homeRepository) : super(HomeState());
 
   final HomeRepository _homeRepository;
+  SettingsModel? settingsModel;
   AuctionData? auctionData;
   AuctionOrigin? auctionOrigin;
   List<AuctionOrigin> originList = [];
@@ -394,6 +396,32 @@ class HomeCubit extends Cubit<HomeState> {
           state.copyWith(
             privacyPolicyRequestState: RequestState.loaded,
             privacyPolicyModel: right,
+          ),
+        );
+      },
+    );
+  }
+  Future<void> getSettings  () async {
+    emit(state.copyWith(getSettingRequestState: RequestState.loading));
+
+    final result = await _homeRepository.getSettings();
+
+    result.fold(
+      (failure) {
+        emit(
+          state.copyWith(
+            getSettingRequestState: RequestState.error,
+            getSettingError: failure,
+          ),
+        );
+        log(failure.toString());
+      },
+      (right) {
+        settingsModel = right;
+        emit(
+          state.copyWith(
+            getSettingRequestState: RequestState.loaded,
+            getSettingModel: right,
           ),
         );
       },

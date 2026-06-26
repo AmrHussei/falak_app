@@ -1,3 +1,5 @@
+import 'package:falak/core/utils/app_strings.dart';
+import 'package:falak/core/widgets/custom_tab_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_html/flutter_html.dart';
@@ -16,50 +18,104 @@ class PolicyScreen extends StatefulWidget {
   State<PolicyScreen> createState() => _PolicyScreenState();
 }
 
-class _PolicyScreenState extends State<PolicyScreen> {
+class _PolicyScreenState extends State<PolicyScreen>
+    with SingleTickerProviderStateMixin {
+  static const _policyKeys = [
+    AppStrings.policyPrivacy,
+    AppStrings.policyRefund,
+    AppStrings.policyIntellectual,
+  ];
+
+  static const _policyTabs = [
+    'سياسة الخصوصية',
+    'شروط الاستخدام',
+    'سياسة الملكية الفكرية',
+  ];
+
+  late TabController _tabController;
+
   @override
   void initState() {
-    context.read<HomeCubit>().privacyPolicy();
     super.initState();
+    _tabController = TabController(length: _policyKeys.length, vsync: this);
+    final homeCubit = context.read<HomeCubit>();
+    for (final policyKey in _policyKeys) {
+      homeCubit.getPolicy(policyKey);
+    }
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
-    HomeCubit homeCubit = context.read<HomeCubit>();
     return Scaffold(
       appBar: CoustomAppBarWidget(title: 'الشروط و الاحكام'),
-      body: BlocBuilder<HomeCubit, HomeState>(
-        builder: (context, state) {
-          switch (state.privacyPolicyRequestState) {
-            case RequestState.loading:
-            case RequestState.ideal:
-              return ShimmerPolicyContent();
-            case RequestState.loaded:
-              return SingleChildScrollView(
-                padding: EdgeInsets.symmetric(
-                  horizontal: 16.w,vertical: 24.h,
-                ),
-                child:Html(
-                  data: state.privacyPolicyModel!.data.content,
-                  style: {
-                    "body": Style(
-                      fontFamily: 'Lama Sans',
-                      lineHeight: LineHeight(1.7),
-                      fontSize: FontSize(16),
-                    ),
-                  },
-                ),
-              );
-            case RequestState.error:
-              return ErrorAppWidget(
-                text: 'حدث شئ ما خأ',
-                onTap: () {
-                  homeCubit.privacyPolicy();
-                },
-              );
-          }
-        },
+      body: Column(
+        children: [
+          CustomTabBar(
+            controller: _tabController,
+            haveWidth: false,
+            tabs: _policyTabs,
+          ),
+          Expanded(
+            child: TabBarView(
+              controller: _tabController,
+              children: _policyKeys
+                  .map((policyKey) => PolicyTabContent(policyKey: policyKey))
+                  .toList(),
+            ),
+          ),
+        ],
       ),
+    );
+  }
+}
+
+class PolicyTabContent extends StatelessWidget {
+  const PolicyTabContent({super.key, required this.policyKey});
+
+  final String policyKey;
+
+  @override
+  Widget build(BuildContext context) {
+    final homeCubit = context.read<HomeCubit>();
+
+    return BlocBuilder<HomeCubit, HomeState>(
+      builder: (context, state) {
+        final requestState =
+            state.policiesRequestState[policyKey] ?? RequestState.ideal;
+
+        switch (requestState) {
+          case RequestState.loading:
+          case RequestState.ideal:
+            return const ShimmerPolicyContent();
+          case RequestState.loaded:
+            return SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 24.h),
+              child: Html(
+                data: state.policiesModel[policyKey]!.data.content,
+                style: {
+                  "body": Style(
+                    fontFamily: 'Lama Sans',
+                    lineHeight: LineHeight(1.7),
+                    fontSize: FontSize(16),
+                  ),
+                },
+              ),
+            );
+          case RequestState.error:
+            return ErrorAppWidget(
+              text: state.policiesError[policyKey]?.message ?? 'حدث شئ ما خطأ',
+              onTap: () {
+                homeCubit.getPolicy(policyKey, refresh: true);
+              },
+            );
+        }
+      },
     );
   }
 }
@@ -74,31 +130,31 @@ class ShimmerPolicyContent extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          _buildShimmerBox(height: 20, width: 200), // Title placeholder
+          _buildShimmerBox(height: 20, width: 200),
           const SizedBox(height: 16),
-          _buildShimmerBox(height: 16, width: double.infinity), // Line 1
-          const SizedBox(height: 8),
-          _buildShimmerBox(height: 16, width: double.infinity), // Line 2
-          const SizedBox(height: 8),
-          _buildShimmerBox(height: 16, width: double.infinity), // Line 3
-          const SizedBox(height: 8),
-          _buildShimmerBox(height: 16, width: 250), // Shorter line
-          const SizedBox(height: 16),
-          _buildShimmerBox(height: 16, width: double.infinity), // Paragraph
+          _buildShimmerBox(height: 16, width: double.infinity),
           const SizedBox(height: 8),
           _buildShimmerBox(height: 16, width: double.infinity),
-          const SizedBox(height: 16), // Paragraph
-          _buildShimmerBox(height: 16, width: double.infinity), // Line 1
           const SizedBox(height: 8),
-          _buildShimmerBox(height: 16, width: double.infinity), // Line 2
+          _buildShimmerBox(height: 16, width: double.infinity),
           const SizedBox(height: 8),
-          _buildShimmerBox(height: 16, width: double.infinity), // Line 3
-          const SizedBox(height: 8),
-          _buildShimmerBox(height: 16, width: 250), // Shorter line
+          _buildShimmerBox(height: 16, width: 250),
           const SizedBox(height: 16),
-          _buildShimmerBox(height: 16, width: double.infinity), // Paragraph
+          _buildShimmerBox(height: 16, width: double.infinity),
           const SizedBox(height: 8),
-          _buildShimmerBox(height: 16, width: double.infinity), // Paragraph
+          _buildShimmerBox(height: 16, width: double.infinity),
+          const SizedBox(height: 16),
+          _buildShimmerBox(height: 16, width: double.infinity),
+          const SizedBox(height: 8),
+          _buildShimmerBox(height: 16, width: double.infinity),
+          const SizedBox(height: 8),
+          _buildShimmerBox(height: 16, width: double.infinity),
+          const SizedBox(height: 8),
+          _buildShimmerBox(height: 16, width: 250),
+          const SizedBox(height: 16),
+          _buildShimmerBox(height: 16, width: double.infinity),
+          const SizedBox(height: 8),
+          _buildShimmerBox(height: 16, width: double.infinity),
         ],
       ),
     );

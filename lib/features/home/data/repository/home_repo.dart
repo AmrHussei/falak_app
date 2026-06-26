@@ -12,6 +12,7 @@ import '../data_source/home_remote_data_source.dart';
 import '../models/auctions_model/auctions_model.dart';
 import '../models/enrolle/auction_board_model.dart';
 import '../models/setting_model.dart';
+import '../../../../core/api/end_point.dart';
 
 class HomeRepository {
   final HomeRemoteDataSource remoteDataSource;
@@ -219,20 +220,23 @@ class HomeRepository {
   }
 
   Future<Either<Failure, PrivacyModel>> privacyPolicy() async {
+    return getPolicy(EndPoint.privacyPolicy);
+  }
+
+  Future<Either<Failure, PrivacyModel>> getPolicy(String endpoint) async {
     try {
-      final response = await remoteDataSource.privacyPolicy();
+      final response = await remoteDataSource.getPolicy(endpoint);
       if (response.statusCode! >= 200 && response.statusCode! <= 202) {
         var data = PrivacyModel.fromJson(response.data);
-        log('getWallet Status code is 200');
-        // log(response.data);
+        log('getPolicy Status code is 200');
 
         return Right(data);
       } else {
-        log('getWallet Status code is 422');
+        log('getPolicy Status code is 422');
         return Left(AppFailure(message: response.data['errors'][0]['message']));
       }
     } catch (e) {
-      log('getWallet Repository Exception Error: $e');
+      log('getPolicy Repository Exception Error: $e');
       return Left(ServerFailure(message: e.toString()));
     }
   }

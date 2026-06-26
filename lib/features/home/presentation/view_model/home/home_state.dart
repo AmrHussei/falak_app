@@ -14,6 +14,9 @@ class HomeState extends Equatable {
     this.privacyPolicyRequestState = RequestState.ideal,
     this.privacyPolicyError,
     this.privacyPolicyModel,
+    this.policiesRequestState = const {},
+    this.policiesError = const {},
+    this.policiesModel = const {},
     this.favoriteRequestState = RequestState.ideal,
     this.addWalletBalanceRequestState = RequestState.ideal,
     this.addWalletBalanceError,
@@ -66,6 +69,9 @@ class HomeState extends Equatable {
   final RequestState privacyPolicyRequestState;
   final Failure? privacyPolicyError;
   final PrivacyModel? privacyPolicyModel;
+  final Map<String, RequestState> policiesRequestState;
+  final Map<String, Failure> policiesError;
+  final Map<String, PrivacyModel> policiesModel;
   //
   final RequestState auctionBrochureRequestState;
   final Failure? auctionBrochureError;
@@ -100,6 +106,9 @@ class HomeState extends Equatable {
         privacyPolicyRequestState,
         privacyPolicyError,
         privacyPolicyModel,
+        policiesRequestState,
+        policiesError,
+        policiesModel,
         addWalletBalanceRequestState,
         addWalletBalanceError,
         addWalletBalanceMsg,
@@ -157,6 +166,9 @@ class HomeState extends Equatable {
     RequestState? favoriteRequestState,
     Failure? privacyPolicyError,
     PrivacyModel? privacyPolicyModel,
+    Map<String, RequestState>? policiesRequestState,
+    Map<String, Failure>? policiesError,
+    Map<String, PrivacyModel>? policiesModel,
     RequestState? auctionBrochureRequestState,
     Failure? auctionBrochureError,
     String? auctionBrochureMsg,
@@ -202,6 +214,9 @@ class HomeState extends Equatable {
           privacyPolicyRequestState ?? this.privacyPolicyRequestState,
       privacyPolicyError: privacyPolicyError ?? this.privacyPolicyError,
       privacyPolicyModel: privacyPolicyModel ?? this.privacyPolicyModel,
+      policiesRequestState: policiesRequestState ?? this.policiesRequestState,
+      policiesError: policiesError ?? this.policiesError,
+      policiesModel: policiesModel ?? this.policiesModel,
       auctionBrochureRequestState:
           auctionBrochureRequestState ?? this.auctionBrochureRequestState,
       auctionBrochureError: auctionBrochureError ?? this.auctionBrochureError,

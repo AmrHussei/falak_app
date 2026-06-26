@@ -43,7 +43,9 @@ class EndPoint {
   static const String enrollment = '/api/users/auction-enrollment';
   static const String getWallet = '/api/users/wallet';
   static const String addWalletBalance = '/api/users/wallet/add-balance';
-  static const String privacyPolicy = '/api/admin/privacy-policy';
+  static const String privacyPolicy = '/api/admin/privacy-policy'; // سياسة الخصوصية
+  static const String refundPolicy = '/api/admin/refund-policy'; //شروط الاستخدام
+  static const String intellectualPropertyPolicy = '/api/admin/intellectual-property-policy'; //سياسة الملكية الفكرية
   static const String heldFunds = '/api/users/wallet/held-funds';
   static const String getUserInvoices = '/api/users/wallet/invoices';
   static const String getWithdraw = '/api/users/withdraw';

@@ -11,6 +11,7 @@ import 'package:falak/features/home/data/models/enrolle/privacy_model.dart';
 import 'package:falak/features/home/data/repository/home_repo.dart';
 
 import '../../../../../app/injector.dart';
+import '../../../../../core/api/end_point.dart';
 import '../../../../../core/error/failure.dart';
 import '../../../../../core/functions/format_number.dart';
 import '../../../../../core/functions/url_luncher.dart';
@@ -377,30 +378,65 @@ class HomeCubit extends Cubit<HomeState> {
   }
 
   Future<void> privacyPolicy() async {
-    emit(state.copyWith(privacyPolicyRequestState: RequestState.loading));
+    await getPolicy(AppStrings.policyPrivacy, refresh: true);
+  }
 
-    final result = await _homeRepository.privacyPolicy();
+  Future<void> getPolicy(String policyKey, {bool refresh = false}) async {
+    final cachedModel = Map<String, PrivacyModel>.from(state.policiesModel);
+    final loadingStats = Map<String, RequestState>.from(
+      state.policiesRequestState,
+    );
+    final errors = Map<String, Failure>.from(state.policiesError);
+
+    if (cachedModel[policyKey] != null && !refresh) {
+      return;
+    }
+
+    loadingStats[policyKey] = RequestState.loading;
+    emit(state.copyWith(policiesRequestState: loadingStats));
+
+    final result = await _homeRepository.getPolicy(
+      _policyEndpoint(policyKey),
+    );
 
     result.fold(
       (failure) {
+        errors[policyKey] = failure;
+        loadingStats[policyKey] = RequestState.error;
         emit(
           state.copyWith(
-            privacyPolicyRequestState: RequestState.error,
-            privacyPolicyError: failure,
+            policiesRequestState: loadingStats,
+            policiesError: errors,
           ),
         );
         log(failure.toString());
       },
-      (right) {
+      (model) {
+        loadingStats[policyKey] = RequestState.loaded;
+        cachedModel[policyKey] = model;
         emit(
           state.copyWith(
-            privacyPolicyRequestState: RequestState.loaded,
-            privacyPolicyModel: right,
+            policiesRequestState: loadingStats,
+            policiesModel: cachedModel,
           ),
         );
       },
     );
   }
+
+  String _policyEndpoint(String policyKey) {
+    switch (policyKey) {
+      case AppStrings.policyPrivacy:
+        return EndPoint.privacyPolicy;
+      case AppStrings.policyRefund:
+        return EndPoint.refundPolicy;
+      case AppStrings.policyIntellectual:
+        return EndPoint.intellectualPropertyPolicy;
+      default:
+        return EndPoint.privacyPolicy;
+    }
+  }
+
   Future<void> getSettings  () async {
     emit(state.copyWith(getSettingRequestState: RequestState.loading));
 
